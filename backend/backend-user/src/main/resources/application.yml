@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: backend-user
+  profiles:
+    include: secret
+
+
+
+server:
+  port: 8080
