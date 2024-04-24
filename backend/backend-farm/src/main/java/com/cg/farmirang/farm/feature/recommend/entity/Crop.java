@@ -1,16 +1,17 @@
-package com.cg.farmirang.farm.feature.field.entity;
+package com.cg.farmirang.farm.feature.recommend.entity;
 
 import java.util.List;
 
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.DynamicInsert;
+import com.cg.farmirang.farm.feature.field.entity.Field;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,14 +24,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "crop")
+public class Crop {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	@Comment("텃밭 ID")
+	@Column(name = "crop_id")
 	private Integer id;
 
-	@OneToMany(mappedBy = "user")
-	private List<Field> fields;
+	private String name;
+	private String time;
+
+	@OneToOne
+	@JoinColumn(name = "fertilizer_id")
+	Fertilizer fertilizer;
 }

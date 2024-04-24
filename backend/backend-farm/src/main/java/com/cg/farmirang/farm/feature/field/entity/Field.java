@@ -3,9 +3,9 @@ package com.cg.farmirang.farm.feature.field.entity;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.DynamicInsert;
 
 import com.cg.farmirang.farm.feature.field.dto.request.FieldCreateRequestDto;
+import com.cg.farmirang.farm.feature.field.dto.request.FieldModifyRequestDto;
 import com.cg.farmirang.farm.global.common.BaseTimeEntity;
 
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "Field")
+@Table(name = "field")
 public class Field extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,15 +53,11 @@ public class Field extends BaseTimeEntity {
 	@Comment("시작 시기")
 	private LocalDateTime startAt;
 
-	@Column(name = "end_at")
-	@Comment("종료 시기")
-	private LocalDateTime endAt;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
-
-	@ManyToOne
 	@JoinColumn(name = "design_id")
 	private Design design;
 
@@ -75,9 +71,19 @@ public class Field extends BaseTimeEntity {
 			.content(dto.getContent())
 			.address(dto.getAddress())
 			.startAt(dto.getStartAt())
-			.user(User.builder().id(dto.getUser()).build())
+			.member(Member.builder().id(dto.getUser()).build())
 			.design(Design.builder().id(dto.getDesign()).build())
 			.iot(IoT.builder().id(dto.getIot()).build())
 			.build();
+	}
+
+	public void update(FieldModifyRequestDto dto){
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
+		this.address = dto.getAddress();
+		this.startAt = dto.getStartAt();
+		this.member = Member.builder().id(dto.getUser()).build();
+		this.design = Design.builder().id(dto.getDesign()).build();
+		this.iot = IoT.builder().id(dto.getIot()).build();
 	}
 }
