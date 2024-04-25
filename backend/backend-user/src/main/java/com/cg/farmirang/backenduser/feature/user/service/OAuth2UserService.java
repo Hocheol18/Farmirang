@@ -11,7 +11,7 @@ import com.cg.farmirang.backenduser.feature.user.dto.common.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+// @Service
 @RequiredArgsConstructor
 @Slf4j
 public class OAuth2UserService extends DefaultOAuth2UserService {
@@ -19,7 +19,12 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		log.info("OAuth2UserService loadUser: {}", oAuth2User);
+		log.info("OAuth2UserService loadUser oAuth2User: {}", oAuth2User);
+		log.info("OAuth2UserService loadUser userRequest getAccessToken: {}", userRequest.getAccessToken());
+		log.info("OAuth2UserService loadUser userRequest getClientRegistration: {}", userRequest.getClientRegistration());
+
+		//db
+
 
 		OAuth2UserInfo oAuth2UserInfo = null;
 		return oAuth2User;
