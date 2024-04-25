@@ -1,4 +1,4 @@
-package com.cg.farmirang.backenduser.global.config;
+package com.cg.farmirang.backenduser.feature.security.utils;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
