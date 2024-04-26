@@ -8,4 +8,8 @@ public interface CustomOAuth2User extends OAuth2User {
 
 	public String getProvider();
 
+	public Integer getMemberId();
+
+	public void setMemberId(Integer memberId);
+
 }

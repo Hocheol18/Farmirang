@@ -1,5 +1,7 @@
 package com.cg.farmirang.backenduser.feature.user.entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,4 +44,11 @@ public class WelfareFacility {
 
 	@Column(name = "report_number", length = 255)
 	private String reportNumber;
+
+	@Column
+	@ColumnDefault("false")
+	private Boolean approval;
+
+	@Column(length = 100)
+	private String contact;
 }

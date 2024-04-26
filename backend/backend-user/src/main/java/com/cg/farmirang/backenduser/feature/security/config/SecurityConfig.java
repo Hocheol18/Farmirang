@@ -13,11 +13,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.cg.farmirang.backenduser.feature.security.service.CustomUserService;
+import com.cg.farmirang.backenduser.feature.security.service.CustomOAuth2UserService;
 import com.cg.farmirang.backenduser.feature.security.utils.InstantAdapter;
 import com.google.gson.GsonBuilder;
 
@@ -31,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
 
 	private final OAuth2AuthorizedClientService authorizedClientService;
-	private final CustomUserService customUserService;
+	private final CustomOAuth2UserService customUserService;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -58,7 +59,7 @@ public class SecurityConfig {
 			// 	.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
 
 		);
-
+		//TODO: 로그아웃 때 여기서 JWT를 폐기해보자
 		return http.build();
 	}
 
@@ -69,6 +70,7 @@ public class SecurityConfig {
 			OAuth2AuthenticationToken token = (OAuth2AuthenticationToken)auth;
 			OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
 				token.getAuthorizedClientRegistrationId(), token.getName());
+			OAuth2User user = token.getPrincipal();
 			var map = new HashMap<String, Object>();
 			map.put("client", authorizedClient);
 			map.put("idToken", token.getAuthorities());

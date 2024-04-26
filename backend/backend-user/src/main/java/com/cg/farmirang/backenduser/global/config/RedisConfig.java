@@ -1,5 +1,7 @@
 package com.cg.farmirang.backenduser.global.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,19 +13,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
-import org.springframework.security.oauth2.client.jackson2.OAuth2ClientJackson2Module;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @EnableRedisRepositories
-@EnableRedisHttpSession
 @Configuration
 @Slf4j
 public class RedisConfig {
@@ -44,9 +40,6 @@ public class RedisConfig {
 
 	@Bean
 	public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new OAuth2ClientJackson2Module());
-
 		return new GenericJackson2JsonRedisSerializer();
 	}
 
@@ -58,7 +51,7 @@ public class RedisConfig {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setKeySerializer(new StringRedisSerializer());
-		template.setValueSerializer(springSessionDefaultRedisSerializer());
+		template.setValueSerializer(springSessionDefaultRedisSerializer);
 		return template;
 	}
 }

@@ -13,13 +13,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserServiceImpl implements CustomUserService {
+public class CustomOAuth2UserServiceImpl implements CustomOAuth2UserService {
 
 	private final DefaultOAuth2UserService defaultOAuth2UserService;
 
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User user = defaultOAuth2UserService.loadUser(userRequest);
 		CustomOAuth2User customOAuth2User = new CustomOAuth2UserImpl(user, userRequest);
+
+
 
 
 		return customOAuth2User;

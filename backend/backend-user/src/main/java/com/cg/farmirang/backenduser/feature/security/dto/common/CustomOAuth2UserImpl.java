@@ -28,10 +28,11 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 	private Map<String, Object> attributes;
 	private String nameAttributeKey;
 	private String provider;
+	private Integer memberId = 0;
 
 
 	public CustomOAuth2UserImpl(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes,
-		String nameAttributeKey, String provider) {
+		String nameAttributeKey, String provider, Integer memberId) {
 		Assert.notEmpty(attributes, "attributes cannot be empty");
 		Assert.hasText(nameAttributeKey, "nameAttributeKey cannot be empty");
 		if (!attributes.containsKey(nameAttributeKey)) {
@@ -44,6 +45,7 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 			this.attributes = Collections.unmodifiableMap(new LinkedHashMap<>(attributes));
 			this.nameAttributeKey = nameAttributeKey;
 			this.provider = provider;
+			this.memberId = memberId;
 		}
 	}
 
@@ -51,7 +53,7 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 	public CustomOAuth2UserImpl(OAuth2User user, OAuth2UserRequest userRequest) {
 		this(user.getAuthorities(), user.getAttributes(),
 			userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName(),
-			userRequest.getClientRegistration().getRegistrationId());
+			userRequest.getClientRegistration().getRegistrationId(), 0);
 	}
 
 	@Override
@@ -62,6 +64,16 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 	@Override
 	public String getProvider() {
 		return this.provider;
+	}
+
+	@Override
+	public Integer getMemberId() {
+		return this.memberId;
+	}
+
+	@Override
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getName() {
