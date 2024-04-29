@@ -8,6 +8,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        h1 : '3rem',
+        h2 : '2.625rem',
+        h3 : '2.25rem',
+        h4 : '1.875rem',
+        h5 : '1.5rem',
+        h6 : '1.25rem',
+        l : '1.125rem',
+        base : '1rem',
+        s : '0.875rem'
+      },
       fontFamily: {
         tmoney: ['"TmoneyRoundWind"', "sans-serif"],
         mice: ['"MICEGothic"', "sans-serif"],
