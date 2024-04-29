@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        tmoney: ['"TmoneyRoundWind"', "sans-serif"],
+        mice: ['"MICEGothic"', "sans-serif"],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -42,11 +46,8 @@ const config: Config = {
         brown: {
           100: "#723511",
         },
-      fontFamily: {
-        tmoney: ['"TmoneyRoundWind"', "sans-serif"],
-        mice: ['"MICEGothic"', "sans-serif"],
       },
-    },
+    }, 
   },
   plugins: [],
 };
