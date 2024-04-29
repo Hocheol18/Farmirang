@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -17,6 +16,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.Assert;
+
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -38,11 +39,13 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 		if (!attributes.containsKey(nameAttributeKey)) {
 			throw new IllegalArgumentException("Missing attribute '" + nameAttributeKey + "' in attributes");
 		} else {
+			var attributiesWithProvider = new LinkedHashMap<>(attributes);
+			attributiesWithProvider.put("provider", provider);
+			this.attributes = Collections.unmodifiableMap(attributiesWithProvider);
 			this.authorities = authorities != null ?
 				Collections.unmodifiableSet(new LinkedHashSet<>(this.sortAuthorities(authorities))) :
 				Collections.unmodifiableSet(new LinkedHashSet<>(
 					AuthorityUtils.NO_AUTHORITIES));
-			this.attributes = Collections.unmodifiableMap(new LinkedHashMap<>(attributes));
 			this.nameAttributeKey = nameAttributeKey;
 			this.provider = provider;
 			this.memberId = memberId;
@@ -88,8 +91,17 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 		return this.attributes;
 	}
 
+	public void setAttributes(UserInfoForLoginResponseDto dto) {
+		var newAttributes = new LinkedHashMap<>(this.attributes);
+		newAttributes.put("member_id", dto.memberId());
+		newAttributes.put("nickname", dto.nickname());
+		newAttributes.put("profile_img", dto.profileImg());
+		newAttributes.put("role", dto.role());
+		this.attributes = Collections.unmodifiableMap(newAttributes);
+	}
+
 	private Set<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
-		SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet(
+		SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(
 			Comparator.comparing(GrantedAuthority::getAuthority));
 		sortedAuthorities.addAll(authorities);
 		return sortedAuthorities;

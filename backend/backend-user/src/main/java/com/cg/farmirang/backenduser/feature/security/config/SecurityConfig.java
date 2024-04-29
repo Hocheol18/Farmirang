@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -54,9 +53,9 @@ public class SecurityConfig {
 		 * loginPage는 로그인 페이지로 이동(Controller가 있는듯?) 따라서 해당 경로에 맞는 적절한 html파일이 없으면 NoResourceFoundException 발생
 		 * */
 		//TODO: 인가코드 받는 oauth2/** 경로 /api/v1/user/oauth2/**으로 수정하기
-		http.oauth2Login(Customizer.withDefaults()
-			// oauth2 -> oauth2
-			// 	.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
+		http.oauth2Login(
+			oauth2 -> oauth2
+				.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
 
 		);
 		//TODO: 로그아웃 때 여기서 JWT를 폐기해보자
@@ -70,7 +69,6 @@ public class SecurityConfig {
 			OAuth2AuthenticationToken token = (OAuth2AuthenticationToken)auth;
 			OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
 				token.getAuthorizedClientRegistrationId(), token.getName());
-			OAuth2User user = token.getPrincipal();
 			var map = new HashMap<String, Object>();
 			map.put("client", authorizedClient);
 			map.put("idToken", token.getAuthorities());

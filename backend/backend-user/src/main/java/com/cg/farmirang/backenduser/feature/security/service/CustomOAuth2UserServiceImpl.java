@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2User;
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2UserImpl;
+import com.cg.farmirang.backenduser.feature.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +16,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomOAuth2UserServiceImpl implements CustomOAuth2UserService {
 
-	private final DefaultOAuth2UserService defaultOAuth2UserService;
+	private final DefaultOAuth2UserService defaultSvc;
+	private final UserService userSvc;
 
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		OAuth2User user = defaultOAuth2UserService.loadUser(userRequest);
+		OAuth2User user = defaultSvc.loadUser(userRequest);
 		CustomOAuth2User customOAuth2User = new CustomOAuth2UserImpl(user, userRequest);
 
+		var memberInfo = userSvc.registerService(customOAuth2User.getProvider(), customOAuth2User.getSub());
 
-
+		customOAuth2User.setAttributes(memberInfo);
 
 		return customOAuth2User;
 	}

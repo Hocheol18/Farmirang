@@ -2,14 +2,18 @@ package com.cg.farmirang.backenduser.feature.security.dto.common;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
+
 public interface CustomOAuth2User extends OAuth2User {
 
-	public String getSub();
+	String getSub();
 
-	public String getProvider();
+	String getProvider();
 
-	public Integer getMemberId();
+	Integer getMemberId();
 
-	public void setMemberId(Integer memberId);
+	void setMemberId(Integer memberId);
+
+	void setAttributes(UserInfoForLoginResponseDto dto);
 
 }
