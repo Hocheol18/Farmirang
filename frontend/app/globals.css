@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  padding: 0;
+@font-face {
+  font-family: "MICEGothic";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/MICEGothic.ttf") format("truetype");
 }
 
-/* @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */
+@font-face {
+  font-family: "TmoneyRoundWind";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/TmoneyRoundWindRegular.ttf") format("truetype");
+}
+
+body {
+  font-family: "MICEGothic", sans-serif;
+}
