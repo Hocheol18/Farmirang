@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "MICEGothic";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/MICEGothic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "TmoneyRoundWind";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/TmoneyRoundWindRegular.ttf") format("truetype");
+}
+
+body {
+  font-family: "MICEGothic", sans-serif;
+}

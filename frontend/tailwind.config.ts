@@ -42,6 +42,9 @@ const config: Config = {
         brown: {
           100: "#723511",
         },
+      fontFamily: {
+        tmoney: ['"TmoneyRoundWind"', "sans-serif"],
+        mice: ['"MICEGothic"', "sans-serif"],
       },
     },
   },
