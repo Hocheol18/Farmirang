@@ -18,22 +18,7 @@ export default function Login() {
           나만의 주말농장 조력자, 팜이랑
         </p>
         <div className="inline-flex flex-col h-[101px] items-center justify-center gap-[12px] relative">
-          <Image
-            src="/user/KAKAO_LOGIN.png"
-            alt="kakao Logo"
-            className="KAKAO-LOGIN"
-            width={302}
-            height={45}
-          />{" "}
-          <Image
-            src="/user/GOOGLE_LOGIN.png"
-            alt="Google Logo"
-            className="img"
-            width={302}
-            height={45}
-            priority
-          />
-          {/* <LoginButton /> */}
+          <LoginButton />
         </div>
       </div>
     </div>
