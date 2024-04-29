@@ -1,13 +1,13 @@
 import Image from "next/image";
-// import "./style.css";
+import LoginButton from "./loginbutton";
+import "./style.css";
 
 export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center gap-[10px] relative">
       <div className="relative self-stretch w-full h-full bg-[url(/user/farm.jpg)] bg-cover bg-[50%_50%]">
-        <div className="w-full h-[900px] bg-[#3a3a3a9e]" />
+        <div className="background-box" />
       </div>
-
       <div className="flex flex-col w-[23.75rem] items-center justify-center gap-[25px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="self-stretch mt-[-1.00px] text-yellow-200 text-[length:var(--t-h1-font-size)] text-center tracking-[var(--t-h1-letter-spacing)] leading-[var(--t-h1-line-height)] relative font-t-h1 font-[number:var(--t-h1-font-weight)] [font-style:var(--t-h1-font-style)]">
           로그인 · 회원가입
@@ -33,6 +33,7 @@ export default function Login() {
             height={45}
             priority
           />
+          {/* <LoginButton /> */}
         </div>
       </div>
     </div>

@@ -22,7 +22,6 @@ function classNames(...classes: Array<string>) {
 }
 
 export default function Navbar() {
-
   // router
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "farm-design", current: true },
@@ -31,13 +30,13 @@ export default function Navbar() {
     { name: "기부하기", href: "#", current: false },
   ]);
 
-  const handleEvent = (index : number) => {
+  const handleEvent = (index: number) => {
     const newNavigation = navigation.map((item, idx) => ({
       ...item,
-      current: idx === index
+      current: idx === index,
     }));
     setNavigation(newNavigation);
-  }
+  };
 
   return (
     <>
@@ -63,7 +62,7 @@ export default function Navbar() {
                             )}
                             aria-current={item.current ? "page" : undefined}
                             onClick={() => {
-                              handleEvent(idx)
+                              handleEvent(idx);
                             }}
                           >
                             {item.name}
@@ -214,18 +213,13 @@ export default function Navbar() {
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
+        {/* <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Dashboard
             </h1>
           </div>
-        </header>
-        <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {/* Your content */}
-          </div>
-        </main>
+        </header> */}
       </div>
     </>
   );
