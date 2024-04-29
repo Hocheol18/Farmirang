@@ -29,9 +29,9 @@ export default function Navbar() {
   // router
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "/farm-design", current: true },
-    { name: "텃밭일기", href: "/farm-diary/1", current: false },
-    { name: "이웃이야기", href: "/#", current: false },
-    { name: "기부하기", href: "/#", current: false },
+    { name: "텃밭일기", href: "/farm-diary", current: false },
+    { name: "이웃이야기", href: "/board", current: false },
+    { name: "기부하기", href: "/donation", current: false },
   ]);
 
   const handleEvent = (href : string, index: number) => {
