@@ -51,6 +51,8 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-gson', version: '0.12.5'
 
+    // aws s3
+    implementation 'software.amazon.awssdk:s3:2.25.38'
 
 
 }

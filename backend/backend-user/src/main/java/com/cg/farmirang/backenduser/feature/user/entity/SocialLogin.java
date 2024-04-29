@@ -20,7 +20,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "social_login", indexes = @Index(name = "idx_social_member_id", columnList = "member_id"))
+@Table(name = "social_login", indexes = {
+	@Index(name = "idx_social_member_id", columnList = "member_id"),
+	@Index(name = "idx_social_provider_sub", columnList = "provider, sub")
+})
 public class SocialLogin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

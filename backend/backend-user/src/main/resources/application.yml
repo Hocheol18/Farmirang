@@ -4,11 +4,23 @@ spring:
   profiles:
     include: secret
 
+  jwt:
+    header: Authorization
+    secret: mTdgMIUk22VnKmkPntuSyW81eXjR86MgHKRAzjwE62UaZn4O1dvJYllqSGYXxlQj
+    access-token-validity-in-seconds: 86400  # 1 day
+    refresh-token-validity-in-seconds: 604800  # 7 days
+
 logging:
   level:
     org:
       springframework:
         security: DEBUG
+        data:
+          redis: DEBUG
+
+
+
+
 
 
 server:
