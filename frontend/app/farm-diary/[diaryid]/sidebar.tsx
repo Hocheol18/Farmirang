@@ -1,98 +1,60 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
+import { CiCircleList } from "react-icons/ci";
+import { GoPlus } from "react-icons/go";
+import { RiFileList3Line } from "react-icons/ri";
 
 export default function Sidebar() {
+  const params = useParams<{ id: string; date: string }>();
+
+  const [navigation, setNavigation] = useState([
+    {
+      name: "달력",
+      href: `/farm-diary/${params?.id}`,
+      current: true,
+      icon: <CiCalendar className="h-6 w-6" />,
+    },
+    {
+      name: "일지",
+      href: `/farm-diary/${params?.id}/1`,
+      current: false,
+      icon: <CiCircleList className="h-6 w-6" />,
+    },
+  ]);
+
   return (
     <>
       <nav className="flex min-w-[240px] flex-col gap-1 p-2 mt-10 font-sans text-base font-normal text-blue-gray-700">
-        <div className="relative block w-full">
-          <div
-            role="button"
-            className="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none bg-blue-gray-50/50 text-start text-blue-gray-700 hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
-          >
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100 text-blue-gray-900 hover:text-blue-gray-900"
-            >
-              <div className="grid mr-4 place-items-center">
-                <CiCalendar />
+        {navigation.map((item, idx) => (
+          <div key={idx}>
+            <div className="relative block w-full">
+              <div className="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none">
+                <div className="flex items-center justify-between w-full p-3 antialiased font-semibold leading-snug text-left">
+                  <div className="grid mr-4 place-items-center">{item.icon}</div>
+                  <p className="block mr-auto text-l antialiased leading-relaxed text-blue-gray-900">
+                    {item.name}
+                  </p>
+                </div>
               </div>
-              <p className="block mr-auto font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-900">
-                달력
-              </p>
-            </button>
+            </div>
           </div>
-        </div>
-        <div className="relative block w-full">
-          <div
-            role="button"
-            className="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
-          >
-            <button
-              type="button"
-              className="flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100 text-blue-gray-700 hover:text-blue-gray-900"
-            >
-              <div className="grid mr-4 place-items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="w-5 h-5"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              <p className="block mr-auto font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-900">
-                일지
-              </p>
-              <span className="ml-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  className="w-4 h-4 mx-auto transition-transform"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  ></path>
-                </svg>
-              </span>
-            </button>
-          </div>
-        </div>
-        <hr className="my-2 border-gray-300" />
+        ))}
+
+        <hr className="my-4 border-gray-400" />
         <div
           role="button"
           className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
         >
           <div className="grid mr-4 place-items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-              className="w-5 h-5"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M6.912 3a3 3 0 00-2.868 2.118l-2.411 7.838a3 3 0 00-.133.882V18a3 3 0 003 3h15a3 3 0 003-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0017.088 3H6.912zm13.823 9.75l-2.213-7.191A1.5 1.5 0 0017.088 4.5H6.912a1.5 1.5 0 00-1.434 1.059L3.265 12.75H6.11a3 3 0 012.684 1.658l.256.513a1.5 1.5 0 001.342.829h3.218a1.5 1.5 0 001.342-.83l.256-.512a3 3 0 012.684-1.658h2.844z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
+            <RiFileList3Line className="h-6 w-6" />
           </div>
-          밭 목록
+          <span className="font-extrabold text-base">밭 목록</span>
           <div className="grid ml-auto place-items-center justify-self-end">
-            <div className="relative grid items-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-full select-none whitespace-nowrap bg-blue-gray-500/20 text-blue-gray-900">
-              <span className="">14</span>
+            <div className="relative grid items-center px-2 py-1 uppercase rounded-full select-none whitespace-nowrap bg-blue-gray-500/20 text-blue-gray-900">
+              <GoPlus className="h-6 w-6" />
             </div>
           </div>
         </div>

@@ -6,8 +6,6 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
-
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -25,38 +23,49 @@ function classNames(...classes: Array<string>) {
 }
 
 export default function Navbar() {
-  const router = useRouter()
+  const router = useRouter();
   // router
   const [navigation, setNavigation] = useState([
-    { name: "텃밭꾸미기", href: "/farm-design", current: true },
+    { name: "텃밭꾸미기", href: "/farm-design", current: false },
     { name: "텃밭일기", href: "/farm-diary", current: false },
     { name: "이웃이야기", href: "/board", current: false },
     { name: "기부하기", href: "/donation", current: false },
   ]);
 
-  const handleEvent = (href : string, index: number) => {
+  const handleEvent = (href: string, index: number) => {
     const newNavigation = navigation.map((item, idx) => ({
       ...item,
       current: idx === index,
     }));
     setNavigation(newNavigation);
 
-    router.push(href)
+    router.push(href);
   };
 
-  
+  const mainPageEvent = () => {
+    const newNavigation = navigation.map((item) => ({
+      ...item,
+      current: false,
+    }));
+    setNavigation(newNavigation);
+    router.push("/");
+  };
 
   return (
     <>
-      <div className="sticky top-0 z-10 border-b-2 py-1">
-      
+      <div className="sticky top-0 z-10 border-b">
         <Disclosure as="nav">
           {({ open }: any) => (
             <>
               <div className="mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-full items-center justify-between">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0 text-green-500 font-extrabold text-h2 font-tmoney">
+                    <div
+                      className="flex-shrink-0 text-green-500 font-extrabold text-h4 font-tmoney"
+                      onClick={() => {
+                        mainPageEvent();
+                      }}
+                    >
                       팜이랑
                     </div>
                     <div className="hidden md:block">
@@ -67,13 +76,13 @@ export default function Navbar() {
                             href={item.href}
                             className={classNames(
                               item.current
-                                ? "text-green-400 border-b-4 border-green-400"
+                                ? "text-green-400 border-b-2 border-green-400"
                                 : "text-black-100 hover:text-green-500",
                               "px-3 py-6 text-h6 font-extrabold font-tmoney"
                             )}
                             aria-current={item.current ? "page" : undefined}
                             onClick={(e) => {
-                              e.preventDefault()
+                              e.preventDefault();
                               handleEvent(item.href, idx);
                             }}
                           >
