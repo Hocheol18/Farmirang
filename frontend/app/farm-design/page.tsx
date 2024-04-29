@@ -1,7 +1,12 @@
 export default function FarmDesign() {
-    return (
-        <div>
-            FarmDesign
-        </div>
-    )
+  return (
+    <>
+      <div className="h-96"></div>
+      <div className="h-96"></div>
+      <div className="h-96"></div>
+      <div className="h-96"></div>
+      <div className="h-96"></div>
+      <div>FarmDesign</div>
+    </>
+  );
 }

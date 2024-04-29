@@ -4,6 +4,9 @@ import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+
 
 const user = {
   name: "Tom Cook",
@@ -22,47 +25,56 @@ function classNames(...classes: Array<string>) {
 }
 
 export default function Navbar() {
+  const router = useRouter()
   // router
   const [navigation, setNavigation] = useState([
-    { name: "텃밭꾸미기", href: "farm-design", current: true },
-    { name: "텃밭일기", href: "farm-diary", current: false },
-    { name: "이웃이야기", href: "#", current: false },
-    { name: "기부하기", href: "#", current: false },
+    { name: "텃밭꾸미기", href: "/farm-design", current: true },
+    { name: "텃밭일기", href: "/farm-diary", current: false },
+    { name: "이웃이야기", href: "/board", current: false },
+    { name: "기부하기", href: "/donation", current: false },
   ]);
 
-  const handleEvent = (index: number) => {
+  const handleEvent = (href : string, index: number) => {
     const newNavigation = navigation.map((item, idx) => ({
       ...item,
       current: idx === index,
     }));
     setNavigation(newNavigation);
+
+    router.push(href)
   };
+
+  
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="sticky top-0 z-10 border-b-2 py-1">
+      
         <Disclosure as="nav">
           {({ open }: any) => (
             <>
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex h-full items-center justify-between">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0 text-green-500">팜이랑</div>
+                    <div className="flex-shrink-0 text-green-500 font-extrabold text-h2 font-tmoney">
+                      팜이랑
+                    </div>
                     <div className="hidden md:block">
-                      <div className="ml-20 flex items-baseline space-x-8">
+                      <div className="ml-32 flex items-baseline space-x-8">
                         {navigation.map((item, idx) => (
                           <a
                             key={item.name}
                             href={item.href}
                             className={classNames(
                               item.current
-                                ? "text-green-400 border-b-2 border-green-400"
+                                ? "text-green-400 border-b-4 border-green-400"
                                 : "text-black-100 hover:text-green-500",
-                              "px-3 py-2 text-sm font-medium"
+                              "px-3 py-6 text-h6 font-extrabold font-tmoney"
                             )}
                             aria-current={item.current ? "page" : undefined}
-                            onClick={() => {
-                              handleEvent(idx);
+                            onClick={(e) => {
+                              e.preventDefault()
+                              handleEvent(item.href, idx);
                             }}
                           >
                             {item.name}
@@ -72,20 +84,20 @@ export default function Navbar() {
                     </div>
                   </div>
                   <div className="hidden md:block">
-                    <div className="ml-4 flex items-center md:ml-6">
+                    <div className="ml-6 flex items-center md:ml-6">
                       <button
                         type="button"
-                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        className="relative rounded-full p-1 text-black-100 focus:outline-none focus:ring-2"
                       >
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        <BellIcon className="h-8 w-8" aria-hidden="true" />
                       </button>
 
                       {/* Profile dropdown */}
-                      <Menu as="div" className="relative ml-3">
+                      <Menu as="div" className="relative ml-6">
                         <div>
-                          <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <Image
@@ -212,14 +224,7 @@ export default function Navbar() {
             </>
           )}
         </Disclosure>
-
-        {/* <header className="bg-white shadow">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Dashboard
-            </h1>
-          </div>
-        </header> */}
+        <header className="bg-white shadow" />
       </div>
     </>
   );
