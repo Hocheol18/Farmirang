@@ -4,9 +4,9 @@ export default function Calendar() {
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
-        <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
+        <header className="flex items-center justify-between border-b border-gray-300 px-6 py-4 lg:flex-none">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            <time dateTime="2022-01">January 2022</time>
+            <time dateTime="2022-01">2022년 3월</time>
           </h1>
           <div className="flex items-center">
             <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
@@ -55,30 +55,7 @@ export default function Calendar() {
               </button>
             </div>
             <div className="hidden md:ml-4 md:flex md:items-center">
-              <div className="relative">
-                <button
-                  type="button"
-                  className="flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                  id="menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  Month view
-                  <svg
-                    className="-mr-1 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-
-                {/* Dropdown menu, show/hide based on menu state.
+              {/* Dropdown menu, show/hide based on menu state.
 
             Entering: "transition ease-out duration-100"
               From: "transform opacity-0 scale-95"
@@ -87,164 +64,17 @@ export default function Calendar() {
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95" */}
 
-                <div
-                  className="absolute right-0 z-10 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="menu-button"
-                  tabIndex="-1"
-                >
-                  <div className="py-1" role="none">
-                    {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
-                    <a
-                      href="#"
-                      className="text-gray-700 block px-4 py-2 text-sm"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="menu-item-0"
-                    >
-                      Day view
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-700 block px-4 py-2 text-sm"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="menu-item-1"
-                    >
-                      Week view
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-700 block px-4 py-2 text-sm"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="menu-item-2"
-                    >
-                      Month view
-                    </a>
-                    <a
-                      href="#"
-                      className="text-gray-700 block px-4 py-2 text-sm"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="menu-item-3"
-                    >
-                      Year view
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="ml-6 h-6 w-px bg-gray-300"></div>
+              <div className="ml-3 h-6 w-px bg-gray-400"></div>
               <button
                 type="button"
-                className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="ml-3 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:font-green-400 focus-visible:outline focus-visible:outline-2"
               >
-                Add event
+                일기 추가
               </button>
-            </div>
-            <div className="relative ml-6 md:hidden">
-              <button
-                type="button"
-                className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500"
-                id="menu-0-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-              >
-                <span className="sr-only">Open menu</span>
-                <svg
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM15.5 8.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
-                </svg>
-              </button>
-
-              {/* <!--
-          Dropdown menu, show/hide based on menu state.
-
-          Entering: "transition ease-out duration-100"
-            From: "transform opacity-0 scale-95"
-            To: "transform opacity-100 scale-100"
-          Leaving: "transition ease-in duration-75"
-            From: "transform opacity-100 scale-100"
-            To: "transform opacity-0 scale-95"
-        --> */}
-              <div
-                className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="menu-0-button"
-                tabIndex="-1"
-              >
-                <div className="py-1" role="none">
-                  {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-0"
-                  >
-                    Create event
-                  </a>
-                </div>
-                <div className="py-1" role="none">
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-1"
-                  >
-                    Go to today
-                  </a>
-                </div>
-                <div className="py-1" role="none">
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-2"
-                  >
-                    Day view
-                  </a>
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-3"
-                  >
-                    Week view
-                  </a>
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-4"
-                  >
-                    Month view
-                  </a>
-                  <a
-                    href="#"
-                    className="text-gray-700 block px-4 py-2 text-sm"
-                    role="menuitem"
-                    tabIndex="-1"
-                    id="menu-0-item-5"
-                  >
-                    Year view
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </header>
-        <div className="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+        <div className="lg:flex lg:flex-auto lg:flex-col">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-white-100 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
             <div className="flex justify-center bg-white py-2">
               <span>M</span>
@@ -282,31 +112,31 @@ export default function Calendar() {
           Is current month, include: "bg-white"
           Is not current month, include: "bg-gray-50 text-gray-500"
         --> */}
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 {/* <!--
             Is today, include: "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
           --> */}
-                <time dateTime="2021-12-27">27</time>
+                <time dateTime="2021-12-27 ">27</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2021-12-28">28</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2021-12-29">29</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2021-12-30">30</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2021-12-31">31</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-01">1</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-01">2</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-03">3</time>
                 <ol className="mt-2">
                   <li>
@@ -337,16 +167,16 @@ export default function Calendar() {
                   </li>
                 </ol>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-04">4</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-05">5</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-06">6</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-07">7</time>
                 <ol className="mt-2">
                   <li>
@@ -364,22 +194,22 @@ export default function Calendar() {
                   </li>
                 </ol>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-08">8</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-09">9</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-10">10</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-11">11</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time
                   dateTime="2022-01-12"
-                  className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
+                  className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-semibold text-white"
                 >
                   12
                 </time>
@@ -399,34 +229,34 @@ export default function Calendar() {
                   </li>
                 </ol>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-13">13</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-14">14</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-15">15</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-16">16</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-17">17</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-18">18</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-19">19</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-20">20</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-21">21</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-22">22</time>
                 <ol className="mt-2">
                   <li>
@@ -457,43 +287,43 @@ export default function Calendar() {
                   </li>
                 </ol>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-23">23</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-24">24</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-25">25</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-26">26</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-27">27</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-28">28</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-29">29</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-30">30</time>
               </div>
-              <div className="relative bg-white px-3 py-2">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
                 <time dateTime="2022-01-31">31</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-01">1</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-02">2</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-03">3</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-04">4</time>
                 <ol className="mt-2">
                   <li>
@@ -511,10 +341,10 @@ export default function Calendar() {
                   </li>
                 </ol>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-05">5</time>
               </div>
-              <div className="relative bg-gray-200 px-3 py-2 text-gray-500">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
                 <time dateTime="2022-02-06">6</time>
               </div>
             </div>
