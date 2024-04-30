@@ -4,11 +4,9 @@ import GuidlineBox from "./GuidlineBox";
 
 export default function FarmDesign() {
   return (
-    //가장 크게 감싸는 div
-    <div>
-      <div className="border">
-        <GuidlineBox />
-      </div>
+    <div className=" flex justify-center w-full h-full">
+      {/* 처음 딱 들어오면 무조건 가이드라인 */}
+      <GuidlineBox />
     </div>
   );
 }

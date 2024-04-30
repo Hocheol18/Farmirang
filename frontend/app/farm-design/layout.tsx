@@ -4,8 +4,8 @@ export default function FarmLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex border-2 h-full">
-      <div className="m-auto h-full">{children}</div>
+    <div className="flex h-full w-full">
+      <div className="mx-auto my-10 w-full">{children}</div>
     </div>
   );
 }
