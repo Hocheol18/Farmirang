@@ -1,5 +1,7 @@
 package com.cg.farmirang.backenduser.feature.security.dto.response;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +25,18 @@ public record JwtCreateTokenResponseDto(
 	String refreshToken,
 	@NotBlank
 	@Schema(description = "리프레시 토큰 만료 시간", example = "1234")
-@JsonProperty("refresh_expires_in")
-	int refreshExpiresIn
+	@JsonProperty("refresh_expires_in")
+	int refreshExpiresIn,
+	@NotBlank
+	@Schema(description = "토큰 타입", example = "Bearer")
+	@JsonProperty("token_type")
+	String tokenType
 ) {
+
+	// tokenType 기본값 생성
+	public JwtCreateTokenResponseDto {
+		if(Objects.isNull(tokenType)) {
+			tokenType = "Bearer";
+		}
+	}
 }

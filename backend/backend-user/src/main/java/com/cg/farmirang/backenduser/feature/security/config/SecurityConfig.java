@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -66,17 +65,7 @@ public class SecurityConfig {
 	public AuthenticationSuccessHandler authenticationSuccessHandler() {
 		var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 		return (req, res, auth) -> {
-			OAuth2AuthenticationToken token = (OAuth2AuthenticationToken)auth;
-			OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
-				token.getAuthorizedClientRegistrationId(), token.getName());
-			var map = new HashMap<String, Object>();
-			map.put("client", authorizedClient);
-			map.put("idToken", token.getAuthorities());
-			var tokenString = gson.toJson(map);
-			res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			var out = res.getWriter();
-			out.print(tokenString);
-			out.flush();
+
 		};
 	}
 

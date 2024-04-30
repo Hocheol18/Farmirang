@@ -9,15 +9,13 @@ import com.cg.farmirang.backenduser.feature.security.dto.response.JwtCreateToken
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtValidateTokenResponseDto;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 
 public interface JwtService {
 	JwtCreateTokenResponseDto createToken(JwtCreateTokenRequestDto dto);
 	JwtValidateTokenResponseDto validateToken(JwtTokenRequestDto dto);
 	JwtBooleanResponseDto revokeToken(JwtTokenRequestDto dto);
-
+	JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto);
 	JwtCreateTokenResponseDto create(JwtCreateTokenRequestDto dto);
-	Claims getClaims(JwtTokenRequestDto dto);
-	Map<String, Object> getPayload(String token);
-
-
+	Claims getClaims(String token, String key) throws ExpiredJwtException;
 }
