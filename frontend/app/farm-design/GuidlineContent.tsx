@@ -1,6 +1,6 @@
 const GuidlineContent = () => {
   return (
-    <div className="rounded-[25px] bg-white-100 w-[92%] h-[75%]">
+    <div className="rounded-[25px] bg-white-100 w-[92%] h-[78%]">
       그 안에 흰색
     </div>
   );
