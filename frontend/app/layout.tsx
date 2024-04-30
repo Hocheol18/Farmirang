@@ -15,8 +15,10 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <NavBar />
-        {children}
+        <div className="flex flex-col h-full">
+          <NavBar />
+          {children}
+        </div>
       </body>
     </html>
   );
