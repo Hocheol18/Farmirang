@@ -48,7 +48,7 @@ export default function Sidebar() {
   return (
     <>
       <div className="flex flex-col justify-between mt-10 h-full">
-        <div className="flex flex-col gap-1 p-2 text-base flex-auto">
+        <div className="flex flex-col gap-1 p-2 text-base">
           {navigation.map((item, idx) => (
             <div key={idx}>
               <div className="relative block w-full">
@@ -111,7 +111,7 @@ export default function Sidebar() {
             </div>
           ))}
         </div>
-        <div className="flex-auto">
+       
           <div className="flex place-content-center">
             <div className="border-2 rounded-xl w-[220px] bg-green-400 h-[60px] place-content-center">
               <div className="flex place-content-center text-white-100 text-l font-bold">
@@ -120,7 +120,7 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 }

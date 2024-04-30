@@ -65,25 +65,25 @@ export default function Calendar() {
         </header>
         <div className="lg:flex lg:flex-auto lg:flex-col">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-white-100 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>월요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>화요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>수요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>목요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>금요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>토요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2">
+            <div className="flex justify-center bg-white py-2 text-base">
               <span>일요일</span>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Calendar() {
                 <ol className="mt-2">
                   <li>
                     <a href="#" className="group flex">
-                      <div className="flex-auto truncate hover:text-green-400">
+                      <div className="flex-auto truncate hover:text-green-400 text-s">
                         새로운 알람이 있어요!
                       </div>
                       <div className="ml-3 flex-none place-content-center">
@@ -132,13 +132,13 @@ export default function Calendar() {
                 </ol>
               </div>
               <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-04">4</time>
+                <div className="text-s font-bold">4</div>
               </div>
               <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-05">5</time>
+                <div className="text-s font-bold">5</div>
               </div>
               <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-06">6</time>
+                <div className="text-s font-bold">6</div>
               </div>
               <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <div>7</div>
@@ -165,7 +165,7 @@ export default function Calendar() {
                 <ol className="mt-2">
                   <li>
                     <a href="#" className="group flex">
-                      <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
+                      <p className="flex-auto truncate font-medium text-gray-900 text-s">
                         일기 보기
                       </p>
                       <div className="place-content-center">
