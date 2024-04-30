@@ -15,8 +15,10 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <NavBar />
-        {children}
+        <div className="sticky top-0">
+          <NavBar />
+        </div>
+        <div>{children}</div>
       </body>
     </html>
   );

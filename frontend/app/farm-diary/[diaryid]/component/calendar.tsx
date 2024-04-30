@@ -2,9 +2,9 @@ import React from "react";
 import { GoChevronLeft } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import Image from "next/image";
-import SunIcon from "../../../public/icons/weather/Sun.svg";
-import RainIcon from "../../../public/icons/weather/Rain.svg";
-import SnowIcon from "../../../public/icons/weather/Snowman.svg";
+import SunIcon from "../../../../public/icons/weather/Sun.svg";
+import RainIcon from "../../../../public/icons/weather/Rain.svg";
+import SnowIcon from "../../../../public/icons/weather/Snowman.svg";
 import { GiPlainCircle } from "react-icons/gi";
 
 export default function Calendar() {
@@ -205,49 +205,49 @@ export default function Calendar() {
               <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
                 <div>22</div>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-23">23</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-24">24</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-25">25</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-26">26</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-27">27</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-28">28</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-29">29</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-30">30</time>
               </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300">
+              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-01-31">31</time>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-02-01">1</time>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-02-02">2</time>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-02-03">3</time>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <div>4</div>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-02-05">5</time>
               </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300">
+              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
                 <time dateTime="2022-02-06">6</time>
               </div>
             </div>
@@ -264,7 +264,7 @@ export default function Calendar() {
         --> */}
               <button
                 type="button"
-                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 {/* <!--
             Always include: "ml-auto"
@@ -279,7 +279,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2021-12-28" className="ml-auto">
                   28
@@ -288,7 +288,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2021-12-29" className="ml-auto">
                   29
@@ -530,7 +530,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2022-01-23" className="ml-auto">
                   23
@@ -539,7 +539,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2022-01-24" className="ml-auto">
                   24
@@ -548,7 +548,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2022-01-25" className="ml-auto">
                   25
@@ -557,7 +557,7 @@ export default function Calendar() {
               </button>
               <button
                 type="button"
-                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
+                className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10 border-r border-gray-200"
               >
                 <time dateTime="2022-01-26" className="ml-auto">
                   26
