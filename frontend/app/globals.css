@@ -20,6 +20,14 @@ body {
   font-family: "MICEGothic", sans-serif;
 }
 
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
+}
+
 :root {
   --commonblack: rgba(0, 0, 0, 1);
   --commonwhite: rgba(255, 255, 255, 1);
