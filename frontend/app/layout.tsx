@@ -15,10 +15,10 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <div className="flex flex-col h-full">
+        <div className="sticky top-0">
           <NavBar />
-          {children}
         </div>
+        <div>{children}</div>
       </body>
     </html>
   );
