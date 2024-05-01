@@ -8,7 +8,7 @@ import Step3Color from "../../../../public/icons/step3-icon-color.png";
 import Step4Color from "../../../../public/icons/step4-icon-color.png";
 
 import { FaCheck } from "react-icons/fa6";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface StepProps {
   stepNumber: number;
@@ -18,12 +18,22 @@ interface StepProps {
 
 const Step = ({ stepNumber, isFinish, isNow }: StepProps) => {
   // 단계별 이미지 선택
-  const grayImages = [Step1Gray, Step2Gray, Step3Gray, Step4Gray];
-  const colorImages = [Step1Color, Step2Color, Step3Color, Step4Color];
+  const grayImages: StaticImageData[] = [
+    Step1Gray,
+    Step2Gray,
+    Step3Gray,
+    Step4Gray,
+  ];
+  const colorImages: StaticImageData[] = [
+    Step1Color,
+    Step2Color,
+    Step3Color,
+    Step4Color,
+  ];
 
   // 현재 단계에 맞는 이미지 결정
-  const currentGrayImage = grayImages[stepNumber - 1];
-  const currentColorImage = colorImages[stepNumber - 1];
+  const currentGrayImage: StaticImageData = grayImages[stepNumber - 1];
+  const currentColorImage: StaticImageData = colorImages[stepNumber - 1];
 
   return (
     <div

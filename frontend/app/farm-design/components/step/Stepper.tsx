@@ -13,7 +13,7 @@ const Stepper = () => {
   ];
 
   return (
-    <div className="flex h-[80%] gap-5 border border-black-100 justify-center ">
+    <div className="flex h-[80%] gap-5 justify-center ">
       <div className="flex flex-col items-center my-3 ">
         {/* 단계 컴포넌트를 동적으로 렌더링 */}
         {stepsDetails.map((_, index) => (
