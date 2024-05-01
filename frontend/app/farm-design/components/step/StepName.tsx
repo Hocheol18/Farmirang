@@ -7,7 +7,11 @@ interface StepProps {
 
 const StepName = ({ stepNumber, title, isActive, isFirst }: StepProps) => {
   return (
-    <div className="flex">
+    <div
+      className={`flex flex-col ${
+        isFirst ? "" : `h-full justify-end`
+      } items-center border border-black-100`}
+    >
       <h6
         className={`text-base font-bold ${
           isActive ? "text-green-500" : "text-gray-400"
