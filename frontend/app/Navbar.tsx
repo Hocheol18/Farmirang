@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Disclosure, Menu } from "@headlessui/react";
+import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -37,13 +37,13 @@ export default function Navbar() {
     router.push(href);
   };
 
-  const mainPageEvent = () => {
+  const extraPageEvent = (href : string) => {
     const newNavigation = navigation.map((item) => ({
       ...item,
       current: false,
     }));
     setNavigation(newNavigation);
-    router.push("/");
+    router.push(`${href}`);
   };
 
   return (
@@ -58,7 +58,7 @@ export default function Navbar() {
                     <div
                       className="flex-shrink-0 text-green-500 font-extrabold text-h4 font-tmoney"
                       onClick={() => {
-                        mainPageEvent();
+                        extraPageEvent("/");
                       }}
                     >
                       팜이랑
@@ -100,7 +100,7 @@ export default function Navbar() {
                       <Menu as="div" className="relative ml-6">
                         <Menu.Button
                           className="relative flex max-w-xs items-center rounded-full"
-                          onClick={() => router.push("/mypage")}
+                          onClick={() => extraPageEvent("/mypage")}
                         >
                           <span className="absolute -inset-1.5" />
                           <Image

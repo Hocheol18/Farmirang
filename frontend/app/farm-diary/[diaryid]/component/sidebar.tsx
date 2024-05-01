@@ -10,15 +10,18 @@ import { CiSearch } from "react-icons/ci";
 import dot from "../../../../public/icons/dot.svg";
 import Image from "next/image";
 
-export default function Sidebar() {
+interface Props {
+  current : boolean
+  setCurrent : (current : boolean) => void
+}
+
+export default function Sidebar({current, setCurrent} : Props) {
   const router = useRouter();
   const params = useParams<{ id: string; date: string }>();
 
   function classNames(...classes: Array<string>) {
     return classes.filter(Boolean).join(" ");
   }
-
-  const [current, setCurrent] = useState<boolean>(true);
 
   const [navigation, setNavigation] = useState([
     {
