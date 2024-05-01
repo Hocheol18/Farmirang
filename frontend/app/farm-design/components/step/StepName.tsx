@@ -12,13 +12,17 @@ const StepName = ({ title, content, isNow }: StepProps) => {
       } items-center `}
     >
       <div
-        className={`font-black font-tmoney text-h4 ${
-          isNow ? "text-green-400" : "text-gray-350"
+        className={`font-black font-tmoney ${
+          isNow ? " text-h4 text-green-400" : " text-h5 text-gray-350"
         }`}
       >
         <div>{title}</div>
       </div>
-      <div className={`text-sm ${isNow ? "text-black-100" : "text-gray-350"}`}>
+      <div
+        className={`text-sm text-center ${
+          isNow ? "text-black-100" : "text-gray-350"
+        }`}
+      >
         <div>{content}</div>
       </div>
     </div>
