@@ -1,25 +1,26 @@
 interface StepProps {
-  stepNumber: number;
   title: string;
-  isActive: boolean;
-  isFirst?: boolean;
+  content: string;
+  isNow: boolean;
 }
 
-const StepName = ({ stepNumber, title, isActive, isFirst }: StepProps) => {
+const StepName = ({ title, content, isNow }: StepProps) => {
   return (
     <div
       className={`flex flex-col ${
-        isFirst ? "" : `h-full justify-end`
-      } items-center border border-black-100`}
+        title === `1단계` ? "" : `h-full justify-end`
+      } items-center `}
     >
-      <h6
-        className={`text-base font-bold ${
-          isActive ? "text-green-500" : "text-gray-400"
+      <div
+        className={`font-black font-tmoney text-h4 ${
+          isNow ? "text-green-400" : "text-gray-350"
         }`}
       >
-        <div>{stepNumber}</div>
         <div>{title}</div>
-      </h6>
+      </div>
+      <div className={`text-sm ${isNow ? "text-black-100" : "text-gray-350"}`}>
+        <div>{content}</div>
+      </div>
     </div>
   );
 };
