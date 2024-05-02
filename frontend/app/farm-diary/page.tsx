@@ -1,17 +1,10 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Button from "../_components/common/Button";
 
 export default function Diary() {
-  const router = useRouter();
   return (
     <>
-      <button className="border-4"
-        onClick={() => {
-          router.push("./farm-diary/1");
-        }}
-        
-      >하위</button>
+      <Link href={"/farm-diary/1"}>밭1</Link>
     </>
   );
 }

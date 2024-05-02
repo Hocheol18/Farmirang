@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <>
       <div className="top-0 z-10 border-b">
-        <Disclosure as="nav">
+        <Disclosure >
           {() => (
             <>
               <div className="mx-auto px-4 sm:px-6 lg:px-8">

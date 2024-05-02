@@ -102,16 +102,16 @@ const DatePicker = () => {
           </div>
 
           {showDatepicker && (
-            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-80">
+            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-80 border border-gray-400">
               <div className="flex justify-between items-center mb-2 ml-4">
                 <div>
                   <span className="text-lg font-bold text-black-100">
                     {MONTH_NAMES[month]}
                   </span>
-                  <span className="text-lg font-bold text-black-100">
+                  <span className="text-lg font-semibold text-black-100">
                     월
                   </span>
-                  <span className="ml-1 text-lg text-gray-600 font-normal">
+                  <span className="ml-4 text-lg font-semibold text-black-100 font-normal">
                     {year}
                   </span>
                 </div>

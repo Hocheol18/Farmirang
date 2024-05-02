@@ -3,12 +3,15 @@ import dummy from "../../../../public/dummyimage/dummy.png";
 import SunIcon from "../../../../public/icons/weather/Sun.svg";
 import RainIcon from "../../../../public/icons/weather/Rain.svg";
 import SnowIcon from "../../../../public/icons/weather/Snowman.svg";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
 export default function CalendarDate() {
   const year = 2024;
   const month = 8;
   const date = 18;
   const nowDate = 20;
+
+  const maplist = [{}, {}, {}, {}, {}, {}, {}, {}];
 
   const weatherList = {
     sun: <Image src={SunIcon} width={45} height={45} alt="sun" />,
@@ -17,23 +20,32 @@ export default function CalendarDate() {
   };
 
   return (
-    <div className="lg:flex lg:h-full">
-      <div className="w-3/5 p-8 ml-8 mt-8 h-4/5">
+    <div className="lg:flex lg:h-full w-full">
+      <div className="w-3/5 p-8 ml-8 mt-8">
         <div>
           <span className="text-h4 font-bold">밭 생성</span>
           <span className="ml-4 text-green-400 text-h3">+ {nowDate}</span>
           <span className="ml-2 text-h4 font-bold">일 째</span>
         </div>
         <div className="text-h3 font-bold mt-10">심은 작물</div>
-        <div className="whitespace-nowrap overflow-x-auto flex h-[24rem] mt-2">
-          <div className="border border-black-100 shadow-xl rounded-xl w-72"></div>
-          <div className="border border-black-100 shadow-xl rounded-xl w-72"></div>
-          <div className="border border-black-100 shadow-xl rounded-xl w-72"></div>
-          <div className="border border-black-100 shadow-xl rounded-xl w-72"></div>
+        <div className="flex justify-between h-2/5 w-full">
+          <div className="overflow-x-auto flex mt-2 scrollbar-hide w-10/12 mr-6">
+            {maplist.map((item) => (
+              <>
+                <div className="border border-gray-400 shadow-lg rounded-xl w-5/12 flex-shrink-0 mr-6"></div>
+              </>
+            ))}
+          </div>
+          <div className="w-1/12 rounded-xl cursor-pointer flex flex-col justify-center">
+            <div className="flex justify-center">
+              <ChevronRightIcon className="w-12 h-12" />
+            </div>
+          </div>
         </div>
-        <div className="border border-gray-400 shadow-xl rounded-xl mt-10 h-[18rem]"></div>
+
+        <div className="border border-gray-400 shadow-xl rounded-xl mt-16 h-1/3"></div>
       </div>
-      <div className="w-3/5 p-8 mr-8 mt-8 h-4/5">
+      <div className="w-2/5 p-8 mr-8 mt-8 h-4/5">
         <div className="flex justify-end">
           <span className="text-h4 font-bold">{year}/</span>
           <span className="text-h4 font-bold">{month}/</span>

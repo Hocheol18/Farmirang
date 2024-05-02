@@ -13,10 +13,10 @@ export default function RootLayout({
   const [current, setCurrent] = useState<boolean>(true)
   return (
     <div className="flex">
-      <div className="relative flex h-[calc(100vh-6rem)] w-full max-w-[18rem] flex-col rounded-xl bg-white bg-clip-border p-4 border-r border-gray-300">
+      <div className="relative flex h-[calc(100vh-6rem)] w-[17%] flex-col rounded-xl bg-white bg-clip-border p-4 border-r border-gray-300">
         <Sidebar current={current} setCurrent={setCurrent} />
       </div>
-      <div className="flex-1">
+      <div className="w-[83%]">
         {current ? <Calendar /> : <CalendarDate />}
       </div>
     </div>
