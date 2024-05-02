@@ -10,15 +10,18 @@ import { CiSearch } from "react-icons/ci";
 import dot from "../../../../public/icons/dot.svg";
 import Image from "next/image";
 
-export default function Sidebar() {
+interface Props {
+  current : boolean
+  setCurrent : (current : boolean) => void
+}
+
+export default function Sidebar({current, setCurrent} : Props) {
   const router = useRouter();
   const params = useParams<{ id: string; date: string }>();
 
   function classNames(...classes: Array<string>) {
     return classes.filter(Boolean).join(" ");
   }
-
-  const [current, setCurrent] = useState<boolean>(true);
 
   const [navigation, setNavigation] = useState([
     {
@@ -86,7 +89,7 @@ export default function Sidebar() {
               </div>
               <span className="font-extrabold text-base">밭 목록</span>
               <div className="grid ml-auto place-items-center justify-self-end">
-                <div className="relative grid items-center px-2 py-1rounded-full select-none whitespace-nowrap">
+                <div className="relative grid items-center py-1rounded-full select-none whitespace-nowrap">
                   <GoPlus className="h-6 w-6 cursor-pointer" />
                 </div>
               </div>
@@ -94,7 +97,7 @@ export default function Sidebar() {
             {farms.map((idx, item) => (
               <div
                 key={idx}
-                className="flex items-center w-full p-3 leading-tight rounded-lg outline-none text-start space-x-32"
+                className="flex items-center w-full p-3 leading-tight rounded-lg outline-none text-start space-x-28"
               >
                 <div className="flex space-x-0">
                   <div className="grid mr-4 place-items-center">
