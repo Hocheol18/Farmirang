@@ -71,15 +71,15 @@ const DatePicker = () => {
 
   return (
     <div className="container mx-auto py-2">
-      <div className="mb-5 w-80">
+      <div className="w-80">
         <div className="relative">
           <input
             type="text"
             readOnly
             value={datepickerValue}
             onClick={() => setShowDatepicker(!showDatepicker)}
-            className="w-full pl-4 pr-10 py-3 border border-black-100 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-black-100 font-medium"
-            placeholder="날짜를 선택해주세요"
+            className="w-full pl-4 pr-10 py-3 border border-gray-400 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-black-100 font-medium"
+            
           />
 
           <div

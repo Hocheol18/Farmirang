@@ -10,22 +10,24 @@ function classNames(...classes: Array<string>) {
 }
 
 interface Props {
+  labelcss : string;
   topScript: string;
   items: EnrollSelectMenu[];
+  bordercss : string;
 }
 
-export default function SelectMenu({ topScript, items }: Props) {
-  const [selected, setSelected] = useState(items[3]);
+export default function SelectMenu({ topScript, items, labelcss, bordercss } : Props) {
+  const [selected, setSelected] = useState(items[0]);
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-h4 text-black-100">
+          <Listbox.Label className={labelcss}>
             {topScript}
           </Listbox.Label>
           <div className="relative mt-2">
-            <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6">
+            <Listbox.Button className={`relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black-100 shadow-sm ring-1 ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 h-[2.8rem] ${bordercss}`}>
               <span className="flex items-center">
                 <span className="ml-3 block truncate">{selected.name}</span>
               </span>
