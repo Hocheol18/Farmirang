@@ -11,7 +11,7 @@ const GuidlineBox = () => {
 
   return (
     // 가이드라인박스 전체!
-    <div className="border-2 rounded-[25px] bg-gray-100 flex flex-col items-center w-full mx-[10%] justify-center gap-5">
+    <div className="border-2 rounded-[25px] bg-gray-100 flex flex-col items-center w-full mx-[10%] justify-center gap-5 shadow shadow-md">
       {/* 가이드라인 사진 넣을 부분임 */}
       <GuidlineContent />
       {/* 버튼들 */}
