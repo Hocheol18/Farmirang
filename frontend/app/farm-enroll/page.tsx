@@ -14,6 +14,8 @@ interface Props {
 }
 
 export default function FarmEnroll() {
+  const [direction, setDirection] = useState<number>(1);
+  const [name, setName] = useState<string>("");
   const people = [
     {
       id: 1,
@@ -62,9 +64,9 @@ export default function FarmEnroll() {
     townAddress: "",
   });
 
-  const submitFunction = () => {
-    console.log("good")
-  }
+  const handleDirectionChange = (value: number) => {
+    setDirection(value);
+  };
 
   return (
     <>
@@ -88,12 +90,14 @@ export default function FarmEnroll() {
                   }
                   placeholder={"밭 이름을 정해주세요"}
                   type={"text"}
-                  id={"name"}
-                  name={"name"}
+                  value={name}
+                  onChange={setName}
                 />
               </div>
               <div className="col-span-full mt-8">
                 <SelectMenu
+                  value={direction}
+                  onChange={handleDirectionChange}
                   labelcss={"text-h4 text-black-100"}
                   topScript={"꾸민 텃밭 목록"}
                   items={people}
@@ -119,6 +123,8 @@ export default function FarmEnroll() {
                   </div>
                   <div className="w-1/3">
                     <SelectMenu
+                      value={direction}
+                      onChange={handleDirectionChange}
                       labelcss={"text-h4 text-black-100"}
                       topScript={""}
                       items={people}
@@ -204,11 +210,14 @@ export default function FarmEnroll() {
         </div>
       </div>
       <div className="flex justify-center mt-[10rem] pb-[13rem]">
-        <Button text="확인" bgStyles="bg-green-400 w-32" textStyles="text-white-100" handleClick={submitFunction} />
+        <Button
+          text="확인"
+          bgStyles="bg-green-400 w-32"
+          textStyles="text-white-100"
+          handleClick={() => {}}
+        />
       </div>
-      <div>
-        
-      </div>
+      <div></div>
     </>
   );
 }

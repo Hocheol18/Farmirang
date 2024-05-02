@@ -26,16 +26,16 @@ const DatePicker = () => {
   const [noOfDays, setNoOfDays] = useState([]);
   const [blankDays, setBlankDays] = useState([]);
 
-  const dateToStr = (date : any) => {
-    var week = new Array('일', '월', '화', '수', '목', '금', '토');
-  
+  const dateToStr = (date: any) => {
+    var week = new Array("일", "월", "화", "수", "목", "금", "토");
+
     var year = date.getFullYear();
-    var month = date.getMonth()+1;
+    var month = date.getMonth() + 1;
     var day = date.getDate();
     var dayName = week[date.getDay()];
-  
-    return year+'년 '+month+'월 '+day+'일 '+dayName+'요일 ';
-  }
+
+    return year + "년 " + month + "월 " + day + "일 " + dayName + "요일 ";
+  };
 
   useEffect(() => {
     function initDate() {
@@ -71,7 +71,7 @@ const DatePicker = () => {
 
   return (
     <div className="container mx-auto py-2">
-      <div className="w-80">
+      <div className="w-full">
         <div className="relative">
           <input
             type="text"
@@ -79,7 +79,6 @@ const DatePicker = () => {
             value={datepickerValue}
             onClick={() => setShowDatepicker(!showDatepicker)}
             className="w-full pl-4 pr-10 py-3 border border-gray-400 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-black-100 font-medium"
-            
           />
 
           <div
@@ -102,7 +101,7 @@ const DatePicker = () => {
           </div>
 
           {showDatepicker && (
-            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-80 border border-gray-400">
+            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400">
               <div className="flex justify-between items-center mb-2 ml-4">
                 <div>
                   <span className="text-lg font-bold text-black-100">
@@ -159,7 +158,7 @@ const DatePicker = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap mb-3 mx-1">
+              <div className="flex flex-wrap mb-3 mx-1 mt-6">
                 {DAYS.map((day, index) => (
                   <div key={index} style={{ width: "14.26%" }} className="px-1">
                     <div className="text-black-100 p-1 font-medium text-center text-base">
@@ -177,7 +176,10 @@ const DatePicker = () => {
                   ></div>
                 ))}
                 {noOfDays.map((date, index) => (
-                  <div key={index} className="flex justify-center px-1 mb-3 mt-3 w-[14.28%] ">
+                  <div
+                    key={index}
+                    className="flex justify-center px-1 mb-3 mt-3 w-[14.28%] "
+                  >
                     <div
                       onClick={() => getDateValue(date)}
                       className={`flex flex-col justify-center cursor-pointer text-center text-base leading-none rounded-full leading-loose transition ease-in-out duration-100 h-8 w-8 ${
@@ -186,7 +188,6 @@ const DatePicker = () => {
                           : "text-gray-500 hover:bg-green-200"
                       }`}
                     >
-                        
                       {date}
                     </div>
                   </div>
