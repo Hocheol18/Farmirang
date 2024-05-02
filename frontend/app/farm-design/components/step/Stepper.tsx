@@ -2,7 +2,7 @@ import Step from "./Step";
 import StepName from "./StepName";
 
 const Stepper = () => {
-  const nowStep: number = 2; // 현재 단계
+  const nowStep: number = 1; // 현재 단계
 
   // 단계의 제목과 내용을 배열로 관리
   const stepsDetails = [
