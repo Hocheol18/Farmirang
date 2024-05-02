@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
+@Builder
+@Schema(name = "JwtValidateTokenResponseDto", description = "JWT 토큰 조회 응답")
 public record JwtValidateTokenResponseDto(
 	@NotBlank
 	@Schema(description = "사용자 ID", example = "1")

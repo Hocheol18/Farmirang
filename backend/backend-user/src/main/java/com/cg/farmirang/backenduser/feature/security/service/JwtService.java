@@ -1,6 +1,5 @@
 package com.cg.farmirang.backenduser.feature.security.service;
 
-import java.util.Map;
 
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtCreateTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
@@ -18,4 +17,6 @@ public interface JwtService {
 	JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto);
 	JwtCreateTokenResponseDto create(JwtCreateTokenRequestDto dto);
 	Claims getClaims(String token, String key) throws ExpiredJwtException;
+	JwtValidateTokenResponseDto validateAccessToken(String accessToken);
+	JwtValidateTokenResponseDto validateRefreshToken(String refreshToken, String deviceId);
 }

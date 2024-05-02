@@ -1,7 +1,7 @@
 package com.cg.farmirang.backenduser.feature.security.service;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,14 @@ import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequest
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtCreateTokenResponseDto;
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtValidateTokenResponseDto;
+import com.cg.farmirang.backenduser.feature.security.entity.RedisTokenEntity;
 import com.cg.farmirang.backenduser.feature.security.repository.RedisTokenRepository;
+import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
 import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.RequiredTypeException;
@@ -52,24 +55,43 @@ public class JwtServiceImpl implements JwtService{
 		// 토큰 생성
 		var token = create(dto);
 		// redis entity 생성
-
+		var entity = RedisTokenEntity.builder()
+			.id(dto.deviceId())
+			.memberId(dto.memberId())
+			.refreshToken(token.refreshToken())
+			.build();
 		// redis에 저장
-
+		redis.save(entity);
 		// 반환
-		return null;
+		return token;
 	}
 
 	/**
 	 * 토큰 확인
 	 * 액세스 토큰인 경우 키로 파싱, 리프레시 토큰인 경우 device-id로 redis에서 탐색
-	 * @param dto 토큰 확인 요청 정보(액세스 토큰, 리프레시 토큰, 기기 구분 번호)
+	 * @param dto 토큰 확인 요청 정보(액세스 토큰 or 리프레시 토큰, 기기 구분 번호)
 	 * @return 액세스 토큰인 경우 토큰 정보(사용자 ID, 닉네임, 권한, 기기 구분 번호)
 	 *             리프레시 토큰인 경우 빈 객체
 	 *             토큰이 유효하지 않은 경우 null
 	 * */
 	@Override
 	public JwtValidateTokenResponseDto validateToken(JwtTokenRequestDto dto) {
-		return null;
+		var accessToken = dto.accessToken();
+		if(!Objects.isNull(accessToken)) {
+			var split = accessToken.split(" ");
+			if(split.length != 2 || !split[0].equalsIgnoreCase("Bearer")) {
+				throw new BusinessExceptionHandler("지원하지 않는 토큰 형식입니다.", ErrorCode.UNSUPPORTED_TOKEN_ERROR);
+			}
+			return validateAccessToken(split[1]);
+		}
+		// 액세스 토큰이 없는 경우 리프레시 토큰 검증
+		var refreshToken = dto.refreshToken();
+		var deviceId = dto.deviceId();
+		if(Objects.isNull(refreshToken) || Objects.isNull(deviceId)) {
+			log.error("JWT-Service-validateToken-NullTokenError");
+			throw new BusinessExceptionHandler("요청한 값이 없습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
+		}
+		return validateRefreshToken(refreshToken, deviceId);
 	}
 
 	/**
@@ -80,7 +102,14 @@ public class JwtServiceImpl implements JwtService{
 	@Override
 	@Transactional
 	public JwtBooleanResponseDto revokeToken(JwtTokenRequestDto dto) {
-		return null;
+		var deviceId = dto.deviceId();
+		var result = validateToken(dto);
+		if(result == null || Objects.isNull(dto.deviceId())) {
+			log.error("JWT-Service-revokeToken-NullTokenError");
+			throw new BusinessExceptionHandler("값이 유효하지 않습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
+		}
+		redis.deleteById(deviceId);
+		return JwtBooleanResponseDto.builder().result(true).build();
 	}
 
 	/**
@@ -90,7 +119,40 @@ public class JwtServiceImpl implements JwtService{
 	 * */
 	@Override
 	public JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto) {
-		return null;
+		// validate token
+		var result = validateToken(dto);
+		if(result == null) {
+			log.error("JWT-Service-reissueToken-NullTokenError");
+			throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
+		}
+		// parsing token to get member info
+		Claims claims = null;
+		try {
+			var accessToken = dto.accessToken().split(" ")[1];
+			claims = getClaims(accessToken, secretKey);
+		} catch (ExpiredJwtException e) {
+			claims = e.getClaims();
+		} catch (Exception e) {
+			log.error("JWT-Service-reissueToken-Exception", e);
+throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
+		}
+		// create new token
+		var token = create(JwtCreateTokenRequestDto.builder()
+			.memberId(claims.get("id", Double.class).intValue())
+			.nickname(claims.get("nickname", String.class))
+			.role(MemberRole.valueOf(claims.get("role", String.class)))
+			.deviceId(claims.get("device_id", String.class))
+			.build());
+		// update redis
+		var entity = redis.findById(dto.deviceId()).orElse(null);
+		try {
+			entity.setRefreshToken(token.refreshToken());
+			redis.save(entity);
+		} catch (NullPointerException e) {
+			log.error("JWT-Service-reissueToken-NullPointerException", e);
+			throw new BusinessExceptionHandler("토큰 저장 오류", ErrorCode.INTERNAL_SERVER_ERROR);
+		}
+		return token;
 	}
 
 
@@ -168,4 +230,35 @@ public class JwtServiceImpl implements JwtService{
 			throw new BusinessExceptionHandler("토큰 변환에 실패했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override
+	public JwtValidateTokenResponseDto validateAccessToken(String accessToken) {
+		Claims claims = null;
+		try {
+			// 액세스 토큰 파싱
+			claims = getClaims(accessToken, secretKey);
+			return JwtValidateTokenResponseDto.builder()
+				.memberId(claims.get("id", Double.class).intValue())
+				.nickname(claims.get("nickname", String.class))
+				.role(MemberRole.valueOf(claims.get("role", String.class)))
+				.deviceId(claims.get("device_id", String.class))
+				.build();
+		} catch (ExpiredJwtException e) {
+			log.error("JWT-Service-validateToken-ExpiredJwtException", e);
+			throw new BusinessExceptionHandler("토큰이 만료되었습니다", ErrorCode.EXPIRED_TOKEN_ERROR);
+		} catch (Exception e) {
+			log.error("JWT-Service-validateToken-Exception", e);
+			throw new BusinessExceptionHandler("적절하지 않은 토큰입니다", ErrorCode.WRONG_TOKEN_ERROR);
+		}
+	}
+
+	@Override
+	public JwtValidateTokenResponseDto validateRefreshToken(String refreshToken, String deviceId) {
+		var result = redis.findById(deviceId).orElse(null);
+		if(result == null) return null;
+		// 리프레시 토큰이 레디스에 있다면 빈 객체 반환
+		else if(result.getRefreshToken().equals(refreshToken)) return JwtValidateTokenResponseDto.builder().build();
+		return null;
+	}
+
 }
