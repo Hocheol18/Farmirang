@@ -2,14 +2,14 @@ package com.cg.farmirang.diary.feature.diary.entity;
 
 import java.time.LocalDate;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -23,29 +23,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "diary_total")
-public class DiaryTotal {
+@Table(name = "diary")
+public class Diary {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "diary_total_id")
+	@Column(name = "diary_id")
 	private Long id;
 
-	@Column(name = "weather")
-	private String weather;
+	@ManyToOne
+	@JoinColumn(name = "field_id")
+	Field field;
 
-	@Column(name = "weather_icon")
-	private String weatherIcon;
+	@OneToOne
+	@JoinColumn(name = "diary_auto_id")
+	DiaryAuto diaryAuto;
 
-	@Column(name = "temperature")
-	private String temperature;
+	@OneToOne
+	@JoinColumn(name = "diary_manual_id")
+	DiaryManual diaryManual;
 
-	@Column(name = "humidity")
-	private String humidity;
+	@OneToOne
+	@JoinColumn(name = "diary_total_id")
+	DiaryTotal diaryTotal;
 
-	@Column(name = "field_humidity")
-	private String fieldHumidity;
-
-	@CreatedDate
-	@Column(updatable = false)
-	private LocalDate createAt;
+	@Column(name = "diary_at")
+	LocalDate diaryAt;
 }

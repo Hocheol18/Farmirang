@@ -1,5 +1,6 @@
 package com.cg.farmirang.diary.feature.diary.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -31,11 +32,7 @@ public class DiaryManual {
 	@Column(name = "diary_manual_id")
 	private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "field_id")
-	private Field field;
-
-	@Column(name = "content")
+	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
 
 	@Column(name = "photo")
@@ -43,7 +40,7 @@ public class DiaryManual {
 
 	@CreatedDate
 	@Column(updatable = false)
-	private LocalDateTime createAt;
+	private LocalDate createAt;
 
 	@LastModifiedDate
 	private LocalDateTime modifiedAt;

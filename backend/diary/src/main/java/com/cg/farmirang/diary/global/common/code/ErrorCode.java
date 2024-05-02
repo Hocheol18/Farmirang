@@ -63,6 +63,14 @@ public enum ErrorCode {
     // 서버가 처리 할 방법을 모르는 경우 발생
     INTERNAL_SERVER_ERROR(500, "G999", "Internal Server Error Exception"),
 
+    FAIL_FILE_UPLOAD(500,"F001","Fail File Upload Exception"),
+
+    FAIL_FILE_DELETE(500,"F002","Fail File Delete Exception"),
+
+    NOT_IMAGE_EXTENSION(500, "F003", "Image Extension Exception" ),
+
+    EMPTY_IMAGE(500, "F004", "Fail Find Image Exception" ),
+
     /**
      * ******************************* Custom Error CodeList ***************************************
      */
