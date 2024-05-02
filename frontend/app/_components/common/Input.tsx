@@ -1,12 +1,14 @@
+`use client`;
+
 interface Props {
   labelcss: string;
   inputcss: string;
   placeholder: string;
   type: string;
-  id: string;
-  name: string;
+  value: any;
   topcss: string;
   labeltext: string;
+  onChange: (value: any) => void;
 }
 
 export default function Input({
@@ -16,21 +18,21 @@ export default function Input({
   inputcss,
   placeholder,
   type,
-  id,
-  name,
+  value,
+  onChange,
 }: Props) {
   return (
     <div className={topcss}>
       <div className={labelcss}>{labeltext}</div>
 
       <div className="relative mt-2">
-        <div className="flex rounded-md border border-green-300 w-full">
+        <div className="flex rounded-md border border-gray-300 w-full">
           <input
             type={type}
-            name={name}
-            id={id}
+            value={value}
             className={`focus:outline-none focus:ring-green-400 focus:ring-1 ${inputcss}`}
             placeholder={placeholder}
+            onChange={(e) => onChange(e.target.value)}
           />
         </div>
       </div>

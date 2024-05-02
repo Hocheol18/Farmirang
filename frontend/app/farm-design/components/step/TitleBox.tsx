@@ -7,6 +7,7 @@ interface Props {
   basicText2: string;
 }
 
+// 포인트 주는 타이틀 박스
 const TitleBox = ({ basicText1, pointText, basicText2 }: Props) => {
   return (
     <div className="flex">
