@@ -5,7 +5,7 @@ export default function FarmLayout({
 }>) {
   return (
     <div className="flex h-full w-full">
-      <div className="mx-auto my-10 w-full">{children}</div>
+      <div className="mx-auto my-7 w-full">{children}</div>
     </div>
   );
 }
