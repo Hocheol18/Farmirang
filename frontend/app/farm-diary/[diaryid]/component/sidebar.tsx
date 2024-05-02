@@ -9,13 +9,14 @@ import { RiFileList3Line } from "react-icons/ri";
 import { CiSearch } from "react-icons/ci";
 import dot from "../../../../public/icons/dot.svg";
 import Image from "next/image";
+import Character from "../../../../public/sidebar/sidebarCharacter.png"
 
 interface Props {
-  current : boolean
-  setCurrent : (current : boolean) => void
+  current: boolean;
+  setCurrent: (current: boolean) => void;
 }
 
-export default function Sidebar({current, setCurrent} : Props) {
+export default function Sidebar({ current, setCurrent }: Props) {
   const router = useRouter();
   const params = useParams<{ id: string; date: string }>();
 
@@ -94,29 +95,31 @@ export default function Sidebar({current, setCurrent} : Props) {
                 </div>
               </div>
             </div>
-            {farms.map((idx, item) => (
-              <div
-                key={idx}
-                className="flex items-center w-full p-3 leading-tight rounded-lg outline-none text-start space-x-28"
-              >
-                <div className="flex space-x-0">
-                  <div className="grid mr-4 place-items-center">
-                    <CiSearch className="w-6 h-6" />
+            
+              {farms.map((idx, item) => (
+                <div
+                  key={idx}
+                  className="flex w-full p-3 leading-tight rounded-lg outline-none text-start space-x-28 justify-between"
+                >
+                  <div className="flex space-x-0">
+                    <div className="grid mr-4">
+                      <CiSearch className="w-6 h-6" />
+                    </div>
+                    <div className="font-bold text-s place-content-center cursor-pointer">
+                      {farms[item]}
+                    </div>
                   </div>
-                  <div className="font-bold text-s place-content-center cursor-pointer">
-                    {farms[item]}
-                  </div>
-                </div>
 
-                <Image
-                  src={dot}
-                  height={20}
-                  width={20}
-                  alt="dot"
-                  className="cursor-pointer"
-                />
-              </div>
-            ))}
+                  <Image
+                    src={dot}
+                    height={20}
+                    width={20}
+                    alt="dot"
+                    className="cursor-pointer"
+                  />
+                </div>
+              ))}
+            
           </div>
 
           <div className="flex place-content-center">
@@ -156,6 +159,9 @@ export default function Sidebar({current, setCurrent} : Props) {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="flex justify-center mb-4">
+            <Image src={Character} alt="" width={200} height={300}></Image>
           </div>
         </div>
       )}
