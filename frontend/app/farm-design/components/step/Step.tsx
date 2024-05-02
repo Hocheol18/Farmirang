@@ -1,49 +1,79 @@
+import Step1Gray from "../../../../public/icons/step1-icon-gray.png";
+import Step2Gray from "../../../../public/icons/step2-icon-gray.png";
+import Step3Gray from "../../../../public/icons/step3-icon-gray.png";
+import Step4Gray from "../../../../public/icons/step4-icon-gray.png";
+import Step1Color from "../../../../public/icons/step1-icon-color.png";
+import Step2Color from "../../../../public/icons/step2-icon-color.png";
+import Step3Color from "../../../../public/icons/step3-icon-color.png";
+import Step4Color from "../../../../public/icons/step4-icon-color.png";
+
+import { FaCheck } from "react-icons/fa6";
+import Image, { StaticImageData } from "next/image";
+
 interface StepProps {
   stepNumber: number;
-  title: string;
-  isActive: boolean;
-  isFirst?: boolean;
+  isFinish: boolean;
+  isNow: boolean;
 }
 
-const Step = ({ stepNumber, title, isActive, isFirst }: StepProps) => {
+const Step = ({ stepNumber, isFinish, isNow }: StepProps) => {
+  // 단계별 이미지 선택
+  const grayImages: StaticImageData[] = [
+    Step1Gray,
+    Step2Gray,
+    Step3Gray,
+    Step4Gray,
+  ];
+  const colorImages: StaticImageData[] = [
+    Step1Color,
+    Step2Color,
+    Step3Color,
+    Step4Color,
+  ];
+
+  // 현재 단계에 맞는 이미지 결정
+  const currentGrayImage: StaticImageData = grayImages[stepNumber - 1];
+  const currentColorImage: StaticImageData = colorImages[stepNumber - 1];
+
   return (
-    <div className="flex h-full">
-      <div className="flex flex-col items-center">
-        {/* 첫번째가 아닐 경우에만 위에 작대기 긋고, 첫번째면 없음 */}
-        {!isFirst && (
-          <div
-            className={`h-full w-1 mb-4 ${
-              isActive ? "bg-green-500" : "bg-gray-300"
-            }`}
-          ></div>
-        )}
+    <div
+      className={`flex flex-col ${
+        stepNumber === 1 ? "" : "h-full"
+      } items-center `}
+    >
+      {/* 첫번째가 아닐 경우에만 위에 작대기 긋고, 첫번째면 없음 */}
+      {!(stepNumber === 1) && (
         <div
-          className={`w-8 h-8 flex items-center justify-center rounded-full ${
-            isActive
-              ? "bg-green-500 text-white"
-              : "border-2 border-gray-300 text-gray-400"
-          } mb-2`}
-        >
-          {isActive ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full fill-white"
-              viewBox="0 0 24 24"
-            >
-              <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
-            </svg>
-          ) : (
-            <span>{stepNumber}</span>
-          )}
-        </div>
-      </div>
-      {/* <h6
-        className={`text-base font-bold ${
-          isActive ? "text-green-500" : "text-gray-400"
-        }`}
+          className={`flex-1 w-1 mb-2 ${
+            isFinish ? "bg-green-500" : "bg-gray-350"
+          }`}
+        ></div>
+      )}
+      <div
+        className={`w-10 h-10 flex items-center justify-center rounded-full p-1 ${
+          isFinish
+            ? isNow
+              ? "bg-white-100 border-2 border-green-500"
+              : "bg-green-500 text-white"
+            : "border-2 border-gray-350 text-gray-350 bg-white-100"
+        } mb-2`}
       >
-        {title}
-      </h6> */}
+        {isFinish ? (
+          isNow ? (
+            <>
+              <Image src={currentColorImage} alt={`Step ${stepNumber}`} />
+            </>
+          ) : (
+            <>
+              <FaCheck color="white" />
+            </>
+          )
+        ) : (
+          <>
+            <Image src={currentGrayImage} alt={`Step ${stepNumber}`} />
+          </>
+        )}
+      </div>
     </div>
   );
 };
