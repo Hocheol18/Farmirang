@@ -10,26 +10,41 @@ function classNames(...classes: Array<string>) {
 }
 
 interface Props {
-  labelcss : string;
+  labelcss: string;
   topScript: string;
   items: EnrollSelectMenu[];
-  bordercss : string;
+  bordercss: string;
+  topcss?: string;
+  value: number;
+  onChange: (value: any) => void;
 }
 
-export default function SelectMenu({ topScript, items, labelcss, bordercss } : Props) {
-  const [selected, setSelected] = useState(items[0]);
+export default function SelectMenu({
+  topScript,
+  items,
+  labelcss,
+  bordercss,
+  topcss,
+  value,
+  onChange,
+}: Props) {
+  const handleChange = (selectedItem: EnrollSelectMenu) => {
+    onChange(selectedItem.id);
+  };
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={items[value - 1]} onChange={handleChange}>
       {({ open }) => (
-        <>
-          <Listbox.Label className={labelcss}>
-            {topScript}
-          </Listbox.Label>
+        <div className={topcss}>
+          <Listbox.Label className={labelcss}>{topScript}</Listbox.Label>
           <div className="relative mt-2">
-            <Listbox.Button className={`relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black-100 shadow-sm ring-1 ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 h-[2.8rem] ${bordercss}`}>
+            <Listbox.Button
+              className={`relative w-full cursor-pointer rounded-lg bg-white-100 py-1 pl-3 pr-10 text-left text-black-100 shadow-sm ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 border ${bordercss}`}
+            >
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{selected.name}</span>
+                <span className="ml-3 block truncate">
+                  {items[value - 1].name}
+                </span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                 <ChevronDownIcon
@@ -46,7 +61,7 @@ export default function SelectMenu({ topScript, items, labelcss, bordercss } : P
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white-100 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white-100 py-1 text-base shadow-lg border border-gray-300 ring-opacity-5 focus:outline-none sm:text-sm">
                 {items.map((item) => (
                   <Listbox.Option
                     key={item.id}
@@ -88,7 +103,7 @@ export default function SelectMenu({ topScript, items, labelcss, bordercss } : P
               </Listbox.Options>
             </Transition>
           </div>
-        </>
+        </div>
       )}
     </Listbox>
   );
