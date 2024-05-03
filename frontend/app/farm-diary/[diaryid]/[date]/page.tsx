@@ -35,9 +35,12 @@ export default function CalendarDate() {
             </div>
           </div>
           <div className="overflow-x-auto flex flex-1 mt-2 scrollbar-hide w-10/12">
-            {maplist.map((item) => (
+            {maplist.map((item, idx) => (
               <>
-                <div className="border border-gray-300 shadow-lg rounded-xl w-[13rem] flex-shrink-0 mr-6 bg-green-100"></div>
+                <div
+                  key={idx}
+                  className="border border-gray-300 shadow-lg rounded-xl w-[13rem] flex-shrink-0 mr-6 bg-green-100"
+                ></div>
               </>
             ))}
           </div>
