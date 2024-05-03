@@ -22,7 +22,7 @@ public enum SuccessCode {
     // 삽입 성공 코드 (HTTP Response: 201 Created)
     INSERT_SUCCESS(201, "201", "삽입 성공"),
     // 수정 성공 코드 (HTTP Response: 201 Created)
-    UPDATE_SUCCESS(204, "204", "수정 성공"),
+    UPDATE_SUCCESS(201, "204", "수정 성공"),
     // 카프카 메시지 전송 성공 코드
     SEND_MESSAGE_SUCCESS(205, "205", "메시지 전송 성공");
     ; // End

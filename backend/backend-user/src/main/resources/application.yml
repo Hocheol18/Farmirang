@@ -4,6 +4,7 @@ spring:
   profiles:
     include: secret
 
+
   jwt:
     secret: mTdgMIUk22VnKmkPntuSyW81eXjR86MgHKRAzjwE62UaZn4O1dvJYllqSGYXxlQj
     access-token-validity-in-seconds: 86400  # 1 day
@@ -31,3 +32,5 @@ com:
 
 server:
   port: 8080
+  servlet:
+    context-path: /api
