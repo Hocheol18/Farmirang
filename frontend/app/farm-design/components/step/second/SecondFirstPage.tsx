@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CropsBox from "../CropsBox";
 
 interface Crops {
@@ -29,25 +29,44 @@ const SecondFirstPage = () => {
   ];
 
   // cropsList: 작물 배열
-  const cropsList: Crops[] = [];
+  const [cropsList, setCropsList] = useState<Crops[]>([]);
 
-  for (let i = 1; i <= 16; i++) {
-    cropsList.push({
-      id: i,
-      name: cropsName[i - 1],
-      isClick: false,
-      isRecommend: false,
+  // 처음 렌더링 할때 작물 배열에 넣기
+  useEffect(() => {
+    const initialCropsList: Crops[] = [];
+    for (let i = 1; i <= 16; i++) {
+      initialCropsList.push({
+        id: i,
+        name: cropsName[i - 1],
+        isClick: false,
+        isRecommend: false,
+      });
+    }
+    setCropsList(initialCropsList);
+  }, []);
+
+  //   작물 컴포넌트 클릭시 isClick 변환
+  const handleClick = (id: number) => {
+    setCropsList((prevCropsList) => {
+      const updatedCropsList = [...prevCropsList];
+      updatedCropsList[id - 1] = {
+        ...updatedCropsList[id - 1],
+        isClick: !updatedCropsList[id - 1].isClick,
+      };
+      return updatedCropsList;
     });
-  }
+  };
 
   return (
-    <div className="w-full h-full border border-black-100 ">
+    <div className="overflow-y-auto w-full h-full border border-black-100">
       {cropsList.map((crops, index) => (
         <CropsBox
+          key={index}
           id={crops.id}
           name={crops.name}
           isClick={crops.isClick}
           isRecommend={crops.isRecommend}
+          handleClick={handleClick}
         />
       ))}
     </div>
