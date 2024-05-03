@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import SelectMenu from "@/app/_components/common/SelectMenus";
 import { useState } from "react";
@@ -72,6 +73,7 @@ const FirstInputBox = () => {
   const topcss = "shrink-0";
   const labelcss = "font-semibold text-black-100 text-sm";
   const inputCSS = `rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
+  const xyInputCSS = `w-20 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
   // 이랑/고랑의 방향 - 가로, 세로
   const directionArr = [
@@ -91,11 +93,21 @@ const FirstInputBox = () => {
     monthArr.push({ id: i, name: `${i}월` });
   }
 
+  // x, y 좌표
+
+  const [coordinateArr, setCoordinateArr] = useState([
+    { x: 0, y: 0 },
+    { x: 0, y: 50 },
+  ]);
+
+  // 이 함수 쓴 애들 다 바꿔야 함!!!!!!! (임시로 그냥 한 거라...)
+  const handleCoordinateArrChange = () => {};
+
   return (
     // 전체
-    <div className="flex flex-col h-full gap-7">
+    <div className="flex flex-col h-full gap-7 mt-5">
       {/* input 5개 모여 있는 div */}
-      <div className="flex justify-between mx-[5%] items-center">
+      <div className="flex justify-between items-center">
         {inputArr.map((item, index) => (
           <div key={index}>
             <Input
@@ -130,11 +142,73 @@ const FirstInputBox = () => {
       {/* 좌표 그림판 및 좌표 표 (+버튼) div */}
       <div className=" flex h-full">
         {/* 좌표 그림판... 어케함? */}
-        <div className="border border-green-200  aspect-square rounded-[25px] bg-white-100  shadow shadow-md ">
+        {/* <div className="border border-green-200  aspect-square rounded-[25px] bg-white-100  shadow shadow-md ">
+          100x100칸
+        </div> */}
+        <div className=" w-[70%] mr-10 rounded-[25px] bg-white-100  shadow shadow-md ">
           100x100칸
         </div>
-        {/* 다른 거 있는 곳 */}
-        <div className=" border border-red-200"></div>
+        {/* 텃밭 좌표+button 있는 곳 */}
+        <div className="flex flex-col flex-1">
+          {/* 텃밭 좌표 */}
+          <div className="flex flex-col flex-1 items-center justify-center">
+            <div className="font-extrabold mb-10">텃밭 좌표</div>
+            {/* x, y 좌표 인풋 - 동적 컴포넌트는 따로 만들어야 함 */}
+            <div className="flex items-center justify-center text-sm">
+              <div className="flex items-center gap-3 mr-5">
+                <div className="font-bold">x </div>
+                {/* value, onChange 바꿔야 함 */}
+                <Input
+                  topcss={topcss}
+                  labeltext={""}
+                  labelcss={""}
+                  inputcss={xyInputCSS}
+                  placeholder={""}
+                  type={"number"}
+                  value={""}
+                  onChange={handleCoordinateArrChange}
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="font-bold">y </div>
+                {/* value, onChange 바꿔야 함 */}
+                <Input
+                  topcss={topcss}
+                  labeltext={""}
+                  labelcss={labelcss}
+                  inputcss={xyInputCSS}
+                  placeholder={""}
+                  type={"number"}
+                  value={""}
+                  onChange={handleCoordinateArrChange}
+                />
+              </div>
+            </div>
+
+            <Button
+              text="+"
+              bgStyles="mt-5 w-56 bg-green-300"
+              textStyles="text-white-100 font-bold"
+              handleClick={handleCoordinateArrChange}
+            />
+          </div>
+          {/* 텃밭 좌표 끝 */}
+          <div className="flex justify-center gap-5 my-3">
+            <Button
+              text="추천 받기"
+              bgStyles="bg-green-400"
+              textStyles="text-white-100 font-extrabold"
+              handleClick={handleCoordinateArrChange}
+            />
+            <Button
+              text="커스텀하기"
+              bgStyles="bg-white-100"
+              textStyles="text-green-500 font-extrabold"
+              handleClick={handleCoordinateArrChange}
+            />
+          </div>
+        </div>
+        {/* 텃밭 + 버튼 있는 곳 */}
       </div>
     </div>
   );

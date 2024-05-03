@@ -30,7 +30,7 @@ export default function Input({
           <input
             type={type}
             value={value}
-            className={`focus:outline-none w-32 focus:ring-green-400 focus:ring-1 ${inputcss}`}
+            className={`focus:outline-none focus:ring-green-400 focus:ring-1 ${inputcss}`}
             placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
           />
