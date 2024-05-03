@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,8 @@ import com.google.gson.JsonParseException;
 import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
 import com.cg.farmirang.backenduser.global.common.response.ErrorResponse;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -180,7 +183,8 @@ public class GlobalExceptionHandler {
     /**
      * URI는 존재하지만 적절한 자원(html 등)을 찾을 수 없는 경우
      *
-     *
+     * @param ex NoResourceFoundException
+     * @return ResponseEntity<ErrorResponse>
      * */
     @ExceptionHandler(NoResourceFoundException.class)
     protected ResponseEntity<ErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
@@ -188,6 +192,40 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+
+    /**
+     * cookie 값이 없을 때
+     *
+     * @param ex MissingRequestCookieException
+     * @return ResponseEntity<ErrorResponse>
+     * */
+    @ExceptionHandler(MissingRequestCookieException.class)
+    protected ResponseEntity<ErrorResponse> handleMissingRequestCookieException(MissingRequestCookieException ex) {
+        log.error("MissingRequestCookieException", ex);
+        final ErrorResponse res = ErrorResponse.of(ErrorCode.NOT_VALID_HEADER_ERROR, ex.getMessage());
+        return ResponseEntity.status(ErrorCode.NOT_VALID_HEADER_ERROR.getStatus()).body(res);
+    }
+
+    /**
+     * jwt 키 오류
+     * @param ex SignatureException
+     * @return ResponseEntity<ErrorResponse>
+     * */
+    @ExceptionHandler(SignatureException.class)
+    protected ResponseEntity<ErrorResponse> handleSignatureException(SignatureException ex) {
+        log.error("SignatureException", ex);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.WRONG_TOKEN_ERROR, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    protected ResponseEntity<ErrorResponse> handleMalformedJwtException(MalformedJwtException ex) {
+        log.error("MalformedJwtException", ex);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.SECURITY_TOKEN_ERROR, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
 
     // ==================================================================================================================
 

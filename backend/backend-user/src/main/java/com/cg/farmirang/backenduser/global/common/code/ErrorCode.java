@@ -64,14 +64,12 @@ public enum ErrorCode {
     /**
      * ******************************* Custom Error CodeList ***************************************
      */
-    // Transaction Insert Error
-    INSERT_ERROR(200, "9999", "Insert Transaction Error Exception"),
-
-    // Transaction Update Error
-    UPDATE_ERROR(200, "9999", "Update Transaction Error Exception"),
-
-    // Transaction Delete Error
-    DELETE_ERROR(200, "9999", "Delete Transaction Error Exception"),
+    // JWT 토큰 에러
+    EXPIRED_TOKEN_ERROR(401, "B001", "Expired Token Exception"),
+    SECURITY_TOKEN_ERROR(401, "B002", "Security Token Exception"),
+    UNSUPPORTED_TOKEN_ERROR(401, "B003", "Unsupported Token Exception"),
+    WRONG_TOKEN_ERROR(401, "B004", "Wrong Token Exception"),
+    EXIST_TOKEN_ERROR(401, "B005", "Exist Token Exception"),
 
     ; // End
 

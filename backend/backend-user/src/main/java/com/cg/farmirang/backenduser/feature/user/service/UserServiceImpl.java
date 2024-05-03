@@ -13,6 +13,7 @@ import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDt
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserLoginResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserStringResponseDto;
 import com.cg.farmirang.backenduser.feature.user.entity.Member;
+import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.feature.user.entity.SocialLogin;
 import com.cg.farmirang.backenduser.feature.user.repository.MemberRepository;
 import com.cg.farmirang.backenduser.feature.user.repository.SocialLoginRepository;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService{
 		if(socialLogin == null) {
 			// start register
 			var nickname= randomNickname();
-			var member = Member.builder().nickname(nickname).profileImg(defaultProfile).build();
+			var member = Member.builder().nickname(nickname).profileImg(defaultProfile).role(MemberRole.MEMBER).build();
 			member = memberRepo.save(member);
 			socialLogin = socialRepo.save(SocialLogin.builder().member(member).provider(provider).sub(sub).build());
 		}

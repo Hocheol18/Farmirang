@@ -19,10 +19,10 @@ import org.springframework.util.Assert;
 
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
 
-import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Builder
+@ToString
 @NoArgsConstructor
 public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 	private Set<GrantedAuthority> authorities;

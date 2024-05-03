@@ -25,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/user")
-public class UserController {
+@RequestMapping("/api/v1/test")
+public class TestController {
 
 	private final OAuth2AuthorizedClientService authorizedClientService;
 
