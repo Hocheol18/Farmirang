@@ -118,6 +118,7 @@ public class JwtServiceImpl implements JwtService{
 	 * @return 갱신된 토큰 정보(accessToken, refreshToken, 만료시간, refresh 만료시간)
 	 * */
 	@Override
+	@Transactional
 	public JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto) {
 		// validate token
 		var result = validateToken(dto);

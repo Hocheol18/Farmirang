@@ -61,6 +61,7 @@ public class SecurityConfig {
 				new AntPathRequestMatcher("/v3/api-docs/**"),
 				new AntPathRequestMatcher("/login/oauth2/**"),
 				new AntPathRequestMatcher("/api/v1/user/**"),
+				new AntPathRequestMatcher("/v1/security/**"),
 				new AntPathRequestMatcher("/oauth2/**")
 			)
 			.permitAll()
@@ -73,6 +74,7 @@ public class SecurityConfig {
 		//TODO: 인가코드 받는 oauth2/** 경로 /api/v1/user/oauth2/**으로 수정하기
 		http.oauth2Login(
 			oauth2 -> oauth2
+				.loginPage("/v1/security/login")
 				.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler())
@@ -80,7 +82,7 @@ public class SecurityConfig {
 		//TODO: 쿠버네티스에 올리면 session id를 찾지 못해 에러 발생할 수 있음. 그러면 그냥 controller에 옮겨서 구현하기
 		http.logout(
 			logout -> logout
-				.logoutUrl("/api/v1/user/logout")
+				.logoutUrl("/v1/security/logout")
 				.addLogoutHandler(logoutHandler())
 		);
 		return http.build();
