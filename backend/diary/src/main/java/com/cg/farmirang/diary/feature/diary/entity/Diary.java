@@ -1,9 +1,11 @@
 package com.cg.farmirang.diary.feature.diary.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,19 +32,19 @@ public class Diary {
 	@Column(name = "diary_id")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "field_id")
 	Field field;
 
-	@OneToOne
+	@OneToMany(mappedBy = "diary_auto", fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_auto_id")
-	DiaryAuto diaryAuto;
+	List<DiaryAuto> diaryAuto;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_manual_id")
 	DiaryManual diaryManual;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_total_id")
 	DiaryTotal diaryTotal;
 

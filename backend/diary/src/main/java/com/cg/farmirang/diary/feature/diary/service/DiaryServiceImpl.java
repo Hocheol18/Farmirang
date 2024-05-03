@@ -13,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cg.farmirang.diary.feature.diary.dto.CalendarDto;
+import com.cg.farmirang.diary.feature.diary.dto.DiaryAutoDto;
 import com.cg.farmirang.diary.feature.diary.dto.request.CreateDiaryMRequest;
 import com.cg.farmirang.diary.feature.diary.dto.request.ModifyDiaryMRequest;
 import com.cg.farmirang.diary.feature.diary.dto.response.GetDiaryAResponse;
+import com.cg.farmirang.diary.feature.diary.dto.response.GetDiaryDetailResponse;
 import com.cg.farmirang.diary.feature.diary.dto.response.GetDiaryMResponse;
 import com.cg.farmirang.diary.feature.diary.dto.response.GetDiaryTotalResponse;
 import com.cg.farmirang.diary.feature.diary.dto.response.MakeCalendarResponse;
@@ -106,8 +108,13 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public GetDiaryAResponse selectDiaryAuto(Long diaryAId) {
-		return null;
+	public GetDiaryAResponse selectDiaryAuto(List<Long> diaryAIds) {
+		List<DiaryAuto> diaryAutos = diaryAutoRepository.findByIdIn(diaryAIds);
+		List<DiaryAutoDto> result = new ArrayList<>();
+		for (DiaryAuto diaryAuto : diaryAutos) {
+			result.add(DiaryAutoDto.builder().cropName(diaryAuto.getCropName()).content(diaryAuto.getContent()).build());
+		}
+		return GetDiaryAResponse.builder().result(result).build();
 	}
 
 	@Override
@@ -138,11 +145,9 @@ public class DiaryServiceImpl implements DiaryService {
 				if (startFilling && day <= daysInMonth) {
 					CalendarDto calendarDto = new CalendarDto();
 					if(diaryMap.containsKey(day)){
+						calendarDto.setDiaryId(diaryMap.get(day).getId());
 						calendarDto.setWeather(diaryMap.get(day).getDiaryTotal().getWeather());
 						calendarDto.setWeatherIcon(diaryMap.get(day).getDiaryTotal().getWeather());
-						calendarDto.setDiaryAutoId(diaryMap.get(day).getDiaryAuto().getId());
-						calendarDto.setDiaryManualId(diaryMap.get(day).getDiaryManual().getId());
-						calendarDto.setDiaryTotalId(diaryMap.get(day).getDiaryTotal().getId());
 					}
 					calendarDto.setDay(day++);
 					week.add(calendarDto);
@@ -155,7 +160,11 @@ public class DiaryServiceImpl implements DiaryService {
 				break; // 모든 날짜가 채워지면 종료
 			}
 		}
-
 		return MakeCalendarResponse.builder().result(monthDays).build();
+	}
+
+	@Override
+	public GetDiaryDetailResponse selectDiaryDetail(Long diaryId) {
+		return null;
 	}
 }

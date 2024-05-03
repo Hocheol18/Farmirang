@@ -9,4 +9,5 @@ import com.cg.farmirang.diary.feature.diary.entity.DiaryAuto;
 import com.cg.farmirang.diary.feature.diary.entity.DiaryTotal;
 
 public interface DiaryAutoRepository extends JpaRepository<DiaryAuto, Long> {
+	List<DiaryAuto> findByIdIn(List<Long> ids);
 }

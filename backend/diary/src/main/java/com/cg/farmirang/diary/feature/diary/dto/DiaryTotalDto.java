@@ -1,5 +1,6 @@
 package com.cg.farmirang.diary.feature.diary.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalendarDto {
-	private Long diaryId;
+public class DiaryTotalDto {
+	private Long id;
 	private String weather;
 	private String weatherIcon;
-	private Integer day;
+	private String temperature;
+	private String humidity;
+	private String fieldHumidity;
 }

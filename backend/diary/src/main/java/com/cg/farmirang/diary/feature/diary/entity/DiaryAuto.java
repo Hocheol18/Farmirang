@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -29,6 +30,13 @@ public class DiaryAuto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "diary_auto_id")
 	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name = "diary_id")
+	private Diary diary;
+
+	@Column(name = "crop_name")
+	private String cropName;
 
 	@Column(name = "content")
 	private String content;

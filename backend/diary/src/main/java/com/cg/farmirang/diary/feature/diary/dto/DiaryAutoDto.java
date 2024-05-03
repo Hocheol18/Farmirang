@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalendarDto {
-	private Long diaryId;
-	private String weather;
-	private String weatherIcon;
-	private Integer day;
+public class DiaryAutoDto {
+	private Long id;
+	private String cropName;
+	private String content;
 }

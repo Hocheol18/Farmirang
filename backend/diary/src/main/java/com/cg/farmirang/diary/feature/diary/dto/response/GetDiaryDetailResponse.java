@@ -3,6 +3,8 @@ package com.cg.farmirang.diary.feature.diary.dto.response;
 import java.util.List;
 
 import com.cg.farmirang.diary.feature.diary.dto.DiaryAutoDto;
+import com.cg.farmirang.diary.feature.diary.dto.DiaryManualDto;
+import com.cg.farmirang.diary.feature.diary.dto.DiaryTotalDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetDiaryAResponse {
-	List<DiaryAutoDto> result;
+public class GetDiaryDetailResponse {
+	List<DiaryAutoDto> diaryAutos;
+	DiaryManualDto diaryManual;
+	DiaryTotalDto diaryTotal;
 }
