@@ -11,7 +11,7 @@ interface Props {
 const TitleBox = ({ basicText1, pointText, basicText2 }: Props) => {
   return (
     <div className="flex">
-      <div className="flex flex-col w-fit-content relative border-2 border-blue-300 px-2 ">
+      <div className="flex flex-col w-fit-content relative px-2 ">
         {/* 타이틀 밑에 회색 밑줄 */}
         <div className="absolute w-full h-2 bottom-0 left-0 bg-gray-350" />
 
