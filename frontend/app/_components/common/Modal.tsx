@@ -1,0 +1,102 @@
+"use client";
+
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import Button from "./Button";
+
+interface Props {
+  // 버튼 텍스트
+  buttonText: string;
+  // 버튼 배경 스타일
+  buttonBgStyles: string;
+  // 버튼 텍스트 스타일
+  buttonTextStyles: string;
+  // 타이틀 텍스트
+  Title: string;
+  // 서브 타이틀 텍스트
+  subTitle: string;
+  // 내용 (컴포넌트로 넘겨도 됨)
+  contents: any;
+  // 서브타이틀 css
+  subTitlecss: string;
+  // 타이틀 css
+  Titlecss: string;
+}
+
+export default function MyModal({
+  buttonText,
+  buttonBgStyles,
+  buttonTextStyles,
+  Title,
+  subTitle,
+  contents,
+  subTitlecss,
+  Titlecss,
+}: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        text={buttonText}
+        bgStyles={buttonBgStyles}
+        textStyles={buttonTextStyles}
+        handleClick={() => setIsOpen(true)}
+      />
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsOpen(false)}
+        >
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-[28rem] transform border border-gray-400 overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className={`text-black-100 ${Titlecss}`}
+                  >
+                    {Title}
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className={`text-black-100 ${subTitlecss}`}>
+                      {subTitle}
+                    </p>
+                  </div>
+                  <div className="mt-6">{contents}</div>
+
+                  <div className="flex justify-end mt-10">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border shadow-lg border-transparent bg-green-100 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <div className="text-green-400 font-bold">취소</div>
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      onClick={() => {}}
+                    >
+                      <div className="text-white-100 font-bold">확인</div>
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
+  );
+}

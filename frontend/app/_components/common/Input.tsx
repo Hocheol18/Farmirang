@@ -26,11 +26,11 @@ export default function Input({
       <div className={labelcss}>{labeltext}</div>
 
       <div className="relative mt-2">
-        <div className="flex rounded-md border border-gray-300">
+        <div className="flex rounded-lg border border-gray-300">
           <input
             type={type}
             value={value}
-            className={`focus:outline-none w-32 focus:ring-green-400 focus:ring-1 ${inputcss}`}
+            className={`bg-transparent rounded-lg focus:outline-none w-full focus:ring-green-400 focus:ring-1 pl-2 ${inputcss}`}
             placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
           />

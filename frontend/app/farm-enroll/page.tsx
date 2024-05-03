@@ -181,7 +181,7 @@ export default function FarmEnroll() {
                     <input
                       type="text"
                       onChange={() => {}}
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-black-100 placeholder:text-gary-500 focus:ring-0 h-10 "
+                      className="block flex-1 focus:outline-none border-0 py-1.5 pl-2 text-black-100 placeholder:text-gary-500 focus:ring-1 focus:ring-green-400 h-10 "
                       placeholder="상세 주소를 입력해주세요"
                     />
                   </div>
