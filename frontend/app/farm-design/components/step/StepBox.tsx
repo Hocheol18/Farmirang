@@ -4,7 +4,7 @@ import SecondPage from "./second/SecondPage";
 import ThirdPage from "./third/ThirdPage";
 
 const StepBox = () => {
-  const currentStep = 1;
+  const currentStep = 2;
 
   const content: JSX.Element[] = [
     <FirstPage />,
