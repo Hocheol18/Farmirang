@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -16,10 +17,12 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2User;
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtCreateTokenRequestDto;
+import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.service.CustomOAuth2UserService;
 import com.cg.farmirang.backenduser.feature.security.service.JwtService;
 import com.cg.farmirang.backenduser.feature.security.utils.InstantAdapter;
@@ -38,6 +41,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SecurityConfig {
 
+	@Value("${com.farmirang.user.login.result}")
+	private String loginResult;
+	@Value("${com.farmirang.user.logout.redirect}")
+	private String logoutRedirect;
+
 	private final CustomOAuth2UserService customUserService;
 	private final JwtService jwt;
 	private final RedirectStrategy redirectStrategy;
@@ -46,6 +54,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.authorizeHttpRequests(authorize -> authorize
+
 			/* swagger, oauth2 login uri 예외 처리 */
 			.requestMatchers(
 				new AntPathRequestMatcher("/swagger-ui/**"),
@@ -68,8 +77,58 @@ public class SecurityConfig {
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler())
 		);
-		//TODO: 로그아웃 때 여기서 JWT를 폐기해보자
+		//TODO: 쿠버네티스에 올리면 session id를 찾지 못해 에러 발생할 수 있음. 그러면 그냥 controller에 옮겨서 구현하기
+		http.logout(
+			logout -> logout
+				.logoutUrl("/api/v1/user/logout")
+				.addLogoutHandler(logoutHandler())
+		);
 		return http.build();
+	}
+
+
+	@Bean
+	public LogoutHandler logoutHandler() {
+		var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+		return (req, res, auth) -> {
+			var cookies = req.getCookies();
+			String deviceId = req.getHeader("device-id");
+			if(cookies != null) {
+				for (var c : cookies) {
+					if(c.getName().equals("device-id")) {
+						deviceId = c.getValue();
+						break;
+					}
+				}
+			}
+			var accessToken = req.getHeader("Authorization");
+			if(accessToken != null) {
+				var split = accessToken.split(" ");
+				if(split.length != 2 || !split[0].equalsIgnoreCase("Bearer")) {
+					var errorResponse = ErrorResponse.of(ErrorCode.UNSUPPORTED_TOKEN_ERROR, "지원하지 않는 토큰 형식입니다.");
+					res.setStatus(401);
+					res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+					try (var out = res.getWriter()) {
+						out.write(gson.toJson(errorResponse));
+						out.flush();
+					} catch (Exception e) {
+						log.error("LogoutHandler-Error: {}", e.getMessage());
+					}
+				}
+				var token = JwtTokenRequestDto.builder().accessToken(accessToken).deviceId(deviceId).build();
+				log.warn("LogoutHandler-토큰 폐기 시도: {}", token);
+				var result = jwt.revokeToken(token);
+				if(!result.result()) log.warn("LogoutHandler-토큰 폐기 실패", deviceId);
+				res.setStatus(200);
+				res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+				try(var out = res.getWriter()) {
+					out.write(gson.toJson(result));
+					out.flush();
+				} catch (Exception e) {
+					log.error("LogoutHandler-Error: {}", e.getMessage());
+				}
+			}
+		};
 	}
 
 	@Bean
@@ -134,7 +193,7 @@ public class SecurityConfig {
 			res.addCookie(createCookie("profile-img", (String)attributes.get("profile_img")));
 
 
-			redirectStrategy.sendRedirect(req, res, "http://localhost:5173/result");
+			redirectStrategy.sendRedirect(req, res, loginResult);
 		};
 	}
 

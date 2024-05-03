@@ -18,6 +18,13 @@ logging:
           redis: DEBUG
 
 
+com:
+  farmirang:
+    user:
+      login:
+        result: http://localhost:3000/result
+      logout:
+        redirect: http://localhost:3000
 
 
 
