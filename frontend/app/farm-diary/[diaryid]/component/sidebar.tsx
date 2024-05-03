@@ -99,9 +99,9 @@ export default function Sidebar({ current, setCurrent }: Props) {
               {farms.map((idx, item) => (
                 <div
                   key={idx}
-                  className="flex w-full p-3 leading-tight rounded-lg outline-none text-start space-x-28 justify-between"
+                  className="flex w-full p-3 leading-tight rounded-lg outline-none text-start justify-between"
                 >
-                  <div className="flex space-x-0">
+                  <div className="flex">
                     <div className="grid mr-4">
                       <CiSearch className="w-6 h-6" />
                     </div>
@@ -112,7 +112,7 @@ export default function Sidebar({ current, setCurrent }: Props) {
 
                   <Image
                     src={dot}
-                    height={20}
+                    height={10}
                     width={20}
                     alt="dot"
                     className="cursor-pointer"
