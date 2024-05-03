@@ -3,7 +3,7 @@ import dummy from "../../../../public/dummyimage/dummy.png";
 import SunIcon from "../../../../public/icons/weather/Sun.svg";
 import RainIcon from "../../../../public/icons/weather/Rain.svg";
 import SnowIcon from "../../../../public/icons/weather/Snowman.svg";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 export default function CalendarDate() {
   const year = 2024;
@@ -29,16 +29,21 @@ export default function CalendarDate() {
         </div>
         <div className="text-h3 font-bold mt-10">심은 작물</div>
         <div className="flex justify-between h-2/5 w-full">
-          <div className="overflow-x-auto flex mt-2 scrollbar-hide w-10/12 mr-6">
+          <div className="rounded-xl cursor-pointer flex flex-col justify-center w-10">
+            <div className="absolute">
+              <ChevronLeftIcon className="w-10 h-10" />
+            </div>
+          </div>
+          <div className="overflow-x-auto flex flex-1 mt-2 scrollbar-hide w-10/12">
             {maplist.map((item) => (
               <>
-                <div className="border border-gray-400 shadow-lg rounded-xl w-5/12 flex-shrink-0 mr-6"></div>
+                <div className="border border-gray-300 shadow-lg rounded-xl w-[13rem] flex-shrink-0 mr-6 bg-green-100"></div>
               </>
             ))}
           </div>
-          <div className="w-1/12 rounded-xl cursor-pointer flex flex-col justify-center">
-            <div className="flex justify-center">
-              <ChevronRightIcon className="w-12 h-12" />
+          <div className="rounded-xl cursor-pointer flex flex-col justify-center w-10">
+            <div className="absolute">
+              <ChevronRightIcon className="w-10 h-10" />
             </div>
           </div>
         </div>
