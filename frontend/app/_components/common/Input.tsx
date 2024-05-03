@@ -26,7 +26,7 @@ export default function Input({
       <div className={labelcss}>{labeltext}</div>
 
       <div className="relative mt-2">
-        <div className="flex rounded-md border border-gray-300">
+        <div className="flex rounded-lg border border-gray-300">
           <input
             type={type}
             value={value}
