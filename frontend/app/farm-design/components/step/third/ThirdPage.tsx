@@ -4,6 +4,7 @@ import Button from "@/app/_components/common/Button";
 import { useEffect, useState } from "react";
 import CropsBox from "../CropsBox";
 import TitleBox from "../TitleBox";
+import Input from "@/app/_components/common/Input";
 
 interface Crops {
   id: number;
@@ -52,7 +53,7 @@ const ThirdPage = () => {
     setCropsList(initialCropsList);
   }, []);
 
-  //   작물 컴포넌트 클릭시 isClick 변환
+  //   작물 컴포넌트 클릭시 isClick 변환 (이전에 클릭된건 지움)
   const handleClick = (id: number) => {
     setCropsList((prevCropsList) => {
       const updatedCropsList = [...prevCropsList];
@@ -75,37 +76,87 @@ const ThirdPage = () => {
     });
   };
 
-  // 임시...함수
+  const [isSave, setIsSave] = useState<boolean>(false);
+
+  // 저장하기 버튼 눌렀는지
+  const handleSaveButton = () => {
+    setIsSave(!isSave);
+  };
+
+  // 임시 함수...
   const tmpHandleFunction = () => {};
 
+  const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
+
   return (
-    <div className="flex flex-col justify-between items-center w-[90%] h-[95%]">
-      <TitleBox basicText1="텃밭을" pointText="커스텀" basicText2="해보세요" />
-      {/* 가운데 (작물 리스트 + 커스텀 공간) */}
-      <div className="flex w-full h-[80%] gap-1 ">
-        <div className="flex flex-wrap overflow-y-auto flex-1 gap-3 py-3 rounded-lg justify-center items-center">
-          {cropsList.map((crops, index) => (
-            <CropsBox
-              key={index}
-              id={crops.id}
-              name={crops.name}
-              isClick={crops.isClick}
-              isRecommend={crops.isRecommend}
-              handleClick={handleClick}
+    <>
+      {isSave ? (
+        <div className="flex flex-col pb-1 gap-[5%] justify-center items-center overflow-y-auto w-full h-full">
+          <TitleBox basicText1="완성된" pointText="텃밭꾸미기" basicText2="" />
+
+          {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
+          <div className="flex justify-center items-center w-[80%] h-[70%] bg-white-100 rounded-[20px] shadow">
+            완성된 텃밭꾸미기 보여주는 곳
+          </div>
+          {/* 버튼들 */}
+          <div className="flex gap-3 items-center px-[10%]">
+            {/* 이름 저장 Input */}
+            <div className="flex items-center gap-3 mr-5">
+              <div className="font-bold">텃밭 이름: </div>
+              {/* value, onChange 바꿔야 함 */}
+              <Input
+                topcss={""}
+                labeltext={""}
+                labelcss={""}
+                inputcss={InputCSS}
+                placeholder={"이름을 지정해주세요"}
+                type={"text"}
+                value={""}
+                onChange={tmpHandleFunction}
+              />
+            </div>
+            <Button
+              text="저장하기"
+              bgStyles="bg-green-400 px-6"
+              textStyles="text-white-100 font-semibold"
+              handleClick={tmpHandleFunction}
             />
-          ))}
+          </div>
         </div>
-        <div className="border border-green-100 rounded-lg w-[70%] h-full bg-white-100">
-          오른쪽 커스텀
+      ) : (
+        <div className="flex flex-col justify-between items-center w-[90%] h-[95%]">
+          <TitleBox
+            basicText1="텃밭을"
+            pointText="커스텀"
+            basicText2="해보세요"
+          />
+          {/* 가운데 (작물 리스트 + 커스텀 공간) */}
+          <div className="flex w-full h-[80%] gap-1 ">
+            <div className="flex flex-wrap overflow-y-auto flex-1 gap-3 py-3 rounded-lg justify-center items-center">
+              {cropsList.map((crops, index) => (
+                <CropsBox
+                  key={index}
+                  id={crops.id}
+                  name={crops.name}
+                  isClick={crops.isClick}
+                  isRecommend={crops.isRecommend}
+                  handleClick={handleClick}
+                />
+              ))}
+            </div>
+            <div className="border border-green-100 rounded-[20px] w-[70%] h-full bg-white-100">
+              오른쪽 커스텀
+            </div>
+          </div>
+          <Button
+            text="저장하기"
+            bgStyles="bg-green-400 px-5"
+            textStyles="text-white-100 font-semibold"
+            handleClick={handleSaveButton}
+          />
         </div>
-      </div>
-      <Button
-        text="저장하기"
-        bgStyles="bg-green-400 px-5"
-        textStyles="text-white-100 font-semibold"
-        handleClick={tmpHandleFunction}
-      />
-    </div>
+      )}
+    </>
   );
 };
 

@@ -9,7 +9,7 @@ const SecondPage = () => {
 
   return (
     <div className=" flex flex-col w-[90%] h-[90%]  ">
-      {isCheck ? <SecondFirstPage /> : <SecondSecondPage />}
+      {!isCheck ? <SecondFirstPage /> : <SecondSecondPage />}
     </div>
   );
 };
