@@ -18,6 +18,9 @@ import YoungRadish from "../../../../public/icons/farms/crops-young-radish.svg";
 import Cucumber from "../../../../public/icons/farms/crops-cucumber.svg";
 import Corn from "../../../../public/icons/farms/crops-corn.svg";
 import Korean from "../../../../public/icons/farms/crops-korean-melon.svg";
+
+import Star from "../../../../public/icons/star-icon.svg";
+
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -62,40 +65,51 @@ const CropsBox = ({ id, name, isClick, isRecommend, handleClick }: Props) => {
       setClickTextColor("text-white-100");
       setClickBackColor("bg-green-300");
     } else {
-      setClickShadow("shadow");
+      setClickShadow("shadow-lg");
       setClickTextColor("text-black-100");
       setClickBackColor("bg-white-100");
     }
   }, [isClick]);
 
   return (
-    <button
-      onClick={() => handleClick(id)}
-      className={`w-20 h-24 px-2.5 py-1 ${clickBackColor} rounded-lg ${clickShadow} border border-gray-200 flex-col justify-start items-center gap-1 inline-flex`}
-    >
-      <div className="flex-col justify-center items-center gap-2.5 inline-flex">
-        <div className="flex justify-center items-center w-14 h-14 bg-white-100 rounded-full border border-white-100">
-          <Image
-            className="w-11 h-11 justify-center items-center"
-            src={currentPic}
-            alt={name}
-          />
-        </div>
-        {!(id === 7) ? (
-          <div
-            className={`text-center ${clickTextColor} text-sm font-bold leading-tight`}
-          >
-            {name}
-          </div>
-        ) : (
-          <div
-            className={`text-center ${clickTextColor} text-xs font-bold leading-tight`}
-          >
-            {name}
-          </div>
+    <div className="m-3">
+      <button
+        onClick={() => handleClick(id)}
+        className={`${isRecommend ? "border-yellow-200" : "border-gray-200"}
+          ${isClick ? `hover:bg-green-400` : `hover:bg-green-100`}
+          
+        relative w-20 h-24 px-2.5 py-1 ${clickBackColor} rounded-lg ${clickShadow} border flex-col justify-start items-center gap-1 inline-flex`}
+      >
+        {/* 추천은 '별'로 */}
+        {isRecommend && (
+          <Image className="absolute  -left-4 -top-4" src={Star} alt="추천" />
         )}
-      </div>
-    </button>
+        <div className="flex-col justify-center items-center gap-2.5 inline-flex">
+          <div className="flex justify-center items-center w-14 h-14 bg-white-100 rounded-full border border-white-100">
+            {/* 작물 이미지 */}
+            <Image
+              className="w-11 h-11 justify-center items-center"
+              src={currentPic}
+              alt={name}
+            />
+            {/* 방울토마토는 길이가 길어서.. */}
+          </div>
+          {!(id === 7) ? (
+            <div
+              className={`text-center ${clickTextColor} text-sm font-bold leading-tight`}
+            >
+              {name}
+            </div>
+          ) : (
+            <div
+              className={`text-center ${clickTextColor} text-xs font-bold leading-tight`}
+            >
+              {name}
+            </div>
+          )}
+        </div>
+      </button>
+    </div>
   );
 };
 
