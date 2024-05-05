@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CropsBox from "../CropsBox";
+import TitleBox from "../TitleBox";
 
 interface Crops {
   id: number;
@@ -58,17 +59,28 @@ const SecondFirstPage = () => {
   };
 
   return (
-    <div className="overflow-y-auto w-full h-full border border-black-100">
-      {cropsList.map((crops, index) => (
-        <CropsBox
-          key={index}
-          id={crops.id}
-          name={crops.name}
-          isClick={crops.isClick}
-          isRecommend={crops.isRecommend}
-          handleClick={handleClick}
-        />
-      ))}
+    <div className="overflow-y-auto w-full h-full flex flex-col items-center border border-black-100">
+      <TitleBox basicText1="작물을" basicText2="해주세요" pointText="선택" />
+
+      {/* 작물 선택 */}
+      <div className="grid grid-cols-8">
+        {cropsList.map((crops, index) => (
+          <CropsBox
+            key={index}
+            id={crops.id}
+            name={crops.name}
+            isClick={crops.isClick}
+            isRecommend={crops.isRecommend}
+            handleClick={handleClick}
+          />
+        ))}
+      </div>
+
+      <TitleBox
+        basicText1="선택한 작물의 개수와"
+        pointText="우선순위"
+        basicText2="를 입력해주세요"
+      />
     </div>
   );
 };
