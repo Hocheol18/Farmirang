@@ -75,9 +75,10 @@ const CropsBox = ({ id, name, isClick, isRecommend, handleClick }: Props) => {
     <div className="m-3">
       <button
         onClick={() => handleClick(id)}
-        className={`${
-          isRecommend ? "border-yellow-200" : "border-gray-200"
-        } relative w-20 h-24 px-2.5 py-1 ${clickBackColor} rounded-lg ${clickShadow} border flex-col justify-start items-center gap-1 inline-flex`}
+        className={`${isRecommend ? "border-yellow-200" : "border-gray-200"}
+          ${isClick ? `hover:bg-green-400` : `hover:bg-green-100`}
+          
+        relative w-20 h-24 px-2.5 py-1 ${clickBackColor} rounded-lg ${clickShadow} border flex-col justify-start items-center gap-1 inline-flex`}
       >
         {!isRecommend && (
           <Image className="absolute  -left-4 -top-4" src={Star} alt="추천" />
