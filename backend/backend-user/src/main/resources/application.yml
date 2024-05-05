@@ -3,6 +3,12 @@ spring:
     name: backend-user
   profiles:
     include: secret
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      location: C:\Users\SSAFY\AppData\Local\Temp
+    #      location: /tmp
 
 
   jwt:

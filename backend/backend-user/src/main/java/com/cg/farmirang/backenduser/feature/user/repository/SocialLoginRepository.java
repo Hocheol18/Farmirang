@@ -9,4 +9,5 @@ import com.cg.farmirang.backenduser.feature.user.entity.SocialLogin;
 public interface SocialLoginRepository extends JpaRepository<SocialLogin, Integer>{
 
 	Optional<SocialLogin> findByProviderAndSub(String provider, String sub);
+	Optional<SocialLogin> findByMemberId(Integer memberId);
 }

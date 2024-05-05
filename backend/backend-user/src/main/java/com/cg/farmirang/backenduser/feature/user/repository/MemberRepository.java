@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cg.farmirang.backenduser.feature.user.entity.Member;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Integer>, MemberRepositoryCustom {
 }

@@ -140,7 +140,6 @@ throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorC
 		// create new token
 		var token = create(JwtCreateTokenRequestDto.builder()
 			.memberId(claims.get("id", Double.class).intValue())
-			.nickname(claims.get("nickname", String.class))
 			.role(MemberRole.valueOf(claims.get("role", String.class)))
 			.deviceId(claims.get("device_id", String.class))
 			.build());
@@ -177,7 +176,6 @@ throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorC
 			.subject("access-token")
 			.expiration(new Date(now + 1000L * accessTokenValidTime))
 			.claim("id", dto.memberId())
-			.claim("nickname", dto.nickname())
 			.claim("role", dto.role().name())
 			.claim("device_id", dto.deviceId())
 			.signWith(accessKey, Jwts.SIG.HS512)
@@ -240,7 +238,6 @@ throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorC
 			claims = getClaims(accessToken, secretKey);
 			return JwtValidateTokenResponseDto.builder()
 				.memberId(claims.get("id", Double.class).intValue())
-				.nickname(claims.get("nickname", String.class))
 				.role(MemberRole.valueOf(claims.get("role", String.class)))
 				.deviceId(claims.get("device_id", String.class))
 				.build();

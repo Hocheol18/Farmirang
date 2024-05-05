@@ -10,13 +10,14 @@ import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoRes
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDto;
-import com.cg.farmirang.backenduser.feature.user.dto.response.UserLoginResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserStringResponseDto;
 import com.cg.farmirang.backenduser.feature.user.entity.Member;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.feature.user.entity.SocialLogin;
 import com.cg.farmirang.backenduser.feature.user.repository.MemberRepository;
 import com.cg.farmirang.backenduser.feature.user.repository.SocialLoginRepository;
+import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
+import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,6 @@ public class UserServiceImpl implements UserService{
 		}
 		return UserInfoForLoginResponseDto.builder()
 			.memberId(socialLogin.getMember().getId())
-			.nickname(socialLogin.getMember().getNickname())
-			.profileImg(socialLogin.getMember().getProfileImg())
 			.role(socialLogin.getMember().getRole())
 			.build();
 	}
@@ -64,40 +63,59 @@ public class UserServiceImpl implements UserService{
 		return prefix.get(0) + " " + name.get(0) + number;
 	}
 
-
-
 	@Override
-	public UserBooleanResponseDto withdrawService(String accessToken) {
-		return null;
-	}
-
-	@Override
-	public UserLoginResponseDto loginService(Integer sub) {
-		return null;
-	}
-
-	@Override
-	public UserBooleanResponseDto logoutService(Integer memberId) {
-		return null;
+	@Transactional
+	public UserBooleanResponseDto withdrawService(Integer memberId) {
+		// find member
+		var socialLogin = socialRepo.findByMemberId(memberId).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		// delete social login info
+		socialRepo.delete(socialLogin);
+		// change member to anonymous
+		memberRepo.changeAnonymous(memberId);
+		// return the result
+		return UserBooleanResponseDto.builder().result(true).build();
 	}
 
 	@Override
 	public UserInfoResponseDto userInfoService(Integer memberId) {
-		return null;
+		// find member
+		var member = memberRepo.findById(memberId).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		// return the result
+		return UserInfoResponseDto.builder()
+			.memberId(member.getId())
+			.nickname(member.getNickname())
+			.profileImg(member.getProfileImg())
+			.role(member.getRole())
+			.joinDate(member.getJoinDate())
+			.badge(member.getBadge())
+			.build();
 	}
 
 	@Override
+	@Transactional
 	public UserStringResponseDto updateUserNicknameService(Integer memberId, String nickname) {
-		return null;
+		return memberRepo.updateNickname(memberId, nickname);
 	}
 
 	@Override
-	public UserStringResponseDto updateUserProfileService(Integer memberId, MultipartFile file) {
-		return null;
+	@Transactional
+	public UserStringResponseDto updateUserProfileImgService(Integer memberId, MultipartFile file) {
+		// check profile whether it is default or not
+
+		// upload image to s3
+		String url = null;
+		// update profile image
+		return memberRepo.updateProfileImg(memberId, url);
 	}
 
 	@Override
-	public UserAnotherInfoResponseDto anotherUserInfoService(Integer anotherMemberId) {
-		return null;
+	public UserAnotherInfoResponseDto userProfileService(Integer anotherMemberId) {
+		var member = memberRepo.findById(anotherMemberId).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		return UserAnotherInfoResponseDto.builder()
+			.badge(member.getBadge())
+			.nickname(member.getNickname())
+			.profileImg(member.getProfileImg())
+			.role(member.getRole())
+			.build();
 	}
 }
