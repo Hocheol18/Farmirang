@@ -4,7 +4,7 @@ import Button from "@/app/_components/common/Button";
 
 export default function Remote() {
   return (
-    <div className="sticky top-10 w-[18rem] border border-black-100 h-[420px] rounded-xl p-8">
+    <div className="sticky top-10 w-[22rem] border border-black-100 h-[420px] rounded-xl p-8">
       <div className="text-green-400 text-h2 font-bold">23.5%</div>
       <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium">
         <div className="flex items-center justify-center w-1/2 h-full overflow-hidden text-white break-all bg-green-400 rounded-full"></div>
