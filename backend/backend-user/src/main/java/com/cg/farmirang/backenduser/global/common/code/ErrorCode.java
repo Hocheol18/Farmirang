@@ -71,6 +71,9 @@ public enum ErrorCode {
     WRONG_TOKEN_ERROR(401, "B004", "Wrong Token Exception"),
     EXIST_TOKEN_ERROR(401, "B005", "Exist Token Exception"),
 
+    // s3 관련 에러
+    INVALID_IMAGE_EXTENTION_ERROR(400, "B006", "Invalid Image Extention Exception"),
+
     ; // End
 
     /**
