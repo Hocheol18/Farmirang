@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/app/_components/common/Button";
+import FirstModal from "./FirstModal";
 
 export default function Remote() {
   return (
@@ -35,13 +35,7 @@ export default function Remote() {
           </div>
         </div>
       </div>
-
-      <Button
-        text={"기부하기"}
-        bgStyles={"bg-green-400 w-full"}
-        textStyles={"font-bold text-white-100 text-l"}
-        handleClick={() => {}}
-      />
+      <FirstModal />
     </div>
   );
 }
