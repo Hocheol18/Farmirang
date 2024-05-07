@@ -45,6 +45,8 @@ public class SecurityConfig {
 	private String loginResult;
 	@Value("${com.farmirang.user.login.location}")
 	private String loginLocation;
+	@Value("${com.farmirang.user.logout.location}")
+	private String logoutLocation;
 
 	private final CustomOAuth2UserService customUserService;
 	private final JwtService jwt;
@@ -82,7 +84,7 @@ public class SecurityConfig {
 		//TODO: 쿠버네티스에 올리면 session id를 찾지 못해 에러 발생할 수 있음. 그러면 그냥 controller에 옮겨서 구현하기
 		http.logout(
 			logout -> logout
-				.logoutUrl("/v1/security/logout")
+				.logoutUrl(logoutLocation)
 				.addLogoutHandler(logoutHandler())
 		);
 		return http.build();
