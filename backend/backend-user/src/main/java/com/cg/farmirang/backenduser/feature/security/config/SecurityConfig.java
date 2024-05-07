@@ -172,7 +172,6 @@ public class SecurityConfig {
 			}
 			// create jwt
 			var attributes = user.getAttributes();
-			log.info("SecurityConfig CustomOAuth2User attributes: {}", attributes);
 			var dto = JwtCreateTokenRequestDto.builder()
 				.memberId((Integer)attributes.get("member_id"))
 				.nickname((String)attributes.get("nickname"))
