@@ -7,6 +7,7 @@ import TotalLayout from "./components/step/TotalLayout";
 export default function FarmDesign() {
   // 임시
   const view: number = 1;
+
   return (
     <div className=" flex justify-center w-full h-full">
       {/* 처음 딱 들어오면 무조건 가이드라인 */}

@@ -3,9 +3,23 @@ import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 
-const SecondSecondPage = () => {
-  // 임시...함수
+interface Props {
+  handleStep: (step: number) => void;
+}
+
+const SecondSecondPage = ({ handleStep }: Props) => {
+  // 임시...
   const tmpHandleFunction = () => {};
+
+  // 커스텀하러 가기
+  const handleCustom = () => {
+    handleStep(3);
+  };
+
+  // 저장하기
+  const handleSave = () => {
+    handleStep(4);
+  };
 
   const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
@@ -23,7 +37,7 @@ const SecondSecondPage = () => {
           text="커스텀하기"
           bgStyles="bg-white-100 px-6"
           textStyles="text-green-500 font-semibold"
-          handleClick={tmpHandleFunction}
+          handleClick={handleCustom}
         />
         <div className="flex items-center gap-3">
           <div className="font-bold">텃밭 이름: </div>
@@ -42,7 +56,7 @@ const SecondSecondPage = () => {
             text="저장하기"
             bgStyles="bg-green-400 px-6"
             textStyles="text-white-100 font-semibold"
-            handleClick={tmpHandleFunction}
+            handleClick={handleSave}
           />
         </div>
       </div>

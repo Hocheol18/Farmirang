@@ -13,7 +13,11 @@ interface InputType {
   handleChange: (value: any) => void;
 }
 
-const FirstInputBox = () => {
+interface Props {
+  handleStep: (step: number) => void;
+}
+
+const FirstInputBox = ({ handleStep }: Props) => {
   const [farmArea, setFarmArea] = useState<number>(); //밭 넓이
   const [furrrowWidth, setFurrowWidth] = useState<number>(); //고랑 너비
   const [ridgeWidth, setRidgeWidth] = useState<number>(); //두둑 너비
@@ -99,6 +103,16 @@ const FirstInputBox = () => {
     { x: 0, y: 0 },
     { x: 0, y: 50 },
   ]);
+
+  // 추천 단계로 넘어가기
+  const handleRecommend = () => {
+    handleStep(2);
+  };
+
+  // 커스텀 단계로 넘어가기
+  const handleCustom = () => {
+    handleStep(3);
+  };
 
   // 이 함수 쓴 애들 다 바꿔야 함!!!!!!! (임시로 그냥 한 거라...)
   const handleCoordinateArrChange = () => {};
@@ -198,13 +212,13 @@ const FirstInputBox = () => {
               text="추천 받기"
               bgStyles="bg-green-400"
               textStyles="text-white-100 font-extrabold"
-              handleClick={handleCoordinateArrChange}
+              handleClick={handleRecommend}
             />
             <Button
               text="커스텀하기"
               bgStyles="bg-white-100"
               textStyles="text-green-500 font-extrabold"
-              handleClick={handleCoordinateArrChange}
+              handleClick={handleCustom}
             />
           </div>
         </div>

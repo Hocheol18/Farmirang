@@ -13,7 +13,11 @@ interface Crops {
   isRecommend: boolean;
 }
 
-const ThirdPage = () => {
+interface Props {
+  handleStep: (step: number) => void;
+}
+
+const ThirdPage = ({ handleStep }: Props) => {
   const cropsName: string[] = [
     "감자",
     "고구마",
@@ -86,6 +90,11 @@ const ThirdPage = () => {
   // 임시 함수...
   const tmpHandleFunction = () => {};
 
+  // 저장하기
+  const handleSave = () => {
+    handleStep(4);
+  };
+
   const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
   return (
@@ -119,7 +128,7 @@ const ThirdPage = () => {
               text="저장하기"
               bgStyles="bg-green-400 px-6"
               textStyles="text-white-100 font-semibold"
-              handleClick={tmpHandleFunction}
+              handleClick={handleSave}
             />
           </div>
         </div>
