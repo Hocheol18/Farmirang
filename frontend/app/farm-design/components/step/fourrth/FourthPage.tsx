@@ -121,7 +121,7 @@ const FourthPage = () => {
   };
 
   // 도움말 관련 설명 나오기
-  const [isHelp, setIsHelp] = useState<boolean>(true);
+  const [isHelp, setIsHelp] = useState<boolean>(false);
 
   const handleHelp = () => {
     setIsHelp(!isHelp);
