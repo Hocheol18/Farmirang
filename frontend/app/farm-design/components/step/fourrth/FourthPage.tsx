@@ -26,8 +26,9 @@ import DownIcon from "../../../../../public/icons/down.svg";
 import helpPoster from "../../../../../public/icons/tmpHelp.png";
 
 import { FaQuestion } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image, { StaticImageData } from "next/image";
+import useOutsideClick from "@/app/_hooks/useOutsideClick";
 
 interface Crops {
   id: number;
@@ -120,12 +121,27 @@ const FourthPage = () => {
     setIsOpen(false);
   };
 
+  const selectRef = useRef(null);
+  useOutsideClick<HTMLDivElement>(selectRef, () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  });
+
   // 도움말 관련 설명 나오기
   const [isHelp, setIsHelp] = useState<boolean>(false);
 
   const handleHelp = () => {
     setIsHelp(!isHelp);
   };
+
+  // 도움말 화면 외부 클릭시 창 닫힘
+  const helpRef = useRef(null);
+  useOutsideClick<HTMLDivElement>(helpRef, () => {
+    if (isHelp) {
+      setIsHelp(false);
+    }
+  });
 
   return (
     <div className="flex flex-col justify-around items-center w-[90%] h-[90%]">
@@ -168,7 +184,10 @@ const FourthPage = () => {
 
           {/* 드롭 리스트 */}
           {isOpen && (
-            <ul className="absolute z-10 top-full w-full mt-1  bg-white-100 overflow-y-scroll max-h-72 rounded-md shadow ">
+            <ul
+              ref={selectRef}
+              className="absolute z-10 top-full w-full mt-1  bg-white-100 overflow-y-scroll max-h-72 rounded-md shadow "
+            >
               {cropsList.map((item, index) => (
                 <li
                   className="px-3 py-3 hover:bg-green-100 cursor-pointer"
@@ -188,7 +207,10 @@ const FourthPage = () => {
         {/* 도움말 클릭시 나타나기 */}
         {isHelp && (
           <>
-            <div className="absolute top-0 w-full h-full overflow-y-auto rounded-xl">
+            <div
+              ref={helpRef}
+              className="absolute top-0 w-full h-full overflow-y-auto rounded-xl"
+            >
               <Image src={helpPoster} alt="도움말" />
             </div>
             <button
