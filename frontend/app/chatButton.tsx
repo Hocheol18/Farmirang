@@ -209,24 +209,22 @@ function Chatting({
 
   const [inputText, setInputText] = useState("");
   const [keyCounter, setKeyCounter] = useState(0);
-  const chatRef = useRef(null);
-  const [chatList, setChatList] = useState([]);
+  const chatRef = useRef<HTMLDivElement>(null);
+  const [chatList, setChatList] = useState<JSX.Element[]>([]);
 
   const textHandler = () => {
     if (!inputText.trim()) {
-      alert("검색어를 입력하세요");
+      alert("내용을 입력해주세용");
       return;
     }
-    const newChatItem = (
-      <LawWordChatCard key={keyCounter} question={inputText} />
-    );
+    const newChatItem = <MyChatContent key={keyCounter} content={inputText} />;
     const newChatList = [...chatList, newChatItem];
     setInputText("");
     setChatList(newChatList);
     setKeyCounter((prevCounter) => prevCounter + 1);
   };
 
-  const enterHandler = (e) => {
+  const enterHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.code === "Enter" || e.code === "NumpadEnter") {
       e.preventDefault();
       if (e.nativeEvent.isComposing) {
@@ -252,71 +250,121 @@ function Chatting({
         <IoArrowBack /> 사용자명
       </div>
       {/* 채팅창 */}
-      <div className="flex flex-col items-start gap-[5px] relative self-stretch w-full">
-        <div className="inline-flex items-start justify-center gap-[15px] relative flex-[0_0_auto]">
-          <Avatar
-            badge={false}
-            className="h-10 w-10"
-            image="/user/user.png"
-            name1
-            nameClassName="h-20 w-20"
-            size="sm"
-            src=""
-            src1
-            srcClassName="h-20 w-20"
-          />
-          <div className="inline-flex items-center justify-center gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-gray-200 rounded-[20px] overflow-hidden">
-            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
-              바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?
+      <div className="items-center w-full h-[450px] overflow-auto gap-[15px] flex-1 grow flex flex-col relative">
+        <div className="flex flex-col items-start gap-[5px] relative self-stretch w-full">
+          <div className="inline-flex items-start justify-center gap-[15px] relative flex-[0_0_auto]">
+            <Avatar
+              badge={false}
+              className="h-10 w-10"
+              image="/user/user.png"
+              name1
+              nameClassName="h-20 w-20"
+              size="sm"
+              src=""
+              src1
+              srcClassName="h-20 w-20"
+            />
+            <div className="inline-flex items-center justify-center gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-gray-200 rounded-[20px] overflow-hidden">
+              <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+                바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?바쁘세효?
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
-        <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+          <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+            <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+              뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            </div>
+          </div>
+        </div>
+        {/* 시도중 */}
+        <div
+          className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden"
+          ref={chatRef}
+        >
           <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
-            뚱인데염?ㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄴㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇ
+            {chatList.length > 0 ? chatList : <p>　</p>}
           </div>
         </div>
       </div>
       {/* 입력창 */}
-      <div className="w-95% h-15% relative border-solid border-2 border-green-300">
+      <div className="w-full relative border-solid border-2 border-green-300 rounded-[5px]">
         <textarea
           value={inputText}
           rows={1}
-          className="w-full h-full rounded-md px-4 py-2 resize-none outline-none bg-white bg-opacity-80"
+          className="w-full h-[55px] rounded-md px-2 py-2 resize-none outline-none bg-white bg-opacity-80"
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={enterHandler}
         />
         <div
-          className="absolute top-1/2 transform -translate-y-1/2 right-1 cursor-pointer"
+          className="absolute top-1/2 transform -translate-y-1/2 right-1 cursor-pointer text-gray-400"
           onClick={textHandler}
-        />
+        >
+          전송
+        </div>
       </div>
     </div>
   );
+}
 
-  // return (
-  <div className="w-full h-380px p-4 justify-space items-center flex flex-col">
-    <div
-      className="w-90% h-80% bg-white bg-opacity-60 rounded-md overflow-y-scroll items-center flex flex-col"
-      ref={chatRef}
-    >
-      {chatList.length > 0 ? chatList : <p>　</p>}
+function MyChatContent({ content }: { content: string }) {
+  return (
+    <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
+      <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
+        <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+          {content}
+        </div>
+      </div>
     </div>
-    <div className="w-90% h-15% relative">
-      <textarea
-        value={inputText}
-        rows={1}
-        className="w-full h-full rounded-md px-4 py-2 resize-none outline-none bg-white bg-opacity-80"
-        onChange={(e) => setInputText(e.target.value)}
-        onKeyDown={enterHandler}
-      />
-      <div
-        className="absolute top-1/2 transform -translate-y-1/2 right-1 cursor-pointer"
-        onClick={textHandler}
-      ></div>
-    </div>
-  </div>;
-  // );
+  );
 }
