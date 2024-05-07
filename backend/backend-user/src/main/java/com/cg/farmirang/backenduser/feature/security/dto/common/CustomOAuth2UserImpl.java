@@ -95,6 +95,8 @@ public class CustomOAuth2UserImpl implements CustomOAuth2User, Serializable {
 		var newAttributes = new LinkedHashMap<>(this.attributes);
 		newAttributes.put("member_id", dto.memberId());
 		newAttributes.put("role", dto.role());
+		newAttributes.put("nickname", dto.nickname());
+		newAttributes.put("profile_img", dto.profileImg());
 		this.attributes = Collections.unmodifiableMap(newAttributes);
 	}
 

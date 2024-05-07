@@ -64,6 +64,8 @@ public class UserServiceImpl implements UserService{
 		return UserInfoForLoginResponseDto.builder()
 			.memberId(socialLogin.getMember().getId())
 			.role(socialLogin.getMember().getRole())
+			.nickname(socialLogin.getMember().getNickname())
+			.profileImg(socialLogin.getMember().getProfileImg())
 			.build();
 	}
 

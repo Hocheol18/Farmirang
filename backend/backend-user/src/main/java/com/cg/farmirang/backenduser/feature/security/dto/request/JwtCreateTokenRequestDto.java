@@ -19,6 +19,10 @@ public record JwtCreateTokenRequestDto(
 	@NotBlank
 	@Schema(description = "사용자 닉네임", example = "파미랑")
 	String nickname,
+	@Schema(description = "사용자 프로필 이미지", example = "https://localhost/default.png")
+	@JsonProperty("profile_img")
+	@NotBlank
+	String profileImg,
 	@NotBlank
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)

@@ -29,8 +29,8 @@ com:
   farmirang:
     user:
       login:
-        location: /v1/security/oauth2
-        redirect: /v1/security/code
+        location: /v1/security/oauth2/**
+        redirect: /v1/security/code/**
       logout:
         location: /v1/security/logout
 

@@ -19,7 +19,15 @@ public record UserInfoForLoginResponseDto(
 	@NotBlank
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
-	MemberRole role
+	MemberRole role,
+	@Schema(description = "사용자 닉네임", example = "부추")
+	@JsonProperty("nickname")
+	@NotBlank
+	String nickname,
+	@Schema(description = "사용자 프로필 이미지", example = "https://localhost/default.png")
+	@JsonProperty("profile_img")
+	@NotBlank
+	String profileImg
 
 ) {
 }
