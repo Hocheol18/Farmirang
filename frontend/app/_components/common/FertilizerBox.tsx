@@ -50,7 +50,7 @@ const FertilizerBox = ({ type, id, name, N, P, K }: Props) => {
   const currentPic: StaticImageData = picList[id - 1];
 
   return (
-    <div className="flex flex-col py-[2%] gap-3 items-center w-[30%] h-full">
+    <div className="flex flex-col py-[2%] gap-3 items-center w-[30%] h-full max-h-[500px]">
       <div className="font-extrabold text-lg">
         {type === "front" ? "밑거름" : "웃거름"} 비료 성분량
       </div>
