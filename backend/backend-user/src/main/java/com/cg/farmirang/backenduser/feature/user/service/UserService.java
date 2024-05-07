@@ -6,15 +6,17 @@ import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoRes
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
-import com.cg.farmirang.backenduser.feature.user.dto.response.UserStringResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserIntegerResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateImgResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateNicknameResponseDto;
 
 public interface UserService {
 	UserInfoForLoginResponseDto registerService(String provider, String sub);
 	UserBooleanResponseDto withdrawService(Integer memberId);
 	UserInfoResponseDto userInfoService(Integer memberId);
-	UserStringResponseDto updateUserNicknameService(Integer memberId, String nickname);
-	UserStringResponseDto updateUserProfileImgService(Integer memberId, MultipartFile file);
+	UserUpdateNicknameResponseDto updateUserNicknameService(Integer memberId, String nickname);
+	UserUpdateImgResponseDto updateUserProfileImgService(Integer memberId, MultipartFile file);
 	UserAnotherInfoResponseDto userProfileService(Integer anotherMemberId);
-
+	UserIntegerResponseDto userBadgeService(Integer memberId);
 
 }

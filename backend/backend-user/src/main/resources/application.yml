@@ -30,6 +30,7 @@ com:
     user:
       login:
         result: http://localhost:3000/result
+        location: /v1/security/oauth2
       logout:
         redirect: http://localhost:3000
 

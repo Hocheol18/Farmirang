@@ -43,8 +43,8 @@ public class SecurityConfig {
 
 	@Value("${com.farmirang.user.login.result}")
 	private String loginResult;
-	@Value("${com.farmirang.user.logout.redirect}")
-	private String logoutRedirect;
+	@Value("${com.farmirang.user.login.location}")
+	private String loginLocation;
 
 	private final CustomOAuth2UserService customUserService;
 	private final JwtService jwt;
@@ -60,7 +60,7 @@ public class SecurityConfig {
 				new AntPathRequestMatcher("/swagger-ui/**"),
 				new AntPathRequestMatcher("/v3/api-docs/**"),
 				new AntPathRequestMatcher("/login/oauth2/**"),
-				new AntPathRequestMatcher("/api/v1/user/**"),
+				new AntPathRequestMatcher("/v1/user/**"),
 				new AntPathRequestMatcher("/v1/security/**"),
 				new AntPathRequestMatcher("/oauth2/**")
 			)
@@ -71,10 +71,10 @@ public class SecurityConfig {
 		 * loginProcessingUrl 은 redirect uri 수정할 때 사용
 		 * loginPage는 로그인 페이지로 이동(Controller가 있는듯?) 따라서 해당 경로에 맞는 적절한 html파일이 없으면 NoResourceFoundException 발생
 		 * */
-		//TODO: 인가코드 받는 oauth2/** 경로 /api/v1/user/oauth2/**으로 수정하기
 		http.oauth2Login(
 			oauth2 -> oauth2
 				.loginPage("/v1/security/login")
+				.authorizationEndpoint(authorization -> authorization.baseUri(loginLocation))
 				.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler())
@@ -120,7 +120,7 @@ public class SecurityConfig {
 				var token = JwtTokenRequestDto.builder().accessToken(accessToken).deviceId(deviceId).build();
 				log.warn("LogoutHandler-토큰 폐기 시도: {}", token);
 				var result = jwt.revokeToken(token);
-				if(!result.result()) log.warn("LogoutHandler-토큰 폐기 실패", deviceId);
+				if(!result.result()) log.warn("LogoutHandler-토큰 폐기 실패, device-id: {}", deviceId);
 				res.setStatus(200);
 				res.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				try(var out = res.getWriter()) {

@@ -73,6 +73,8 @@ public enum ErrorCode {
 
     // s3 관련 에러
     INVALID_IMAGE_EXTENTION_ERROR(400, "B006", "Invalid Image Extention Exception"),
+    S3_UPLOAD_ERROR(400, "B007", "S3 Upload Exception"),
+    S3_DELETE_ERROR(400, "B008", "S3 Delete Exception"),
 
     ; // End
 

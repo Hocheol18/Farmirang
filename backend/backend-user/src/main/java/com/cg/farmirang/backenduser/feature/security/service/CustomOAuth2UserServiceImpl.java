@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2User;
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2UserImpl;
+import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.feature.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ public class CustomOAuth2UserServiceImpl implements CustomOAuth2UserService {
 		CustomOAuth2User customOAuth2User = new CustomOAuth2UserImpl(user, userRequest);
 
 		var memberInfo = userSvc.registerService(customOAuth2User.getProvider(), customOAuth2User.getSub());
+
+		if(memberInfo.role() == MemberRole.ANONYMOUS) throw new OAuth2AuthenticationException("익명 유저입니다");
 
 		customOAuth2User.setAttributes(memberInfo);
 
