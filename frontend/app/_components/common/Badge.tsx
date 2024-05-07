@@ -83,7 +83,7 @@ export const Badge = ({
       } ${className}`}
     >
       <div
-        className={`[font-family:'Inter-Bold',Helvetica] w-fit mt-[-1.00px] tracking-[0] text-[12px] font-bold leading-[16px] whitespace-nowrap relative ${
+        className={`w-fit mt-[-1.00px] tracking-[0] leading-[16px] whitespace-nowrap relative ${
           variant === "solid"
             ? "text-white-100"
             : variant === "subtle" && colorScheme === "blue"

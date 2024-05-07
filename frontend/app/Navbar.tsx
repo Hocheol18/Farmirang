@@ -37,7 +37,7 @@ export default function Navbar() {
     router.push(href);
   };
 
-  const extraPageEvent = (href : string) => {
+  const extraPageEvent = (href: string) => {
     const newNavigation = navigation.map((item) => ({
       ...item,
       current: false,
@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <>
       <div className="top-0 z-10 border-b">
-        <Disclosure >
+        <Disclosure>
           {() => (
             <>
               <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -100,7 +100,7 @@ export default function Navbar() {
                       <Menu as="div" className="relative ml-6">
                         <Menu.Button
                           className="relative flex max-w-xs items-center rounded-full"
-                          onClick={() => extraPageEvent("/mypage")}
+                          onClick={() => extraPageEvent("/mypage/profile")}
                         >
                           <span className="absolute -inset-1.5" />
                           <Image
