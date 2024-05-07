@@ -92,8 +92,8 @@ const CropsBox = ({ id, name, isClick, isRecommend, handleClick }: Props) => {
               src={currentPic}
               alt={name}
             />
-            {/* 방울토마토는 길이가 길어서.. */}
           </div>
+          {/* 방울토마토는 길이가 길어서.. */}
           {!(id === 7) ? (
             <div
               className={`text-center ${clickTextColor} text-sm font-bold leading-tight`}

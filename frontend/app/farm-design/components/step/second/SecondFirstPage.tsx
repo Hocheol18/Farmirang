@@ -11,7 +11,11 @@ interface Crops {
   isRecommend: boolean;
 }
 
-const SecondFirstPage = () => {
+interface Props {
+  handleCheck: () => void;
+}
+
+const SecondFirstPage = ({ handleCheck }: Props) => {
   const cropsName: string[] = [
     "감자",
     "고구마",
@@ -70,7 +74,9 @@ const SecondFirstPage = () => {
   }, [cropsList]);
 
   // 임시...함수
-  const tmpHandleFunction = () => {};
+  const tmpHandleFunction = () => {
+    handleCheck();
+  };
 
   return (
     <div className="gap-10 overflow-y-auto w-full h-full flex flex-col items-center">
