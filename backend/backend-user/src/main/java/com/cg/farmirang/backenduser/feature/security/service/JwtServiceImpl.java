@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtCreateTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
@@ -25,7 +26,6 @@ import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,7 +91,12 @@ public class JwtServiceImpl implements JwtService{
 			log.error("JWT-Service-validateToken-NullTokenError");
 			throw new BusinessExceptionHandler("요청한 값이 없습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
 		}
-		return validateRefreshToken(refreshToken, deviceId);
+		var result =  validateRefreshToken(refreshToken, deviceId);
+		if(result == null) {
+			log.error("JWT-Service-validateToken-VaildationError");
+			throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
+		}
+		return result;
 	}
 
 	/**
@@ -103,11 +108,7 @@ public class JwtServiceImpl implements JwtService{
 	@Transactional
 	public JwtBooleanResponseDto revokeToken(JwtTokenRequestDto dto) {
 		var deviceId = dto.deviceId();
-		var result = validateToken(dto);
-		if(result == null || Objects.isNull(dto.deviceId())) {
-			log.error("JWT-Service-revokeToken-NullTokenError");
-			throw new BusinessExceptionHandler("값이 유효하지 않습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
-		}
+		validateToken(dto);
 		redis.deleteById(deviceId);
 		return JwtBooleanResponseDto.builder().result(true).build();
 	}
@@ -121,11 +122,7 @@ public class JwtServiceImpl implements JwtService{
 	@Transactional
 	public JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto) {
 		// validate token
-		var result = validateToken(dto);
-		if(result == null) {
-			log.error("JWT-Service-reissueToken-NullTokenError");
-			throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
-		}
+		validateToken(dto);
 		// parsing token to get member info
 		Claims claims = null;
 		try {
@@ -135,12 +132,11 @@ public class JwtServiceImpl implements JwtService{
 			claims = e.getClaims();
 		} catch (Exception e) {
 			log.error("JWT-Service-reissueToken-Exception", e);
-throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
+			throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
 		}
 		// create new token
 		var token = create(JwtCreateTokenRequestDto.builder()
 			.memberId(claims.get("id", Double.class).intValue())
-			.nickname(claims.get("nickname", String.class))
 			.role(MemberRole.valueOf(claims.get("role", String.class)))
 			.deviceId(claims.get("device_id", String.class))
 			.build());
@@ -177,7 +173,6 @@ throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorC
 			.subject("access-token")
 			.expiration(new Date(now + 1000L * accessTokenValidTime))
 			.claim("id", dto.memberId())
-			.claim("nickname", dto.nickname())
 			.claim("role", dto.role().name())
 			.claim("device_id", dto.deviceId())
 			.signWith(accessKey, Jwts.SIG.HS512)
@@ -240,7 +235,6 @@ throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorC
 			claims = getClaims(accessToken, secretKey);
 			return JwtValidateTokenResponseDto.builder()
 				.memberId(claims.get("id", Double.class).intValue())
-				.nickname(claims.get("nickname", String.class))
 				.role(MemberRole.valueOf(claims.get("role", String.class)))
 				.deviceId(claims.get("device_id", String.class))
 				.build();

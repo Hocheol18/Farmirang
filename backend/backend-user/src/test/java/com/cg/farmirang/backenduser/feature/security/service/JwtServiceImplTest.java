@@ -19,7 +19,7 @@ class JwtServiceImplTest {
 	RedisTokenRepository redis;
 
 	String accessToken = "Bearer tokentokentoken";
-	String refreshToken = "tokentoken";
+	String refreshToken = "testtesttest";
 	int memberId = 1;
 	String nickname = "test";
 	String deviceId = "test-device";

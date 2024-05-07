@@ -2,9 +2,7 @@ package com.cg.farmirang.backenduser.feature.security.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,7 +33,7 @@ public class SecurityController {
 	 * 토큰 갱신
 	 * */
 	@PostMapping("/token")
-	public ResponseEntity<SuccessResponse<JwtCreateTokenResponseDto>> reissueTokenController(@RequestHeader("Authorization") String authorization, @CookieValue("device-id") String deviceId, @RequestBody JwtReissueControllerDto dto) {
+	public ResponseEntity<SuccessResponse<JwtCreateTokenResponseDto>> reissueTokenController(@RequestHeader("Authorization") String authorization, @CookieValue("Device-id") String deviceId, @RequestBody JwtReissueControllerDto dto) {
 		log.info("/api/v1/security/token  JwtReissueControllerDto: {}", dto);
 		if(!dto.grantType().equalsIgnoreCase("refresh_token")) throw new BusinessExceptionHandler("잘못된 요청입니다.", ErrorCode.BAD_REQUEST_ERROR);
 		var token = JwtTokenRequestDto.builder().accessToken(authorization).refreshToken(dto.refreshToken()).deviceId(deviceId).build();
@@ -48,7 +46,7 @@ public class SecurityController {
 	 * 토큰 검증
 	 * */
 	@GetMapping("/validate")
-	public ResponseEntity<SuccessResponse<JwtValidateTokenResponseDto>> validateTokenController(@RequestHeader("access-token") String accessToken, @RequestHeader("refresh-token") String refreshToken, @CookieValue("device-id") String deviceId) {
+	public ResponseEntity<SuccessResponse<JwtValidateTokenResponseDto>> validateTokenController(@RequestHeader("Access-token") String accessToken, @RequestHeader("Refresh-token") String refreshToken, @CookieValue("Device-id") String deviceId) {
 		log.info("/api/v1/security/validate  accessToken: {}, refreshToken: {}, deviceId: {}", accessToken, refreshToken, deviceId);
 		var dto = JwtTokenRequestDto.builder().accessToken(accessToken).refreshToken(refreshToken).deviceId(deviceId).build();
 		var result = jwt.validateToken(dto);

@@ -17,13 +17,6 @@ public record UserInfoForLoginResponseDto(
 	@JsonProperty("member_id")
 	Integer memberId,
 	@NotBlank
-	@Schema(description = "사용자 닉네임", example = "farmirang")
-	String nickname,
-	@NotBlank
-	@Schema(description = "사용자 프로필 이미지", example = "http://localhost/profile.jpg")
-	@JsonProperty("profile_img")
-	String profileImg,
-	@NotBlank
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
 	MemberRole role

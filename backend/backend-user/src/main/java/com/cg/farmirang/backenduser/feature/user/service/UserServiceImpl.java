@@ -4,32 +4,43 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDto;
-import com.cg.farmirang.backenduser.feature.user.dto.response.UserLoginResponseDto;
-import com.cg.farmirang.backenduser.feature.user.dto.response.UserStringResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserIntegerResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateImgResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateNicknameResponseDto;
 import com.cg.farmirang.backenduser.feature.user.entity.Member;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.feature.user.entity.SocialLogin;
 import com.cg.farmirang.backenduser.feature.user.repository.MemberRepository;
 import com.cg.farmirang.backenduser.feature.user.repository.SocialLoginRepository;
+import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
+import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
 
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
 	@Value("${com.farmirang.user.default_profile}")
 	private String defaultProfile;
+	@Value("${com.farmirang.user.s3_url}")
+	private String s3Url;
+	@Value("${com.farmirang.user.s3_dir}")
+	private String s3Dir;
 
 	private final SocialLoginRepository socialRepo;
 	private final MemberRepository memberRepo;
+	private final S3Service s3;
 
 	/**
 	 * 소셜 로그인 시도 후 없으면 회원가입 처리
@@ -39,17 +50,19 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public UserInfoForLoginResponseDto registerService(String provider, String sub) {
 		var socialLogin = socialRepo.findByProviderAndSub(provider, sub).orElse(null);
+		log.debug("UserService registerService: find social_login");
 		if(socialLogin == null) {
 			// start register
+			log.debug("UserService registerService: start registration");
 			var nickname= randomNickname();
 			var member = Member.builder().nickname(nickname).profileImg(defaultProfile).role(MemberRole.MEMBER).build();
 			member = memberRepo.save(member);
+			log.debug("UserService registerService: save member, member_id: {}", member.getId());
 			socialLogin = socialRepo.save(SocialLogin.builder().member(member).provider(provider).sub(sub).build());
 		}
+		log.debug("UserService registerService: social_login: {}", socialLogin.getId());
 		return UserInfoForLoginResponseDto.builder()
 			.memberId(socialLogin.getMember().getId())
-			.nickname(socialLogin.getMember().getNickname())
-			.profileImg(socialLogin.getMember().getProfileImg())
 			.role(socialLogin.getMember().getRole())
 			.build();
 	}
@@ -64,40 +77,97 @@ public class UserServiceImpl implements UserService{
 		return prefix.get(0) + " " + name.get(0) + number;
 	}
 
-
-
 	@Override
-	public UserBooleanResponseDto withdrawService(String accessToken) {
-		return null;
-	}
-
-	@Override
-	public UserLoginResponseDto loginService(Integer sub) {
-		return null;
-	}
-
-	@Override
-	public UserBooleanResponseDto logoutService(Integer memberId) {
-		return null;
+	@Transactional
+	public UserBooleanResponseDto withdrawService(Integer memberId) {
+		// find member
+		var socialLogin = socialRepo.findByMemberId(memberId).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		log.debug("UserService withdrawService: social_login: {}", socialLogin.getId());
+		// delete social login info
+		socialRepo.delete(socialLogin);
+		// delete profile image
+		String filename = socialLogin.getMember().getProfileImg();
+		if(!filename.contains("default.png")) {
+			String key = filename.substring(filename.indexOf(s3Dir) + s3Dir.length() + 1);
+			if (s3.delete(key, s3Dir) >= 400) {
+				log.error("UserService withdrawService: 이미지 삭제 중 오류가 발생했습니다, memberId : {}, profileImage: {}", memberId, key);
+			}
+			log.debug("UserService withdrawService: delete profile image");
+		}
+		// change member to anonymous
+		memberRepo.changeAnonymous(memberId);
+		log.debug("UserService withdrawService: change member to anonymous, member_id: {}", memberId);
+		// return the result
+		return UserBooleanResponseDto.builder().result(true).build();
 	}
 
 	@Override
 	public UserInfoResponseDto userInfoService(Integer memberId) {
-		return null;
+		// find member
+		var member = memberRepo.findByIdAndRoleNot(memberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		log.debug("UserService userInfoService: find member, member_id: {}", member.getId());
+		// return the result
+		return UserInfoResponseDto.builder()
+			.memberId(member.getId())
+			.nickname(member.getNickname())
+			.profileImg(member.getProfileImg())
+			.role(member.getRole())
+			.joinDate(member.getJoinDate())
+			.badge(member.getBadge())
+			.build();
 	}
 
 	@Override
-	public UserStringResponseDto updateUserNicknameService(Integer memberId, String nickname) {
-		return null;
+	@Transactional
+	public UserUpdateNicknameResponseDto updateUserNicknameService(Integer memberId, String nickname) {
+		log.debug("UserService updateUserNicknameService: start update nickname, member_id: {}", memberId);
+		return memberRepo.updateNickname(memberId, nickname);
 	}
 
 	@Override
-	public UserStringResponseDto updateUserProfileService(Integer memberId, MultipartFile file) {
-		return null;
+	@Transactional
+	public UserUpdateImgResponseDto updateUserProfileImgService(Integer memberId, MultipartFile file) {
+		// find member
+		var member = memberRepo.findByIdAndRoleNot(memberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		log.debug("UserService updateUserProfileImgService: find member, member_id: {}", member.getId());
+		// check profile whether it is default or not
+		if(!member.getProfileImg().contains("default.png")) {
+			// delete previous image
+			String filename = member.getProfileImg();
+			String key = filename.substring(filename.indexOf(s3Dir) + s3Dir.length() + 1);
+			if (s3.delete(key, s3Dir) >= 400) {
+				log.error("UserService updateUserProfileImgService: 이미지 삭제 중 오류가 발생했습니다, memberId : {}, profileImage: {}", memberId, key);
+				throw new BusinessExceptionHandler("이미지 삭제 중 오류가 발생했습니다", ErrorCode.S3_DELETE_ERROR);
+			}
+		}
+		// upload image to s3
+		String url = defaultProfile;
+		if(file != null) {
+			String uuid = UUID.randomUUID().toString();
+			String key = s3.upload(file, s3Dir, uuid);
+			url = s3Url+"/"+s3Dir+"/"+key;
+			log.debug("UserService updateUserProfileImgService: upload image to s3, image key: {}", key);
+		}
+		// update profile image
+		return memberRepo.updateProfileImg(memberId, url);
 	}
 
 	@Override
-	public UserAnotherInfoResponseDto anotherUserInfoService(Integer anotherMemberId) {
-		return null;
+	public UserAnotherInfoResponseDto userProfileService(Integer anotherMemberId) {
+		var member = memberRepo.findByIdAndRoleNot(anotherMemberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		log.debug("UserService userProfileService: find member, member_id: {}", member.getId());
+		return UserAnotherInfoResponseDto.builder()
+			.badge(member.getBadge())
+			.nickname(member.getNickname())
+			.profileImg(member.getProfileImg())
+			.role(member.getRole())
+			.build();
+	}
+
+	@Override
+	public UserIntegerResponseDto userBadgeService(Integer memberId) {
+		var member = memberRepo.findByIdAndRoleNot(memberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
+		log.debug("UserService userBadgeService: find member, member_id: {}", member.getId());
+		return UserIntegerResponseDto.builder().result(member.getBadge()).build();
 	}
 }
