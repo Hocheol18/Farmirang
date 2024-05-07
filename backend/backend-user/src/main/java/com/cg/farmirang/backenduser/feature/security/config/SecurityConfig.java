@@ -47,6 +47,8 @@ public class SecurityConfig {
 	private String loginLocation;
 	@Value("${com.farmirang.user.logout.location}")
 	private String logoutLocation;
+	@Value("${com.farmirang.user.login.redirect}")
+	private String loginRedirect;
 
 	private final CustomOAuth2UserService customUserService;
 	private final JwtService jwt;
@@ -77,6 +79,7 @@ public class SecurityConfig {
 			oauth2 -> oauth2
 				.loginPage("/v1/security/login")
 				.authorizationEndpoint(authorization -> authorization.baseUri(loginLocation))
+				.redirectionEndpoint(redirection -> redirection.baseUri(loginRedirect))
 				.userInfoEndpoint(userInfo -> userInfo.userService(customUserService))
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler())
