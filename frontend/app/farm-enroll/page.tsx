@@ -4,7 +4,7 @@ import Input from "../_components/common/Input";
 import DatePicker from "../_components/common/SelectDate";
 import SelectMenu from "../_components/common/SelectMenus";
 import { GoPlus } from "react-icons/go";
-import DaumPost from "./component/Address";
+import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Button from "../_components/common/Button";
 

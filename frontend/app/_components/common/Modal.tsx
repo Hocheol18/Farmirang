@@ -21,6 +21,10 @@ interface Props {
   subTitlecss: string;
   // 타이틀 css
   Titlecss: string;
+  // 모달 크기 css
+  Modalcss: string;
+  // 타이틀 추가 디자인
+  Titlebottom : any;
 }
 
 export default function MyModal({
@@ -32,6 +36,8 @@ export default function MyModal({
   contents,
   subTitlecss,
   Titlecss,
+  Modalcss,
+  Titlebottom
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -61,12 +67,13 @@ export default function MyModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[28rem] transform border border-gray-400 overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className={`w-full transform border border-gray-400 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}>
                   <Dialog.Title
                     as="h3"
                     className={`text-black-100 ${Titlecss}`}
                   >
                     {Title}
+                    {Titlebottom}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className={`text-black-100 ${subTitlecss}`}>

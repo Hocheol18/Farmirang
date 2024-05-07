@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Modal from "../_components/common/Modal";
-import DaumPost from "../farm-enroll/component/Address";
+import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Input from "../_components/common/Input";
 
@@ -27,6 +27,7 @@ export default function Diary() {
 
       {/*  */}
       <Modal
+      Titlebottom={""}
         subTitlecss={"text-base font-bold"}
         Titlecss={"text-h3 font-extrabold"}
         buttonText={"버튼"}
@@ -34,6 +35,7 @@ export default function Diary() {
         buttonTextStyles={"text-h4"}
         Title="센서 구매"
         subTitle="밭에 심을 센서를 구매하는 폼입니다"
+        Modalcss="max-w-[28rem]"
         contents={
           <>
             <Input
