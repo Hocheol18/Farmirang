@@ -34,6 +34,7 @@ export default function FirstModal() {
       subTitlecss={"text-h6"}
       Titlecss={"font-bold text-h1 relative"}
       Modalcss="max-w-[700px] p-[2.5rem]"
+      next={"다음"}
     />
   );
 }

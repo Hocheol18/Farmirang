@@ -1,5 +1,4 @@
 import Remote from "../component/Remote";
-import Image from "next/image";
 
 import DonationList from "../component/DonationList";
 import Participate from "../component/Participate";
@@ -9,8 +8,8 @@ export default function DonationDetailPage() {
   const count = 6;
   return (
     <div className="w-full pb-[10rem] mt-[10rem]">
-      <div className="flex justify-center">기부중</div>
-      <div className="flex justify-center">동네 주민에게 사랑을</div>
+      <div className="flex justify-center text-h1 font-bold text-green-400">기부중</div>
+      <div className="flex justify-center text-[70px] font-extrabold">동네 주민에게 사랑을</div>
       <div className="flex justify-center mt-16 h-full">
         <div className="flex w-4/5 h-full">
           <div className="w-8/12 mr-10">

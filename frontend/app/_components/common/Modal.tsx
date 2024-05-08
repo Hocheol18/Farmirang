@@ -24,7 +24,9 @@ interface Props {
   // 모달 크기 css
   Modalcss: string;
   // 타이틀 추가 디자인
-  Titlebottom : any;
+  Titlebottom: any;
+  // 확인 혹은 다음 버튼 텍스트
+  next: string;
 }
 
 export default function MyModal({
@@ -37,7 +39,8 @@ export default function MyModal({
   subTitlecss,
   Titlecss,
   Modalcss,
-  Titlebottom
+  Titlebottom,
+  next,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,7 +70,9 @@ export default function MyModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`w-full transform border border-gray-400 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}>
+                <Dialog.Panel
+                  className={`w-full transform border border-gray-400 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}
+                >
                   <Dialog.Title
                     as="h3"
                     className={`text-black-100 ${Titlecss}`}
@@ -95,7 +100,7 @@ export default function MyModal({
                       className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       onClick={() => {}}
                     >
-                      <div className="text-white-100 font-bold">확인</div>
+                      <div className="text-white-100 font-bold">{next}</div>
                     </button>
                   </div>
                 </Dialog.Panel>

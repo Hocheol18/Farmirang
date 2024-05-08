@@ -27,7 +27,7 @@ export default function Diary() {
 
       {/*  */}
       <Modal
-      Titlebottom={""}
+        Titlebottom={""}
         subTitlecss={"text-base font-bold"}
         Titlecss={"text-h3 font-extrabold"}
         buttonText={"버튼"}
@@ -95,6 +95,7 @@ export default function Diary() {
             </div>
           </>
         }
+        next={"확인"}
       />
     </>
   );
