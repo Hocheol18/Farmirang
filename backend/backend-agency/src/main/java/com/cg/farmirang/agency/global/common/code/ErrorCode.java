@@ -64,14 +64,13 @@ public enum ErrorCode {
     /**
      * ******************************* Custom Error CodeList ***************************************
      */
-    // Transaction Insert Error
-    INSERT_ERROR(200, "9999", "Insert Transaction Error Exception"),
+    // s3 관련 에러
+    INVALID_IMAGE_EXTENTION_ERROR(400, "B006", "Invalid Image Extention Exception"),
+    S3_UPLOAD_ERROR(400, "B007", "S3 Upload Exception"),
+    S3_DELETE_ERROR(400, "B008", "S3 Delete Exception"),
 
-    // Transaction Update Error
-    UPDATE_ERROR(200, "9999", "Update Transaction Error Exception"),
-
-    // Transaction Delete Error
-    DELETE_ERROR(200, "9999", "Delete Transaction Error Exception"),
+    // token error
+    TOKEN_ERROR(401, "B009", "Token Exception"),
 
     ; // End
 

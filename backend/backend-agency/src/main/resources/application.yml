@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: backend-agency
+  profiles:
+    include: secret
+
+
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+

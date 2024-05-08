@@ -1,4 +1,4 @@
-package com.cg.farmirang.agency.feature.dto.request;
+package com.cg.farmirang.agency.feature.agency.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
