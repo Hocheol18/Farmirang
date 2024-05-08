@@ -122,7 +122,10 @@ public class JwtServiceImpl implements JwtService{
 	@Transactional
 	public JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto) {
 		// validate token
-		validateToken(dto);
+		var accessDto = JwtTokenRequestDto.builder().accessToken(dto.accessToken()).build();
+		var refreshDto = JwtTokenRequestDto.builder().refreshToken(dto.refreshToken()).deviceId(dto.deviceId()).build();
+		validateToken(accessDto);
+		validateToken(refreshDto);
 		// parsing token to get member info
 		Claims claims = null;
 		try {
@@ -239,10 +242,10 @@ public class JwtServiceImpl implements JwtService{
 				.deviceId(claims.get("device_id", String.class))
 				.build();
 		} catch (ExpiredJwtException e) {
-			log.error("JWT-Service-validateToken-ExpiredJwtException", e);
+			log.error("JWT-Service-validateAccessToken-ExpiredJwtException", e);
 			throw new BusinessExceptionHandler("토큰이 만료되었습니다", ErrorCode.EXPIRED_TOKEN_ERROR);
 		} catch (Exception e) {
-			log.error("JWT-Service-validateToken-Exception", e);
+			log.error("JWT-Service-validateAccessToken-Exception", e);
 			throw new BusinessExceptionHandler("적절하지 않은 토큰입니다", ErrorCode.WRONG_TOKEN_ERROR);
 		}
 	}
@@ -250,9 +253,14 @@ public class JwtServiceImpl implements JwtService{
 	@Override
 	public JwtValidateTokenResponseDto validateRefreshToken(String refreshToken, String deviceId) {
 		var result = redis.findById(deviceId).orElse(null);
-		if(result == null) return null;
+		if(result == null) {
+			log.error("JWT-Service-validateRefreshToken-RefreshTokenNotFoundError");
+			return null;
+		}
 		// 리프레시 토큰이 레디스에 있다면 빈 객체 반환
 		else if(result.getRefreshToken().equals(refreshToken)) return JwtValidateTokenResponseDto.builder().build();
+
+		log.error("JWT-Service-validateRefreshToken-RefreshTokenNotEqualError");
 		return null;
 	}
 

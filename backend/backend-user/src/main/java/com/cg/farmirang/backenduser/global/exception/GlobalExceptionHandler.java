@@ -14,6 +14,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -203,8 +204,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingRequestCookieException.class)
     protected ResponseEntity<ErrorResponse> handleMissingRequestCookieException(MissingRequestCookieException ex) {
         log.error("MissingRequestCookieException", ex);
-        final ErrorResponse res = ErrorResponse.of(ErrorCode.NOT_VALID_HEADER_ERROR, ex.getMessage());
-        return ResponseEntity.status(ErrorCode.NOT_VALID_HEADER_ERROR.getStatus()).body(res);
+        final ErrorResponse res = ErrorResponse.of(ErrorCode.NOT_VALID_COOKIE_ERROR, ex.getMessage());
+        return ResponseEntity.status(ErrorCode.NOT_VALID_COOKIE_ERROR.getStatus()).body(res);
     }
 
     /**
@@ -226,6 +227,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * MultipartFile이 유효하지 않은 경우
+     *
+     * @param ex MultipartException
+     * @return ResponseEntity<ErrorResponse>
+     * */
+    @ExceptionHandler(MultipartException.class)
+    protected ResponseEntity<ErrorResponse> handleMultipartException(MultipartException ex) {
+        log.error("MultipartException", ex);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_VALID_MULTIPART_ERROR, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     // ==================================================================================================================
 

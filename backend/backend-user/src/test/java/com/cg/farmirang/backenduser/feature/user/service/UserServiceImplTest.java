@@ -44,7 +44,7 @@ class UserServiceImplTest {
 		String nickname = "test";
 		var result = svc.updateUserNicknameService(memberId, nickname);
 		assertNotNull(result);
-		assertEquals(result.result(), nickname);
+		assertEquals(result.nickname(), nickname);
 	}
 
 	@Test
@@ -53,9 +53,9 @@ class UserServiceImplTest {
 		MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(), "image/png", new FileInputStream(file));
 		var result = svc.updateUserProfileImgService(memberId, multipartFile);
 		assertNotNull(result);
-		assertTrue(result.result().contains("farmirang/profile"));
-		assertTrue(result.result().contains("discord"));
-		assertTrue(result.result().contains("amazonaws"));
+		assertTrue(result.url().contains("farmirang/profile"));
+		assertTrue(result.url().contains("discord"));
+		assertTrue(result.url().contains("amazonaws"));
 	}
 
 	@Test

@@ -17,9 +17,6 @@ public record JwtValidateTokenResponseDto(
 	@JsonProperty("member_id")
 	Integer memberId,
 	@NotBlank
-	@Schema(description = "사용자 닉네임", example = "파미랑")
-	String nickname,
-	@NotBlank
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
 	MemberRole role,

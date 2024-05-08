@@ -70,7 +70,7 @@ public class SecurityConfig {
 			)
 			.permitAll()
 			.anyRequest()
-			.authenticated());
+			.permitAll());
 		/*
 		 * loginProcessingUrl 은 redirect uri 수정할 때 사용
 		 * loginPage는 로그인 페이지로 이동(Controller가 있는듯?) 따라서 해당 경로에 맞는 적절한 html파일이 없으면 NoResourceFoundException 발생

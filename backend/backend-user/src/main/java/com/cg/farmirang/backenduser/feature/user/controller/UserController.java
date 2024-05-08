@@ -1,6 +1,7 @@
 package com.cg.farmirang.backenduser.feature.user.controller;
 
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.service.JwtService;
+import com.cg.farmirang.backenduser.feature.user.dto.request.UserUpdateNicknameRequestDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDto;
@@ -25,6 +27,7 @@ import com.cg.farmirang.backenduser.feature.user.service.UserService;
 import com.cg.farmirang.backenduser.global.common.code.SuccessCode;
 import com.cg.farmirang.backenduser.global.common.response.SuccessResponse;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +43,9 @@ public class UserController {
 	 * 회원 탈퇴
 	 * */
 	@DeleteMapping()
-	public ResponseEntity<SuccessResponse<UserBooleanResponseDto>> withdrawalController(@RequestHeader("Authorization") String token, @CookieValue("Device-id") String deviceId) {
+	public ResponseEntity<SuccessResponse<UserBooleanResponseDto>> withdrawalController(
+		@Parameter(hidden = true) @RequestHeader("Authorization") String token,
+		@Parameter(hidden = true) @CookieValue("device-id") String deviceId) {
 		log.info("DELETE /v1/user : token: {}, deviceId: {}", token, deviceId);
 		// validate token
 		var validate = jwt.validateToken(JwtTokenRequestDto.builder().accessToken(token).deviceId(deviceId).build());
@@ -56,7 +61,7 @@ public class UserController {
 	 * 내 정보 조회
 	 * */
 	@GetMapping("/userinfo")
-	public ResponseEntity<SuccessResponse<UserInfoResponseDto>> userInfoController(@RequestHeader("Authorization") String token) {
+	public ResponseEntity<SuccessResponse<UserInfoResponseDto>> userInfoController(@Parameter(hidden = true) @RequestHeader("Authorization") String token) {
 		log.info("GET /v1/user/userinfo : token: {}", token);
 		// validate token
 		var memberInfo = jwt.validateToken(JwtTokenRequestDto.builder().accessToken(token).build());
@@ -80,8 +85,8 @@ public class UserController {
 	/**
 	 * 프로필 사진 수정
 	 * */
-	@PutMapping("/profile")
-	public ResponseEntity<SuccessResponse<UserUpdateImgResponseDto>> profileImageController(@RequestHeader("Authorization") String token, @RequestParam("img")
+	@PutMapping(value = "/profile",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse<UserUpdateImgResponseDto>> profileImageController(@Parameter(hidden = true) @RequestHeader("Authorization") String token, @RequestParam(name = "img", required = false)
 		MultipartFile profileImg) {
 		log.info("PUT /v1/user/profile : token: {}, image: {}", token, profileImg!=null?profileImg.getOriginalFilename():"null");
 		// validate token
@@ -96,12 +101,12 @@ public class UserController {
 	 * 닉네임 수정
 	 * */
 	@PutMapping("/nickname")
-	public ResponseEntity<SuccessResponse<UserUpdateNicknameResponseDto>> nicknameController(@RequestHeader("Authorization") String token, @RequestBody String nickname) {
-		log.info("PUT /v1/user/nickname : token: {}, nickname: {}", token, nickname);
+	public ResponseEntity<SuccessResponse<UserUpdateNicknameResponseDto>> nicknameController(@Parameter(hidden = true) @RequestHeader("Authorization") String token, @RequestBody UserUpdateNicknameRequestDto nickname) {
+		log.info("PUT /v1/user/nickname : token: {}, nickname: {}", token, nickname.nickname());
 		// validate token
 		var memberInfo = jwt.validateToken(JwtTokenRequestDto.builder().accessToken(token).build());
 		// change nickname
-		var result = svc.updateUserNicknameService(memberInfo.memberId(), nickname);
+		var result = svc.updateUserNicknameService(memberInfo.memberId(), nickname.nickname());
 		return ResponseEntity.ok(new SuccessResponse<>(result, SuccessCode.UPDATE_SUCCESS, "닉네임 수정 성공"));
 	}
 
@@ -110,7 +115,7 @@ public class UserController {
 	 * 기부 뱃지 조회
 	 * */
 	@GetMapping("/badge")
-	public ResponseEntity<SuccessResponse<?>> badgeController(@RequestHeader("Authorization") String token) {
+	public ResponseEntity<SuccessResponse<?>> badgeController(@Parameter(hidden = true) @RequestHeader("Authorization") String token) {
 		log.info("GET /v1/user/badge : token: {}", token);
 		// validate token
 		var memberInfo = jwt.validateToken(JwtTokenRequestDto.builder().accessToken(token).build());

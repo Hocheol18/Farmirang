@@ -2,7 +2,10 @@ package com.cg.farmirang.backenduser.feature.security.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,6 +14,7 @@ import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequest
 import com.cg.farmirang.backenduser.feature.security.repository.RedisTokenRepository;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 class JwtServiceImplTest {
 	@Autowired
@@ -18,17 +22,16 @@ class JwtServiceImplTest {
 	@Autowired
 	RedisTokenRepository redis;
 
-	String accessToken = "Bearer tokentokentoken";
-	String refreshToken = "testtesttest";
-	int memberId = 1;
-	String nickname = "test";
+	String accessToken = "Bearer testtest";
+	String refreshToken = "test";
+	int memberId = 8;
 	String deviceId = "test-device";
 
+	@Order(1)
 	@Test
 	void createToken() {
 		var entity = JwtCreateTokenRequestDto.builder()
 			.memberId(memberId)
-			.nickname(nickname)
 			.role(MemberRole.MEMBER)
 			.deviceId(deviceId)
 			.build();
@@ -39,8 +42,11 @@ class JwtServiceImplTest {
 		assertEquals(res.refreshToken(), target.getRefreshToken());
 		assertNotNull(res.accessToken());
 		System.out.println(res);
+		accessToken = "Bearer " + res.accessToken();
+		refreshToken = res.refreshToken();
 	}
 
+	@Order(2)
 	@Test
 	void validateToken() {
 		var access = JwtTokenRequestDto.builder().accessToken(accessToken).deviceId(deviceId).build();
@@ -51,9 +57,10 @@ class JwtServiceImplTest {
 		assertNotNull(accessResult);
 		assertNotNull(refreshResult);
 		assertEquals(accessResult.memberId(), memberId);
-
+		System.out.println(accessResult);
 	}
 
+	@Order(3)
 	@Test
 	void reissueToken() {
 		var args = JwtTokenRequestDto.builder()
@@ -68,11 +75,14 @@ class JwtServiceImplTest {
 		assertEquals(entity.refreshToken(), res.getRefreshToken());
 		assertEquals("Bearer", entity.tokenType());
 		System.out.println(entity);
+		accessToken = "Bearer " + entity.accessToken();
+		refreshToken = entity.refreshToken();
 	}
 
+	@Order(4)
 	@Test
 	void revokeToken() {
-		var args = JwtTokenRequestDto.builder().accessToken(accessToken).refreshToken(refreshToken).deviceId(deviceId).build();
+		var args = JwtTokenRequestDto.builder().accessToken(accessToken).deviceId(deviceId).build();
 		var entity = svc.revokeToken(args);
 		var res = redis.findById(deviceId).orElse(null);
 		assertNotNull(entity);
