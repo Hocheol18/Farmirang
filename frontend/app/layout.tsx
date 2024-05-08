@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./Navbar";
 import Script from "next/script";
+import ChatButton from "./chatButton";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <div className="flex flex-col h-full">
           <NavBar />
           {children}
+          <ChatButton />
         </div>
       </body>
     </html>

@@ -1,7 +1,11 @@
 import TitleBox from "../TitleBox";
 import FirstInputBox from "./FirstInputBox";
 
-const FirstPage = () => {
+interface Props {
+  handleStep: (step: number) => void;
+}
+
+const FirstPage = ({ handleStep }: Props) => {
   return (
     <div className=" flex flex-col w-[90%] h-[90%]">
       {/* 1단계 타이틀 */}
@@ -10,7 +14,7 @@ const FirstPage = () => {
         pointText="입력"
         basicText2="해주세요"
       />
-      <FirstInputBox />
+      <FirstInputBox handleStep={handleStep} />
     </div>
   );
 };

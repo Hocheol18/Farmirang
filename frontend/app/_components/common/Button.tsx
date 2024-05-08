@@ -10,7 +10,7 @@ interface Props {
 const Button = ({ text, bgStyles, textStyles, handleClick }: Props) => {
   return (
     <button
-      className={`${bgStyles} py-2 px-4 rounded-md shadow shadow-md`}
+      className={`${bgStyles} py-2 px-4 rounded-md shadow-lg`}
       onClick={handleClick}
     >
       <div className={`${textStyles} `}>{text}</div>
