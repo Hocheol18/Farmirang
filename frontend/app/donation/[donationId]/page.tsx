@@ -7,7 +7,7 @@ export default function DonationDetailPage() {
   const number = 25;
   const count = 6;
   return (
-    <div className="w-full pb-[10rem] mt-[10rem]">
+    <div className="w-full pb-[10rem] mt-[5rem]">
       <div className="flex justify-center text-h1 font-bold text-green-400">기부중</div>
       <div className="flex justify-center text-[70px] font-extrabold">동네 주민에게 사랑을</div>
       <div className="flex justify-center mt-16 h-full">

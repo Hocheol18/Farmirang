@@ -14,7 +14,7 @@ export default function FileUploadButton({ handleImage }: Props) {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      setFileName(file.name);
+      setFileName(file.name.slice(0,-4));
       handleImage(file);
     }
   };
@@ -57,6 +57,7 @@ export default function FileUploadButton({ handleImage }: Props) {
           onChange={handleFileChange}
           className="hidden"
           ref={inputEl}
+          accept="image/gif, image/jpeg, image/png"
         />
       </div>
     </>

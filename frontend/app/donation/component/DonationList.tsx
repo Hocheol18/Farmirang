@@ -7,8 +7,8 @@ export default function DonationList() {
   return (
     <>
       <div className="relative mt-44">
-        <div className="text-h2 z-10">모금중인 기부</div>
-        <div className="bg-yellow-100 w-[17rem] h-6 rounded-xl absolute top-8 left-0 z-0 opacity-70"></div>
+        <div className="text-h2">모금중인 기부</div>
+        <div className="bg-green-200 w-[15rem] h-6 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
       </div>
       <div className="border border-black-100 border mt-6"></div>
       <div className="my-10 flex justify-between relative">
