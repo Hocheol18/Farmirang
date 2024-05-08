@@ -1,3 +1,5 @@
+// 원래 의도는 이 안에 canvas를 그리고 ShowArrangement를 위에 올려서 보여줄려 했으나 그건 현실적으로 불가능 할 것 같아서... 고민 중인 코드
+
 import React, { useRef, useEffect } from "react";
 import ShowArrangement from "./ShowArrangement";
 
