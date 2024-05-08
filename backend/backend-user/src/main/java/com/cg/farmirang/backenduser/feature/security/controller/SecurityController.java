@@ -1,7 +1,5 @@
 package com.cg.farmirang.backenduser.feature.security.controller;
 
-import java.net.URISyntaxException;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ import com.cg.farmirang.backenduser.global.common.code.SuccessCode;
 import com.cg.farmirang.backenduser.global.common.response.SuccessResponse;
 import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +37,7 @@ public class SecurityController {
 	 * 토큰 갱신
 	 * */
 	@PostMapping("/token")
+	@Operation(description = "토큰을 갱신합니다, grant_type은 refresh_token으로 고정해주세요")
 	public ResponseEntity<SuccessResponse<JwtCreateTokenResponseDto>> reissueTokenController(
 		@Parameter(hidden = true) @RequestHeader("Authorization") String authorization,
 		@Parameter(hidden = true) @CookieValue("device-id") String deviceId, @RequestBody JwtReissueControllerDto dto) {
@@ -53,6 +53,7 @@ public class SecurityController {
 	 * 토큰 검증
 	 * */
 	@GetMapping("/validate")
+	@Operation(description = "토큰을 검증합니다, 아래에 Access-token과 Refresh-token, device-id를 입력하면 헤더 자동으로 들어갑니다")
 	public ResponseEntity<SuccessResponse<JwtValidateTokenResponseDto>> validateTokenController(
 		@RequestHeader(value = "Access-token", required = false) String accessToken,
 		@RequestHeader(value = "Refresh-token", required = false) String refreshToken,
@@ -65,8 +66,9 @@ public class SecurityController {
 	}
 
 	@GetMapping("/test/logout")
+	@Operation(description = "swagger를 위한 테스트용 로그아웃 api입니다. 프론트엔드 프로젝트에서는 사용하지 마세요.")
 	public ResponseEntity<?> logoutTestController(@Parameter(hidden = true) @RequestHeader("Authorization") String authorization,
-		@Parameter(hidden = true) @CookieValue("device-id") String deviceId) throws URISyntaxException {
+		@Parameter(hidden = true) @CookieValue("device-id") String deviceId) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", authorization);
 		headers.add("Cookie", "device-id="+deviceId);
