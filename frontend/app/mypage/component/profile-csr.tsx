@@ -4,15 +4,15 @@ import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
 import Modal from "@/app/_components/common/Modal";
-import Input from "@/app/_components/common/Input";
-import DaumPost from "@/app/farm-enroll/component/Address";
+import ChangePicture from "./change-propic";
+import ChangeNickname from "./change-nickname";
 
 export default function ProfileCSR() {
   const userStatusList = ["member", "agency"];
   let userState = "member";
 
   return (
-    <div className="flex flex-col items-center gap-[90px] relative bg-white">
+    <div className="flex flex-col items-center gap-[70px] relative bg-white">
       {/* 유저 사진 헤더 */}
       <div className="flex flex-col items-start gap-[10px] p-[10px] relative self-stretch w-full flex-[0_0_auto]">
         {/* 밭 디자인 */}
@@ -38,97 +38,42 @@ export default function ProfileCSR() {
             />
           </div>
         </div>
-        <Modal
-          subTitlecss={"text-base font-bold"}
-          Titlecss={"text-h3 font-extrabold"}
-          buttonText={"버튼"}
-          buttonBgStyles={"w-20 b-green-400"}
-          buttonTextStyles={"text-h4"}
-          Title="기관 회원 전환 신청"
-          subTitle="후원 요청을 위한 기관회원 전환 신청서입니다."
-          contents={
-            <>
-              <Input
-                labelcss={"text-lg font-semibold"}
-                inputcss={
-                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                }
-                placeholder={"구매할 센서의 갯수를 적어주세요"}
-                type={"string"}
-                value={undefined}
-                topcss={"mt-10"}
-                labeltext={"시설명"}
-                onChange={() => {}}
-              />
-              <Input
-                labelcss={"text-lg font-semibold"}
-                inputcss={
-                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                }
-                placeholder={"구매할 센서의 갯수를 적어주세요"}
-                type={"string"}
-                value={undefined}
-                topcss={"mt-10"}
-                labeltext={"소재지"}
-                onChange={() => {}}
-              />
-              <DaumPost />
-              <Input
-                labelcss={"text-lg font-semibold"}
-                inputcss={
-                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                }
-                placeholder={"구매할 센서의 갯수를 적어주세요"}
-                type={"string"}
-                value={undefined}
-                topcss={"mt-10"}
-                labeltext={"복지시설신고번호"}
-                onChange={() => {}}
-              />
-              <Input
-                labelcss={"text-lg font-semibold"}
-                inputcss={
-                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                }
-                placeholder={"구매할 센서의 갯수를 적어주세요"}
-                type={"string"}
-                value={undefined}
-                topcss={"mt-10"}
-                labeltext={"전화번호"}
-                onChange={() => {}}
-              />
-              <Input
-                labelcss={"text-lg font-semibold"}
-                inputcss={
-                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                }
-                placeholder={"구매할 센서의 갯수를 적어주세요"}
-                type={"string"}
-                value={undefined}
-                topcss={"mt-10"}
-                labeltext={"시설신고증사진"}
-                onChange={() => {}}
-              />
-
-              <div className="mt-4">
-                <input
-                  type="text"
-                  onChange={() => {}}
-                  className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                  placeholder="상세 주소를 입력해주세요"
-                />
-              </div>
-            </>
-          }
-        />
+        <div className="relative top-[100px] left-[370px] mb-[70px]">
+          <Modal
+            buttonText={"프로필 사진 변경"}
+            buttonBgStyles={"bg-green-300 mx-auto"}
+            buttonTextStyles={"text-font-m6 text-white-100"}
+            Title="프로필 사진 변경"
+            subTitle=""
+            Titlecss={"text-h3 font-extrabold"}
+            subTitlecss={"text-base font-bold"}
+            Modalcss={"w-[500px]"}
+            Titlebottom={""}
+            next={"확인"}
+            contents={<ChangePicture />}
+          />
+        </div>
       </div>
 
       {/* 유저 정보 */}
       <div className="flex flex-col items-center justify-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
-        <div className="inline-flex items-center justify-center gap-[10px] py-[19px] px-[10px] relative flex-[0_0_auto]">
+        <div className="inline-flex items-center justify-center gap-[10px] pb-[19px] relative flex-[0_0_auto]">
           <div className="relative w-fit mt-[-1.00px] font-t-h2 font-[number:var(--t-h2-font-weight)] text-black text-[length:var(--t-h2-font-size)] tracking-[var(--t-h2-letter-spacing)] leading-[var(--t-h2-line-height)] whitespace-nowrap [font-style:var(--t-h2-font-style)]">
             유저 닉네임
           </div>
+          <Modal
+            buttonText={"닉네임 변경"}
+            buttonBgStyles={"bg-green-300"}
+            buttonTextStyles={"text-font-m6 text-white-100"}
+            Title="닉네임 변경"
+            subTitle=""
+            Titlecss={"text-h3 font-extrabold"}
+            subTitlecss={"text-base font-bold"}
+            Modalcss={"w-[500px]"}
+            Titlebottom={""}
+            next={"확인"}
+            contents={<ChangeNickname />}
+          />
         </div>
         <div className="w-[300px] justify-center flex items-center relative">
           <div className="flex items-center gap-[10px] flex-[0_0_auto] relative w-full">
