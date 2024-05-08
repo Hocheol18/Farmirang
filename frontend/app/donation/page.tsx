@@ -19,9 +19,9 @@ export default function Donation() {
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-[10rem]">
         <div className="w-10/12">
-          <div className="relative mt-32">
+          <div className="relative ">
             <div className="text-h1 z-10">모금중인 기부</div>
             <div className="bg-yellow-100 w-[17rem] h-6 rounded-xl absolute top-10 left-0 z-0 opacity-70"></div>
           </div>
