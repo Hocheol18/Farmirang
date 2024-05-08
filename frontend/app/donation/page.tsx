@@ -9,21 +9,27 @@ export default function Donation() {
           <span className="font-bold text-h1 text-green-400 ml-4">기부</span>
         </div>
 
-        <div className="w-full mt-14">
-          <div className="text-h5 flex justify-center">기부,</div>
-          <div className="text-h5 flex justify-center">어렵지 않아요.</div>
-          <div className="text-h5 flex justify-center">
+        <div className="w-full mt-14 leading-10">
+          <div className="text-h5 font-semibold flex justify-center">
+            봄, 여름, 가을, 그리고 겨울
+          </div>
+          <div className="text-h5 font-semibold flex justify-center mb-8">
+            팜이랑은 가장 먼저 주변의 힘든 이웃을 도왔습니다.
+          </div>
+          <div className="text-h5 font-semibold flex justify-center">기부,</div>
+          <div className="text-h5 font-semibold flex justify-center">어렵지 않아요.</div>
+          <div className="text-h5 font-semibold flex justify-center">
             팜이랑과 함께라면 쉬워집니다.
           </div>
-          <div className="text-h5 flex justify-center">지금 시작해보세요!</div>
+          <div className="text-h5 font-semibold flex justify-center">지금 시작해보세요!</div>
         </div>
       </div>
 
-      <div className="flex justify-center mt-[10rem]">
-        <div className="w-10/12">
-          <div className="relative ">
-            <div className="text-h1 z-10">모금중인 기부</div>
-            <div className="bg-yellow-100 w-[17rem] h-6 rounded-xl absolute top-10 left-0 z-0 opacity-70"></div>
+      <div className="flex justify-center mt-[10rem] pb-[8rem]">
+        <div className="w-11/12">
+          <div className="relative w-full grid grid-cols-3 ml-[4rem]">
+            <div className="text-h1">모금중인 기부</div>
+            <div className="bg-yellow-100 w-[17rem] h-6 rounded-xl absolute top-10 left-0 z-[-1] opacity-70"></div>
           </div>
           <div className="w-full grid grid-cols-3">
             <div className="flex justify-center">

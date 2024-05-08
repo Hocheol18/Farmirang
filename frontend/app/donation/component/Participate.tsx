@@ -8,6 +8,7 @@ export default function Participate() {
     <>
       <div className="relative mt-44">
         <div className="text-h2 z-10">{number} 명이 참가했어요</div>
+        <div className="bg-green-200 w-[21rem] h-6 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
       </div>
       <div className="border border-black-100 border mt-6"></div>
       <div className="flex justify-center">

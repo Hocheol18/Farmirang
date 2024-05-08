@@ -4,16 +4,21 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import FileUploadButton from "./FileUploadButton";
 
 interface Props {
+  // 타이틀 텍스트
   title: String;
+  // 타이틀 css
   titlecss: string;
+  // 전체 div의 css
   topcss: string;
+  // 이미지 가로 길이 조정
+  topsecondcss : string;
 }
 
-export default function ImageComponent({ title, titlecss, topcss }: Props) {
+export default function ImageComponent({ title, titlecss, topcss, topsecondcss }: Props) {
   return (
     <>
-      <div className={`flex justify-center ${topcss}`}>
-        <div className="w-5/6 justify-center">
+      <div className={`flex ${topcss}`}>
+        <div className={`justify-center ${topsecondcss} `}>
           <label className={`block ${titlecss}`}>{title}</label>
           <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-500 px-6 py-10">
             <div className="text-center">
@@ -37,6 +42,7 @@ export default function ImageComponent({ title, titlecss, topcss }: Props) {
                 <p className="pl-1 text-gray-500">PNG, JPG, GIF 파일</p>
               </div>
 
+              {/* 나중에 useState를 통해서 데이터 입력 */}
               <FileUploadButton handleImage={() => {}} />
             </div>
           </div>
