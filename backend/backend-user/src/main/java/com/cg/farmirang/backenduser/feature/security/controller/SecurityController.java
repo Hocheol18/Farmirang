@@ -53,13 +53,14 @@ public class SecurityController {
 	 * 토큰 검증
 	 * */
 	@GetMapping("/validate")
-	@Operation(description = "토큰을 검증합니다, 아래에 Access-token과 Refresh-token, device-id를 입력하면 헤더 자동으로 들어갑니다")
+	@Operation(description = "토큰을 검증합니다, access token, refresh token 각각 검증 가능하며 refresh token 검증 시 device id가 필요합니다, 아래에 Access-token과 Refresh-token, device-id를 입력하면 헤더에 자동으로 들어갑니다")
 	public ResponseEntity<SuccessResponse<JwtValidateTokenResponseDto>> validateTokenController(
 		@RequestHeader(value = "Access-token", required = false) String accessToken,
 		@RequestHeader(value = "Refresh-token", required = false) String refreshToken,
 		@RequestHeader(value = "device-id", required = false) String deviceId) {
 		log.info("/api/v1/security/validate  accessToken: {}, refreshToken: {}, deviceId: {}", accessToken, refreshToken, deviceId);
-		if(!accessToken.split(" ")[0].equalsIgnoreCase("bearer")) accessToken = "Bearer " + accessToken;
+		if(accessToken == null || accessToken.isBlank() ) accessToken = null;
+		else if (!accessToken.split(" ")[0].equalsIgnoreCase("bearer")) accessToken = "Bearer " + accessToken;
 		var dto = JwtTokenRequestDto.builder().accessToken(accessToken).refreshToken(refreshToken).deviceId(deviceId).build();
 		var result = jwt.validateToken(dto);
 		return ResponseEntity.ok(new SuccessResponse<>(result, SuccessCode.SELECT_SUCCESS, "검증 성공"));
