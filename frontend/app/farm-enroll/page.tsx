@@ -75,10 +75,6 @@ export default function FarmEnroll() {
           <div className="">
             <h2 className="text-h1 font-semibold text-black-100">밭 등록</h2>
 
-            {/* <p className="mt-1 text-sm leading-6 text-gray-600">
-            This information will be displayed publicly so be careful what you share.
-          </p> */}
-
             <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
               <div className="col-span-full mt-10">
                 <Input

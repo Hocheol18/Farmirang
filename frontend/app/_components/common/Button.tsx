@@ -5,9 +5,10 @@ interface Props {
   bgStyles: string;
   textStyles: string;
   handleClick: () => void;
+  children? : React.ReactNode;
 }
 
-const Button = ({ text, bgStyles, textStyles, handleClick }: Props) => {
+const Button = ({ children, text, bgStyles, textStyles, handleClick }: Props) => {
   return (
     <button
       className={`${bgStyles} py-2 px-4 rounded-md shadow-lg`}

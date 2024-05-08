@@ -42,7 +42,7 @@ export default function MyModal({
   Titlebottom,
   next,
 }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -73,36 +73,38 @@ export default function MyModal({
                 <Dialog.Panel
                   className={`w-full transform border border-gray-400 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}
                 >
-                  <Dialog.Title
-                    as="h3"
-                    className={`text-black-100 ${Titlecss}`}
-                  >
-                    {Title}
-                    {Titlebottom}
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className={`text-black-100 ${subTitlecss}`}>
-                      {subTitle}
-                    </p>
-                  </div>
-                  <div className="mt-6">{contents}</div>
+                  <>
+                    <Dialog.Title
+                      as="h3"
+                      className={`text-black-100 ${Titlecss}`}
+                    >
+                      {Title}
+                      {Titlebottom}
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className={`text-black-100 ${subTitlecss}`}>
+                        {subTitle}
+                      </p>
+                    </div>
+                    <div className="mt-6">{contents}</div>
 
-                  <div className="flex justify-end mt-10">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border shadow-lg border-transparent bg-green-100 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <div className="text-green-400 font-bold">취소</div>
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      onClick={() => {}}
-                    >
-                      <div className="text-white-100 font-bold">{next}</div>
-                    </button>
-                  </div>
+                    <div className="flex justify-end mt-10">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border shadow-lg border-transparent bg-green-100 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="text-green-400 font-bold">취소</div>
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                        onClick={() => {}}
+                      >
+                        <div className="text-white-100 font-bold">{next}</div>
+                      </button>
+                    </div>
+                  </>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
