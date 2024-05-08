@@ -2,6 +2,7 @@ import React from "react";
 import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
+import ShowArrangement from "./ShowArrangement";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -23,13 +24,32 @@ const SecondSecondPage = ({ handleStep }: Props) => {
 
   const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
+  const grid = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 0],
+    [1, 2, 3, 4, 5, 6, 7, 8, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [9, 10, 11, 12, 13, 13, 14, 14, 0],
+    [9, 10, 11, 12, 13, 13, 14, 14, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
+
+  const crops = {
+    1: "🌱",
+    2: "❤",
+    3: "🥒",
+    10: "🍎",
+    5: "🥕",
+    13: "🌽",
+    14: "🍅",
+  };
+
   return (
     <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
       <TitleBox basicText1="추천된" pointText="텃밭꾸미기" basicText2="" />
 
       {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
-      <div className="flex justify-center items-center w-[80%] h-[70%] bg-white-100 rounded-lg shadow">
-        추천된 텃밭꾸미기 보여주는 곳
+      <div className="flex justify-center items-center w-[80%] h-[70%] bg-white-100 rounded-lg shadow p-10">
+        <ShowArrangement grid={grid} crops={crops} />
       </div>
       {/* 버튼들 */}
       <div className="flex justify-around w-full">
