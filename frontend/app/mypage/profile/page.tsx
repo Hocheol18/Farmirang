@@ -1,7 +1,7 @@
 "use client";
 import MiniNavigation from "../component/mini-nav";
 import Button from "@/app/_components/common/Button";
-import Profile from "../component/profile";
+import ProfileCSR from "../component/profile-csr";
 
 export default function MyPage() {
   return (
@@ -22,7 +22,7 @@ export default function MyPage() {
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
                 <Button
-                  text={"회원정보변경"}
+                  text={"회원자격 변경신청"}
                   bgStyles={"bg-green-300"}
                   textStyles={"text-font-m5 text-white-100"}
                   handleClick={() => {}}
@@ -30,7 +30,7 @@ export default function MyPage() {
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                <Profile />
+                <ProfileCSR />
               </div>
             </div>
           </div>
