@@ -2,7 +2,9 @@
 
 import MiniNavigation from "../component/mini-nav";
 import Button from "@/app/_components/common/Button";
+import Modal from "@/app/_components/common/Modal";
 import DesignCard from "../component/design-card";
+import DesignUpload from "@/app/board/component/design-upload";
 
 export default function MyFarmDesign() {
   return (
@@ -22,11 +24,20 @@ export default function MyFarmDesign() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 꾸미기 목록</div>
-                <Button
-                  text={"게시하기"}
-                  bgStyles={"bg-green-300"}
-                  textStyles={"text-font-m5 text-white-100"}
-                  handleClick={() => {}}
+                <Modal
+                  buttonText={"게시하기"}
+                  buttonBgStyles={"bg-green-300"}
+                  buttonTextStyles={"text-font-m5 text-white-100"}
+                  Title="새로운 구경글 생성하기"
+                  subTitle=""
+                  Titlecss={"text-h3 font-extrabold"}
+                  subTitlecss={"text-base font-bold"}
+                  Modalcss={"w-[500px]"}
+                  Titlebottom={
+                    <div className="bg-green-200 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                  }
+                  next={"저장"}
+                  contents={<DesignUpload />}
                 />
               </div>
               {/* 카드 리스트 */}
