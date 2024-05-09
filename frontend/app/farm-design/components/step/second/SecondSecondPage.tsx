@@ -3,6 +3,7 @@ import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import ShowArrangement from "./ShowArrangement";
+import DesignBox from "./DesignBox";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -43,13 +44,31 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     14: "🍅",
   };
 
+  const cropsList = [
+    { r: 0, c: 0, cropId: 1 },
+    { r: 0, c: 1, cropId: 1 },
+    { r: 0, c: 2, cropId: 1 },
+    { r: 0, c: 3, cropId: 1 },
+    { r: 0, c: 4, cropId: 1 },
+    { r: 0, c: 5, cropId: 1 },
+    { r: 0, c: 6, cropId: 1 },
+    { r: 0, c: 7, cropId: 1 },
+    { r: 3, c: 0, cropId: 1 },
+    { r: 3, c: 1, cropId: 1 },
+    { r: 3, c: 2, cropId: 1 },
+    { r: 3, c: 3, cropId: 1 },
+    { r: 3, c: 4, cropId: 2 },
+    { r: 3, c: 6, cropId: 2 },
+  ];
+
   return (
     <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
       <TitleBox basicText1="추천된" pointText="텃밭꾸미기" basicText2="" />
 
       {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
       <div className="flex justify-center items-center w-[80%] h-[70%] bg-white-100 rounded-lg shadow p-10">
-        <ShowArrangement grid={grid} crops={crops} />
+        {/* <ShowArrangement grid={grid} crops={crops} /> */}
+        <DesignBox grid={grid} cropsList={cropsList} />
       </div>
       {/* 버튼들 */}
       <div className="flex justify-around w-full">
