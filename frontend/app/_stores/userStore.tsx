@@ -7,7 +7,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export type UserStore = {
   accessToken: string;
   refreshToken: string;
-  memberId: number;
+  memberId: string;
   profileImg: string;
   role: string;
   deviceId: string;
@@ -21,12 +21,13 @@ type UserInfoActions = {
   resetAuth: () => void;
   saveAuth: (userInfo: UserStore) => void;
   updateToken: (accessToken: string) => void;
+  updateImg: (profileImg: string) => void;
 };
 
 const defaultState: UserStore = {
   accessToken: "",
   refreshToken: "",
-  memberId: 0,
+  memberId: "",
   profileImg: "",
   role: "",
   deviceId: "",
@@ -41,8 +42,8 @@ export const useUserStore = create<UserInfoState & UserInfoActions>()(
         set({ userInfo: defaultState });
       },
 
-      saveAuth: (userInfo: UserStore) => {
-        set({ userInfo });
+      saveAuth: (newUserInfo: UserStore) => {
+        set((state) => ({ userInfo: { ...state.userInfo, ...newUserInfo } }));
       },
 
       updateToken: (accessToken: string) => {

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import FileUploadButton from "./FileUploadButton";
@@ -11,10 +11,15 @@ interface Props {
   // 전체 div의 css
   topcss: string;
   // 이미지 가로 길이 조정
-  topsecondcss : string;
+  topsecondcss: string;
 }
 
-export default function ImageComponent({ title, titlecss, topcss, topsecondcss }: Props) {
+export default function ImageComponent({
+  title,
+  titlecss,
+  topcss,
+  topsecondcss,
+}: Props) {
   return (
     <>
       <div className={`flex ${topcss}`}>
@@ -39,7 +44,7 @@ export default function ImageComponent({ title, titlecss, topcss, topsecondcss }
                     className="sr-only"
                   />
                 </label>
-                <p className="pl-1 text-gray-500">PNG, JPG, GIF 파일</p>
+                <p className="pl-1 text-gray-500">PNG, JPG, JPEG 파일</p>
               </div>
 
               {/* 나중에 useState를 통해서 데이터 입력 */}
