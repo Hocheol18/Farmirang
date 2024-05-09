@@ -1,13 +1,16 @@
 package com.cg.farmirang.agency.feature.agency.entity;
 
-import org.hibernate.annotations.ColumnDefault;
+import com.cg.farmirang.agency.feature.user.entity.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,29 +23,38 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "welfare_facility", indexes = @Index(name = "idx_facility_member_id", columnList = "member_id"))
+@Table(name = "welfare_facility", indexes = {
+	@Index(name = "idx_facility_member_id", columnList = "member_id")
+})
 public class WelfareFacility {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "facility_id")
 	private Integer id;
 
-	@Column(name = "member_id")
-	private Integer memberId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id", nullable = false)
+	//TODO: 조회 시 쿼리문 확인해보기(Member  테이블이 같이 조회되면 안됨)
+	private Member member;
 
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String name;
 
-	@Column(length = 255)
+	@Column(length = 255, nullable = false)
 	private String address;
 
-	@Column(name = "report_number", length = 255)
+	@Column(name = "report_number", length = 255, unique = true, nullable = false)
 	private String reportNumber;
 
 	@Column
-	@ColumnDefault("false")
 	private Boolean approval;
 
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String contact;
+
+	@Column(length = 200)
+	private String reason;
+
+	@Column(nullable = true)
+	private String img;
 }
