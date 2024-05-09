@@ -21,6 +21,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=e6c6edef784b515a21fcf7f03cea6190&autoload=false`}
         />
+
         <div className="flex flex-col h-full">
           <NavBar />
           {children}
