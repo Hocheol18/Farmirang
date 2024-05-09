@@ -19,7 +19,7 @@
     "react-icons": "^5.1.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "zustand": "^4.5.2",
-    "swr": "^2.2.5",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",
