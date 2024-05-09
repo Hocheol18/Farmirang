@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 const MONTH_NAMES = [
   "1",
@@ -101,7 +101,10 @@ const DatePicker = () => {
           </div>
 
           {showDatepicker && (
-            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400">
+            <div
+              className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400"
+              
+            >
               <div className="flex justify-between items-center mb-2 ml-4">
                 <div>
                   <span className="text-lg font-bold text-black-100">

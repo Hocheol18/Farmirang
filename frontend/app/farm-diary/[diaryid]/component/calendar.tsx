@@ -1,44 +1,99 @@
-import React from "react";
-import { GoChevronLeft } from "react-icons/go";
-import { GoChevronRight } from "react-icons/go";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import SunIcon from "../../../../public/icons/weather/Sun.svg";
 import RainIcon from "../../../../public/icons/weather/Rain.svg";
 import SnowIcon from "../../../../public/icons/weather/Snowman.svg";
 import { GiPlainCircle } from "react-icons/gi";
+import { GoChevronLeft } from "react-icons/go";
+import { GoChevronRight } from "react-icons/go";
+
+const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 export default function Calendar() {
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
+  const [datepickerValue, setDatepickerValue] = useState("");
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [noOfDays, setNoOfDays] = useState<Array<number>>([]);
+  const [blankDays, setBlankDays] = useState<Array<number>>([]);
+
   const weatherList = {
     sun: <Image src={SunIcon} width={30} height={30} alt="sun" />,
     rain: <Image src={RainIcon} width={30} height={30} alt="rain" />,
     snow: <Image src={SnowIcon} width={30} height={30} alt="snow" />,
   };
 
+  const dateToStr = (date: any) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    return year + "년 " + month + "월 ";
+  };
+
+  const getDateValue = (date: number) => {
+    const selectedDate = new Date(year, month, date);
+    setDatepickerValue(dateToStr(selectedDate));
+    setShowDatepicker(false);
+  };
+
+  const isToday = (date: number) => {
+    const today = new Date();
+    const d = new Date(year, month, date);
+    return today.toDateString() === d.toDateString();
+  };
+
+  useEffect(() => {
+    function initDate() {
+      const today = new Date();
+      setDatepickerValue(dateToStr(today));
+    }
+
+    function getNoOfDays() {
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const dayOfWeek = new Date(year, month).getDay();
+      const blankdaysArray = Array.from({ length: dayOfWeek }, (_, i) => i);
+      const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+      setBlankDays(blankdaysArray);
+      setNoOfDays(daysArray);
+    }
+
+    initDate();
+    getNoOfDays();
+  }, [month, year]);
+
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
         <header className="flex items-center justify-between border-b border-gray-300 px-6 py-4 lg:flex-none">
+          
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            <time dateTime="2022-01">2022년 3월</time>
+            <time>{datepickerValue}</time>
           </h1>
           <div className="flex items-center">
             <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
               <button
                 type="button"
-                className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+                disabled={month === 0}
+                onClick={() => setMonth(month - 1)}
+                className="flex h-9 w-12 items-center justify-center rounded-l-md border border-gray-300 pr-1 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
               >
                 <GoChevronLeft />
               </button>
               <button
                 type="button"
-                className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+                onClick={() => setShowDatepicker(!showDatepicker)}
+                className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-black-100 hover:bg-gray-50 focus:relative md:block"
               >
                 오늘
               </button>
               <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden"></span>
               <button
                 type="button"
-                className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+                disabled={month === 11}
+                onClick={() => setMonth(month + 1)}
+                className="flex h-9 w-12 items-center justify-center rounded-r-md border border-gray-300 pl-1 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
               >
                 <GoChevronRight />
               </button>
