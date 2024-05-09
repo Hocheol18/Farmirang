@@ -15,13 +15,17 @@ function MainFunction() {
     onErrorRetry: (error) => {
       if (error.status === 401) return; // 401 에러일 때 예외처리
     },
-    revalidateOnFocus: false, // 탭을 전환할 때 자동 데이터 갱신 방지
+    revalidateOnFocus: true, // 탭을 전환할 때 자동 데이터 갱신
     revalidateOnMount: true, // 마운트 될 때만 자동 데이터 갱신
   });
 
-  if (!data) return <Spinner />; // 로딩중
+  console.log(data);
 
-  return <Display />; // 디스플레이
+  if (!data) return <Spinner />; // 로딩중
+  else {
+    // 디스플레이
+    return <Display />;
+  }
 }
 
 function Display() {
