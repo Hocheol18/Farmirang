@@ -3,8 +3,8 @@
 import Image from "next/image";
 
 export default function LoginButton() {
-  // const tokenURL = `https://j10a604.p.ssafy.io/api/user-service/oauth2/authorization`;
-  const tokenURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=`;
+  // const tokenURL = `http://k10a105.p.ssafy.io:8081/api/v1/security/oauth2`;
+  const tokenURL = `http://localhost:8081/api/v1/security/oauth2`;
 
   const kakaoLogin = function () {
     window.location.href = `${tokenURL}/kakao`;
