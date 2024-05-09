@@ -42,6 +42,21 @@ export default function MyPage() {
               <div className="justify-center mx-auto">
                 <ProfileCSR />
               </div>
+              <Modal
+                buttonText={"회원 탈퇴 하기"}
+                buttonBgStyles={"bg-red-500"}
+                buttonTextStyles={"text-font-m5 text-white-100"}
+                Title="정말 탈퇴하시겠습니까?"
+                subTitle="탈퇴한 뒤에는 아이디 및 데이터를 복구할 수 없으니 신중히 진행하세요."
+                Titlecss={"text-h3 font-extrabold"}
+                subTitlecss={"text-base font-bold"}
+                Modalcss={"w-[530px]"}
+                Titlebottom={
+                  <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                }
+                next={"확인"}
+                contents={<></>}
+              />
             </div>
           </div>
         </div>
