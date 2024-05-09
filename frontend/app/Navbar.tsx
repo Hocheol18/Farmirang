@@ -42,6 +42,21 @@ export default function Navbar() {
     router.push(`${href}`);
   };
 
+  const handleLogout = async () => {
+    const response = await fetch(
+      "http://localhost:8081/api/v1/security/logout",
+      {
+        method: "DELETE",
+        headers: {
+          Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJleHAiOjE3MTUzNDM2OTYsImlkIjo5LCJyb2xlIjoiTUVNQkVSIiwiZGV2aWNlX2lkIjoiYjBmOWYwMjMtMzNmMS00N2QwLWFmOTEtNTIwMTM4NmRjMmY4In0.rlJT65mvIhayPds9V7-WdhOMYTSoZpSWEHu-WdOAYENIFmAH_uAEHIYd8TSocIZ0Q92ixD7jxiJEYXlS8vBDGQ",
+        },
+        // body:
+      }
+    );
+    console.log(response);
+  };
+
   return (
     <>
       <div className="top-0 z-10 border-b">
@@ -112,7 +127,7 @@ export default function Navbar() {
                             </Menu.Button>
                           </Menu>
                           <a
-                            href="/logout"
+                            onClick={handleLogout}
                             className="text-green-500 hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
                           >
                             로그아웃

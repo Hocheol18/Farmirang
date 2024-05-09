@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useUserStore } from "../_stores/userStore";
+import Spinner from "../_components/common/Spinner";
 
 interface CookieStore {
   [key: string]: string;
@@ -24,7 +25,7 @@ function Result() {
     };
 
     const cookieStore = getCookieStore();
-    console.log("cookies", cookieStore);
+    // console.log("cookies", cookieStore);
     setCookieValues(cookieStore);
 
     const authData = {
@@ -38,17 +39,13 @@ function Result() {
 
     // saveAuth 함수에 쿠키 정보를 전달하여 실행
     saveAuth(authData);
+    window.location.pathname = "/";
   }, []);
 
   return (
-    <div>
-      {/* 클라이언트 사이드에서 요청한 쿠키 정보를 출력 */}
-      {cookieValues &&
-        Object.entries(cookieValues).map(([name, value]) => (
-          <p key={name}>
-            {name}: {value}
-          </p>
-        ))}{" "}
+    <div className="flex flex-col gap-[50px] py-[50px]">
+      <Spinner />
+      <p className="font-m-h1 text-gray-500 mx-auto">로그인중입니다</p>
     </div>
   );
 }
