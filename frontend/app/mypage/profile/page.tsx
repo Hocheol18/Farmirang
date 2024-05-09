@@ -1,7 +1,8 @@
 "use client";
 import MiniNavigation from "../component/mini-nav";
-import Button from "@/app/_components/common/Button";
-import Profile from "../component/profile";
+import Modal from "@/app/_components/common/Modal";
+import ProfileCSR from "../component/profile-csr";
+import ChangeRole from "../component/change-role";
 
 export default function MyPage() {
   return (
@@ -21,16 +22,25 @@ export default function MyPage() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
-                <Button
-                  text={"회원정보변경"}
-                  bgStyles={"bg-green-300"}
-                  textStyles={"text-font-m5 text-white-100"}
-                  handleClick={() => {}}
+                <Modal
+                  buttonText={"회원자격 변경신청"}
+                  buttonBgStyles={"bg-green-300"}
+                  buttonTextStyles={"text-font-m5 text-white-100"}
+                  Title="기관 회원 전환 신청"
+                  subTitle="후원 요청을 위한 기관회원 전환 신청서입니다."
+                  Titlecss={"text-h3 font-extrabold"}
+                  subTitlecss={"text-base font-bold"}
+                  Modalcss={"w-[500px]"}
+                  Titlebottom={
+                    <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                  }
+                  next={"확인"}
+                  contents={<ChangeRole />}
                 />
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                <Profile />
+                <ProfileCSR />
               </div>
             </div>
           </div>

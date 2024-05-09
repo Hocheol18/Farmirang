@@ -23,7 +23,7 @@ export default function Navbar() {
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "/farm-design", current: false },
     { name: "텃밭일기", href: "/farm-diary", current: false },
-    { name: "이웃이야기", href: "/board", current: false },
+    { name: "이웃이야기", href: "/board/neighbor", current: false },
     { name: "기부하기", href: "/donation", current: false },
   ]);
 
