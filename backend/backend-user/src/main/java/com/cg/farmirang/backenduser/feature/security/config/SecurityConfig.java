@@ -185,9 +185,9 @@ public class SecurityConfig {
 			var resCookie = new Cookie("device-id", devideId);
 			resCookie.setPath("/");
 			resCookie.setMaxAge(60 * 60 * 24 * 61);
-			resCookie.setHttpOnly(true);
-			resCookie.setSecure(true);
-			resCookie.setAttribute("SameSite", "None");
+			// resCookie.setHttpOnly(true);
+			// resCookie.setSecure(true);
+			// resCookie.setAttribute("SameSite", "None");
 			res.addCookie(resCookie);
 
 			res.addCookie(createCookie("access-token", token.accessToken()));
