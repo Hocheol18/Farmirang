@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import BackgroundShapes from "../farm-design/components/step/second/BackgroundShapes";
+import ShowArrangement from "../farm-design/components/step/second/ShowArrangement";
 
 // 점의 좌표를 나타내는 인터페이스
 interface Point {
@@ -115,42 +117,64 @@ const page: React.FC = () => {
     setIsDrawing(false);
   };
 
+  const grid = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 0],
+    [1, 2, 3, 4, 5, 6, 7, 8, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [9, 10, 11, 12, 13, 13, 14, 14, 0],
+    [9, 10, 11, 12, 13, 13, 14, 14, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
+
+  const crops = {
+    1: "🌱",
+    2: "❤",
+    3: "🥒",
+    10: "🍎",
+    5: "🥕",
+    13: "🌽",
+    14: "🍅",
+  };
+
   return (
-    <div>
-      {/* 캔버스 요소 */}
-      <canvas
-        ref={canvasRef}
-        width={800}
-        height={600}
-        onClick={handleCanvasClick}
-        onMouseMove={handlePointDragMove}
-        onMouseUp={handlePointDragEnd}
-      />
-      {/* 그려진 점들 */}
+    <>
       <div>
-        {points.map((point, index) => (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              left: point.x * 8 - 4,
-              top: point.y * 6 - 4,
-              width: 8,
-              height: 8,
-              backgroundColor: "transparent",
-              cursor: "move",
-            }}
-            onMouseDown={() => handlePointDragStart(point)}
-          />
-        ))}
+        {/* 캔버스 요소 */}
+        <canvas
+          ref={canvasRef}
+          width={800}
+          height={600}
+          onClick={handleCanvasClick}
+          onMouseMove={handlePointDragMove}
+          onMouseUp={handlePointDragEnd}
+        />
+        {/* 그려진 점들 */}
+        <div>
+          {points.map((point, index) => (
+            <div
+              key={index}
+              style={{
+                position: "absolute",
+                left: point.x * 8 - 4,
+                top: point.y * 6 - 4,
+                width: 8,
+                height: 8,
+                backgroundColor: "transparent",
+                cursor: "move",
+              }}
+              onMouseDown={() => handlePointDragStart(point)}
+            />
+          ))}
+        </div>
+        {/* 다각형 그리기 버튼 */}
+        <button onClick={handleDrawPolygon}>
+          {isDrawing ? "Finish Polygon" : "Draw Polygon"}
+        </button>
+        {/* 다각형 초기화 버튼 */}
+        <button onClick={handleResetPolygon}>Reset</button>
       </div>
-      {/* 다각형 그리기 버튼 */}
-      <button onClick={handleDrawPolygon}>
-        {isDrawing ? "Finish Polygon" : "Draw Polygon"}
-      </button>
-      {/* 다각형 초기화 버튼 */}
-      <button onClick={handleResetPolygon}>Reset</button>
-    </div>
+      <BackgroundShapes />
+    </>
   );
 };
 

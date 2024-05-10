@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-// Props 인터페이스 정의
+// Props 받는 것들
 interface Props {
   grid: number[][]; // 그리드 데이터를 받는 prop (2차원 배열)
   crops: { [key: number]: string }; // 작물 ID와 아이콘 매핑 객체를 받는 prop
 }
 
-// ShowArrangement 컴포넌트 정의
 const ShowArrangement = ({ grid, crops }: Props) => {
   const rLen = grid.length; // 그리드의 행 개수
   const cLen = grid[0].length; // 그리드의 열 개수
   const gridRef = useRef<HTMLDivElement>(null); // 그리드 ref (그리드 요소에 대한 참조)
+  const [scale, setScale] = useState(1); // 초기 스케일 값을 1로 설정
 
-  // 작물 테두리 스타일을 계산하는 함수
+  //getCropBorderStyle: 작물 테두리 스타일을 계산하는 함수
   const getCropBorderStyle = (cropId: number): React.CSSProperties | null => {
     const positions = []; // 작물이 위치한 셀의 위치를 저장할 배열
 
@@ -39,15 +39,14 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         left: `${leftCol * cellWidth}%`, // 테두리의 왼쪽 위치
         width: `${(rightCol - leftCol + 1) * cellWidth}%`, // 테두리의 가로 길이
         height: `${(bottomRow - topRow + 1) * cellHeight}%`, // 테두리의 세로 길이
-        border: "1px solid red", // 테두리 스타일 (빨간색 실선)
-        pointerEvents: "none", // 마우스 이벤트 무시
+        boxShadow: "0 0 0 5px green inset", // 내부에 3px 두께의 초록색 테두리를 생성
       };
     }
 
     return null; // 작물이 위치한 셀이 없는 경우 null 반환
   };
 
-  // 작물 ID에 해당하는 아이콘의 위치를 계산하는 함수
+  //getIconPosition: 작물 ID에 해당하는 아이콘의 위치를 계산하는 함수
   const getIconPosition = (
     cropId: number
   ): { top: string; left: string } | undefined => {
@@ -76,12 +75,12 @@ const ShowArrangement = ({ grid, crops }: Props) => {
 
   return (
     <div
-      ref={gridRef} // 그리드 요소에 대한 참조 설정
-      className="grid relative w-full h-full" // 그리드 컨테이너의 클래스 설정
+      ref={gridRef}
+      className="grid relative w-full h-full bg-yellow-100"
       style={{
-        gridTemplateColumns: `repeat(${cLen}, 1fr)`, // 그리드의 열 개수와 크기 설정
-        gridTemplateRows: `repeat(${rLen}, 1fr)`, // 그리드의 행 개수와 크기 설정
-        aspectRatio: `${cLen} / ${rLen}`, // 그리드의 가로 세로 비율 유지
+        gridTemplateColumns: `repeat(${cLen}, 1fr)`,
+        gridTemplateRows: `repeat(${rLen}, 1fr)`,
+        aspectRatio: `1 / 1`,
       }}
     >
       {/* 그리드 렌더링 */}
@@ -89,14 +88,12 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         <React.Fragment key={rowIndex}>
           {row.map((cell, colIndex) => (
             <div
-              key={`${rowIndex}-${colIndex}`} // 셀의 고유 키 설정
-              className="flex justify-center items-center relative" // 셀의 클래스 설정
+              key={`${rowIndex}-${colIndex}`}
+              className="flex justify-center items-center relative"
               style={{
-                backgroundColor: cell === 0 ? "white" : "green", // 셀의 배경색 설정
+                backgroundColor: cell === 0 ? "" : "#723511",
               }}
-            >
-              {cell !== 0 ? cell : ""} {/* 셀의 값이 0이 아닌 경우 값을 표시 */}
-            </div>
+            ></div>
           ))}
         </React.Fragment>
       ))}
