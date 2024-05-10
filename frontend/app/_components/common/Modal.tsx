@@ -63,6 +63,7 @@ export default function MyModal({
           className="relative z-10"
           onClose={() => setIsOpen(false)}
         >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-80 z-0 w-full h-full"></div>
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child

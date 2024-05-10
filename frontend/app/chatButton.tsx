@@ -20,7 +20,7 @@ export default function ChatButton() {
   return (
     <>
       {/* 팝업 뜨기 전 기본 버튼 */}
-      <Popover className="relative">
+      <Popover className="fixed bottom-4 right-4">
         <Popover.Button>
           <div className="fixed bottom-4 right-4">
             <div className="relative w-[90px] h-[90px] bg-green-300 rounded-[89.5px]" />
@@ -244,13 +244,18 @@ function Chatting({
     <div className="items-center w-full h-[570px] overflow-auto gap-[15px] flex-1 grow flex flex-col relative">
       {/* 상단바 */}
       <div
-        className="flex items-center space-x-3 cursor-pointer"
+        className="flex justify-between space-x-3 cursor-pointer w-full"
         onClick={handleClick}
       >
-        <IoArrowBack /> 사용자명
+        <IoArrowBack />
+        <span className="m-0">사용자명</span>
+        <div></div>
       </div>
       {/* 채팅창 */}
-      <div className="items-center w-full h-[450px] overflow-auto gap-[15px] flex-1 grow flex flex-col relative">
+      <div
+        className="items-center w-full h-[450px] overflow-auto gap-[15px] flex-1 grow flex flex-col relative"
+        ref={chatRef}
+      >
         <div className="flex flex-col items-start gap-[5px] relative self-stretch w-full">
           <div className="inline-flex items-start justify-center gap-[15px] relative flex-[0_0_auto]">
             <Avatar
@@ -328,14 +333,16 @@ function Chatting({
           </div>
         </div>
         {/* 시도중 */}
-        <div
+        {/* <div
           className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden"
           ref={chatRef}
         >
           <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
             {chatList.length > 0 ? chatList : <p>　</p>}
           </div>
-        </div>
+        </div> */}
+        {/* 시도중 */}
+        {chatList.length > 0 ? chatList : null}
       </div>
       {/* 입력창 */}
       <div className="w-full relative border-solid border-2 border-green-300 rounded-[5px]">
@@ -361,7 +368,7 @@ function MyChatContent({ content }: { content: string }) {
   return (
     <div className="items-end gap-[5px] self-stretch w-full flex flex-col relative">
       <div className="inline-flex items-center justify-end gap-[10px] px-[18px] py-[12px] relative flex-[0_0_auto] bg-green-200 rounded-[20px] overflow-hidden">
-        <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)]">
+        <div className="relative self-stretch w-[200px] mt-[-1.00px] font-m-h5 font-[number:var(--m-h5-font-weight)] tracking-[var(--m-h5-letter-spacing)] leading-[var(--m-h5-line-height)] [font-style:var(--m-h5-font-style)] break-all">
           {content}
         </div>
       </div>

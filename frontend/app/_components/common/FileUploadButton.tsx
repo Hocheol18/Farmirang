@@ -24,7 +24,7 @@ export default function FileUploadButton({ handleImage }: Props) {
   }, [fileName]);
 
   const triggerFileInput = () => {
-    inputEl.current.click();
+    inputEl.current?.click();
   };
 
   return (

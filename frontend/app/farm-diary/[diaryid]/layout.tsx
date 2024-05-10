@@ -4,39 +4,16 @@ import { useState } from "react";
 import CalendarDate from "./[date]/page";
 import Calendar from "./component/calendar";
 import Sidebar from "./component/sidebar";
-import useSWR from "swr";
-import { BASE_URL } from "@/utils/ServerApi";
-import Spinner from "@/app/_components/common/Spinner";
-
-const fetcher = (url: string) => fetch(url).then((res: Response) => res.json());
-
-function MainFunction() {
-  const { data } = useSWR(`${BASE_URL}/api/v1/field/1`, fetcher, {
-    onErrorRetry: (error) => {
-      if (error.status === 401) return; // 401 에러일 때 예외처리
-    },
-    revalidateOnFocus: true, // 탭을 전환할 때 자동 데이터 갱신
-    revalidateOnMount: true, // 마운트 될 때만 자동 데이터 갱신
-  });
-
-  console.log(data);
-
-  if (!data) return <Spinner />; // 로딩중
-  else {
-    // 디스플레이
-    return <Display />;
-  }
-}
 
 function Display() {
   const [current, setCurrent] = useState<boolean>(true);
   return (
     <>
-      <div className="flex">
+      <div className="flex h-full">
         <div className="relative flex h-[calc(100vh-6rem)] w-[17%] flex-col rounded-xl bg-white bg-clip-border p-4 border-r border-gray-300">
           <Sidebar current={current} setCurrent={setCurrent} />
         </div>
-        <div className="w-[83%]">
+        <div className="w-[83%] h-full">
           {current ? <Calendar /> : <CalendarDate />}
         </div>
       </div>
@@ -49,5 +26,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <MainFunction />;
+  return (
+    <>
+      <Display />
+    </>
+  );
 }
