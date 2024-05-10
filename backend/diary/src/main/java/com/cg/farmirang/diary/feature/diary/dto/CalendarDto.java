@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CalendarDto {
 	private Long diaryId;
-	private String weather;
-	private String weatherIcon;
 	private Integer day;
 }

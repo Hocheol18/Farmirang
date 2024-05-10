@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DiaryTotalDto {
 	private Long id;
-	private String weather;
-	private String weatherIcon;
 	private String temperature;
 	private String humidity;
 	private String fieldHumidity;

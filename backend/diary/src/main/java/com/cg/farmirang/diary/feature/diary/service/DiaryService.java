@@ -13,7 +13,7 @@ import com.cg.farmirang.diary.feature.diary.dto.response.GetDiaryTotalResponse;
 import com.cg.farmirang.diary.feature.diary.dto.response.MakeCalendarResponse;
 
 public interface DiaryService {
-	public Boolean insertDiaryManual(Long diaryMId, MultipartFile file, CreateDiaryMRequest request);
+	public Boolean insertDiaryManual(MultipartFile file, CreateDiaryMRequest request);
 	public GetDiaryMResponse selectDiaryManual(Long diaryMId);
 	public Boolean deleteDiaryManual(Long diaryMId);
 	public Boolean updateDiaryManual(Long diaryMId, MultipartFile file, ModifyDiaryMRequest request);

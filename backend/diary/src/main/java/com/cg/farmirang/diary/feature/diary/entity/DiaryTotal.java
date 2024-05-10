@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -30,11 +31,9 @@ public class DiaryTotal {
 	@Column(name = "diary_total_id")
 	private Long id;
 
-	@Column(name = "weather")
-	private String weather;
-
-	@Column(name = "weather_icon")
-	private String weatherIcon;
+	@OneToOne
+	@JoinColumn(name = "diary_id")
+	private Diary diary;
 
 	@Column(name = "temperature")
 	private String temperature;

@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "수동 일지 추가를 위한 요청 객체")
 public class CreateDiaryMRequest {
+	@NotBlank(message = "일지 번호를 입력해주세요.")
+	@Schema(description = "일지 번호를 입력해주세요." , example = "1004")
+	private Long diaryId;
+
 	@Schema(description = "일지를 입력해주세요." , example = "오늘은 빡셌다. 토마토야 좀 자라다오.")
 	private String content;
-
-	@NotBlank(message = "일지의 해당 날짜를 입력해주세요.")
-	@Schema(description = "일지의 해당 날짜를 입력해주세요." , example = "오늘은 빡셌다. 토마토야 좀 자라다오.")
-	private LocalDate diaryAt;
 }

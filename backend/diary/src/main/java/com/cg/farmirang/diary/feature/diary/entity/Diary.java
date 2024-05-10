@@ -3,6 +3,7 @@ package com.cg.farmirang.diary.feature.diary.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,16 +37,14 @@ public class Diary {
 	@JoinColumn(name = "field_id")
 	Field field;
 
-	@OneToMany(mappedBy = "diary_auto", fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_auto_id")
+	@OneToMany(mappedBy = "diary", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	List<DiaryAuto> diaryAuto;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_manual_id")
+	@JoinColumn(name = "diary_manual_id", nullable = true)
 	DiaryManual diaryManual;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_total_id")
+	@OneToOne(mappedBy = "diary", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	DiaryTotal diaryTotal;
 
 	@Column(name = "diary_at")
