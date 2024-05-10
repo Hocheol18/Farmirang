@@ -5,6 +5,7 @@ import Modal from "../_components/common/Modal";
 import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Input from "../_components/common/Input";
+import Editor from "../_components/common/Editor";
 
 interface Props {
   areaAddress: string;
@@ -35,7 +36,7 @@ export default function Diary() {
         buttonTextStyles={"text-h4"}
         Title="센서 구매"
         subTitle="밭에 심을 센서를 구매하는 폼입니다"
-        Modalcss="max-w-[28rem]"
+        Modalcss="w-[30rem]"
         contents={
           <>
             <Input
