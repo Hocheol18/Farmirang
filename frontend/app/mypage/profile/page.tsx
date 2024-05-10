@@ -1,10 +1,32 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+import { MEMBER_URL } from "@/utils/ServerApi";
+import { useUserStore } from "@/app/_stores/userStore";
 import MiniNavigation from "../component/mini-nav";
 import Modal from "@/app/_components/common/Modal";
+import Button from "@/app/_components/common/Button";
 import ProfileCSR from "../component/profile-csr";
 import ChangeRole from "../component/change-role";
 
 export default function MyPage() {
+  const { userInfo, resetAuth } = useUserStore();
+  const router = useRouter();
+  const handleDelUser = async () => {
+    const response = await fetch(`${MEMBER_URL}/v1/user`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${userInfo.accessToken}`,
+        "device-id": `${userInfo.deviceId}`,
+        // "device-id": "bcb9cdd4-abfd-4a21-893f-849a23ac4043",
+      },
+    });
+    if (response && response.ok) {
+      resetAuth();
+      router.push("/");
+    }
+  };
+
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">
@@ -55,7 +77,17 @@ export default function MyPage() {
                   <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
                 }
                 next={"확인"}
-                contents={<></>}
+                contents={
+                  <>
+                    {" "}
+                    <Button
+                      text="팜이랑 회원 탈퇴"
+                      bgStyles="flex mx-auto justify-center bg-red-500 w-[70%]"
+                      textStyles="text-white-100"
+                      handleClick={handleDelUser}
+                    />
+                  </>
+                }
               />
             </div>
           </div>

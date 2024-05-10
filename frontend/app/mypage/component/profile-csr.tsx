@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
+import { MEMBER_URL } from "@/utils/ServerApi";
 import Modal from "@/app/_components/common/Modal";
 import Button from "@/app/_components/common/Button";
 import ChangePicture from "./change-propic";
@@ -11,6 +12,23 @@ import ChangeNickname from "./change-nickname";
 export default function ProfileCSR() {
   const userStatusList = ["member", "agency"];
   let userState = "member";
+
+  // 데이터를 받아오기 위한 fetch 함수 작성해야합니다 면지야!!
+  // 아래는 예시 코드
+  // const handleDelUser = async () => {
+  //   const response = await fetch(`${MEMBER_URL}/v1/user`, {
+  //     method: "DELETE",
+  //     headers: {
+  //       Authorization: `Bearer ${userInfo.accessToken}`,
+  //       // "device-id": {userInfo.deviceId},
+  //       "device-id": "bcb9cdd4-abfd-4a21-893f-849a23ac4043",
+  //     },
+  //   });
+  //   if (response && response.ok) {
+  //     resetAuth();
+  //     router.push("/");
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center gap-[70px] relative bg-white">

@@ -12,7 +12,8 @@ function classNames(...classes: Array<string>) {
 }
 
 export default function Navbar() {
-  const userInfo = useUserStore((state) => state.userInfo);
+  const { userInfo, resetAuth } = useUserStore();
+  // const userInfo = useUserStore((state) => state.userInfo);
   // console.log(userInfo);
   const router = useRouter();
   // router
@@ -48,13 +49,16 @@ export default function Navbar() {
       {
         method: "DELETE",
         headers: {
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJleHAiOjE3MTUzNDM2OTYsImlkIjo5LCJyb2xlIjoiTUVNQkVSIiwiZGV2aWNlX2lkIjoiYjBmOWYwMjMtMzNmMS00N2QwLWFmOTEtNTIwMTM4NmRjMmY4In0.rlJT65mvIhayPds9V7-WdhOMYTSoZpSWEHu-WdOAYENIFmAH_uAEHIYd8TSocIZ0Q92ixD7jxiJEYXlS8vBDGQ",
+          Authorization: `Bearer ${userInfo.accessToken}`,
+          "device-id": `${userInfo.deviceId}`,
+          // "device-id": "83cb30c3-5e31-4bef-986c-7435576e0e9b",
         },
-        // body:
       }
     );
-    console.log(response);
+    if (response) {
+      resetAuth();
+      router.push("/");
+    }
   };
 
   return (
@@ -128,7 +132,7 @@ export default function Navbar() {
                           </Menu>
                           <a
                             onClick={handleLogout}
-                            className="text-green-500 hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
+                            className="text-green-500 cursor-pointer hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
                           >
                             로그아웃
                           </a>

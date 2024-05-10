@@ -20,7 +20,7 @@ type UserInfoState = {
 type UserInfoActions = {
   resetAuth: () => void;
   saveAuth: (userInfo: UserStore) => void;
-  updateToken: (accessToken: string) => void;
+  updateToken: (accessToken: string, refreshToken: string) => void;
   updateImg: (profileImg: string) => void;
 };
 
@@ -46,9 +46,9 @@ export const useUserStore = create<UserInfoState & UserInfoActions>()(
         set((state) => ({ userInfo: { ...state.userInfo, ...newUserInfo } }));
       },
 
-      updateToken: (accessToken: string) => {
+      updateToken: (accessToken: string, refreshToken: string) => {
         set((state) => ({
-          userInfo: { ...state.userInfo, accessToken },
+          userInfo: { ...state.userInfo, accessToken, refreshToken },
         }));
       },
 
