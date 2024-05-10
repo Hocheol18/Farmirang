@@ -1,6 +1,8 @@
 package com.cg.farmirang.diary.feature.diary.service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,7 +169,11 @@ public class DiaryServiceImpl implements DiaryService {
 				break; // 모든 날짜가 채워지면 종료
 			}
 		}
-		return MakeCalendarResponse.builder().result(monthDays).build();
+
+		ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+		Integer today = nowInKorea.getDayOfMonth();
+
+		return MakeCalendarResponse.builder().today(today).result(monthDays).build();
 	}
 
 	@Override
