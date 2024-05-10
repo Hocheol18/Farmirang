@@ -32,6 +32,7 @@ export default function FirstModal() {
           className="relative z-10"
           onClose={() => setIsOpen(false)}
         >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-80 z-0 w-full h-full"></div>
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
@@ -152,6 +153,8 @@ export default function FirstModal() {
                           titlecss={"font-semibold text-h6"}
                           topcss={"mt-[4rem] justify-center"}
                           topsecondcss="w-5/6"
+                          heightcss={""}
+                          handleEvent={() => {}}
                         />
 
                         <div className="flex justify-end mt-10">
