@@ -18,6 +18,7 @@ import YoungRadish from "../../../../../public/icons/farms/crops-young-radish.sv
 import Cucumber from "../../../../../public/icons/farms/crops-cucumber.svg";
 import Corn from "../../../../../public/icons/farms/crops-corn.svg";
 import Korean from "../../../../../public/icons/farms/crops-korean-melon.svg";
+import MyModal from "@/app/_components/common/Modal";
 
 // Props 받는 것들
 interface Props {
@@ -170,6 +171,17 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         }
         return null; // 작물 테두리가 없는 경우 null 반환
       })}
+
+      <MyModal
+        buttonText="닫기"
+        buttonBgStyles=""
+        buttonTextStyles=""
+        Title="텃밭 꾸미기"
+        subTitle="없음"
+        contents="컴포넌트"
+        subTitlecss=""
+        Titlecss=""
+      />
     </div>
   );
 };
