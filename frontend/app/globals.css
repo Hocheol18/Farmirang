@@ -170,3 +170,15 @@ div#__next > div {
   --variable-collection-kakao-logo: rgba(0, 0, 0, 1);
   --variable-collection-kakao-text: rgba(0, 0, 0, 0.85);
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 129, 64, 0.3);
+  border-radius: 10px;
+}

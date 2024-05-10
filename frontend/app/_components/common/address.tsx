@@ -48,7 +48,7 @@ function DaumPost({ setAddressObj }: Props) {
     <>
       <button
         type="button"
-        className="border bg-green-400 w-32 h-12 rounded-lg mt-2"
+        className="border bg-green-400 w-28 h-10 rounded-lg mt-2"
         onClick={handleClick}
       >
         <div className="text-white-100 font-bold">주소찾기</div>

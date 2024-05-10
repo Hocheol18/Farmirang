@@ -1,0 +1,66 @@
+"use client";
+import MiniNavigation from "../component/mini-nav";
+import Modal from "@/app/_components/common/Modal";
+import ProfileCSR from "../component/profile-csr";
+import ChangeRole from "../component/change-role";
+
+export default function MyPage() {
+  return (
+    <div>
+      <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">
+        <div className="flex flex-col items-center gap-[70px] px-[150px] py-0 relative self-stretch w-full flex-[0_0_auto]">
+          <div className="mt-[-1.00px] font-t-h1 font-[number:var(--t-h1-font-weight)] text-green-500 text-[length:var(--t-h1-font-size)] tracking-[var(--t-h1-letter-spacing)] leading-[var(--t-h1-line-height)] relative w-fit whitespace-nowrap [font-style:var(--t-h1-font-style)]">
+            마이페이지
+          </div>
+
+          <div className="inline-flex items-start justify-center gap-[40px] relative flex-[0_0_auto]">
+            {/* 왼쪽 디브 */}
+
+            <MiniNavigation status={"profile"} />
+            {/* 오른쪽 디브 */}
+            <div className="inline-flex flex-col items-start justify-center gap-[15px] p-[15px] relative flex-[0_0_auto] border !rounded-[10px] border-solid border-graygray-300  w-[920px]">
+              {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
+              <div className="flex w-full h-[40px] items-center justify-between mb-5">
+                <div>마이페이지 〉 내 프로필</div>
+                <Modal
+                  buttonText={"회원자격 변경신청"}
+                  buttonBgStyles={"bg-green-300"}
+                  buttonTextStyles={"text-font-m5 text-white-100"}
+                  Title="기관 회원 전환 신청"
+                  subTitle="후원 요청을 위한 기관회원 전환 신청서입니다."
+                  Titlecss={"text-h3 font-extrabold"}
+                  subTitlecss={"text-base font-bold"}
+                  Modalcss={"w-[500px]"}
+                  Titlebottom={
+                    <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                  }
+                  next={"확인"}
+                  contents={<ChangeRole />}
+                />
+              </div>
+              {/* 프로필 리스트 */}
+              <div className="justify-center mx-auto">
+                <ProfileCSR />
+              </div>
+              <Modal
+                buttonText={"회원 탈퇴 하기"}
+                buttonBgStyles={"bg-red-500"}
+                buttonTextStyles={"text-font-m5 text-white-100"}
+                Title="정말 탈퇴하시겠습니까?"
+                subTitle="탈퇴한 뒤에는 아이디 및 데이터를 복구할 수 없으니 신중히 진행하세요."
+                Titlecss={"text-h3 font-extrabold"}
+                subTitlecss={"text-base font-bold"}
+                Modalcss={"w-[530px]"}
+                Titlebottom={
+                  <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                }
+                next={"확인"}
+                contents={<></>}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
