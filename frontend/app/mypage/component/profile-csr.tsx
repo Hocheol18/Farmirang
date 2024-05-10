@@ -4,6 +4,7 @@ import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
 import Modal from "@/app/_components/common/Modal";
+import Button from "@/app/_components/common/Button";
 import ChangePicture from "./change-propic";
 import ChangeNickname from "./change-nickname";
 
@@ -38,7 +39,7 @@ export default function ProfileCSR() {
             />
           </div>
         </div>
-        <div className="relative top-[100px] left-[370px] mb-[70px]">
+        <div className="relative top-[100px] left-[305px] mb-[70px]">
           <Modal
             buttonText={"프로필 사진 변경"}
             buttonBgStyles={"bg-green-300 mx-auto"}
@@ -46,11 +47,21 @@ export default function ProfileCSR() {
             Title="프로필 사진 변경"
             subTitle=""
             Titlecss={"text-h3 font-extrabold"}
-            subTitlecss={"text-base font-bold"}
-            Modalcss={"w-[500px]"}
+            subTitlecss={"font-bold"}
+            Modalcss={"w-[400px]"}
             Titlebottom={""}
             next={"확인"}
-            contents={<ChangePicture />}
+            contents={
+              <div className="flex justify-center">
+                <ChangePicture />
+              </div>
+            }
+          />{" "}
+          <Button
+            text={"프로필 사진 삭제"}
+            bgStyles={"bg-green-500 mx-auto"}
+            textStyles={"text-white-100"}
+            handleClick={() => {}}
           />
         </div>
       </div>
