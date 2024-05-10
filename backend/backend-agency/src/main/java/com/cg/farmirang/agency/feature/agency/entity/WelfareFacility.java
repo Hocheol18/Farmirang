@@ -34,7 +34,6 @@ public class WelfareFacility {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", nullable = false)
-	//TODO: 조회 시 쿼리문 확인해보기(Member  테이블이 같이 조회되면 안됨)
 	private Member member;
 
 	@Column(length = 100, nullable = false)

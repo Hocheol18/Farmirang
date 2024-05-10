@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -202,6 +203,16 @@ public class GlobalExceptionHandler {
         log.error("MissingRequestCookieException", ex);
         final ErrorResponse res = ErrorResponse.of(ErrorCode.NOT_VALID_HEADER_ERROR, ex.getMessage());
         return ResponseEntity.status(ErrorCode.NOT_VALID_HEADER_ERROR.getStatus()).body(res);
+    }
+
+    /**
+     * 지원되지 않은 Media Type으로 요청이 들어온 경우
+     * */
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
+        log.error("HttpMediaTypeNotSupportedException", ex);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNSUPPORTED_MEDIA_TYPE_ERROR, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     // ==================================================================================================================

@@ -11,4 +11,5 @@ public interface WelfareFacilityRepositoryCustom {
 	AgencyDetailResponseDto getAgencyDetail(Integer memberId);
 	AdminAgencyListResponseDto getAdminAgencyList(AdminAgencyListRequestDto dto);
 	Integer approveAgency(AdminApproveRequestDto dto);
+	Integer getMemberId(Integer agencyId);
 }

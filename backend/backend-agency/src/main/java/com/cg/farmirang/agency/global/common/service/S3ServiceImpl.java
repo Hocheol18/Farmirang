@@ -30,6 +30,8 @@ import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 public class S3ServiceImpl implements S3Service {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
+	@Value("${cloud.aws.s3.url}")
+	private String s3Url;
 
 	private final S3Client s3;
 
@@ -97,7 +99,7 @@ public class S3ServiceImpl implements S3Service {
 
 		}
 
-		return key;
+		return s3Url+"/"+key;
 	}
 
 	/**

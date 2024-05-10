@@ -15,7 +15,7 @@ public record AgencyRegisterRequestDto(
 	String address,
 	@NotBlank
 	@Schema(description = "기관 신고 번호", example = "지자체명-종류-00001호")
-	String reportNumber,
+	String report,
 	@NotBlank
 	@Schema(description = "기관 연락처(전화 또는 이메일)", example = "02-1234-5678")
 	String contact

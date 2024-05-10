@@ -1,5 +1,7 @@
 package com.cg.farmirang.agency.feature.agency.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.Builder;
 public record AdminApproveRequestDto(
 	@Schema(description = "기관 ID", example = "1")
 	@NotBlank
+	@JsonProperty("agency_id")
 	Integer agencyId,
 	@NotBlank
 	@Schema(description = "승인 여부", example = "true")

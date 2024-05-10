@@ -57,6 +57,9 @@ public enum ErrorCode {
 
     // @RequestBody 및 @RequestParam, @PathVariable 값이 유효하지 않음
     NOT_VALID_HEADER_ERROR(404, "G012", "Header에 데이터가 존재하지 않는 경우 "),
+
+    // 지원되지 않은 Media Type
+    UNSUPPORTED_MEDIA_TYPE_ERROR(415, "G013", "Unsupported Media Type Exception"),
     
     // 서버가 처리 할 방법을 모르는 경우 발생
     INTERNAL_SERVER_ERROR(500, "G999", "Internal Server Error Exception"),
@@ -71,6 +74,12 @@ public enum ErrorCode {
 
     // token error
     TOKEN_ERROR(401, "B009", "Token Exception"),
+
+    NOT_FOUND_MEMBER_ERROR(404, "B010", "Not Found Member Exception"),
+    NOT_FOUND_AGENCY_ERROR(404, "B011", "Not Found Agency Exception"),
+    INVALID_APPROVAL_VALUE_ERROR(400, "B012", "Invalid Approval Value Exception"),
+
+    FORBIDDEN_AGENCY_ERROR(403, "B013", "Forbidden Member Exception"),
 
     ; // End
 

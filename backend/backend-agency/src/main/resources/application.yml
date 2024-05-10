@@ -9,4 +9,8 @@ server:
   port: 8082
   servlet:
     context-path: /api
-
+logging:
+  level:
+    com:
+      cg:
+        farmirang: debug

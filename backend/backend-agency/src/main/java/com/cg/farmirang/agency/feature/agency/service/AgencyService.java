@@ -16,7 +16,7 @@ public interface AgencyService {
 	AgencyRegisterResponseDto registerAgencyService(Integer memberId, AgencyRegisterRequestDto agencyRegisterDto, MultipartFile img);
 	AgencyProfileResponseDto agencyProfileService(Integer memberId);
 	AgencyDetailResponseDto agencyDetailService(Integer memberId);
-	AgencyRegisterResponseDto agencyRegistrationCancelService(Integer agencyId);
+	AgencyRegisterResponseDto agencyRegistrationCancelService(Integer memberId, Integer agencyId);
 	AdminAgencyListResponseDto adminAgencyListService(AdminAgencyListRequestDto dto);
 	AdminAgencyDetailResponseDto adminAgencyDetailService(Integer agencyId);
 	AdminApproveResponseDto adminApproveAgencyService(AdminApproveRequestDto dto);
