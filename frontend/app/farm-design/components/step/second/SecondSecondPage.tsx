@@ -3,7 +3,7 @@ import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import ShowArrangement from "./ShowArrangement";
-import DesignBox from "./DesignBox";
+
 import BackgroundShapes from "./BackgroundShapes";
 
 interface Props {
@@ -50,21 +50,21 @@ const SecondSecondPage = ({ handleStep }: Props) => {
   ];
 
   const crops = {
-    1: "🌱",
-    2: "❤",
-    3: "🥒",
-    4: "🥒",
-    5: "🥒",
-    6: "🥒",
-    7: "🥕",
-    8: "🥕",
-    9: "🥕",
-    10: "🍎",
-    11: "🍎",
-    12: "🌽",
-    13: "🌽",
-    14: "🍅",
-    15: "🍅",
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 2,
+    5: 7,
+    6: 10,
+    7: 14,
+    8: 12,
+    9: 9,
+    10: 5,
+    11: 4,
+    12: 2,
+    13: 1,
+    14: 15,
+    15: 11,
   };
 
   return (

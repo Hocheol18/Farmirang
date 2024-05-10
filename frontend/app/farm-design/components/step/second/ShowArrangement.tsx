@@ -1,12 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import Image, { StaticImageData } from "next/image";
+
+import Potato from "../../../../../public/icons/farms/crops-potato.svg";
+import SweetPotato from "../../../../../public/icons/farms/crops-sweet-potato.svg";
+import CheongyangChillPepper from "../../../../../public/icons/farms/crops-cheongyang-chili-pepper.svg";
+import Carrot from "../../../../../public/icons/farms/crops-carrot.svg";
+import Strawberry from "../../../../../public/icons/farms/crops-strawberry.svg";
+import Peanut from "../../../../../public/icons/farms/crops-peanut.svg";
+import CherryTomato from "../../../../../public/icons/farms/crops-cherry-tomato.svg";
+import Leek from "../../../../../public/icons/farms/crops-leek.svg";
+import Blueberry from "../../../../../public/icons/farms/crops-blueberry.svg";
+import Lettuce from "../../../../../public/icons/farms/crops-lettuce.svg";
+import Ginger from "../../../../../public/icons/farms/crops-ginger.svg";
+import Onion from "../../../../../public/icons/farms/crops-onion.svg";
+import YoungRadish from "../../../../../public/icons/farms/crops-young-radish.svg";
+import Cucumber from "../../../../../public/icons/farms/crops-cucumber.svg";
+import Corn from "../../../../../public/icons/farms/crops-corn.svg";
+import Korean from "../../../../../public/icons/farms/crops-korean-melon.svg";
+
 // Props 받는 것들
 interface Props {
   grid: number[][]; // 그리드 데이터를 받는 prop (2차원 배열)
-  crops: { [key: number]: string }; // 작물 ID와 아이콘 매핑 객체를 받는 prop
+  crops: { [key: number]: number }; // 작물 ID와 아이콘 매핑 객체를 받는 prop
 }
 
 const ShowArrangement = ({ grid, crops }: Props) => {
+  const picList: StaticImageData[] = [
+    Potato,
+    SweetPotato,
+    CheongyangChillPepper,
+    Carrot,
+    Strawberry,
+    Peanut,
+    CherryTomato,
+    Leek,
+    Blueberry,
+    Lettuce,
+    Ginger,
+    Onion,
+    YoungRadish,
+    Cucumber,
+    Corn,
+    Korean,
+  ];
+
   const rLen = grid.length; // 그리드의 행 개수
   const cLen = grid[0].length; // 그리드의 열 개수
   const gridRef = useRef<HTMLDivElement>(null); // 그리드 ref (그리드 요소에 대한 참조)
@@ -39,7 +77,7 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         left: `${leftCol * cellWidth}%`, // 테두리의 왼쪽 위치
         width: `${(rightCol - leftCol + 1) * cellWidth}%`, // 테두리의 가로 길이
         height: `${(bottomRow - topRow + 1) * cellHeight}%`, // 테두리의 세로 길이
-        boxShadow: "0 0 0 5px green inset", // 내부에 3px 두께의 초록색 테두리를 생성
+        boxShadow: "0 0 0 5px #388140 inset", // 내부에 3px 두께의 초록색 테두리를 생성
       };
     }
 
@@ -72,6 +110,9 @@ const ShowArrangement = ({ grid, crops }: Props) => {
 
     return undefined; // 작물 ID를 가진 셀이 없는 경우 undefined 반환
   };
+  const getIconIndex = (cropId: number): number | undefined => {
+    return crops[cropId];
+  };
 
   return (
     <div
@@ -101,17 +142,20 @@ const ShowArrangement = ({ grid, crops }: Props) => {
       {/* 작물 아이콘 렌더링 */}
       {Object.keys(crops).map((cropId) => {
         const iconPosition = getIconPosition(Number(cropId)); // 작물 아이콘의 위치 계산
-        if (iconPosition) {
+        const iconIndex = getIconIndex(Number(cropId)); // 작물 아이콘의 인덱스 가져오기
+
+        if (iconPosition && iconIndex !== undefined) {
           return (
             <div
               key={cropId} // 작물 아이콘의 고유 키 설정
-              className="absolute transform -translate-x-1/2 -translate-y-1/2" // 작물 아이콘의 클래스 설정
+              className="absolute w-[6%] transform -translate-x-1/2 -translate-y-1/2" // 작물 아이콘의 클래스 설정
               style={{
                 top: iconPosition.top, // 작물 아이콘의 상단 위치 설정
                 left: iconPosition.left, // 작물 아이콘의 왼쪽 위치 설정
               }}
             >
-              {crops[Number(cropId)]} {/* 작물 아이콘 표시 */}
+              <Image className="" src={picList[iconIndex - 1]} alt="icon" />{" "}
+              {/* 작물 아이콘 표시 */}
             </div>
           );
         }
