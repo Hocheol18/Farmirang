@@ -21,7 +21,7 @@ export default function DonationDetailPage() {
                 {/*  */}
                 <div className="text-h6 mt-10 leading-10">
                   <div>
-                    "별빛내리는마을"은 어린이를 위한 아동공동생활가정으로,
+                    별빛내리는마을은 어린이를 위한 아동공동생활가정으로,
                   </div>
                   <div>
                     가정 내에서 안전하고 안정된 환경을 제공하여 아동의 성장과
@@ -42,7 +42,7 @@ export default function DonationDetailPage() {
                     다양한 경험을 쌓을 수 있습니다.
                   </div>
                   <div>
-                    뿐만 아니라, "별빛내리는마을"은 아동의 개인적인 성향과
+                    뿐만 아니라, 별빛내리는마을은 아동의 개인적인 성향과
                     특성을 고려하여 맞춤형 지원을 제공합니다.
                   </div>
                   <div>
@@ -56,7 +56,7 @@ export default function DonationDetailPage() {
                   </div>
 
                   <div>
-                    "별빛내리는마을"은 아동들에게 따뜻하고 안전한 보금자리를
+                    별빛내리는마을은 아동들에게 따뜻하고 안전한 보금자리를
                     제공하여,
                   </div>
                   <div>포그들의 행복하고 건강한 성장을 지원하고 있습니다.</div>
