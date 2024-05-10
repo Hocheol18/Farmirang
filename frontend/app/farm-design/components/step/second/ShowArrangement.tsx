@@ -18,15 +18,15 @@ import YoungRadish from "../../../../../public/icons/farms/crops-young-radish.sv
 import Cucumber from "../../../../../public/icons/farms/crops-cucumber.svg";
 import Corn from "../../../../../public/icons/farms/crops-corn.svg";
 import Korean from "../../../../../public/icons/farms/crops-korean-melon.svg";
-import MyModal from "@/app/_components/common/Modal";
 
 // Props 받는 것들
 interface Props {
   grid: number[][]; // 그리드 데이터를 받는 prop (2차원 배열)
   crops: { [key: number]: number }; // 작물 ID와 아이콘 매핑 객체를 받는 prop
+  type: string;
 }
 
-const ShowArrangement = ({ grid, crops }: Props) => {
+const ShowArrangement = ({ grid, crops, type }: Props) => {
   const picList: StaticImageData[] = [
     Potato,
     SweetPotato,
@@ -78,7 +78,8 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         left: `${leftCol * cellWidth}%`, // 테두리의 왼쪽 위치
         width: `${(rightCol - leftCol + 1) * cellWidth}%`, // 테두리의 가로 길이
         height: `${(bottomRow - topRow + 1) * cellHeight}%`, // 테두리의 세로 길이
-        boxShadow: "0 0 0 5px #388140 inset", // 내부에 3px 두께의 초록색 테두리를 생성
+        boxShadow: "0 0 0 2px #388140 inset", // 내부에 3px 두께의 초록색 테두리를 생성
+        borderRadius: "0.25rem",
       };
     }
 
@@ -104,6 +105,7 @@ const ShowArrangement = ({ grid, crops }: Props) => {
     if (positions.length > 0) {
       const { r: topRow, c: leftCol } = positions[0]; // 가장 왼쪽 위 셀의 위치
       const { r: bottomRow, c: rightCol } = positions[positions.length - 1]; // 가장 오른쪽 아래 셀의 위치
+
       const top = ((topRow + bottomRow + 1) / 2 / rLen) * 100; // 아이콘의 세로 위치 계산 (%)
       const left = ((leftCol + rightCol + 1) / 2 / cLen) * 100; // 아이콘의 가로 위치 계산 (%)
       return { top: `${top}%`, left: `${left}%` }; // 아이콘의 위치 반환
@@ -118,11 +120,10 @@ const ShowArrangement = ({ grid, crops }: Props) => {
   return (
     <div
       ref={gridRef}
-      className="grid relative w-full h-full bg-yellow-100"
+      className="grid relative w-full h-full bg-yellow-100 overflow-y-auto "
       style={{
         gridTemplateColumns: `repeat(${cLen}, 1fr)`,
         gridTemplateRows: `repeat(${rLen}, 1fr)`,
-        aspectRatio: `1 / 1`,
       }}
     >
       {/* 그리드 렌더링 */}
@@ -131,9 +132,11 @@ const ShowArrangement = ({ grid, crops }: Props) => {
           {row.map((cell, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className="flex justify-center items-center relative"
+              className="flex justify-center items-center relative rounded"
               style={{
                 backgroundColor: cell === 0 ? "" : "#723511",
+                aspectRatio: `1 / 1`,
+                // borderWidth: `0.2px`,
               }}
             ></div>
           ))}
@@ -149,13 +152,14 @@ const ShowArrangement = ({ grid, crops }: Props) => {
           return (
             <div
               key={cropId} // 작물 아이콘의 고유 키 설정
-              className="absolute w-[6%] transform -translate-x-1/2 -translate-y-1/2" // 작물 아이콘의 클래스 설정
+              className="absolute w-[5%] transform -translate-x-1/2 -translate-y-1/2 bg-white-100 rounded-full" // 작물 아이콘의 클래스 설정
               style={{
                 top: iconPosition.top, // 작물 아이콘의 상단 위치 설정
                 left: iconPosition.left, // 작물 아이콘의 왼쪽 위치 설정
               }}
             >
-              <Image className="" src={picList[iconIndex - 1]} alt="icon" />{" "}
+              <Image className="" src={picList[iconIndex - 1]} alt="icon" />
+
               {/* 작물 아이콘 표시 */}
             </div>
           );
@@ -171,17 +175,6 @@ const ShowArrangement = ({ grid, crops }: Props) => {
         }
         return null; // 작물 테두리가 없는 경우 null 반환
       })}
-
-      <MyModal
-        buttonText="닫기"
-        buttonBgStyles=""
-        buttonTextStyles=""
-        Title="텃밭 꾸미기"
-        subTitle="없음"
-        contents="컴포넌트"
-        subTitlecss=""
-        Titlecss=""
-      />
     </div>
   );
 };
