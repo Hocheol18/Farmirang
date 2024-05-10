@@ -270,7 +270,7 @@ const SecondSecondPage = ({ handleStep }: Props) => {
       </div>
 
       {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
-      <div className="flex justify-center items-center w-[90%] aspect-square bg-white-100 rounded-lg shadow p-5 overflow-y-auto overflow-x-auto">
+      <div className="flex justify-center items-start w-[90%] bg-white-100 rounded-lg shadow p-5 overflow-y-auto overflow-x-auto">
         <ShowArrangement grid={grid} crops={crops} type="content" />
         {/* <DesignBox grid={grid} cropsList={cropsList} /> */}
       </div>

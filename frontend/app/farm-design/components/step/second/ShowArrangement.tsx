@@ -120,10 +120,11 @@ const ShowArrangement = ({ grid, crops, type }: Props) => {
   return (
     <div
       ref={gridRef}
-      className="grid relative w-full h-full bg-yellow-100 overflow-y-auto "
+      className="grid relative w-full bg-yellow-100 overflow-y-auto "
       style={{
         gridTemplateColumns: `repeat(${cLen}, 1fr)`,
         gridTemplateRows: `repeat(${rLen}, 1fr)`,
+        aspectRatio: `${cLen} / ${rLen}`,
       }}
     >
       {/* 그리드 렌더링 */}
