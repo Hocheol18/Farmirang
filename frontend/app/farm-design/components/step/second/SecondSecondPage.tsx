@@ -49,7 +49,7 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 11, 11],
   ];
 
-  const grid = [
+  const grid30 = [
     [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0,
@@ -232,7 +232,7 @@ const SecondSecondPage = ({ handleStep }: Props) => {
   ];
 
   // 29x44
-  const grid44 = [
+  const grid = [
     [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -529,11 +529,13 @@ const SecondSecondPage = ({ handleStep }: Props) => {
 
       {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
       <div
-        className={`flex justify-center items-start ${eachWidth} bg-white-100 rounded-lg shadow my-5 p-5 overflow-y-auto overflow-x-auto`}
+        className={`flex justify-center items-start ${eachWidth} p-5 bg-white-100 rounded-lg shadow my-5 overflow-hidden`}
       >
-        <ShowArrangement grid={grid} crops={crops} type="content" />
-        {/* <DesignBox grid={grid} cropsList={cropsList} /> */}
-        {/* 텃밭 배치 한눈에 보는 모달 */}
+        <div className="w-full h-full overflow-y-auto overflow-x-auto">
+          <ShowArrangement grid={grid} crops={crops} type="content" />
+          {/* <DesignBox grid={grid} cropsList={cropsList} /> */}
+          {/* 텃밭 배치 한눈에 보는 모달 */}
+        </div>
       </div>
 
       {/* 버튼들 */}
