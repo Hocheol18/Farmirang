@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <Script
           strategy="beforeInteractive"
-          src={process.env.NEXT_PUBLIC_API_URL}
+          src={process.env.API_URL}
         />
 
         <div className="flex flex-col h-full">
