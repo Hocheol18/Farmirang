@@ -29,6 +29,7 @@ interface Props {
   next: string;
   handleFunction?: () => void;
   noButton?: boolean;
+  grid?: number[][];
 }
 
 export default function MyModal({
@@ -45,6 +46,7 @@ export default function MyModal({
   next,
   handleFunction,
   noButton,
+  grid,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -77,6 +79,11 @@ export default function MyModal({
               >
                 <Dialog.Panel
                   className={`transform border border-gray-300 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}
+                  style={{
+                    aspectRatio: `${grid ? grid[0].length : 1} / ${
+                      grid ? grid.length : 1
+                    }`,
+                  }}
                 >
                   <>
                     <Dialog.Title

@@ -124,7 +124,7 @@ const ShowArrangement = ({ grid, crops, type }: Props) => {
       style={{
         gridTemplateColumns: `repeat(${cLen}, 1fr)`,
         gridTemplateRows: `repeat(${rLen}, 1fr)`,
-        aspectRatio: `${cLen} / ${rLen}`,
+        // aspectRatio: `${cLen} / ${rLen}`,
       }}
     >
       {/* 그리드 렌더링 */}

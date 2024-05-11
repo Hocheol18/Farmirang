@@ -3,10 +3,10 @@ import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import ShowArrangement from "./ShowArrangement";
+import { Dialog, Transition } from "@headlessui/react";
 
 import BackgroundShapes from "./BackgroundShapes";
 import MyModal from "@/app/_components/common/Modal";
-import ScalePlus from "./ScalePlus";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -29,6 +29,23 @@ const SecondSecondPage = ({ handleStep }: Props) => {
   const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
   const grid = [
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 9, 0, 0, 0, 0],
+    [0, 9, 0, 0, 13, 0],
+    [0, 0, 0, 11, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 1, 2, 0, 0, 0],
+    [0, 1, 2, 3, 4, 0],
+    [0, 0, 0, 0, 0, 0],
+    [5, 5, 5, 8, 10, 0],
+    [0, 0, 0, 0, 0, 0],
+    [5, 5, 5, 8, 10, 0],
+  ];
+
+  const grid2 = [
     [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -253,6 +270,7 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
       <div className="flex">
         <TitleBox basicText1="추천된" pointText="텃밭꾸미기" basicText2="" />
+
         <MyModal
           buttonText="돋보기"
           buttonBgStyles="bg-white-100"
@@ -262,18 +280,21 @@ const SecondSecondPage = ({ handleStep }: Props) => {
           contents={<ShowArrangement grid={grid} crops={crops} type="full" />}
           subTitlecss=""
           Titlecss="font-bold"
-          Modalcss="w-[40%]"
+          Modalcss="h-[90vh] "
           Titlebottom=""
           next="확인"
           noButton={true}
+          grid={grid}
         />
       </div>
 
       {/* 이안에 추천된 텃밭꾸미기 들어갈 것 */}
-      <div className="flex justify-center items-start w-[90%] bg-white-100 rounded-lg shadow p-5 overflow-y-auto overflow-x-auto">
+      {/*  */}
+      <div className="flex justify-center items-start w-[70%] h-[80%] bg-white-100 rounded-lg shadow p-5 overflow-y-auto overflow-x-auto">
         <ShowArrangement grid={grid} crops={crops} type="content" />
         {/* <DesignBox grid={grid} cropsList={cropsList} /> */}
       </div>
+
       {/* 버튼들 */}
       <div className="flex justify-around w-full">
         <Button
