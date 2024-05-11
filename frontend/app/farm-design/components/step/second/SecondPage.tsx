@@ -17,7 +17,7 @@ const SecondPage = ({ handleStep }: Props) => {
   };
 
   return (
-    <div className=" flex flex-col w-[90%] h-[90%]  ">
+    <div className=" flex flex-col w-[95%] h-[95%]  ">
       {!isCheck ? (
         <SecondFirstPage handleCheck={handleCheck} />
       ) : (

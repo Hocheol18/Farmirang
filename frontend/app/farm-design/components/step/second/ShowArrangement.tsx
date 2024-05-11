@@ -133,7 +133,7 @@ const ShowArrangement = ({ grid, crops, type }: Props) => {
           {row.map((cell, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className="flex justify-center items-center relative rounded"
+              className="flex justify-center items-center relative rounded border border-gray-300"
               style={{
                 backgroundColor: cell === 0 ? "" : "#723511",
                 aspectRatio: `1 / 1`,
