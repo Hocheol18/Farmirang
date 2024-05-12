@@ -19,6 +19,11 @@ interface CropIndex {
   number: number;
 }
 
+interface CropQuantity {
+  cropId: number;
+  quantity: number;
+}
+
 interface CropLength {
   cropId: number;
   name: string;
@@ -96,6 +101,27 @@ const ThirdPage = ({ handleStep }: Props) => {
 
   // 저장하기
   const handleSave = () => {
+    // 작물마다 몇 개인지 알려주는 배열
+    const numberCropLsit: CropQuantity[] = [];
+
+    for (let i = 0; i < indexArray.length; i++) {
+      //indexArray[i]의 cropId와 같은 cropId를 numberCropList에서 찾음
+      const findCrop = numberCropLsit.find(
+        (crop) => crop.cropId === indexArray[i].cropId
+      );
+
+      // 있으면 +1
+      if (findCrop) {
+        findCrop.quantity++;
+      } else {
+        // 없으면 새로 추가함
+        numberCropLsit.push({
+          cropId: indexArray[i].cropId,
+          quantity: 1,
+        });
+      }
+    }
+
     handleStep(4);
   };
 
@@ -340,9 +366,6 @@ const ThirdPage = ({ handleStep }: Props) => {
       return updatedCropsList;
     });
   };
-
-  // 작물마다 몇 개인지 알려주는 배열
-  const [numberCropLsit, setNumberCropList] = useState();
 
   // 몇 번에 cropId 몇인지 알려주는 배열 (처음엔 crops 배열과 같음)
   const [indexArray, setIndexArray] = useState<CropIndex[]>(crops);
