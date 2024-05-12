@@ -30,6 +30,7 @@ interface Props {
   type: string; //custom: 커스텀할 때 필요, 그 외 아무거나: 커스텀 외
   checkArray: boolean[][]; //작물을 심을 수 있는 밭 보여주는 배열
   handlePlace?: (rowIndex: number, colIndex: number) => void; //커스텀 시 필요한 함수 (클릭할 때 실행 될 함수)
+  handleDeleteCrop?: (cropNumber: number) => void; //커스텀 시 필요한 함수(작물 테두리 클릭했을 때도 아이콘 사라지게 하기 위한 함수)
 }
 
 const ShowArrangement = ({
@@ -38,6 +39,7 @@ const ShowArrangement = ({
   type,
   checkArray,
   handlePlace,
+  handleDeleteCrop,
 }: Props) => {
   const picList: StaticImageData[] = [
     Potato,
@@ -208,7 +210,14 @@ const ShowArrangement = ({
           return (
             <div
               key={`border-${crop.number}`}
-              style={{ ...borderStyle, pointerEvents: "none" }}
+              style={{
+                ...borderStyle,
+                pointerEvents: "auto",
+                cursor: "pointer",
+              }}
+              {...(handleDeleteCrop && {
+                onClick: () => handleDeleteCrop(crop.number),
+              })}
             />
           ); // 작물 테두리 렌더링
         }

@@ -422,6 +422,18 @@ const ThirdPage = ({ handleStep }: Props) => {
     }
   };
 
+  // 테두리 클릭시에 아이콘 사라지지 않는 오류 해결을 위한 함수(테두리 클릭시에도 내려보내기)
+  const handleDeleteCrop = (cropNumber: number) => {
+    if (isCancel) {
+      const newGrid = grid.map((row) =>
+        row.map((cell) => (cell === cropNumber ? 0 : cell))
+      );
+      setGrid(newGrid);
+
+      setIndexArray(indexArray.filter((crop) => crop.number !== cropNumber));
+    }
+  };
+
   useEffect(() => {
     // 처음 렌더링 할때 작물 배열에 넣기
     const initialCropsList: Crops[] = [];
@@ -522,6 +534,7 @@ const ThirdPage = ({ handleStep }: Props) => {
                 type="custom"
                 checkArray={clickableField}
                 handlePlace={handleClickCell}
+                handleDeleteCrop={handleDeleteCrop}
               />
             </div>
           </div>
