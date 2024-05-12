@@ -402,6 +402,8 @@ const ThirdPage = ({ handleStep }: Props) => {
             }
           }
           if (!isValid) {
+            alert(`해당 작물을 배치하기엔 칸이 부족합니다.
+            가로: ${width / 10}칸, 세로: ${height / 10}칸 필요`);
             break;
           }
         }
