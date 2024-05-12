@@ -27,6 +27,12 @@ interface Props {
   Titlebottom: any;
   // 확인 혹은 다음 버튼 텍스트
   next: string;
+  // 확인 버튼 클릭시 함수 실행
+  onSuccess?: () => void;
+  // 모달 staet 변수
+  data?: any;
+  // 모달 setState 변수
+  setData?: React.Dispatch<any>;
 }
 
 export default function MyModal({
@@ -41,9 +47,13 @@ export default function MyModal({
   Modalcss,
   Titlebottom,
   next,
+  onSuccess,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const successHandler = () => {
+    onSuccess();
+    setIsOpen(false);
+  };
   return (
     <>
       <Button
@@ -99,7 +109,7 @@ export default function MyModal({
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                        onClick={() => {}}
+                        onClick={() => successHandler()}
                       >
                         <div className="text-white-100 font-bold">{next}</div>
                       </button>

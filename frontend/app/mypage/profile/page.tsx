@@ -18,7 +18,6 @@ export default function MyPage() {
       headers: {
         Authorization: `Bearer ${userInfo.accessToken}`,
         "device-id": `${userInfo.deviceId}`,
-        // "device-id": "bcb9cdd4-abfd-4a21-893f-849a23ac4043",
       },
     });
     if (response && response.ok) {
@@ -74,20 +73,12 @@ export default function MyPage() {
                 subTitlecss={"text-base font-bold"}
                 Modalcss={"w-[530px]"}
                 Titlebottom={
-                  <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                  <></>
+                  // <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
                 }
-                next={"확인"}
-                contents={
-                  <>
-                    {" "}
-                    <Button
-                      text="팜이랑 회원 탈퇴"
-                      bgStyles="flex mx-auto justify-center bg-red-500 w-[70%]"
-                      textStyles="text-white-100"
-                      handleClick={handleDelUser}
-                    />
-                  </>
-                }
+                next={"탈퇴하기"}
+                contents={<></>}
+                onSuccess={handleDelUser}
               />
             </div>
           </div>
