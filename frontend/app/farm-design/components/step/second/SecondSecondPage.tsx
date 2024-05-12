@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TitleBox from "../TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
-import ShowArrangement from "./ShowArrangement";
+import ShowArrangement from "../../../../_components/common/ShowArrangement";
 import { Dialog, Transition } from "@headlessui/react";
 
 import BackgroundShapes from "./BackgroundShapes";
@@ -41,12 +41,126 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ];
 
-  const grid20 = [
+  // 5 x 20
+  const grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 7, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 0, 0, 0, 0],
+    [0, 0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
     [0, 0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 11, 11],
+  ];
+
+  const clickableField = [
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ],
   ];
 
   const grid30 = [
@@ -232,7 +346,7 @@ const SecondSecondPage = ({ handleStep }: Props) => {
   ];
 
   // 29x44
-  const grid = [
+  const grid44 = [
     [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -463,23 +577,68 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     ],
   ];
 
-  const crops = {
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 2,
-    5: 7,
-    6: 10,
-    7: 14,
-    8: 12,
-    9: 9,
-    10: 5,
-    11: 4,
-    12: 2,
-    13: 1,
-    14: 15,
-    15: 11,
-  };
+  const crops = [
+    {
+      cropId: 1,
+      number: 1,
+    },
+    {
+      cropId: 1,
+      number: 2,
+    },
+    {
+      cropId: 1,
+      number: 3,
+    },
+    {
+      cropId: 1,
+      number: 4,
+    },
+    {
+      cropId: 1,
+      number: 5,
+    },
+    {
+      cropId: 5,
+      number: 6,
+    },
+    {
+      cropId: 5,
+      number: 7,
+    },
+    {
+      cropId: 5,
+      number: 8,
+    },
+    {
+      cropId: 5,
+      number: 9,
+    },
+    {
+      cropId: 5,
+      number: 10,
+    },
+    {
+      cropId: 8,
+      number: 11,
+    },
+    {
+      cropId: 8,
+      number: 12,
+    },
+    {
+      cropId: 8,
+      number: 13,
+    },
+    {
+      cropId: 8,
+      number: 14,
+    },
+    {
+      cropId: 8,
+      number: 15,
+    },
+  ];
 
   // grid의 가로의 칸의 수마다 다르게 줄 넓이
   const [eachWidth, setEachWidth] = useState<string>("");
@@ -515,7 +674,14 @@ const SecondSecondPage = ({ handleStep }: Props) => {
           buttonTextStyles="text-sm font-bold "
           Title=""
           subTitle=""
-          contents={<ShowArrangement grid={grid} crops={crops} type="full" />}
+          contents={
+            <ShowArrangement
+              grid={grid}
+              crops={crops}
+              type="full"
+              checkArray={clickableField}
+            />
+          }
           subTitlecss=""
           Titlecss="font-bold"
           Modalcss="flex flex-col justify-center h-[90vh]"
@@ -532,7 +698,12 @@ const SecondSecondPage = ({ handleStep }: Props) => {
         className={`flex justify-center items-start ${eachWidth} p-5 bg-white-100 rounded-lg shadow my-5 overflow-hidden`}
       >
         <div className="w-full h-full overflow-y-auto overflow-x-auto">
-          <ShowArrangement grid={grid} crops={crops} type="content" />
+          <ShowArrangement
+            grid={grid}
+            crops={crops}
+            type="content"
+            checkArray={clickableField}
+          />
           {/* <DesignBox grid={grid} cropsList={cropsList} /> */}
           {/* 텃밭 배치 한눈에 보는 모달 */}
         </div>

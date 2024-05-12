@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import BackgroundShapes from "../farm-design/components/step/second/BackgroundShapes";
-import ShowArrangement from "../farm-design/components/step/second/ShowArrangement";
+import ShowArrangement from "../_components/common/ShowArrangement";
 
 // 점의 좌표를 나타내는 인터페이스
 interface Point {
