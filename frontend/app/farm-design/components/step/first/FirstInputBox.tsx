@@ -4,6 +4,7 @@ import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import SelectMenu from "@/app/_components/common/SelectMenus";
 import { useState } from "react";
+import FarmShapeDraw from "./FarmShapeDraw";
 
 interface InputType {
   placeholder: string;
@@ -159,8 +160,8 @@ const FirstInputBox = ({ handleStep }: Props) => {
         {/* <div className="border border-green-200  aspect-square rounded-[25px] bg-white-100  shadow shadow-md ">
           100x100칸
         </div> */}
-        <div className=" w-[70%] mr-10 rounded-[25px] bg-white-100  shadow shadow-md ">
-          100x100칸
+        <div className="h-full p-[20px] mr-10 rounded-[25px] bg-white-100  shadow shadow-md ">
+          <FarmShapeDraw />
         </div>
         {/* 텃밭 좌표+button 있는 곳 */}
         <div className="flex flex-col flex-1">
