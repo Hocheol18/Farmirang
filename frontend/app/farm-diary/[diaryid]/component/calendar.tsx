@@ -11,6 +11,7 @@ import { GoChevronRight } from "react-icons/go";
 import MyModal from "@/app/_components/common/Modal";
 import ImageComponent from "@/app/_components/common/Image";
 import Editor from "@/app/_components/common/Editor";
+import { fetchCalendar } from "@/api/farm-diary";
 
 const MONTH_NAMES = [
   "1",
@@ -28,6 +29,8 @@ const MONTH_NAMES = [
 ];
 
 export default function Calendar() {
+  fetchCalendar().then((res) => console.log(res));
+
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [datepickerValue, setDatepickerValue] = useState("");
   const [month, setMonth] = useState(new Date().getMonth());
@@ -138,7 +141,9 @@ export default function Calendar() {
                       heightcss={"h-[18rem]"}
                       handleEvent={() => {}}
                     />
-                    <div className="font-bold text-h5 mt-10 mb-4">일지 쓰기</div>
+                    <div className="font-bold text-h5 mt-10 mb-4">
+                      일지 쓰기
+                    </div>
                     <Editor />
                   </>
                 }

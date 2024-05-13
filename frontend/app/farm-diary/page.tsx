@@ -6,6 +6,7 @@ import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Input from "../_components/common/Input";
 import Editor from "../_components/common/Editor";
+import { fetchCalendar } from "@/api/farm-diary";
 
 interface Props {
   areaAddress: string;

@@ -1,4 +1,3 @@
-
 import Card from "./component/Card";
 import { BASE_URL } from "@/utils/ServerApi";
 import Spinner from "../_components/common/Spinner";
