@@ -1,9 +1,9 @@
 package com.cg.farmirang.chat.global.config;
 
-import com.cg.farmirang.design.global.common.code.ErrorCode;
-import com.cg.farmirang.design.global.common.response.ErrorResponse;
-import com.cg.farmirang.design.global.common.response.SuccessResponse;
-import com.cg.farmirang.design.global.exception.BusinessExceptionHandler;
+import com.cg.farmirang.chat.global.common.code.ErrorCode;
+import com.cg.farmirang.chat.global.common.response.ErrorResponse;
+import com.cg.farmirang.chat.global.common.response.SuccessResponse;
+import com.cg.farmirang.chat.global.exception.BusinessExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import feign.codec.Decoder;
@@ -35,8 +35,6 @@ public class FeignClientConfig {
 			try {
 				return ((SuccessResponse<?>) decoder.decode(res, forClassWithGenerics.getType())).getData();
 			} catch (Exception e) {
-				log.error(Arrays.toString(e.getStackTrace()));
-				log.error("{}",111111);
 				return (ErrorResponse) decoder.decode(res, forClassWithGenerics.getType());
 			}
 		};
