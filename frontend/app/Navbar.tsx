@@ -63,11 +63,11 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="top-0 z-10 border-b">
+      <div className="border-b bg-white-100 fixed z-10 w-full">
         <Disclosure>
           {() => (
             <>
-              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <div className="flex h-full items-center justify-between">
                   <div className="flex items-center">
                     <div
