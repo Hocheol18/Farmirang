@@ -34,12 +34,14 @@ export default function ImageComponent({
 
   // 이미지 선택시 미리보기
   const handleImage = (file: File) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setDisplayImage?.(reader.result);
-    };
+    setDisplayImage?.(file);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = () => {
+    //     setDisplayImage?.(reader.result);
+    // };
   };
+
   return (
     <>
       <div className={`flex ${topcss}`}>
@@ -50,11 +52,11 @@ export default function ImageComponent({
               {displayImage && displayImage ? (
                 <>
                   {/* NextJS 에서 Image 태그에서는 URL을 읽는것을 선호하지 않아서 발생한 밑줄 */}
-                  <img
+                  {/* <img
                     src={displayImage}
                     alt=""
                     style={{ width: "250px", aspectRatio: 1 }}
-                  />
+                  /> */}
                 </>
               ) : (
                 <>

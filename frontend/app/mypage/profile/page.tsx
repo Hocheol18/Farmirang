@@ -1,17 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { useUserStore } from "@/app/_stores/userStore";
 import MiniNavigation from "../component/mini-nav";
 import Modal from "@/app/_components/common/Modal";
-import Button from "@/app/_components/common/Button";
 import ProfileCSR from "../component/profile-csr";
 import ChangeRole from "../component/change-role";
+
+// 프로필 데이터를 나타내는 인터페이스
+interface ProfileType {
+  profile_img: string;
+  nickname: string;
+  role: string;
+  badge: number;
+}
 
 export default function MyPage() {
   const { userInfo, resetAuth } = useUserStore();
   const router = useRouter();
+  const [profileData, setProfileData] = useState<ProfileType>();
+  const [userImage, setUserimage] = useState<string>("/user/user.png");
+
+  // 초기 프로필 데이터를 받아오기 위한 fetch 함수
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `${MEMBER_URL}/v1/user/${userInfo.memberId}/profile`
+    );
+    if (response && response.ok) {
+      const data = await response.json();
+      setProfileData(data.data);
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      fetchProfile();
+      setUserimage(userInfo.profileImg);
+    }
+  }, [userInfo]);
+
   const handleDelUser = async () => {
     const response = await fetch(`${MEMBER_URL}/v1/user`, {
       method: "DELETE",
@@ -47,7 +76,7 @@ export default function MyPage() {
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                <ProfileCSR />
+                <ProfileCSR profileData={profileData} />
               </div>
               <Modal
                 buttonText={"회원 탈퇴 하기"}

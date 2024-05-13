@@ -60,12 +60,20 @@ export default function ChangeRole() {
     contact: string
   ) => {
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("address", address);
-    formData.append("report", report);
-    formData.append("contact", contact);
+    const test = {
+      name,
+      address,
+      report,
+      contact,
+    };
+    formData.append(
+      "data",
+      new File([JSON.stringify(test)], "data.json", {
+        type: "application/json",
+      })
+    );
     formData.append("img", selectImage);
-    console.log(selectImage);
+
     try {
       const response = await fetch(`${AGENCY_URL}/v1/agency/registration`, {
         method: "POST",
@@ -84,11 +92,27 @@ export default function ChangeRole() {
     }
   };
 
+  // 기관등록 삭제 로직
+  const deleteAgency = async (agencyId: number) => {
+    const response = await fetch(
+      `${AGENCY_URL}/v1/agency/registration?id=${agencyId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${userInfo.accessToken}`,
+        },
+      }
+    );
+    if (response.ok) {
+      setApproval(false);
+    }
+  };
+
   useEffect(() => {
     if (userInfo) {
       fetchAgency();
     }
-  }, [userInfo]);
+  }, [userInfo, approval]);
 
   return (
     <>
@@ -105,7 +129,7 @@ export default function ChangeRole() {
           Titlebottom={
             <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
           }
-          next={"확인"}
+          next={agencyData?.approval === null ? "확인" : "재신청하기"}
           contents={
             <>
               <div className="text-lg font-semibold mt-10">기관 승인 여부</div>
@@ -127,7 +151,11 @@ export default function ChangeRole() {
               {agencyData?.report_number}
             </>
           }
-          onSuccess={() => {}}
+          onSuccess={
+            agencyData?.approval === null
+              ? () => {} // 승인 대기중이면 빈 함수 전달
+              : () => deleteAgency(agencyData?.id ?? 0)
+          }
         />
       ) : (
         <Modal

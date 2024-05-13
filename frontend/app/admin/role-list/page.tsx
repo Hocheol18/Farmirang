@@ -1,6 +1,6 @@
-"use client";
 import MiniNavigation from "../component/mini-nav";
-import Modal from "@/app/_components/common/Modal";
+import Link from "next/link";
+import { AGENCY_URL } from "@/utils/ServerApi";
 
 export default function MyPage() {
   return (
@@ -23,7 +23,11 @@ export default function MyPage() {
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                {/* <ProfileCSR /> */}
+                <div className="flex gap-[50px]">
+                  <Link href="/admin/role-list/[agencyId]">
+                    id name approval
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

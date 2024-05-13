@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
@@ -19,9 +19,12 @@ interface ProfileType {
   badge: number;
 }
 
-export default function ProfileCSR() {
+export default function ProfileCSR({
+  profileData,
+}: {
+  profileData: ProfileType;
+}) {
   const { userInfo, updateImg } = useUserStore();
-  const [profileData, setProfileData] = useState<ProfileType>();
   const [userImage, setUserimage] = useState<string>("/user/user.png");
   const [selectImage, setSelectImage] = useState<any>();
   const [newNickname, setNewNickname] = useState<string>("");
@@ -75,24 +78,6 @@ export default function ProfileCSR() {
       setUserimage(responseData.data.url);
     }
   };
-
-  // 초기 프로필 데이터를 받아오기 위한 fetch 함수
-  const fetchProfile = async () => {
-    const response = await fetch(
-      `${MEMBER_URL}/v1/user/${userInfo.memberId}/profile`
-    );
-    if (response && response.ok) {
-      const data = await response.json();
-      setProfileData(data.data);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-    if (userInfo) {
-      setUserimage(userInfo.profileImg);
-    }
-  }, [userInfo]);
 
   return (
     <div className="flex flex-col items-center gap-[70px] relative bg-white border">
