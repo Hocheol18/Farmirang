@@ -33,8 +33,8 @@ public class SwaggerConfig {
 
 		return new OpenAPI()
 			.info(new Info()
-				.title("Famirang Agency API")
-				.description("Famirang Agency API Documentation")
+				.title("Famirang Donation API")
+				.description("Famirang Donation API Documentation")
 				.version("0.0.1"))
 			.components(components)
 			.addSecurityItem(securityRequirement);

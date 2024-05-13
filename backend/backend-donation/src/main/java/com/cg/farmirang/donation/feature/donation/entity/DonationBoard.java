@@ -72,4 +72,9 @@ public class DonationBoard {
 
 	@Column(name = "delete_date")
 	private LocalDateTime deleteDate;
+
+	@Column(name = "progress", nullable = false)
+	private Double progress = 0.0;
+
+	private String summary;
 }
