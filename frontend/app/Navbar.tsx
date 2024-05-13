@@ -43,23 +43,23 @@ export default function Navbar() {
     router.push(`${href}`);
   };
 
-  const handleLogout = async () => {
-    const response = await fetch(
-      "http://localhost:8081/api/v1/security/logout",
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${userInfo.accessToken}`,
-          "device-id": `${userInfo.deviceId}`,
-          // "device-id": "83cb30c3-5e31-4bef-986c-7435576e0e9b",
-        },
-      }
-    );
-    if (response) {
-      resetAuth();
-      router.push("/");
-    }
-  };
+  // const handleLogout = async () => {
+  //   const response = await fetch(
+  //     "http://localhost:8081/api/v1/security/logout",
+  //     {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: `Bearer ${userInfo.accessToken}`,
+  //         "device-id": `${userInfo.deviceId}`,
+  //         // "device-id": "83cb30c3-5e31-4bef-986c-7435576e0e9b",
+  //       },
+  //     }
+  //   );
+  //   if (response) {
+  //     resetAuth();
+  //     router.push("/");
+  //   }
+  // };
 
   return (
     <>
@@ -131,7 +131,7 @@ export default function Navbar() {
                             </Menu.Button>
                           </Menu>
                           <a
-                            onClick={handleLogout}
+                            onClick={() => {}}
                             className="text-green-500 cursor-pointer hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
                           >
                             로그아웃

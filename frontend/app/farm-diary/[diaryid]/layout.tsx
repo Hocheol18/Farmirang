@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import CalendarDate from "./[date]/page";
-import Calendar from "./component/calendar";
-import Sidebar from "./component/sidebar";
+import Calendar from "./component/Calendar";
+import Sidebar from "./component/Siderbar";
 
 function Display() {
   const [current, setCurrent] = useState<boolean>(true);
@@ -14,6 +14,7 @@ function Display() {
           <Sidebar current={current} setCurrent={setCurrent} />
         </div>
         <div className="w-[83%] h-full">
+          
           {current ? <Calendar /> : <CalendarDate />}
         </div>
       </div>

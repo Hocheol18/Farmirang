@@ -7,7 +7,7 @@ Next,js 14 + Typescript
 ### GET
 
 ```
-fetch(url)
+fetch(url, { cache: 'no-store' })
   .then(response => {
     if (response.ok) {
       return response.json();
@@ -31,6 +31,7 @@ fetch(url, {
   headers: {
     'Content-Type': 'application/json'
   },
+  cache : 'no-store'
   body: JSON.stringify(data)
 })
   .then(response => {
@@ -56,6 +57,7 @@ fetch(url, {
   headers: {
     'Content-Type': 'application/json'
   },
+  cache : 'no-store'
   body: JSON.stringify(data)
 })
   .then(response => {
@@ -80,6 +82,7 @@ const url = 'https://api.example.com/resource/123'; // DELETE 요청을 보낼 �
 
 fetch(url, {
   method: 'DELETE',
+  cache : 'no-store'
 })
   .then(response => {
     if (response.ok) {
