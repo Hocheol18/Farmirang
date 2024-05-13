@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: backend-donation
+  profiles:
+    include: secret
+
+
+server:
+  port: 8085
+
+logging:
+  level:
+    com:
+      cg:
+        farmirang: debug
