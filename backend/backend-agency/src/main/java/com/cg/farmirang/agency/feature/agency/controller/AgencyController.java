@@ -4,7 +4,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,13 +50,16 @@ public class AgencyController {
 	/**
 	 * 등록 신청
 	 * */
-	@PostMapping(value = "/registration", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/registration", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {
+		MediaType.APPLICATION_JSON_VALUE})
 	@Operation(summary = " 기관 등록 신청", responses = {
 		@ApiResponse(responseCode = "200", description = "성공, 기관 등록 번호 반환"),
 		@ApiResponse(responseCode = "400", description = "실패")
 	})
 	public ResponseEntity<SuccessResponse<AgencyRegisterResponseDto>> registerAgencyController(
-		@Parameter(hidden = true) @RequestHeader("Authorization") String token, @ModelAttribute("data") AgencyRegisterRequestDto dto, @RequestPart("img") MultipartFile img){
+		@Parameter(hidden = true) @RequestHeader("Authorization") String token,
+		@RequestPart("data") AgencyRegisterRequestDto dto,
+		@RequestPart("img") MultipartFile img) {
 		log.debug("POST /registration registerAgencyController");
 		var memberInfo = jwt.validateAccessToken(token);
 		var res = svc.registerAgencyService(memberInfo.memberId(), dto, img);
@@ -103,7 +105,7 @@ public class AgencyController {
 	 * 기관 프로필 조회
 	 * */
 	@GetMapping("/profile/{memberId}")
-	@Operation(summary = "기관 프로필 조회", description =  "기관 등록 번호가 아닌 유저 구분 번호를 입력하세요", responses = {
+	@Operation(summary = "기관 프로필 조회", description = "기관 등록 번호가 아닌 유저 구분 번호를 입력하세요", responses = {
 		@ApiResponse(responseCode = "200", description = "성공, 기관 프로필 정보 반환"),
 		@ApiResponse(responseCode = "400", description = "실패")
 	})
@@ -172,8 +174,9 @@ public class AgencyController {
 		@ApiResponse(responseCode = "200", description = "성공, 기관 등록 번호 반환"),
 		@ApiResponse(responseCode = "400", description = "실패")
 	})
-	public ResponseEntity<SuccessResponse<AdminApproveResponseDto>> adminApprovalController(@Parameter(hidden = true) @RequestHeader("Authorization") String token, @RequestBody
-		AdminApproveRequestDto data) {
+	public ResponseEntity<SuccessResponse<AdminApproveResponseDto>> adminApprovalController(
+		@Parameter(hidden = true) @RequestHeader("Authorization") String token, @RequestBody
+	AdminApproveRequestDto data) {
 		var memberInfo = jwt.validateAccessToken(token);
 		if (memberInfo.role() != MemberRole.ADMIN)
 			throw new BusinessExceptionHandler("권한이 없습니다.", ErrorCode.FORBIDDEN_ERROR);
@@ -182,6 +185,5 @@ public class AgencyController {
 		log.debug("AgencyController adminApprovalController res: {}", res.id());
 		return ResponseEntity.ok(new SuccessResponse<>(res, SuccessCode.UPDATE_SUCCESS, "처리 완료"));
 	}
-
 
 }
