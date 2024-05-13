@@ -92,18 +92,6 @@ export default function DonationWrite() {
                   titlecss={"font-bold text-h5"}
                   topcss={"mt-20"}
                 />
-                <Input
-                  labeltext={"기부 단체 명"}
-                  topcss="mt-20"
-                  labelcss={"block text-h5 leading-12 text-black-100 font-bold"}
-                  inputcss={
-                    "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
-                  }
-                  placeholder={"밭 이름을 정해주세요"}
-                  type={"text"}
-                  value={name}
-                  onChange={setName}
-                />
 
                 <div className="col-span-full mt-20">
                   <div className="flex w-full justify-between">
