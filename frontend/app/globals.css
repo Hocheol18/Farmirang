@@ -182,3 +182,61 @@ div#__next > div {
   background: rgba(56, 129, 64, 0.3);
   border-radius: 10px;
 }
+
+.cloud1 {
+  animation: cloudMove 3s infinite;
+}
+
+.sun {
+  animation: sunMove 2s infinite;
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(10%);
+  }
+  50% {
+    transform: translateX(20%);
+  }
+
+  75% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+  75% {
+    transform: translateX(-10%);
+  }
+
+  50% {
+    transform: translateX(-20%);
+  }
+
+  25% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sunMove {
+  0% {
+    rotate: 90deg;
+  }
+
+  25% {
+    rotate: 180deg;
+  }
+
+  50% {
+    rotate: 270deg;
+  }
+  75% {
+    rotate: 360deg;
+  }
+
+  100% {
+    rotate: 90deg;
+  }
+}
