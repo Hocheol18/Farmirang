@@ -43,13 +43,15 @@ public class DonationBoardRepositoryCustomImpl implements DonationBoardRepositor
 			))
 			.from(donationBoard)
 			.leftJoin(welfareFacility)
-			.on(donationBoard.member.id.eq(welfareFacility.memberId))
-			.where(donationBoard.state.eq(DonationState.DOING), donationBoard.startDate.before(now),
-				donationBoard.endDate.after(now));
+			.on(donationBoard.member.id.eq(welfareFacility.memberId));
 
 		// set query for user if user is not null
 		if (dto.memberId() != null) {
 			query.where(donationBoard.member.id.eq(dto.memberId()));
+		}
+		else {
+			query.where(donationBoard.state.eq(DonationState.DOING), donationBoard.startDate.before(now),
+				donationBoard.endDate.after(now));
 		}
 
 		// set query for cusor, size
