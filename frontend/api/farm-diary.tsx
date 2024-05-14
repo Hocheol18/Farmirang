@@ -5,9 +5,9 @@ import { DIARY_URL } from "@/utils/ServerApi";
 export const fetchCalendar = async (
   params: fetchCalendarData
 ): Promise<fetchCalendarData[]> => {
-  const { year, month } = params;
+  const { fieldId, year, month } = params;
   const response = await fetch(
-    `${DIARY_URL}/v1/diary/calendar/1${makeQuerystring({
+    `${DIARY_URL}/v1/diary/calendar/${fieldId}${makeQuerystring({
       year,
       month,
     })}`,

@@ -1,14 +1,11 @@
 "use client";
 
 import { GoChevronRight } from "react-icons/go";
-import CalendarDateComponent from "./CalendarDateFunction";
+import CalendarDateComponent from "./CalendarDateComponent";
 import { useEffect, useState } from "react";
 import { fetchCalendar } from "@/api/farm-diary";
 import React from "react";
-
-// interface Props {
-//   fieldId: number;
-// }
+import { useParams, useRouter } from 'next/navigation'
 
 export default function Calendar() {
   const today = new Date();
@@ -17,18 +14,18 @@ export default function Calendar() {
   const todayDay = today.getDate();
   const todayMonth = today.getMonth() + 1;
   const [calendarDate, setCalendarDate] = useState([]);
-
-  console.log(todayMonth === month)
-
+  const { diaryid } = useParams<{ diaryid: string }>()
   const setData = (res: any) => {
     setCalendarDate(res.data.result);
   };
 
-  const fieldId = 1;
+  const router = useRouter();
 
   useEffect(() => {
-    fetchCalendar({ year: year, month: month }).then((res) => setData(res));
-  }, [fieldId, year, month]);
+    fetchCalendar({ fieldId: Number(diaryid), year: year, month: month })
+      .then(setData)
+      .catch(console.error);
+  }, [diaryid, year, month]);
 
   return (
     <>
@@ -75,44 +72,44 @@ export default function Calendar() {
                     ) : items.diaryId !== null &&
                       Number(items.day) === todayDay && month === todayMonth ? (
                       <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-bold text-base text-white">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-bold text-base text-white-100">
                           {items.day}
                         </div>
                         <ol className="mt-8">
                           <li>
-                            <a href="#" className="group flex">
+                            <div className="group flex" onClick={() => router.push(`${diaryid}/${items.diaryId}`)}>
                               <p className="flex-auto truncate font-extrabold text-gray-900 text-s">
                                 일기 보기
                               </p>
                               <div className="place-content-center">
                                 <GoChevronRight />
                               </div>
-                            </a>
+                            </div>
                           </li>
                         </ol>
                       </div>
                     ) : items.diaryId !== null && items.day !== todayDay ? (
                       <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full font-bold text-base text-white">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full font-bold text-base">
                           {items.day}
                         </div>
                         <ol className="mt-8">
                           <li>
-                            <a href="#" className="group flex">
+                            <div className="group flex cursor-pointer" onClick={() => router.push(`${diaryid}/${items.diaryId}`)}>
                               <p className="flex-auto truncate font-extrabold text-gray-900 text-l">
                                 일기 보기
                               </p>
                               <div className="place-content-center">
                                 <GoChevronRight />
                               </div>
-                            </a>
+                            </div>
                           </li>
                         </ol>
                       </div>
                     ) : Number(items.day) === todayDay && month === todayMonth ? (
                       <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
                         <div className="group flex">
-                          <div className="flex h-8 w-8 font-bold text-base items-center justify-center rounded-full bg-green-300">
+                          <div className="flex h-8 w-8 font-bold text-base items-center justify-center rounded-full bg-green-300 text-white-100">
                             {items.day}
                           </div>
                         </div>
