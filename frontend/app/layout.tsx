@@ -17,14 +17,12 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <Script
-          strategy="beforeInteractive"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=e6c6edef784b515a21fcf7f03cea6190&autoload=false`}
-        />
-
+        <Script strategy="beforeInteractive" src={process.env.API_URL} />
         <div className="flex flex-col h-full">
           <NavBar />
-          {children}
+
+          <div className="pt-[5rem] h-full">{children}</div>
+
           <ChatButton />
         </div>
       </body>

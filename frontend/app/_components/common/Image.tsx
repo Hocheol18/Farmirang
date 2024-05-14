@@ -20,6 +20,10 @@ interface Props {
   displayImage?: any;
   // 이미지 미리보기 설정 변수
   setDisplayImage?: React.Dispatch<any>;
+  // 이미지 높이
+  heightcss: string;
+  // 함수 적용
+  handleEvent: () => void;
 }
 
 export default function ImageComponent({
@@ -29,6 +33,8 @@ export default function ImageComponent({
   topsecondcss,
   displayImage,
   setDisplayImage,
+  handleEvent,
+  heightcss,
 }: Props) {
   const { userInfo, resetAuth } = useUserStore();
 
@@ -43,51 +49,55 @@ export default function ImageComponent({
   };
 
   return (
-    <>
-      <div className={`flex ${topcss}`}>
-        <div className={`justify-center ${topsecondcss} `}>
-          <label className={`block ${titlecss}`}>{title}</label>
-          <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-500 px-6 py-10">
-            <div className="text-center flex flex-col items-center">
-              {displayImage && displayImage ? (
-                <>
-                  {/* NextJS 에서 Image 태그에서는 URL을 읽는것을 선호하지 않아서 발생한 밑줄 */}
-                  {/* <img
+    <div className={`flex ${topcss}`}>
+      <div className={`justify-center ${topsecondcss} `}>
+        <label className={`block ${titlecss}`}>{title}</label>
+        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-500 px-6 py-10">
+          <div className="text-center flex flex-col items-center">
+            {displayImage && displayImage ? (
+              <>
+                {/* NextJS 에서 Image 태그에서는 URL을 읽는것을 선호하지 않아서 발생한 밑줄 */}
+                {/* <img
                     src={displayImage}
                     alt=""
                     style={{ width: "250px", aspectRatio: 1 }}
                   /> */}
-                </>
-              ) : (
-                <>
-                  <PhotoIcon
-                    className="mx-auto h-12 w-12 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-green-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                    >
-                      <span>5MB이내</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                      />
-                    </label>
-                    <p className="pl-1 text-gray-500">PNG, JPG, JPEG 파일</p>
-                  </div>
-                </>
-              )}
+              </>
+            ) : (
+              <>
+                <PhotoIcon
+                  className="mx-auto h-12 w-12 text-gray-400"
+                  aria-hidden="true"
+                />
+                <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer rounded-md bg-white font-semibold text-green-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                  >
+                    <span>5MB이내</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      className="sr-only"
+                    />
+                  </label>
+                  <p className="pl-1 text-gray-500">PNG, JPG, JPEG 파일</p>
+                </div>
+              </>
+            )}
 
-              {/* 나중에 useState를 통해서 데이터 입력 */}
-              <FileUploadButton handleImage={handleImage} />
+            {/* 나중에 useState를 통해서 데이터 입력 */}
+            <div className="flex justify-center">
+              <FileUploadButton
+                handleImage={() => {
+                  handleEvent;
+                }}
+              />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
