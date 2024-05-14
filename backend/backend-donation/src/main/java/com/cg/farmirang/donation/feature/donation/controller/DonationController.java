@@ -2,7 +2,6 @@ package com.cg.farmirang.donation.feature.donation.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +28,7 @@ import com.cg.farmirang.donation.global.exception.BusinessExceptionHandler;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +47,7 @@ public class DonationController {
 	@Operation(summary = "기부 신청글 등록", description = "swagger에서는 이미지 업로드가 힘듭니다. postmane 같은 프로그램을 사용해 테스트해주세요")
 	public ResponseEntity<SuccessResponse<DonationIdResponseDto>> registerDonationController(
 		@Parameter(hidden = true) @RequestHeader("Authorization") String accessToken,
-		@Validated @RequestPart("data") RegisterDonationRequestDto data,
+		@Valid @RequestPart("data") RegisterDonationRequestDto data,
 		@RequestPart("head") MultipartFile headerImg,
 		@RequestPart("main") MultipartFile mainImg
 	) {
