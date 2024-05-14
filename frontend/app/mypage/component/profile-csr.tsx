@@ -47,7 +47,7 @@ export default function ProfileCSR({
   // 고른 이미지로 백엔드 저장하는 로직
   const imageSelect = async () => {
     const formData = new FormData();
-    formData.append("image", selectImage);
+    formData.append("img", selectImage);
     const response = await fetch(`${MEMBER_URL}/v1/user/profile`, {
       method: "PUT",
       headers: {
