@@ -72,6 +72,10 @@ export default function MyPage() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
+                {userInfo.role === "ADMIN" && (
+                  <a href="/admin/role-list">관리자 페이지</a>
+                )}
+
                 <ChangeRole />
               </div>
               {/* 프로필 리스트 */}
