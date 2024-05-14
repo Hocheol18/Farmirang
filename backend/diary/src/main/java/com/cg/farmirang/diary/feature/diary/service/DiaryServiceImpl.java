@@ -65,10 +65,12 @@ public class DiaryServiceImpl implements DiaryService {
 		String imagePath;
 		if(file != null) imagePath = s3UploadService.saveFile(file);
 		else imagePath = null;
+
 		DiaryManual diaryManual = DiaryManual.builder()
-			.content(request.getContent())
-			.photo(imagePath)
-			.build();
+				.diary(diary)
+				.content(request.getContent())
+				.photo(imagePath)
+				.build();
 		DiaryManual save = diaryManualRepository.save(diaryManual);
 		diary.setDiaryManual(save);
 		diaryRepository.save(diary);
