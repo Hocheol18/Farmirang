@@ -1,24 +1,52 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { useUserStore } from "@/app/_stores/userStore";
 import MiniNavigation from "../component/mini-nav";
 import Modal from "@/app/_components/common/Modal";
-import Button from "@/app/_components/common/Button";
 import ProfileCSR from "../component/profile-csr";
 import ChangeRole from "../component/change-role";
+
+// 프로필 데이터를 나타내는 인터페이스
+interface ProfileType {
+  profile_img: string;
+  nickname: string;
+  role: string;
+  badge: number;
+}
 
 export default function MyPage() {
   const { userInfo, resetAuth } = useUserStore();
   const router = useRouter();
+  const [profileData, setProfileData] = useState<ProfileType>();
+  const [userImage, setUserimage] = useState<string>("/user/user.png");
+
+  // 초기 프로필 데이터를 받아오기 위한 fetch 함수
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `${MEMBER_URL}/v1/user/${userInfo.memberId}/profile`
+    );
+    if (response && response.ok) {
+      const data = await response.json();
+      setProfileData(data.data);
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      fetchProfile();
+      setUserimage(userInfo.profileImg);
+    }
+  }, [userInfo]);
+
   const handleDelUser = async () => {
     const response = await fetch(`${MEMBER_URL}/v1/user`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${userInfo.accessToken}`,
         "device-id": `${userInfo.deviceId}`,
-        // "device-id": "bcb9cdd4-abfd-4a21-893f-849a23ac4043",
       },
     });
     if (response && response.ok) {
@@ -44,25 +72,15 @@ export default function MyPage() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
-                <Modal
-                  buttonText={"회원자격 변경신청"}
-                  buttonBgStyles={"bg-green-300"}
-                  buttonTextStyles={"text-font-m5 text-white-100"}
-                  Title="기관 회원 전환 신청"
-                  subTitle="후원 요청을 위한 기관회원 전환 신청서입니다."
-                  Titlecss={"text-h3 font-extrabold"}
-                  subTitlecss={"text-base font-bold"}
-                  Modalcss={"w-[500px]"}
-                  Titlebottom={
-                    <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
-                  }
-                  next={"확인"}
-                  contents={<ChangeRole />}
-                />
+                {userInfo.role === "ADMIN" && (
+                  <a href="/admin/role-list">관리자 페이지</a>
+                )}
+
+                <ChangeRole />
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                <ProfileCSR />
+                <ProfileCSR profileData={profileData} />
               </div>
               <Modal
                 buttonText={"회원 탈퇴 하기"}
@@ -74,20 +92,12 @@ export default function MyPage() {
                 subTitlecss={"text-base font-bold"}
                 Modalcss={"w-[530px]"}
                 Titlebottom={
-                  <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
+                  <></>
+                  // <div className="bg-red-300 w-[22rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
                 }
-                next={"확인"}
-                contents={
-                  <>
-                    {" "}
-                    <Button
-                      text="팜이랑 회원 탈퇴"
-                      bgStyles="flex mx-auto justify-center bg-red-500 w-[70%]"
-                      textStyles="text-white-100"
-                      handleClick={handleDelUser}
-                    />
-                  </>
-                }
+                next={"탈퇴하기"}
+                contents={<></>}
+                onSuccess={handleDelUser}
               />
             </div>
           </div>

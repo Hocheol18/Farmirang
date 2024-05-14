@@ -1,8 +1,43 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { AGENCY_URL } from "@/utils/ServerApi";
+import { useUserStore } from "@/app/_stores/userStore";
 import MiniNavigation from "../component/mini-nav";
-import Modal from "@/app/_components/common/Modal";
+
+interface agencyType {
+  id: number;
+  name: string | null;
+  approval: boolean | null;
+}
 
 export default function MyPage() {
+  const { userInfo } = useUserStore();
+  const [agencyData, setAgencyData] = useState<agencyType[]>([]);
+
+  useEffect(() => {
+    const fetchAgencyData = async () => {
+      try {
+        if (userInfo) {
+          const response = await fetch(`${AGENCY_URL}/v1/agency/admin`, {
+            headers: {
+              Authorization: `Bearer ${userInfo.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setAgencyData(data.data.agencies);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching agency data:", error);
+      }
+    };
+    fetchAgencyData();
+  }, [userInfo]);
+
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">
@@ -23,7 +58,23 @@ export default function MyPage() {
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                {/* <ProfileCSR /> */}
+                <ul>
+                  {agencyData.map((data) => (
+                    <li key={data.id}>
+                      <Link href={`/admin/role-list/${data.id}`}>
+                        <div className="flex gap-[10px]">
+                          <p className="text-green-300">접수 아이디:</p>
+                          {data.id}
+                          <p className="text-green-300">기관명:</p>
+                          {data.name ? data.name : "미입력"}
+                          <p className="text-green-300">승인여부:</p>
+                          {data.approval ? "승인" : "미승인"}
+                        </div>
+                      </Link>
+                      -
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MEMBER_URL } from "@/utils/ServerApi";
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -43,23 +44,24 @@ export default function Navbar() {
     router.push(`${href}`);
   };
 
-  // const handleLogout = async () => {
-  //   const response = await fetch(
-  //     "http://localhost:8081/api/v1/security/logout",
-  //     {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${userInfo.accessToken}`,
-  //         "device-id": `${userInfo.deviceId}`,
-  //         // "device-id": "83cb30c3-5e31-4bef-986c-7435576e0e9b",
-  //       },
-  //     }
-  //   );
-  //   if (response) {
-  //     resetAuth();
-  //     router.push("/");
-  //   }
-  // };
+  const handleLogout = async () => {
+    const response = await fetch(
+      // "http://localhost:8081/api/v1/security/logout",
+      `${MEMBER_URL}/v1/security/logout`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${userInfo.accessToken}`,
+          "device-id": `${userInfo.deviceId}`,
+          // "device-id": "83cb30c3-5e31-4bef-986c-7435576e0e9b",
+        },
+      }
+    );
+    if (response) {
+      resetAuth();
+      router.push("/");
+    }
+  };
 
   return (
     <>

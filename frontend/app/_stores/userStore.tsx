@@ -60,7 +60,7 @@ export const useUserStore = create<UserInfoState & UserInfoActions>()(
     }),
     {
       name: "userInfo",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

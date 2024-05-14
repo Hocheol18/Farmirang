@@ -33,7 +33,7 @@ export default function ChatButton() {
                 width={63}
                 height={45}
                 alt="Chat"
-                src="/user/chatModal.png"
+                src="/user/chatmodal.png"
               />
             </div>
           </div>
