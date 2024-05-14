@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiaryAutoDto {
-	private Long id;
+	private Long diaryAutoId;
 	private String cropName;
 	private String content;
 }

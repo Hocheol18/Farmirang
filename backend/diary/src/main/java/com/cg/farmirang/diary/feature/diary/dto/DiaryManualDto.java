@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiaryManualDto {
-	private Long id;
+	private Long diaryManualId;
 	private String content;
 	private String photo;
 }

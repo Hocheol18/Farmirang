@@ -185,7 +185,7 @@ public class DiaryServiceImpl implements DiaryService {
 		List<DiaryAutoDto> resultAuto = new ArrayList<>();
 		for (DiaryAuto diaryAuto : diaryAutos) {
 			DiaryAutoDto auto = DiaryAutoDto.builder()
-				.id(diaryAuto.getId())
+				.diaryAutoId(diaryAuto.getId())
 				.cropName(diaryAuto.getCropName())
 				.content(diaryAuto.getContent())
 				.build();
@@ -195,7 +195,7 @@ public class DiaryServiceImpl implements DiaryService {
 		if(diary.getDiaryManual() != null){
 			DiaryManual diaryManual = diary.getDiaryManual();
 			resultManual = DiaryManualDto.builder()
-				.id(diaryManual.getId())
+				.diaryManualId(diaryManual.getId())
 				.content(diaryManual.getContent())
 				.photo(diaryManual.getPhoto())
 				.build();
@@ -204,7 +204,7 @@ public class DiaryServiceImpl implements DiaryService {
 
 		DiaryTotal diaryTotal = diary.getDiaryTotal();
 		DiaryTotalDto resultTotal = DiaryTotalDto.builder()
-			.id(diaryTotal.getId())
+			.diaryTotalId(diaryTotal.getId())
 			.temperature(diaryTotal.getTemperature())
 			.fieldHumidity(
 				diaryTotal.getFieldHumidity())
