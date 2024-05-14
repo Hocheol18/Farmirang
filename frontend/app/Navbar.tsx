@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MEMBER_URL } from "@/utils/ServerApi";
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -45,7 +46,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     const response = await fetch(
-      "http://localhost:8081/api/v1/security/logout",
+      // "http://localhost:8081/api/v1/security/logout",
+      `${MEMBER_URL}/v1/security/logout`,
       {
         method: "DELETE",
         headers: {

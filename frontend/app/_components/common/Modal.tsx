@@ -27,6 +27,12 @@ interface Props {
   Titlebottom: any;
   // 확인 혹은 다음 버튼 텍스트
   next: string;
+  // 확인 버튼 클릭시 함수 실행
+  onSuccess?: () => void;
+  // 모달 staet 변수
+  data?: any;
+  // 모달 setState 변수
+  setData?: React.Dispatch<any>;
   handleFunction?: () => void;
   noButton?: boolean;
 }
@@ -43,11 +49,15 @@ export default function MyModal({
   Modalcss,
   Titlebottom,
   next,
+  onSuccess,
   handleFunction,
   noButton,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const successHandler = () => {
+    onSuccess();
+    setIsOpen(false);
+  };
   return (
     <>
       <Button
@@ -93,24 +103,22 @@ export default function MyModal({
                     </div>
                     <div className="mt-6">{contents}</div>
 
-                    {noButton && !handleFunction ? null : (
-                      <div className="flex justify-end mt-10">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md border shadow-lg border-transparent bg-green-100 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <div className="text-green-400 font-bold">취소</div>
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                          onClick={handleFunction}
-                        >
-                          <div className="text-white-100 font-bold">{next}</div>
-                        </button>
-                      </div>
-                    )}
+                    <div className="flex justify-end mt-10">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border shadow-lg border-transparent bg-green-100 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="text-green-400 font-bold">취소</div>
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                        onClick={() => successHandler()}
+                      >
+                        <div className="text-white-100 font-bold">{next}</div>
+                      </button>
+                    </div>
                   </>
                 </Dialog.Panel>
               </Transition.Child>
