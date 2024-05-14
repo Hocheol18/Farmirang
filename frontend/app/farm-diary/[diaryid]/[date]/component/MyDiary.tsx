@@ -1,0 +1,63 @@
+import Image from "next/image";
+import SunIcon from "../../../../../public/icons/weather/Sun.svg";
+import RainIcon from "../../../../../public/icons/weather/Rain.svg";
+import SnowIcon from "../../../../../public/icons/weather/Snowman.svg";
+import CloudIcon from "../../../../../public/icons/weather/Partly Cloudy Day.svg";
+import { diaryManualDataType } from "@/type/farm-diary";
+
+interface Props {
+  childrenDiaryManualData: diaryManualDataType;
+  Temperature: number;
+}
+
+type WeatherState = "sun" | "rain" | "snow" | "cloud";
+
+export default function MyDiary({
+  childrenDiaryManualData,
+  Temperature,
+}: Props) {
+  const weatherList: Record<WeatherState, JSX.Element> = {
+    sun: <Image src={SunIcon} width={45} height={45} alt="sun" />,
+    rain: <Image src={RainIcon} width={45} height={45} alt="rain" />,
+    snow: <Image src={SnowIcon} width={45} height={45} alt="snow" />,
+    cloud: <Image src={CloudIcon} width={45} height={45} alt="cloud" />,
+  };
+
+  let currentState: WeatherState = "cloud";
+
+  switch (true) {
+    case Temperature >= 21:
+      currentState = "sun";
+      break;
+    case Temperature < 21 && Temperature > 8:
+      currentState = "cloud";
+      break;
+    case Temperature <= 8 && Temperature >= 0:
+      currentState = "rain";
+      break;
+    case Temperature < 0:
+      currentState = "snow";
+      break;
+    default:
+      currentState = "cloud";
+      break;
+  }
+
+  return (
+    <>
+      <div className="text-h2 font-bold mt-10">나의 일지</div>
+      <div className="border border-gray-400 shadow-xl rounded-xl h-full p-6 mt-10">
+        <div className="relative h-2/5 mt-2">
+          <Image src={childrenDiaryManualData.photo} alt="" fill />
+        </div>
+        <div className="flex justify-between mt-8">
+          <div className="text-h3">영농 일기</div>
+          <div>{weatherList[currentState]}</div>
+        </div>
+        <div className="text-h6 mt-[1rem]">
+          {childrenDiaryManualData.content}
+        </div>
+      </div>
+    </>
+  );
+}

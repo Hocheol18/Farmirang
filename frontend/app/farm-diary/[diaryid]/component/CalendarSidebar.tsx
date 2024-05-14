@@ -9,7 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 
 export default function CalendarSideBar() {
     const router = useRouter();
-    const { diaryid } = useParams<{ diaryid: string; date: string }>();
+    const { diaryid } = useParams<{ diaryid: string }>() as { diaryid: string };
 
     const navigation = [
         {

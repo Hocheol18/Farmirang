@@ -1,9 +1,4 @@
 "use client";
-
-import Editor from "@/app/_components/common/Editor";
-import ImageComponent from "@/app/_components/common/Image";
-import MyModal from "@/app/_components/common/Modal";
-import { useState } from "react";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
 interface Props {
@@ -63,44 +58,6 @@ export default function CalendarDateComponent({
           </button>
         </div>
         <div className="hidden md:ml-4 md:flex md:items-center">
-          {/* Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95" */}
-
-          <div className="ml-3 h-6 w-px bg-gray-400"></div>
-          <MyModal
-            buttonText={"일기 추가"}
-            buttonBgStyles={
-              "ml-3 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:font-green-400 focus-visible:outline focus-visible:outline-2"
-            }
-            buttonTextStyles={""}
-            Title={"일기 추가"}
-            subTitle={""}
-            contents={
-              <>
-                <ImageComponent
-                  title={"일기 대표 사진"}
-                  titlecss={"font-bold text-h5"}
-                  topcss={"mt-[2rem] h-[20rem]"}
-                  topsecondcss={"w-full"}
-                  heightcss={"h-[18rem]"}
-                  handleEvent={() => {}}
-                />
-                <div className="font-bold text-h5 mt-10 mb-4">일지 쓰기</div>
-                <Editor />
-              </>
-            }
-            subTitlecss={""}
-            Titlecss={"font-bold text-h2"}
-            Modalcss={"w-5/6"}
-            Titlebottom={undefined}
-            next={"작성"}
-          />
         </div>
       </div>
     </>

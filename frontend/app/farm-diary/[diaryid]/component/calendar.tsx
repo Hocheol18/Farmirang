@@ -5,7 +5,7 @@ import CalendarDateComponent from "./CalendarDateComponent";
 import { useEffect, useState } from "react";
 import { fetchCalendar } from "@/api/farm-diary";
 import React from "react";
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter } from "next/navigation";
 
 export default function Calendar() {
   const today = new Date();
@@ -14,7 +14,7 @@ export default function Calendar() {
   const todayDay = today.getDate();
   const todayMonth = today.getMonth() + 1;
   const [calendarDate, setCalendarDate] = useState([]);
-  const { diaryid } = useParams<{ diaryid: string }>()
+  const { diaryid } = useParams<{ diaryid: string }>() as { diaryid: string };
   const setData = (res: any) => {
     setCalendarDate(res.data.result);
   };
@@ -70,19 +70,27 @@ export default function Calendar() {
                     {items === null ? (
                       <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300"></div>
                     ) : items.diaryId !== null &&
-                      Number(items.day) === todayDay && month === todayMonth ? (
+                      Number(items.day) === todayDay &&
+                      month === todayMonth ? (
                       <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-bold text-base text-white-100">
                           {items.day}
                         </div>
                         <ol className="mt-8">
                           <li>
-                            <div className="group flex" onClick={() => router.push(`${diaryid}/${items.diaryId}`)}>
-                              <p className="flex-auto truncate font-extrabold text-gray-900 text-s">
-                                일기 보기
-                              </p>
-                              <div className="place-content-center">
-                                <GoChevronRight />
+                            <div
+                              className="group flex flex-col justify-center cursor-pointer"
+                              onClick={() =>
+                                router.push(`${diaryid}/${items.diaryId}`)
+                              }
+                            >
+                              <div className="flex">
+                                <p className="flex-auto truncate font-extrabold text-gray-900 text-s">
+                                  일기 보기
+                                </p>
+                                <div className="place-content-center">
+                                  <GoChevronRight />
+                                </div>
                               </div>
                             </div>
                           </li>
@@ -95,18 +103,26 @@ export default function Calendar() {
                         </div>
                         <ol className="mt-8">
                           <li>
-                            <div className="group flex cursor-pointer" onClick={() => router.push(`${diaryid}/${items.diaryId}`)}>
-                              <p className="flex-auto truncate font-extrabold text-gray-900 text-l">
-                                일기 보기
-                              </p>
-                              <div className="place-content-center">
-                                <GoChevronRight />
+                            <div
+                              className="group flex cursor-pointer flex-col justify-center"
+                              onClick={() =>
+                                router.push(`${diaryid}/${items.diaryId}`)
+                              }
+                            >
+                              <div className="flex">
+                                <p className="flex-auto truncate font-extrabold text-gray-900 text-l">
+                                  일기 보기
+                                </p>
+                                <div className="place-content-center">
+                                  <GoChevronRight />
+                                </div>
                               </div>
                             </div>
                           </li>
                         </ol>
                       </div>
-                    ) : Number(items.day) === todayDay && month === todayMonth ? (
+                    ) : Number(items.day) === todayDay &&
+                      month === todayMonth ? (
                       <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
                         <div className="group flex">
                           <div className="flex h-8 w-8 font-bold text-base items-center justify-center rounded-full bg-green-300 text-white-100">
