@@ -3,17 +3,10 @@ package com.cg.farmirang.diary.feature.diary.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +24,10 @@ public class DiaryManual {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "diary_manual_id")
 	private Long id;
+
+	@OneToOne
+	@JoinColumn(name = "diary_id")
+	private Diary diary;
 
 	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;

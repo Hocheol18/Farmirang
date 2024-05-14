@@ -103,6 +103,7 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
+	@Transactional
 	public Boolean deleteDiaryManual(Long diaryMId) {
 		diaryManualRepository.deleteById(diaryMId);
 		return true;
