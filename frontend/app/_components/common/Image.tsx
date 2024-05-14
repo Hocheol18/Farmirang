@@ -89,11 +89,7 @@ export default function ImageComponent({
 
             {/* 나중에 useState를 통해서 데이터 입력 */}
             <div className="flex justify-center">
-              <FileUploadButton
-                handleImage={() => {
-                  handleEvent;
-                }}
-              />
+              <FileUploadButton handleImage={handleImage} />
             </div>
           </div>
         </div>

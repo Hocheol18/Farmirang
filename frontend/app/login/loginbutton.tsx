@@ -4,8 +4,8 @@ import { MEMBER_URL } from "@/utils/ServerApi";
 import Image from "next/image";
 
 export default function LoginButton() {
-  const tokenURL = `${MEMBER_URL}/v1/security/oauth2`;
-  // const tokenURL = `http://localhost:8081/api/v1/security/oauth2`;
+  // const tokenURL = `${MEMBER_URL}/v1/security/oauth2`;
+  const tokenURL = `http://localhost:8081/api/v1/security/oauth2`;
 
   const kakaoLogin = function () {
     window.location.href = `${tokenURL}/kakao`;
