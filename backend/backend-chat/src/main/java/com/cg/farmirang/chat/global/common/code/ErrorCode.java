@@ -101,7 +101,11 @@ public enum ErrorCode {
     // token error
     TOKEN_ERROR(401, "B009", "Token Exception"),
 
-    ; // End
+    /**
+     * ================= Chat Error CodeList =================
+     */
+    // Chat Room Not Found
+    CHATROOM_NOT_FOUND(404, "C001", "채팅방이 없습니다."); // End
 
     /**
      * ******************************* Error Code Constructor ***************************************

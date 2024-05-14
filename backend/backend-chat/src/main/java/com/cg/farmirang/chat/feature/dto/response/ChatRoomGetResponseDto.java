@@ -4,5 +4,6 @@ import lombok.*;
 
 @Builder @Data
 public class ChatRoomGetResponseDto {
-
+    private String chatRoomId;
+    private String nickname;
 }

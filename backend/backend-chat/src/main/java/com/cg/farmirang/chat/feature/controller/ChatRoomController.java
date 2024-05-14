@@ -18,17 +18,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/chats")
+@RequestMapping("/chats")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
-    private final JwtClient jwtClient;
 
-
+    // 채팅 리스트 화면
+    @GetMapping("/room")
+    public String rooms(Model model) {
+        return "/chat/room";
+    }
 
     /* 개인의 채팅방 목록 반환 */
     @GetMapping("/rooms/lists")
@@ -38,10 +43,10 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public SuccessResponse<?> room(@Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
-        var result = jwtClient.validateAccessToken(accessToken);
-        ChatRoomListGetResponseDto response = chatRoomService.selectChatRoomList(result.memberId());
-        return SuccessResponse.builder().data(response).status(SuccessCode.SELECT_SUCCESS).build();
+    public String room(Model model) {
+        ChatRoomListGetResponseDto response = chatRoomService.selectChatRoomList(10);
+        model.addAttribute("response",response);
+        return "/chat/roomlist";
     }
 
     /* 채팅방 생성 */
@@ -53,10 +58,11 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "404", description = "없는 회원입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public SuccessResponse<?> createRoom(@RequestBody ChatRoomCreateRequestDto request, @Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
-        var result = jwtClient.validateAccessToken(accessToken);
-        String chatRoomId = chatRoomService.createChatRoom(result.memberId(), request);
-        return SuccessResponse.builder().data(chatRoomId).status(SuccessCode.INSERT_SUCCESS).build();
+    public String createRoom(@RequestParam Integer memberId, Model model) {
+        ChatRoomCreateRequestDto request=ChatRoomCreateRequestDto.builder().memberId(memberId).build();
+        String chatRoomId = chatRoomService.createChatRoom(10, request);
+        model.addAttribute("chatRoomId", chatRoomId);
+        return "/chat/room";
     }
 
     /* 채팅방 조회 */
@@ -67,10 +73,10 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public SuccessResponse<?> selectChatRoom(@PathVariable("chatRoomId") Long chatRoomId, @Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
-        var result = jwtClient.validateAccessToken(accessToken);
-        ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, result.memberId());
-        return SuccessResponse.builder().data(response).status(SuccessCode.SELECT_SUCCESS).build();
+    public String selectChatRoom(@PathVariable("chatRoomId") String chatRoomId, Model model) {
+        ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, 10);
+        model.addAttribute("response", response);
+        return "/chat/roomdetail";
     }
 
 }

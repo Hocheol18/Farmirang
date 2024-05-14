@@ -10,5 +10,5 @@ public interface ChatRoomService {
 
     String createChatRoom(Integer firstMemberId, ChatRoomCreateRequestDto request);
 
-    ChatRoomGetResponseDto selectChatRoom(Long chatRoomId, Integer memberId);
+    ChatRoomGetResponseDto selectChatRoom(String chatRoomId, Integer memberId);
 }

@@ -10,20 +10,28 @@
 <body>
 <h1>채팅방 홈</h1>
 <h2>채팅방 생성</h2>
-<div class="container" id="app" v-cloak>
+<div class="container" id="app">
     <div class="row">
         <div class="col-md-12">
-            <form th:action="@{/chats/rooms}" th:object="${chatRoomCreateRequestDto}" method="post">
+            <form id="memberIdForm" th:action="@{/chats/rooms}" method="post">
                 <div class="form-group">
                     <label for="memberId">Member ID:</label>
-                    <input type="number" id="memberId" name="memberId" class="form-control" th:field="*{memberId}" required>
+                    <input type="number" id="memberId" name="memberId" class="form-control" required>
                 </div>
-                <!-- 다른 필드들도 추가할 수 있습니다 -->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </div>
-
+<h2>채팅방 생성 후</h2>
+<div class="row">
+    <div class="col-md-12">
+        <p>채팅방 ID: <span th:text="${chatRoomId}"></span></p>
+    </div>
+</div>
+<h2>채팅방 리스트 조회</h2>
+<form th:action="@{/chats/rooms/lists}" method="get">
+    <button type="submit">리스트 조회</button>
+</form>
 </body>
 </html>
