@@ -20,6 +20,7 @@ public class ChatMessageController {
     @Transactional
     public void message(ChatMessageRequestDto request){
         ChatMessage chatMessage = chatMessageService.sendMessage(request);
-        sendingOperations.convertAndSend("/chat/chatroom"+chatMessage.getRoomId(),chatMessage);
+        System.out.println(chatMessage.getMessage());
+        sendingOperations.convertAndSend("/queue/chats/rooms/"+chatMessage.getRoomId(),chatMessage);
     }
 }

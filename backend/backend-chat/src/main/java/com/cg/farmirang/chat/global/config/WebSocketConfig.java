@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry
 //                .setErrorHandler(stompExceptionHandeler)
                 .addEndpoint("/v1/chat")
-                .setAllowedOrigins(WEB_SOCKET_HOST)
+                .setAllowedOriginPatterns(WEB_SOCKET_HOST)
                 .withSockJS();
     }
 
