@@ -1,7 +1,7 @@
 package com.cg.farmirang.chat.global.exception;
 
-import com.cg.farmirang.design.global.common.code.ErrorCode;
-import com.cg.farmirang.design.global.common.response.ErrorResponse;
+import com.cg.farmirang.chat.global.common.code.ErrorCode;
+import com.cg.farmirang.chat.global.common.response.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonParseException;
 import lombok.extern.slf4j.Slf4j;

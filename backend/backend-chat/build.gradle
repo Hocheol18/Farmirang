@@ -48,7 +48,6 @@ dependencies {
 
     // view
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.boot:spring-boot-devtools'
 
     // Swagger

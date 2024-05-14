@@ -1,6 +1,6 @@
 package com.cg.farmirang.chat.global.common.response;
 
-import com.cg.farmirang.design.global.common.code.ErrorCode;
+import com.cg.farmirang.chat.global.common.code.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

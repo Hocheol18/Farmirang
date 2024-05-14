@@ -1,10 +1,7 @@
 package com.cg.farmirang.chat.feature.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,15 +15,18 @@ import java.util.UUID;
 public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chat_room_id")
     private Long id;
-    private String chatRoomId;
+    @Column(name = "chat_room_uuid")
+    private String chatRoomUUID;
     private Integer firstMemberId;
     private Integer secondMemberId;
 
     @Builder
-    public ChatRoom(String chatRoomId, Integer firstMemberId, Integer secondMemberId) {
-        this.chatRoomId = UUID.randomUUID().toString();
+    public ChatRoom(Integer firstMemberId, Integer secondMemberId) {
+        this.chatRoomUUID = UUID.randomUUID().toString();
         this.firstMemberId = firstMemberId;
         this.secondMemberId = secondMemberId;
     }
+
 }

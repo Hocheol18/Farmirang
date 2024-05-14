@@ -4,4 +4,5 @@ import lombok.*;
 
 @Builder @Data
 public class ChatRoomGetResponseDto {
+
 }
