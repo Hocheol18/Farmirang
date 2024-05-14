@@ -163,7 +163,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
 
   return (
     // 전체
-    <div className="flex flex-col h-full mt-5 overflow-y-auto">
+    <div className="flex flex-col h-full overflow-y-auto">
       {/* input 5개 모여 있는 div */}
       <div
         className="flex justify-between items-center pb-5"
@@ -216,12 +216,12 @@ const FirstInputBox = ({ handleStep }: Props) => {
           />
         </div>
         {/* 텃밭 좌표+button 있는 곳 */}
-        <div className="flex flex-col flex-1 bg-red-200 justify-between overflow-y-auto">
+        <div className="flex flex-col flex-1 bg-red-200 justify-between">
           {/* 텃밭 좌표 */}
-          <div className="flex flex-1 flex-col items-center justify-center bg-yellow-100 overflow-y-auto ">
-            <div className="font-extrabold mt-5">텃밭 좌표</div>
+          <div className="flex flex-1 flex-col items-center justify-center bg-yellow-100 overflow-y-auto">
+            <div className="font-extrabold">텃밭 좌표</div>
             {/* x, y 좌표 인풋 - 동적 컴포넌트는 따로 만들어야 함 */}
-            <div className="flex flex-col items-center justify-center bg-green-400 gap-2 overflow-y-auto">
+            <div className="flex flex-col items-center justify-start w-full bg-green-400 overflow-y-auto">
               {points.map((point, index) => (
                 <div
                   key={index}
