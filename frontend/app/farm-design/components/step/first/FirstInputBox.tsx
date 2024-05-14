@@ -84,7 +84,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
   const topcss = "shrink-0";
   const labelcss = "font-semibold text-black-100 text-sm";
   const inputCSS = `rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
-  const xyInputCSS = `w-10 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
+  const xyInputCSS = `w-14 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
   // 이랑/고랑의 방향 - 가로, 세로
   const directionArr = [
@@ -227,7 +227,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
                   key={index}
                   className="flex items-center justify-center text-sm border border-blue-200 gap-3"
                 >
-                  <div>인덱스</div>
+                  <div>{index + 1}번째 점</div>
                   <div className="flex items-center gap-3 mr-5">
                     <div className="font-bold">x </div>
                     {/* value, onChange 바꿔야 함 */}
@@ -238,7 +238,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
                       inputcss={xyInputCSS}
                       placeholder={""}
                       type={"number"}
-                      value={""}
+                      value={point.x}
                       onChange={handleCoordinateArrChange}
                     />
                   </div>
@@ -252,7 +252,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
                       inputcss={xyInputCSS}
                       placeholder={""}
                       type={"number"}
-                      value={""}
+                      value={point.y}
                       onChange={handleCoordinateArrChange}
                     />
                   </div>
