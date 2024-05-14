@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "수동 일지 추가를 위한 요청 객체")
 public class CreateDiaryMRequest {
-	@NotBlank(message = "일지 번호를 입력해주세요.")
+	@NotNull(message = "일지 번호를 입력해주세요.")
 	@Schema(description = "일지 번호를 입력해주세요." , example = "1004")
 	private Long diaryId;
 

@@ -54,6 +54,7 @@ public class DiaryServiceImpl implements DiaryService {
 	private final DiaryRepository diaryRepository;
 
 	@Override
+	@Transactional
 	public Boolean insertDiaryManual(MultipartFile file, CreateDiaryMRequest request) {
 		Diary diary = diaryRepository.findById(request.getDiaryId())
 			.orElseThrow(() -> new BusinessExceptionHandler("해당 일지를 찾을 수 없습니다.", ErrorCode.NOT_FOUND_ERROR));
