@@ -6,11 +6,22 @@ interface Point {
   y: number;
 }
 
-const FarmShapeDraw = () => {
-  // 그려진 점의 목록을 저장하는 상태
-  const [points, setPoints] = useState<Point[]>([]);
-  // 드래그 중인 점을 저장하는 상태
-  const [selectedPoint, setSelectedPoint] = useState<Point | null>(null);
+// prop 받은 type들
+interface Props {
+  points: Point[]; //저장한 점들의 배열
+  handlePoints: (points: Point[], x: number, y: number) => void; //저장한 점들의 배열 바꾸기 (점 추가)
+  handleUpdatedPotins: (updatedPoints: Point[]) => void; //저장한 점들의 배열 바꾸기 (배열 전체)
+  selectedPoint: Point | null; //드래그할 때 필요! 선택한 점
+  handleSelectedPoint: (point: Point | null) => void; //선택한 점 바꾸기
+}
+
+const FarmShapeDraw = ({
+  points,
+  handlePoints,
+  handleUpdatedPotins,
+  selectedPoint,
+  handleSelectedPoint,
+}: Props) => {
   // 캔버스 요소에 대한 참조
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // 마우스 위치의 좌표값을 저장하는 상태
@@ -23,8 +34,8 @@ const FarmShapeDraw = () => {
 
     if (canvas && context) {
       const parentHeight = canvas.parentElement?.clientHeight || 0;
-      canvas.width = parentHeight - 20;
-      canvas.height = parentHeight - 20;
+      canvas.width = parentHeight;
+      canvas.height = parentHeight;
     }
   };
 
@@ -133,14 +144,14 @@ const FarmShapeDraw = () => {
         0,
         Math.min(49, Math.floor((e.clientY - rect.top) / (rect.height / 50)))
       );
-      setPoints([...points, { x, y }]);
+      handlePoints(points, x, y);
       console.log("x: " + x + ", y: " + y);
     }
   };
 
   // 점 드래그 시작 핸들러
   const handlePointDragStart = (point: Point) => {
-    setSelectedPoint(point);
+    handleSelectedPoint(point);
   };
 
   // 점 드래그 중 핸들러
@@ -159,7 +170,7 @@ const FarmShapeDraw = () => {
         const updatedPoints = points.map((p) =>
           p === selectedPoint ? { x, y } : p
         );
-        setPoints(updatedPoints);
+        handleUpdatedPotins(updatedPoints);
         setMouseCoords({ x, y }); // 드래그 중에도 마우스 위치의 좌표값 업데이트
       }
     }
@@ -167,12 +178,7 @@ const FarmShapeDraw = () => {
 
   // 점 드래그 종료 핸들러
   const handlePointDragEnd = () => {
-    setSelectedPoint(null);
-  };
-
-  // 다각형 초기화 핸들러
-  const handleResetPolygon = () => {
-    setPoints([]);
+    handleSelectedPoint(null);
   };
 
   // 마우스 이동 시 좌표값 업데이트 핸들러
@@ -197,7 +203,7 @@ const FarmShapeDraw = () => {
   };
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative flex justify-center items-center">
       {/* 캔버스 요소 */}
       <canvas
         className="bg-green-100"
@@ -237,9 +243,6 @@ const FarmShapeDraw = () => {
           );
         })}
       </div>
-
-      {/* 다각형 초기화 버튼 */}
-      <button onClick={handleResetPolygon}>Reset</button>
 
       {/* 마우스 위치의 좌표값 표시 */}
       {mouseCoords && (
