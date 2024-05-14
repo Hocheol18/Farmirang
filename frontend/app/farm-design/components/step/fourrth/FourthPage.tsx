@@ -190,6 +190,7 @@ const FourthPage = () => {
             >
               {cropsList.map((item, index) => (
                 <li
+                  key={item.id}
                   className="px-3 py-3 hover:bg-green-100 cursor-pointer"
                   onClick={() => handleItemClick(item)}
                 >

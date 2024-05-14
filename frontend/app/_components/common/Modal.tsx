@@ -55,7 +55,7 @@ export default function MyModal({
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const successHandler = () => {
-    onSuccess();
+    onSuccess?.();
     setIsOpen(false);
   };
   return (

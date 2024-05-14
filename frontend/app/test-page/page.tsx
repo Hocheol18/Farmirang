@@ -11,7 +11,7 @@ interface Point {
 }
 
 // 앱 컴포넌트
-const page: React.FC = () => {
+const Testpage: React.FC = () => {
   // 그려진 점의 목록을 저장하는 상태
   const [points, setPoints] = useState<Point[]>([]);
   // 드래그 중인 점을 저장하는 상태
@@ -178,4 +178,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Testpage;
