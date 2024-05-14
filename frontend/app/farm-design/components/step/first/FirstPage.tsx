@@ -14,7 +14,9 @@ const FirstPage = ({ handleStep }: Props) => {
         pointText="입력"
         basicText2="해주세요"
       />
-      <FirstInputBox handleStep={handleStep} />
+      <div className="flex-grow overflow-hidden">
+        <FirstInputBox handleStep={handleStep} />
+      </div>
     </div>
   );
 };
