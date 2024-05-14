@@ -47,7 +47,7 @@ export default function MyDiary({
     <>
       <div className="text-h2 font-bold mt-10">나의 일지</div>
       <div className="border border-gray-400 shadow-xl rounded-xl h-full p-6 mt-10">
-        <div className="relative h-2/5 mt-2">
+        <div className="relative w-[32rem] h-[24rem] mx-auto aspect-video">
           <Image src={childrenDiaryManualData.photo} alt="" fill />
         </div>
         <div className="flex justify-between mt-8">
