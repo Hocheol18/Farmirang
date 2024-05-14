@@ -16,7 +16,7 @@ public record DonationInfoDto(
 	@NotNull
 	@Schema(description = "기부 신청글 상태")
 	DonationState state,
-	@NotBlank
+	@NotNull
 	@Schema(description = "기부 신청글 번호")
 	Integer id,
 	@NotBlank
@@ -29,7 +29,7 @@ public record DonationInfoDto(
 	@NotBlank
 	@Schema(description = "기관 이름")
     String name,
-	@NotBlank
+	@NotNull
 	@Schema(description = "기부 현황")
 	Double progress,
 	@NotNull

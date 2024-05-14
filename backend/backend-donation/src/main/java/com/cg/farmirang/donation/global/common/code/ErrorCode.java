@@ -77,9 +77,18 @@ public enum ErrorCode {
 
     NOT_FOUND_MEMBER_ERROR(404, "B010", "Not Found Member Exception"),
     NOT_FOUND_AGENCY_ERROR(404, "B011", "Not Found Agency Exception"),
-    INVALID_APPROVAL_VALUE_ERROR(400, "B012", "Invalid Approval Value Exception"),
+    NOT_FOUND_CROP_ERROR(404, "B012", "Not Found Crop Exception"),
+    INVALID_APPROVAL_VALUE_ERROR(400, "B013", "Invalid Approval Value Exception"),
 
-    FORBIDDEN_AGENCY_ERROR(403, "B013", "Forbidden Member Exception"),
+    FORBIDDEN_AGENCY_ERROR(403, "B014", "Forbidden Member Exception"),
+    FORBIDDEN_ADMIN_ERROR(403, "B015", "Forbidden Admin Exception"),
+
+    // date error
+    INVALID_DATE_ERROR(400, "B016", "Invalid Date Exception"),
+
+    // board error
+    NOT_FOUND_POST_ERROR(404, "B017", "Not Found Post Exception"),
+    NOT_FOUND_COMMENT_ERROR(404, "B018", "Not Found Comment Exception"),
 
     ; // End
 

@@ -1,6 +1,8 @@
 package com.cg.farmirang.donation.feature.donation.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.annotation.CreatedDate;
 
 import com.cg.farmirang.donation.feature.user.entity.Member;
@@ -16,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -77,4 +80,7 @@ public class DonationBoard {
 	private Double progress = 0.0;
 
 	private String summary;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
+	private List<DonationItem> items;
 }

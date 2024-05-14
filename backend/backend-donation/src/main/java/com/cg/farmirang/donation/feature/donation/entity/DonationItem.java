@@ -1,5 +1,8 @@
 package com.cg.farmirang.donation.feature.donation.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.cg.farmirang.donation.feature.farm.entity.Crop;
 
 import jakarta.persistence.Column;
@@ -35,6 +38,7 @@ public class DonationItem {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "donation_board_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private DonationBoard board;
 
 	@OneToOne(fetch = FetchType.LAZY)
