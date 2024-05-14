@@ -11,8 +11,6 @@ const FarmShapeDraw = () => {
   const [points, setPoints] = useState<Point[]>([]);
   // 드래그 중인 점을 저장하는 상태
   const [selectedPoint, setSelectedPoint] = useState<Point | null>(null);
-  // 다각형을 그리는 모드인지 여부를 나타내는 상태
-  const [isDrawing, setIsDrawing] = useState(false);
   // 캔버스 요소에 대한 참조
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // 마우스 위치의 좌표값을 저장하는 상태
@@ -40,50 +38,69 @@ const FarmShapeDraw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       // 좌표 그리드 그리기 - 50x50으로 width, height 비율대로
-      context.strokeStyle = "gray";
+      context.strokeStyle = "gray"; //그리드 색상은 gray-100으로
       context.lineWidth = 0.25;
-      const cellWidth = canvas.width / 50;
-      const cellHeight = canvas.height / 50;
+      //50칸이지만 0부터 49까지 좌표가 찍히기 때문에 49로 나눈 값을 cellWidth, cellHeight로
+      const cellWidth = canvas.width / 49;
+      const cellHeight = canvas.height / 49;
 
-      for (let i = 0; i <= 50; i++) {
-        context.beginPath();
+      // 50칸이기 때문에 50번 반복
+      for (let i = 0; i < 50; i++) {
+        context.beginPath(); //그리기 시작
+        // (0, 0) => (0, 49), (1, 0) => (1, 49) 이렇게 가로 선 긋기
         context.moveTo(i * cellWidth, 0);
         context.lineTo(i * cellWidth, canvas.height);
         context.stroke();
 
         context.beginPath();
+        // (0, 0) => (49, 0), (0, 1) => (49, 1) 이렇게 세로 선 긋기
         context.moveTo(0, i * cellHeight);
         context.lineTo(canvas.width, i * cellHeight);
         context.stroke();
       }
-
-      // 그려진 점 그리기
-      context.fillStyle = "red";
-      points.forEach((point) => {
-        context.beginPath();
-        context.arc(
-          point.x * cellWidth,
-          point.y * cellHeight,
-          4,
-          0,
-          2 * Math.PI
-        );
-        context.fill();
-      });
+      //여기까지 좌표 그리기
 
       // 다각형 그리기
       if (points.length > 1) {
-        context.strokeStyle = "blue";
+        context.strokeStyle = "green";
         context.lineWidth = 1;
         context.beginPath();
         context.moveTo(points[0].x * cellWidth, points[0].y * cellHeight);
         for (let i = 1; i < points.length; i++) {
           context.lineTo(points[i].x * cellWidth, points[i].y * cellHeight);
         }
-        if (isDrawing) {
-          context.lineTo(points[0].x * cellWidth, points[0].y * cellHeight);
-        }
+
+        context.lineTo(points[0].x * cellWidth, points[0].y * cellHeight);
+
         context.stroke();
+        context.fillStyle = "#c9e9cc";
+        context.fill();
+      }
+
+      // 그려진 점 그리기
+
+      const length = points.length;
+
+      for (let i = 0; i < length; i++) {
+        // 점 그리기
+        context.fillStyle = "green";
+        context.beginPath();
+        context.arc(
+          points[i].x * cellWidth,
+          points[i].y * cellHeight,
+          8,
+          0,
+          2 * Math.PI
+        );
+        context.fill();
+
+        // 점 안에 숫자(점의 인덱스) 그리기
+        context.fillStyle = "white";
+        context.fillText(
+          `${i + 1}`,
+          points[i].x * cellWidth - 4,
+          points[i].y * cellHeight + 4
+        );
       }
     }
   };
@@ -102,18 +119,22 @@ const FarmShapeDraw = () => {
   // points 또는 isDrawing 상태가 변경될 때마다 캔버스를 다시 그림
   useEffect(() => {
     redrawCanvas();
-  }, [points, isDrawing]);
+  }, [points]);
 
   // 캔버스 클릭 핸들러
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDrawing) {
-      const rect = canvasRef.current?.getBoundingClientRect();
-      if (rect) {
-        const x = Math.floor((e.clientX - rect.left) / (rect.width / 50));
-        const y = Math.floor((e.clientY - rect.top) / (rect.height / 50));
-        setPoints([...points, { x, y }]);
-        console.log("x: " + x + ", y: " + y);
-      }
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (rect) {
+      const x = Math.max(
+        0,
+        Math.min(49, Math.floor((e.clientX - rect.left) / (rect.width / 50)))
+      );
+      const y = Math.max(
+        0,
+        Math.min(49, Math.floor((e.clientY - rect.top) / (rect.height / 50)))
+      );
+      setPoints([...points, { x, y }]);
+      console.log("x: " + x + ", y: " + y);
     }
   };
 
@@ -127,8 +148,14 @@ const FarmShapeDraw = () => {
     if (selectedPoint) {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (rect) {
-        const x = Math.floor((e.clientX - rect.left) / (rect.width / 50));
-        const y = Math.floor((e.clientY - rect.top) / (rect.height / 50));
+        const x = Math.max(
+          0,
+          Math.min(49, Math.floor((e.clientX - rect.left) / (rect.width / 50)))
+        );
+        const y = Math.max(
+          0,
+          Math.min(49, Math.floor((e.clientY - rect.top) / (rect.height / 50)))
+        );
         const updatedPoints = points.map((p) =>
           p === selectedPoint ? { x, y } : p
         );
@@ -143,23 +170,23 @@ const FarmShapeDraw = () => {
     setSelectedPoint(null);
   };
 
-  // 다각형 그리기 모드 전환 핸들러
-  const handleDrawPolygon = () => {
-    setIsDrawing(!isDrawing);
-  };
-
   // 다각형 초기화 핸들러
   const handleResetPolygon = () => {
     setPoints([]);
-    setIsDrawing(false);
   };
 
   // 마우스 이동 시 좌표값 업데이트 핸들러
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     if (rect) {
-      const x = Math.floor((e.clientX - rect.left) / (rect.width / 50));
-      const y = Math.floor((e.clientY - rect.top) / (rect.height / 50));
+      const x = Math.max(
+        0,
+        Math.min(49, Math.floor((e.clientX - rect.left) / (rect.width / 50)))
+      );
+      const y = Math.max(
+        0,
+        Math.min(49, Math.floor((e.clientY - rect.top) / (rect.height / 50)))
+      );
       setMouseCoords({ x, y });
     }
   };
@@ -187,29 +214,33 @@ const FarmShapeDraw = () => {
       ></canvas>
       {/* 그려진 점들 */}
       <div>
-        {points.map((point, index) => (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              left: `${(point.x * 100) / 50}%`,
-              top: `${(point.y * 100) / 50}%`,
-              width: 10,
-              height: 10,
-              backgroundColor: "transparent",
-              cursor: "move",
-              transform: "translate(-50%, -50%)",
-            }}
-            onMouseDown={() => handlePointDragStart(point)}
-          />
-        ))}
+        {points.map((point, index) => {
+          const canvas = canvasRef.current;
+          if (!canvas) return null;
+
+          return (
+            <div
+              key={index}
+              style={{
+                position: "absolute",
+                left: `${(point.x * canvas.width) / 50}px`,
+                top: `${(point.y * canvas.height) / 50}px`,
+                width: 20,
+                height: 20,
+                backgroundColor: "transparent",
+                cursor: "move",
+                transform: "translate(-50%, -50%)",
+              }}
+              className="bg-white-100"
+              onMouseDown={() => handlePointDragStart(point)}
+            ></div>
+          );
+        })}
       </div>
-      {/* 다각형 그리기 버튼 */}
-      <button onClick={handleDrawPolygon}>
-        {isDrawing ? "Finish Polygon" : "Draw Polygon"}
-      </button>
+
       {/* 다각형 초기화 버튼 */}
       <button onClick={handleResetPolygon}>Reset</button>
+
       {/* 마우스 위치의 좌표값 표시 */}
       {mouseCoords && (
         <div
