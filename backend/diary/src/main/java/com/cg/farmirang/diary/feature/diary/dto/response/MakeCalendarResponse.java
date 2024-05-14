@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MakeCalendarResponse {
-	Integer today;
+	Integer curMonth;
 	ArrayList<ArrayList<CalendarDto>> result;
 }

@@ -1,6 +1,7 @@
 package com.cg.farmirang.diary.feature.diary.service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -171,9 +172,10 @@ public class DiaryServiceImpl implements DiaryService {
 		}
 
 		ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-		Integer today = nowInKorea.getDayOfMonth();
+		Integer curMonth = nowInKorea.getMonth().getValue();
 
-		return MakeCalendarResponse.builder().today(today).result(monthDays).build();
+
+		return MakeCalendarResponse.builder().curMonth(curMonth).result(monthDays).build();
 	}
 
 	@Override
