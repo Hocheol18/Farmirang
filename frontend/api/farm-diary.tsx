@@ -1,9 +1,10 @@
 import {
   fetchAutoDiaryDataType,
   fetchCalendarDataType,
+  fetchFarmListType,
 } from "@/type/farm-diary";
 import { makeQuerystring } from "@/utils/ApiUtils";
-import { DIARY_URL } from "@/utils/ServerApi";
+import { BASE_URL, DIARY_URL } from "@/utils/ServerApi";
 
 export const fetchCalendar = async (
   params: fetchCalendarDataType
@@ -33,3 +34,19 @@ export const fetchAutoDiary = async (diaryId: number): Promise<ApiResponse> => {
   });
   return await response.json();
 };
+
+export const fetchFieldData = async (
+  userId: number
+): Promise<{data : {fields : fetchFarmListType[]}}> => {
+  const response = await fetch(`${BASE_URL}/v1/field/${userId}`, {
+    cache: "no-store",
+    method: "GET",
+  });
+  return await response.json();
+};
+
+export const postManualDiary = async() => {
+  const response = await fetch(`${DIARY_URL}/v1/diary/manual}`, {
+    method: "POST"
+  })
+}

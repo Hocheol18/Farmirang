@@ -96,7 +96,7 @@ export default async function Donation() {
   return (
     <>
       {JSON.stringify(res)}
-      <Posts />
+     
       <Display />
     </>
   );

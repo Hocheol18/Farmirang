@@ -4,7 +4,7 @@ export interface fetchCalendarDataType {
   month: number;
 }
 
-// 세부 인터페이스
+// 일지 세부 인터페이스
 
 export interface diaryAutosDataType {
   id: number;
@@ -20,13 +20,23 @@ export interface diaryTotalDataType {
 }
 
 export interface diaryManualDataType {
-  diaryManualId : string;
-  content : string;
-  photo : string;
+  diaryManualId: string;
+  content: string;
+  photo: string;
 }
 
 export interface fetchAutoDiaryDataType {
   diaryAutos: diaryAutosDataType[];
   diaryManual: diaryManualDataType;
   diaryTotal: diaryTotalDataType;
+}
+
+// 밭 목록 인터페이스
+export interface fetchFarmListType {
+  address: string;
+  content: string;
+  design: number;
+  iot: number;
+  title: string;
+  startAt: string;
 }

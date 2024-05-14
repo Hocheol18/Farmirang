@@ -13,15 +13,13 @@ export default function CalendarDateSidebar() {
   const navigation = [
     {
       name: "달력",
-
       current: false,
-      icon: <CiCalendar className="h-6 w-6" />,
+      icon: <CiCalendar className="h-10 w-10" />,
     },
     {
       name: "일지",
-
       current: true,
-      icon: <CiCircleList className="h-6 w-6" />,
+      icon: <CiCircleList className="h-10 w-10" />,
     },
   ];
 
@@ -43,8 +41,8 @@ export default function CalendarDateSidebar() {
                   <div
                     className={classNames(
                       item.current
-                        ? "block mr-auto text-l antialiased leading-relaxed text-balck-100 cursor-pointer"
-                        : "block mr-auto text-l antialiased leading-relaxed text-gray-300 cursor-pointer"
+                        ? "block mr-auto text-h5 antialiased leading-relaxed text-balck-100 cursor-pointer"
+                        : "block mr-auto text-h5 antialiased leading-relaxed text-gray-300 cursor-pointer"
                     )}
                     onClick={() => {
                       item.current

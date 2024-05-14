@@ -12,7 +12,7 @@ const FroalaEditorComponent = dynamic(() => import("react-froala-wysiwyg"), {
   ssr: false, // This line ensures the editor is only loaded on the client-side
 });
 
-export default function Editor() {
+export default function Editor() { 
   return (
     <FroalaEditorComponent
       tag="textarea"

@@ -1,8 +1,6 @@
 import CalendarSideBar from "./component/CalendarSidebar";
 import Calendar from "./component/Calendar";
 
-
-
 export default function Page() {
   return (
     <>
@@ -11,10 +9,9 @@ export default function Page() {
           <CalendarSideBar />
         </div>
         <div className="w-[83%] h-full">
-
           <Calendar />
         </div>
       </div>
     </>
-  )
+  );
 }
