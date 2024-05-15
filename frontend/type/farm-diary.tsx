@@ -1,3 +1,4 @@
+// 캘린더 조회 인터페이스
 export interface fetchCalendarDataType {
   fieldId: number;
   year: number;
@@ -5,7 +6,6 @@ export interface fetchCalendarDataType {
 }
 
 // 일지 세부 인터페이스
-
 export interface diaryAutosDataType {
   id: number;
   cropName: string;
@@ -27,16 +27,12 @@ export interface diaryManualDataType {
 
 export interface fetchAutoDiaryDataType {
   diaryAutos: diaryAutosDataType[];
-  diaryManual: diaryManualDataType;
+  diaryManual: diaryManualDataType | null;
   diaryTotal: diaryTotalDataType;
 }
 
-// 밭 목록 인터페이스
-export interface fetchFarmListType {
-  address: string;
-  content: string;
-  design: number;
-  iot: number;
-  title: string;
-  startAt: string;
+// 수동 일지 등록 인터페이스
+export interface postManualDiaryType {
+  diaryId : number;
+  content : string;
 }

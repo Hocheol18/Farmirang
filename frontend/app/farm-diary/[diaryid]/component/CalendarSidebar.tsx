@@ -4,22 +4,31 @@ import Image from "next/image";
 import { CiCalendar, CiCircleList, CiSearch } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { RiFileList3Line } from "react-icons/ri";
-import dot from "../../../../public/icons/dot.svg";
 import { useParams, useRouter } from "next/navigation";
-import { fetchFieldData } from "@/api/farm-diary";
 import { useEffect, useState } from "react";
-import { fetchFarmListType } from "@/type/farm-diary";
+import { fetchFieldData } from "@/api/farm-field";
+import { fetchFarmListType } from "@/type/farm-field";
+import { CiTrash } from "react-icons/ci";
+import DaumPost from "@/app/_components/common/address";
+import Modal from "@/app/_components/common/Modal";
+import Input from "@/app/_components/common/Input";
+
+interface Props {
+  areaAddress: string;
+  townAddress: string;
+}
 
 export default function CalendarSideBar() {
   const [fetchFarmList, setFetchFarmList] = useState<fetchFarmListType[]>();
+  const [addressObj, setAddressObj] = useState<Props>({
+    areaAddress: "",
+    townAddress: "",
+  });
+  const totalPrice = 1000;
   const fetchData = async () => {
     // userId 입력 받기
     fetchFieldData(9).then((res) => setFetchFarmList(res.data.fields));
   };
-
-  useEffect(() => {
-    console.log(fetchFarmList);
-  }, [fetchFarmList]);
 
   const router = useRouter();
   const { diaryid } = useParams<{ diaryid: string }>() as { diaryid: string };
@@ -75,23 +84,25 @@ export default function CalendarSideBar() {
         ))}
 
         <hr className="my-4 border-gray-400" />
-        <div className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start">
+        <div className="flex items-center w-full p-3 leading-tight transition-all">
           <div className="grid mr-4 place-items-center">
             <RiFileList3Line className="h-8 w-8" />
           </div>
           <span className="font-extrabold text-h6">밭 목록</span>
           <div className="grid ml-auto place-items-center justify-self-end">
             <div className="relative grid items-center py-1rounded-full select-none whitespace-nowrap">
-              <GoPlus className="h-8 w-8 cursor-pointer" />
+              <GoPlus
+                className="h-8 w-8 cursor-pointer"
+                onClick={() => {
+                  router.push("/farm-enroll");
+                }}
+              />
             </div>
           </div>
         </div>
 
         {fetchFarmList?.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex w-full p-3 leading-tight rounded-lg outline-none text-start justify-between"
-          >
+          <div key={idx} className="flex w-full p-4 justify-between">
             <div className="flex">
               <div className="grid mr-4">
                 <CiSearch className="w-8 h-8" />
@@ -100,24 +111,87 @@ export default function CalendarSideBar() {
                 {item.title}
               </div>
             </div>
-
-            <Image
-              src={dot}
-              height={10}
-              width={20}
-              alt="dot"
-              className="cursor-pointer"
-            />
+            <CiTrash className="h-7 w-7 cursor-pointer" onClick={() => {}} />
           </div>
         ))}
       </div>
+      <div className="flex place-content-center cursor-pointer">
+        <Modal
+          Titlebottom={""}
+          subTitlecss={"text-base font-bold"}
+          Titlecss={"text-h3 font-extrabold"}
+          buttonText={"센서 추가"}
+          buttonBgStyles={
+            "border-2 rounded-xl w-[220px] bg-green-400 h-[60px] place-content-center"
+          }
+          buttonTextStyles={
+            "flex place-content-center text-white-100 text-l font-bold"
+          }
+          Title="센서 구매"
+          subTitle="밭에 심을 센서를 구매하는 폼입니다"
+          Modalcss="w-[30rem]"
+          contents={
+            <>
+              <Input
+                labelcss={"text-lg font-semibold"}
+                inputcss={
+                  "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                }
+                placeholder={"구매할 센서의 갯수를 적어주세요"}
+                type={"number"}
+                value={undefined}
+                topcss={"mt-10"}
+                labeltext={"센서갯수"}
+                onChange={() => {}}
+              />
 
-      <div className="flex place-content-center">
-        <div className="border-2 rounded-xl w-[220px] bg-green-400 h-[60px] place-content-center">
-          <div className="flex place-content-center text-white-100 text-l font-bold">
-            센서 추가
-          </div>
-        </div>
+              <div className="block flex justify-between mt-10">
+                <div className="font-bold text-h6 my-auto">주소 등록</div>
+                <DaumPost setAddressObj={setAddressObj} />
+              </div>
+
+              <div className="mt-2">
+                <input
+                  value={addressObj.areaAddress}
+                  onChange={() => {}}
+                  className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                  placeholder="주소 찾기를 눌러주세요"
+                />
+              </div>
+              <div className="mt-4">
+                <input
+                  value={addressObj.townAddress}
+                  onChange={() => {}}
+                  className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                  placeholder="주소 찾기를 눌러주세요"
+                />
+              </div>
+              <div className="mt-4">
+                <input
+                  type="text"
+                  onChange={() => {}}
+                  className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                  placeholder="상세 주소를 입력해주세요"
+                />
+              </div>
+
+              <div className="mt-14">
+                <div className="text-lg font-semibold">총 가격</div>
+
+                <div className="relative mt-2">
+                  <div className="flex rounded-lg border border-gray-300">
+                    <input
+                      disabled
+                      className={`h-10 rounded-lg focus:outline-none w-full focus:ring-green-400 focus:ring-1 ml-2 h-10`}
+                      value={totalPrice}
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          }
+          next={"확인"}
+        />
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
 import {
   fetchAutoDiaryDataType,
   fetchCalendarDataType,
-  fetchFarmListType,
 } from "@/type/farm-diary";
 import { makeQuerystring } from "@/utils/ApiUtils";
-import { BASE_URL, DIARY_URL } from "@/utils/ServerApi";
+import { DIARY_URL } from "@/utils/ServerApi";
 
 export const fetchCalendar = async (
   params: fetchCalendarDataType
@@ -27,6 +26,7 @@ interface ApiResponse {
   data: fetchAutoDiaryDataType;
 }
 
+// 자동 일지 조회
 export const fetchAutoDiary = async (diaryId: number): Promise<ApiResponse> => {
   const response = await fetch(`${DIARY_URL}/v1/diary/diary/${diaryId}`, {
     cache: "no-store", // 매번 캐싱
@@ -35,18 +35,43 @@ export const fetchAutoDiary = async (diaryId: number): Promise<ApiResponse> => {
   return await response.json();
 };
 
-export const fetchFieldData = async (
-  userId: number
-): Promise<{data : {fields : fetchFarmListType[]}}> => {
-  const response = await fetch(`${BASE_URL}/v1/field/${userId}`, {
-    cache: "no-store",
-    method: "GET",
-  });
-  return await response.json();
+// 수동 일지 생성
+export const postManualDiary = async (formData: FormData) => {
+  try {
+    const response = await fetch(`${DIARY_URL}/v1/diary/manual`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        accept: "application/json",
+        "accept-language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        Referer: "http://localhost:3000/",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+      },
+    });
+    if (response.ok) {
+      return { success: true };
+    } else if (!response.ok) {
+      return { success: false };
+    }
+  } catch (err) {
+    return { success: false };
+  }
 };
 
-export const postManualDiary = async() => {
-  const response = await fetch(`${DIARY_URL}/v1/diary/manual}`, {
-    method: "POST"
-  })
+// 수동 일지 삭제
+export const postManualDiaryDelete = async (manualId : number) => {
+  try {
+    const response = await fetch(`${DIARY_URL}/v1/diary/manual/${manualId}`, {
+      method: "DELETE",
+      headers: {
+        accept: "*/*",
+      },
+    });
+    if (response.ok) {
+      return {success : true}
+    }
+  }
+  catch (err) {
+    return {success : false}
+  }
 }

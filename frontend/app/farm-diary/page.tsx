@@ -3,10 +3,12 @@
 import Link from "next/link";
 import Modal from "../_components/common/Modal";
 import DaumPost from "../_components/common/address";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../_components/common/Input";
 import Editor from "../_components/common/Editor";
 import { fetchCalendar } from "@/api/farm-diary";
+import { postField } from "@/api/farm-field";
+import { postFieldType } from "@/type/farm-field";
 
 interface Props {
   areaAddress: string;
@@ -21,9 +23,26 @@ export default function Diary() {
     townAddress: "",
   });
 
+  const datafun = {
+    title: "string",
+    content: "string",
+    address: "string",
+    startAt: "2024-05-15T14:07:38.608Z",
+    user: 1,
+    design: 22,
+    iot: "dc:a6:32:f0:f5:b8",
+  };
+
+  const postFieldFunction = async (data : postFieldType) => {
+    postField(data)
+  }
+
   return (
     <>
       <div className="h-full">
+        <div className="border border-black-100 w-[10rem] h-[10rem]" onClick={() => postFieldFunction(datafun)}>
+          밭 생성
+        </div>
         <Link href={"/farm-diary/1"}>밭1</Link>
         <Link href={"/farm-diary/1"}>밭1</Link>
         <Link href={"/farm-diary/1"}>밭1</Link>
@@ -33,7 +52,7 @@ export default function Diary() {
         <div className="h-[100rem]">1</div>
 
         {/*  */}
-        {/* <Modal
+        <Modal
         Titlebottom={""}
         subTitlecss={"text-base font-bold"}
         Titlecss={"text-h3 font-extrabold"}
@@ -58,7 +77,10 @@ export default function Diary() {
               onChange={() => {}}
             />
 
-            <div className="block flex justify-end mt-10">
+            <div className="block flex justify-between mt-10">
+              <div className="font-bold text-h5">
+                주소 등록
+              </div>
               <DaumPost setAddressObj={setAddressObj} />
             </div>
 
@@ -103,7 +125,7 @@ export default function Diary() {
           </>
         }
         next={"확인"}
-      /> */}
+      />
       </div>
     </>
   );
