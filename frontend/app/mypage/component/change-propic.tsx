@@ -16,9 +16,11 @@ export default function ChangePicture({
         title={"변경할 사진"}
         titlecss={""}
         topcss={""}
+        heightcss={""}
         topsecondcss={""}
         displayImage={selectImage}
         setDisplayImage={setSelectImage}
+        handleEvent={() => {}}
       />
     </>
   );

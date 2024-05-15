@@ -22,7 +22,7 @@ interface ProfileType {
 export default function ProfileCSR({
   profileData,
 }: {
-  profileData: ProfileType;
+  profileData?: ProfileType;
 }) {
   const { userInfo, updateImg } = useUserStore();
   const [userImage, setUserimage] = useState<string>("/user/user.png");

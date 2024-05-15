@@ -247,6 +247,8 @@ export default function ChangeRole() {
                   topsecondcss={""}
                   displayImage={selectImage}
                   setDisplayImage={setSelectImage}
+                  heightcss={""}
+                  handleEvent={() => {}}
                 />
               </div>
               <div className="text-gray-400 text-[13px] font-m-6 leading-[18px] mt-[10px]">
