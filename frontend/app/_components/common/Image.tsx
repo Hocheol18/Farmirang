@@ -16,10 +16,14 @@ interface Props {
   topcss: string;
   // 이미지 가로 길이 조정
   topsecondcss: string;
-  // 이미지 미리보기 변수
+  // 선택된 이미지 변수
   displayImage?: any;
-  // 이미지 미리보기 설정 변수
+  // 선택된 이미지 설정 변수
   setDisplayImage?: React.Dispatch<any>;
+  // 이미지 미리보기 변수
+  showImage?: any;
+  // 이미지 미리보기 설정 변수
+  setShowImage?: React.Dispatch<any>;
   // 이미지 높이
   heightcss: string;
   // // 함수 적용
@@ -33,7 +37,9 @@ export default function ImageComponent({
   topsecondcss,
   displayImage,
   setDisplayImage,
-  // handleEvent,
+  showImage,
+  setShowImage,
+  handleEvent,
   heightcss,
 }: Props) {
   const { userInfo, resetAuth } = useUserStore();
@@ -41,11 +47,11 @@ export default function ImageComponent({
   // 이미지 선택시 미리보기
   const handleImage = (file: File) => {
     setDisplayImage?.(file);
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //     setDisplayImage?.(reader.result);
-    // };
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setShowImage?.(reader.result);
+    };
   };
 
   return (
@@ -57,11 +63,11 @@ export default function ImageComponent({
             {displayImage && displayImage ? (
               <>
                 {/* NextJS 에서 Image 태그에서는 URL을 읽는것을 선호하지 않아서 발생한 밑줄 */}
-                {/* <img
-                    src={displayImage}
-                    alt=""
-                    style={{ width: "250px", aspectRatio: 1 }}
-                  /> */}
+                <img
+                  src={showImage}
+                  alt=""
+                  style={{ width: "250px", aspectRatio: 1 }}
+                />
               </>
             ) : (
               <>

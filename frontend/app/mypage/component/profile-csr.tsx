@@ -5,7 +5,7 @@ import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
 import { MEMBER_URL } from "@/utils/ServerApi";
-import Modal from "@/app/_components/common/Modal";
+import MypageModal from "@/app/_components/common/MypageModal";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import ChangePicture from "./change-propic";
@@ -22,11 +22,14 @@ interface ProfileType {
 export default function ProfileCSR({
   profileData,
 }: {
-  profileData: ProfileType;
+  profileData?: ProfileType;
 }) {
   const { userInfo, updateImg } = useUserStore();
-  const [userImage, setUserimage] = useState<string>("/user/user.png");
+  const [userImage, setUserimage] = useState<string>(
+    profileData?.profile_img || userInfo.profileImg
+  );
   const [selectImage, setSelectImage] = useState<any>();
+  const [showImage, setShowImage] = useState<any>();
   const [newNickname, setNewNickname] = useState<string>("");
 
   // 입력한 닉네임으로 백엔드 저장하는 로직
@@ -48,6 +51,7 @@ export default function ProfileCSR({
   const imageSelect = async () => {
     const formData = new FormData();
     formData.append("img", selectImage);
+    console.log(formData);
     const response = await fetch(`${MEMBER_URL}/v1/user/profile`, {
       method: "PUT",
       headers: {
@@ -107,7 +111,7 @@ export default function ProfileCSR({
           </div>
         </div>
         <div className="relative top-[100px] left-[305px] mb-[70px]">
-          <Modal
+          <MypageModal
             buttonText={"프로필 사진 변경"}
             buttonBgStyles={"bg-green-300 mx-auto"}
             buttonTextStyles={"text-font-m6 text-white-100"}
@@ -124,6 +128,8 @@ export default function ProfileCSR({
                 <ChangePicture
                   selectImage={selectImage}
                   setSelectImage={setSelectImage}
+                  showImage={showImage}
+                  setShowImage={setShowImage}
                 />
               </div>
             }
@@ -144,7 +150,7 @@ export default function ProfileCSR({
           <div className="relative w-fit mt-[-1.00px] font-t-h2 font-[number:var(--t-h2-font-weight)] text-black text-[length:var(--t-h2-font-size)] tracking-[var(--t-h2-letter-spacing)] leading-[var(--t-h2-line-height)] whitespace-nowrap [font-style:var(--t-h2-font-style)]">
             {profileData?.nickname ? profileData.nickname : "유저 닉네임"}
           </div>
-          <Modal
+          <MypageModal
             buttonText={"닉네임 변경"}
             buttonBgStyles={"bg-green-300"}
             buttonTextStyles={"text-font-m6 text-white-100"}

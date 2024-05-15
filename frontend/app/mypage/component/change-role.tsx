@@ -3,7 +3,7 @@ import { AGENCY_URL } from "@/utils/ServerApi";
 import Input from "@/app/_components/common/Input";
 import DaumPost from "@/app/_components/common/address";
 import ImageComponent from "@/app/_components/common/Image";
-import Modal from "@/app/_components/common/Modal";
+import MypageModal from "@/app/_components/common/MypageModal";
 import { useUserStore } from "@/app/_stores/userStore";
 
 interface Props {
@@ -25,6 +25,7 @@ export default function ChangeRole() {
   const [approval, setApproval] = useState<boolean>(false);
   const [agencyData, setAgencyData] = useState<AgencyType>();
   const [selectImage, setSelectImage] = useState<any>();
+  const [showImage, setShowImage] = useState<any>();
   const [name, setName] = useState<string>("");
   const [detailedAddress, setDetailedAddress] = useState<string>("");
   const [report, setReport] = useState<string>("");
@@ -117,7 +118,7 @@ export default function ChangeRole() {
   return (
     <>
       {approval === true ? (
-        <Modal
+        <MypageModal
           buttonText={"회원자격 조회"}
           buttonBgStyles={"bg-green-400"}
           buttonTextStyles={"text-font-m5 text-white-100"}
@@ -129,7 +130,7 @@ export default function ChangeRole() {
           Titlebottom={
             <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
           }
-          next={agencyData?.approval === null ? "확인" : "재신청하기"}
+          next={agencyData?.approval === null ? "신청 취소하기" : "재신청하기"}
           contents={
             <>
               <div className="text-lg font-semibold mt-10">기관 승인 여부</div>
@@ -153,12 +154,17 @@ export default function ChangeRole() {
           }
           onSuccess={
             agencyData?.approval === null
-              ? () => {} // 승인 대기중이면 빈 함수 전달
+              ? () => deleteAgency(agencyData?.id ?? 0)
               : () => deleteAgency(agencyData?.id ?? 0)
           }
+          // onSuccess={
+          //   agencyData?.approval === null
+          //     ? () => {} // 승인 대기중이면 빈 함수 전달
+          //     : () => deleteAgency(agencyData?.id ?? 0)
+          // }
         />
       ) : (
-        <Modal
+        <MypageModal
           buttonText={"회원자격 변경신청"}
           buttonBgStyles={"bg-green-300"}
           buttonTextStyles={"text-font-m5 text-white-100"}
@@ -247,6 +253,10 @@ export default function ChangeRole() {
                   topsecondcss={""}
                   displayImage={selectImage}
                   setDisplayImage={setSelectImage}
+                  showImage={showImage}
+                  setShowImage={setShowImage}
+                  heightcss={""}
+                  handleEvent={() => {}}
                 />
               </div>
               <div className="text-gray-400 text-[13px] font-m-6 leading-[18px] mt-[10px]">

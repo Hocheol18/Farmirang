@@ -24,6 +24,10 @@ export default function FileUploadButton({ handleImage }: Props) {
     }
   };
 
+  // useEffect(() => {
+  //   console.log(fileName);
+  // }, [fileName]);
+
   const triggerFileInput = () => {
     inputEl.current?.click();
   };

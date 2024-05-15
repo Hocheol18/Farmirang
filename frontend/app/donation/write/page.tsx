@@ -85,12 +85,16 @@ export default function DonationWrite() {
                   title={"메인 사진"}
                   titlecss={"font-bold text-h5"}
                   topcss={"mt-8"}
+                  heightcss={""}
+                  handleEvent={() => {}}
                 />
                 <ImageComponent
                   topsecondcss="w-full"
                   title={"상세 사진"}
                   titlecss={"font-bold text-h5"}
                   topcss={"mt-20"}
+                  heightcss={""}
+                  handleEvent={() => {}}
                 />
 
                 <div className="col-span-full mt-20">
