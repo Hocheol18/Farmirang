@@ -14,10 +14,10 @@ interface Props {
 const StepBox = ({ currentStep, handleStep }: Props) => {
   // 각 단계별 컴포넌트들
   const content: JSX.Element[] = [
-    <FirstPage handleStep={handleStep} />,
-    <SecondPage handleStep={handleStep} />,
-    <ThirdPage handleStep={handleStep} />,
-    <FourthPage />,
+    <FirstPage key="first" handleStep={handleStep} />,
+    <SecondPage key="second" handleStep={handleStep} />,
+    <ThirdPage key="third" handleStep={handleStep} />,
+    <FourthPage key="fourth" />,
   ];
 
   return (

@@ -22,12 +22,17 @@ export default function Diary() {
 
   return (
     <>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
+      <div className="h-full">
+        <Link href={"/farm-diary/1"}>밭1</Link>
+        <Link href={"/farm-diary/1"}>밭1</Link>
+        <Link href={"/farm-diary/1"}>밭1</Link>
 
-      {/*  */}
-      <Modal
+        <div className="h-[100rem]">김현지</div>
+
+        <div className="h-[100rem]">1</div>
+
+        {/*  */}
+        {/* <Modal
         Titlebottom={""}
         subTitlecss={"text-base font-bold"}
         Titlecss={"text-h3 font-extrabold"}
@@ -97,7 +102,8 @@ export default function Diary() {
           </>
         }
         next={"확인"}
-      />
+      /> */}
+      </div>
     </>
   );
 }

@@ -1,3 +1,4 @@
+
 import Card from "./component/Card";
 import { BASE_URL } from "@/utils/ServerApi";
 import Spinner from "../_components/common/Spinner";
@@ -91,8 +92,10 @@ function Display() {
 
 export default async function Donation() {
   const res = await fetchDatas();
+  
   return (
     <>
+      {JSON.stringify(res.data.fields)}
       <Display />
     </>
   );

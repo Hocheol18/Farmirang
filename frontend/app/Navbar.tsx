@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MEMBER_URL } from "@/utils/ServerApi";
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -46,6 +47,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     const response = await fetch(
       "http://localhost:8081/api/v1/security/logout",
+      // `${MEMBER_URL}/v1/security/logout`,
       {
         method: "DELETE",
         headers: {
@@ -63,11 +65,11 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="top-0 z-10 border-b">
+      <div className="border-b bg-white-100 fixed z-10 w-full">
         <Disclosure>
           {() => (
             <>
-              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <div className="flex h-full items-center justify-between">
                   <div className="flex items-center">
                     <div

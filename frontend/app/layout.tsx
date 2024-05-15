@@ -17,14 +17,12 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <Script
-          strategy="beforeInteractive"
-          src={process.env.NEXT_PUBLIC_API_URL}
-        />
-
+        <Script strategy="beforeInteractive" src={process.env.API_URL} />
         <div className="flex flex-col h-full">
           <NavBar />
-          {children}
+
+          <div className="pt-[5rem] h-full">{children}</div>
+
           <ChatButton />
         </div>
       </body>
