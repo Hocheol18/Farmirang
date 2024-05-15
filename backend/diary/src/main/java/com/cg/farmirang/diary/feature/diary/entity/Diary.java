@@ -40,7 +40,7 @@ public class Diary {
 	@OneToMany(mappedBy = "diary", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	List<DiaryAuto> diaryAuto;
 
-	@OneToOne(mappedBy = "diary", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "diary", fetch = FetchType.LAZY)
 	DiaryManual diaryManual;
 
 	@OneToOne(mappedBy = "diary", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
