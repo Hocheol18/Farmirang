@@ -94,10 +94,11 @@ export default function MyModal({
                   className={`transform border border-gray-300 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}
                   style={{
                     maxWidth: `${grid ? "90vw" : ""}`,
+                    // 마이페이지 모달이 안보여서 잠시 주석처리했습니다
                     // maxHeight: `${grid ? "90vh" : ""}`,
-                    aspectRatio: `${grid ? grid[0].length : 1} / ${
-                      grid ? grid.length : 1
-                    }`,
+                    // aspectRatio: `${grid ? grid[0].length : 1} / ${
+                    //   grid ? grid.length : 1
+                    // }`,
                   }}
                 >
                   <>
@@ -118,6 +119,7 @@ export default function MyModal({
                       {contents}
                     </div>
 
+                    {/* {noButton && !handleFunction ? null : ( */}
                     <div className="flex justify-end mt-10">
                       <button
                         type="button"
@@ -129,11 +131,12 @@ export default function MyModal({
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                        onClick={() => successHandler()}
+                        onClick={handleFunction}
                       >
                         <div className="text-white-100 font-bold">{next}</div>
                       </button>
                     </div>
+                    {/* )} */}
                   </>
                 </Dialog.Panel>
               </Transition.Child>
