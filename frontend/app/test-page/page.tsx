@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import BackgroundShapes from "../farm-design/components/step/second/BackgroundShapes";
-import ShowArrangement from "../farm-design/components/step/second/ShowArrangement";
+import ShowArrangement from "../_components/common/ShowArrangement";
 
 // 점의 좌표를 나타내는 인터페이스
 interface Point {
@@ -10,8 +10,7 @@ interface Point {
   y: number;
 }
 
-// 앱 컴포넌트
-const page: React.FC = () => {
+const page = () => {
   // 그려진 점의 목록을 저장하는 상태
   const [points, setPoints] = useState<Point[]>([]);
   // 드래그 중인 점을 저장하는 상태
@@ -27,20 +26,20 @@ const page: React.FC = () => {
 
     if (ctx) {
       // 캔버스 초기화
-      ctx.clearRect(0, 0, 800, 600);
+      ctx.clearRect(0, 0, 500, 500);
 
-      // 좌표 그리드 그리기
+      // 좌표 그리드 그리기 - 50x50으로 width, height 비율대로
       ctx.strokeStyle = "gray";
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i <= 100; i++) {
+      ctx.lineWidth = 0.25;
+      for (let i = 0; i <= 50; i++) {
         ctx.beginPath();
-        ctx.moveTo(i * 8, 0);
-        ctx.lineTo(i * 8, 600);
+        ctx.moveTo(i * 10, 0);
+        ctx.lineTo(i * 10, 500);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(0, i * 6);
-        ctx.lineTo(800, i * 6);
+        ctx.moveTo(0, i * 10);
+        ctx.lineTo(500, i * 10);
         ctx.stroke();
       }
 
@@ -48,21 +47,21 @@ const page: React.FC = () => {
       ctx.fillStyle = "red";
       points.forEach((point) => {
         ctx.beginPath();
-        ctx.arc(point.x * 8, point.y * 6, 4, 0, 2 * Math.PI);
+        ctx.arc(point.x * 10, point.y * 10, 4, 0, 2 * Math.PI);
         ctx.fill();
       });
 
       // 다각형 그리기
       if (points.length > 1) {
         ctx.strokeStyle = "blue";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(points[0].x * 8, points[0].y * 6);
+        ctx.moveTo(points[0].x * 10, points[0].y * 10);
         for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x * 8, points[i].y * 6);
+          ctx.lineTo(points[i].x * 10, points[i].y * 10);
         }
         if (isDrawing) {
-          ctx.lineTo(points[0].x * 8, points[0].y * 6);
+          ctx.lineTo(points[0].x * 10, points[0].y * 10);
         }
         ctx.stroke();
       }
@@ -74,9 +73,10 @@ const page: React.FC = () => {
     if (isDrawing) {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (rect) {
-        const x = Math.floor((e.clientX - rect.left) / 8);
-        const y = Math.floor((e.clientY - rect.top) / 6);
+        const x = Math.floor((e.clientX - rect.left) / 10);
+        const y = Math.floor((e.clientY - rect.top) / 10);
         setPoints([...points, { x, y }]);
+        console.log("x: " + x + ", y: " + y);
       }
     }
   };
@@ -91,8 +91,8 @@ const page: React.FC = () => {
     if (selectedPoint) {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (rect) {
-        const x = Math.floor((e.clientX - rect.left) / 8);
-        const y = Math.floor((e.clientY - rect.top) / 6);
+        const x = Math.floor((e.clientX - rect.left) / 20);
+        const y = Math.floor((e.clientY - rect.top) / 20);
         const updatedPoints = points.map((p) =>
           p === selectedPoint ? { x, y } : p
         );
@@ -117,33 +117,14 @@ const page: React.FC = () => {
     setIsDrawing(false);
   };
 
-  const grid = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 0],
-    [1, 2, 3, 4, 5, 6, 7, 8, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [9, 10, 11, 12, 13, 13, 14, 14, 0],
-    [9, 10, 11, 12, 13, 13, 14, 14, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-
-  const crops = {
-    1: "🌱",
-    2: "❤",
-    3: "🥒",
-    10: "🍎",
-    5: "🥕",
-    13: "🌽",
-    14: "🍅",
-  };
-
   return (
-    <>
+    <div className="flex">
       <div>
         {/* 캔버스 요소 */}
         <canvas
           ref={canvasRef}
-          width={800}
-          height={600}
+          width={500}
+          height={500}
           onClick={handleCanvasClick}
           onMouseMove={handlePointDragMove}
           onMouseUp={handlePointDragEnd}
@@ -155,8 +136,8 @@ const page: React.FC = () => {
               key={index}
               style={{
                 position: "absolute",
-                left: point.x * 8 - 4,
-                top: point.y * 6 - 4,
+                left: point.x * 10 - 4,
+                top: point.y * 10 - 4,
                 width: 8,
                 height: 8,
                 backgroundColor: "transparent",
@@ -173,8 +154,22 @@ const page: React.FC = () => {
         {/* 다각형 초기화 버튼 */}
         <button onClick={handleResetPolygon}>Reset</button>
       </div>
-      <BackgroundShapes />
-    </>
+      {/* <BackgroundShapes /> */}
+      <div className="flex flex-col">
+        <div>input</div>
+        {points.map((point, index) => (
+          <div className="flex">
+            <div>{index}번째 점</div>
+            <div className="flex">
+              <div>x좌표: </div>
+              <input type="text" value={point.x} />
+              <div>y 좌표: </div>
+              <input type="text" value={point.y} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

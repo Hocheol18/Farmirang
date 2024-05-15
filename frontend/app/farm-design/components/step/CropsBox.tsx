@@ -59,7 +59,6 @@ const CropsBox = ({ id, name, isClick, isRecommend, handleClick }: Props) => {
   const [clickBackColor, setClickBackColor] = useState<string>(`bg-white-100`);
 
   useEffect(() => {
-    console.log(isClick);
     if (isClick) {
       setClickShadow("shadow-inner");
       setClickTextColor("text-white-100");

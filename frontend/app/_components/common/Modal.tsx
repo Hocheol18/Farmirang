@@ -29,6 +29,8 @@ interface Props {
   next: string;
   handleFunction?: () => void;
   noButton?: boolean;
+  grid?: number[][];
+  buttonStyle?: string;
 }
 
 export default function MyModal({
@@ -45,6 +47,8 @@ export default function MyModal({
   next,
   handleFunction,
   noButton,
+  grid,
+  buttonStyle,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -54,6 +58,7 @@ export default function MyModal({
         text={buttonText}
         bgStyles={buttonBgStyles}
         textStyles={buttonTextStyles}
+        buttonStyle={buttonStyle ? "reset" : ""}
         handleClick={() => setIsOpen(true)}
       />
 
@@ -77,6 +82,13 @@ export default function MyModal({
               >
                 <Dialog.Panel
                   className={`transform border border-gray-300 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all ${Modalcss}`}
+                  style={{
+                    maxWidth: `${grid ? "90vw" : ""}`,
+                    // maxHeight: `${grid ? "90vh" : ""}`,
+                    aspectRatio: `${grid ? grid[0].length : 1} / ${
+                      grid ? grid.length : 1
+                    }`,
+                  }}
                 >
                   <>
                     <Dialog.Title
@@ -91,7 +103,10 @@ export default function MyModal({
                         {subTitle}
                       </p>
                     </div>
-                    <div className="mt-6">{contents}</div>
+
+                    <div className={`${Title === "" ? null : "mt-6"}`}>
+                      {contents}
+                    </div>
 
                     {noButton && !handleFunction ? null : (
                       <div className="flex justify-end mt-10">
