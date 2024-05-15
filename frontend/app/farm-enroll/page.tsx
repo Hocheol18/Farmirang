@@ -3,10 +3,10 @@
 import Input from "../_components/common/Input";
 import DatePicker from "../_components/common/SelectDate";
 import SelectMenu from "../_components/common/SelectMenus";
-import { GoPlus } from "react-icons/go";
 import DaumPost from "../_components/common/address";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../_components/common/Button";
+import { postFieldType } from "@/type/farm-field";
 
 interface Props {
   areaAddress: string;
@@ -14,50 +14,35 @@ interface Props {
 }
 
 export default function FarmEnroll() {
-  const [direction, setDirection] = useState<number>(1);
-  const [name, setName] = useState<string>("");
-  const people = [
-    {
-      id: 1,
-      name: "Wade Cooper",
-    },
-    {
-      id: 2,
-      name: "Arlene Mccoy",
-    },
-    {
-      id: 3,
-      name: "Devon Webb",
-    },
-    {
-      id: 4,
-      name: "Tom Cook",
-    },
-    {
-      id: 5,
-      name: "Tanya Fox",
-    },
-    {
-      id: 6,
-      name: "Hellen Schmidt",
-    },
-    {
-      id: 7,
-      name: "Caroline Schultz",
-    },
-    {
-      id: 8,
-      name: "Mason Heaney",
-    },
-    {
-      id: 9,
-      name: "Claudie Smitham",
-    },
-    {
-      id: 10,
-      name: "Emil Schaefer",
-    },
-  ];
+  const [farmDesign, setFarmDesign] = useState<number>(1);
+  const [totalValue, setTotalValue] = useState<postFieldType>({
+    title: "",
+    content: "",
+    address: "",
+    startAt: "",
+    user: 0,
+    design: 0,
+    iot: "string",
+  });
+
+  const stringHandleEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setTotalValue((prev: postFieldType) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(totalValue);
+  }, [totalValue]);
+  // const [farmName, setFarmName] = useState<string>();
+  // const [cropName, setCropName] = useState<string>();
+  // const [IoTName, setIoTName] = useState<string>();
+  // const [startDate, setStartDate] = useState<string>();
+  // const [currentAddress, setCurrentAddress] = useState<string>();
+  // const [farmIntroduce, setFarmIntroduce] = useState<string>();
 
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
@@ -65,7 +50,7 @@ export default function FarmEnroll() {
   });
 
   const handleDirectionChange = (value: number) => {
-    setDirection(value);
+    setFarmDesign(value);
   };
 
   return (
@@ -78,26 +63,27 @@ export default function FarmEnroll() {
             <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
               <div className="col-span-full mt-10">
                 <Input
+                  name={"title"}
                   labeltext={"밭 이름"}
                   topcss="mt-8"
                   labelcss={"block text-h5 font-bold leading-12 text-black-100"}
                   inputcss={
-                    "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
+                    "h-[3rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
                   }
                   placeholder={"밭 이름을 정해주세요"}
                   type={"text"}
-                  value={name}
-                  onChange={setName}
+                  value={totalValue.title}
+                  onChange={stringHandleEvent}
                 />
               </div>
               <div className="col-span-full mt-8">
                 <SelectMenu
-                  value={direction}
+                  value={farmDesign}
                   onChange={handleDirectionChange}
                   labelcss={"text-h5 font-bold text-black-100"}
                   topScript={"꾸민 텃밭 목록"}
-                  items={people}
-                  bordercss="border-gray-400 h-[2.5rem]"
+                  items={[{ id: 0, name: "Hocheol" }]}
+                  bordercss="border-gray-400 h-[3rem]"
                 />
               </div>
 
@@ -105,32 +91,17 @@ export default function FarmEnroll() {
                 <div className="block text-h5 font-bold leading-12 text-black-100">
                   IoT 기기 등록
                 </div>
-                <div className="flex mt-2 justify-between">
-                  <div className="relative mt-2 w-1/2 mr-[1rem]">
-                    <div className="flex rounded-md border border-green-300">
+                <div className="flex mt-2 h-[3rem]">
+                  <div className="relative mt-2 w-full">
+                    <div className="flex rounded-md border border-green-300 ">
                       <input
                         type={"text"}
                         name={"IoT"}
                         id={"IoT"}
-                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-sm"
+                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-base"
                         placeholder={"센서 UUID를 입력해주세요"}
                       />
                     </div>
-                  </div>
-                  <div className="w-1/2 ml-[1rem]">
-                    <SelectMenu
-                      value={direction}
-                      onChange={handleDirectionChange}
-                      labelcss={"text-h4 text-black-100"}
-                      topScript={""}
-                      items={people}
-                      bordercss="border-gray-400 h-[2.5rem]"
-                    />
-                  </div>
-                </div>
-                <div className="flex border border-green-300 h-10 rounded-md mt-4 justify-center cursor-pointer">
-                  <div className="flex flex-col justify-center">
-                    <GoPlus className="h-8 w-8" />
                   </div>
                 </div>
               </div>

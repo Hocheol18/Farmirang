@@ -133,6 +133,7 @@ export default function CalendarSideBar() {
           contents={
             <>
               <Input
+                name=""
                 labelcss={"text-lg font-semibold"}
                 inputcss={
                   "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
