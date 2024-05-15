@@ -14,7 +14,7 @@ const TotalLayout = () => {
   };
 
   return (
-    <div className="flex w-full items-center mx-[5%] gap-[5%] ">
+    <div className="flex w-full h-full items-center mx-[5%] gap-[5%] ">
       <Stepper nowStep={currentStep} />
       <StepBox currentStep={currentStep} handleStep={handleStep} />
     </div>

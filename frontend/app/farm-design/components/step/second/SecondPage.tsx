@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SecondFirstPage from "./SecondFirstPage";
-import SecondSecondPage from "./SecondSecondPage";
+import ShowStylePage from "../ShowStylePage";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -17,11 +17,11 @@ const SecondPage = ({ handleStep }: Props) => {
   };
 
   return (
-    <div className=" flex flex-col w-[90%] h-[90%]  ">
+    <div className=" flex flex-col w-[95%] h-[95%]  ">
       {!isCheck ? (
         <SecondFirstPage handleCheck={handleCheck} />
       ) : (
-        <SecondSecondPage handleStep={handleStep} />
+        <ShowStylePage handleStep={handleStep} step={2} />
       )}
     </div>
   );
