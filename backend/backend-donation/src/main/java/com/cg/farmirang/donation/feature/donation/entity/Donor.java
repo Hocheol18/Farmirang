@@ -16,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,11 +42,11 @@ public class Donor {
 	@JoinColumn(name = "donation_board_id")
 	private DonationBoard board;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "crop_id")
 	private Crop crop;
 
@@ -58,7 +57,7 @@ public class Donor {
 	private Boolean approval;
 
 	@CreatedDate
-	@Column(name = "register_date")
+	@Column(name = "register_date", updatable = false)
 	private LocalDateTime registerDate;
 
 	@Column(name = "delete_date", nullable = true)

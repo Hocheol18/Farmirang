@@ -70,7 +70,7 @@ public class DonationBoard {
 	private DonationState state = DonationState.DOING;
 
 	@CreatedDate
-	@Column(name = "register_date")
+	@Column(name = "register_date", updatable = false)
 	private LocalDateTime registerDate;
 
 	@Column(name = "delete_date")

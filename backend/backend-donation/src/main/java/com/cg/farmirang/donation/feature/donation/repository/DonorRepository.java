@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cg.farmirang.donation.feature.donation.entity.Donor;
 
 @Repository
-public interface DonorRepository extends JpaRepository<Donor, Integer> {
+public interface DonorRepository extends JpaRepository<Donor, Integer>, DonorRepositoryCustom {
 }
