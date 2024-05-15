@@ -18,14 +18,11 @@ export default function FileUploadButton({ handleImage }: Props) {
         const nameWithoutExtension =
           file.name.slice(0, file.name.lastIndexOf(".")) || file.name;
         setFileName(nameWithoutExtension);
+        
         handleImage(file);
       }
     }
   };
-
-  useEffect(() => {
-    console.log(fileName);
-  }, [fileName]);
 
   const triggerFileInput = () => {
     inputEl.current?.click();

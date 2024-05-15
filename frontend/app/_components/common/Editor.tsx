@@ -8,11 +8,15 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 // import "froala-editor/js/plugins/font_family.min.js";
 // import "froala-editor/js/plugins/colors.min.js";
 
+interface Props {
+  setEditorData : React.Dispatch<any>
+}
+
 const FroalaEditorComponent = dynamic(() => import("react-froala-wysiwyg"), {
   ssr: false, // This line ensures the editor is only loaded on the client-side
 });
 
-export default function Editor() { 
+export default function Editor({setEditorData} : Props) { 
   return (
     <FroalaEditorComponent
       tag="textarea"
@@ -21,6 +25,7 @@ export default function Editor() {
         charCounterCount: false,
         height: 250,
       }}
+      onModelChange={setEditorData}
     />
   );
 }

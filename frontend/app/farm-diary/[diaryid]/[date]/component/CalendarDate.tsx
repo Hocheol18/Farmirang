@@ -41,6 +41,23 @@ export default function CalendarDate() {
     });
   const params = useParams<{ date: string }>();
 
+
+  const [totalValue, setTotalValue] = useState<any>()
+  const [diaryPicture, setDiaryPicture] = useState<any>()
+  const setEditorData = (model : string) => {
+    setTotalValue((prevValue : any) => ({
+      ...prevValue,
+      ['contents'] : model
+    }))
+  }
+
+  const OnSubmit = async () => {
+    const formData = new FormData()
+    console.log(diaryPicture)
+    formData.append('image', diaryPicture)
+    console.log(formData)
+  }
+
   const NextFunction = (fetchdata: ApiResponse) => {
     setFetchAutoDiaryData(fetchdata.data.diaryAutos);
     setFetchDiaryTotalData(fetchdata.data.diaryTotal);
@@ -86,18 +103,19 @@ export default function CalendarDate() {
                 subTitle={""}
                 contents={
                   <>
+
                     <ImageComponent
                       title={"일기 대표 사진"}
                       titlecss={"font-bold text-h5"}
                       topcss={"mt-[2rem] h-[20rem]"}
                       topsecondcss={"w-full"}
                       heightcss={"h-[18rem]"}
-                      handleEvent={() => {}}
+                      setDisplayImage={setDiaryPicture}
                     />
                     <div className="font-bold text-h5 mt-10 mb-4">
                       일지 쓰기
                     </div>
-                    <Editor />
+                    <Editor setEditorData={setEditorData} />
                   </>
                 }
                 subTitlecss={""}
@@ -105,6 +123,7 @@ export default function CalendarDate() {
                 Modalcss={"w-5/6"}
                 Titlebottom={undefined}
                 next={"작성"}
+                onSuccess={OnSubmit}
               />
             </div>
           </div>

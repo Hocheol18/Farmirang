@@ -16,6 +16,7 @@ import strawberry from "../../../../../public/icons/farms/crops-strawberry.svg";
 import sweetpotato from "../../../../../public/icons/farms/crops-sweet-potato.svg";
 import youngRadish from "../../../../../public/icons/farms/crops-young-radish.svg";
 import Image from "next/image";
+import React from "react";
 
 interface Props {
   childrenAutoDiaryData: diaryAutosDataType[];
@@ -56,10 +57,10 @@ export default function AutoDiary({ childrenAutoDiaryData }: Props) {
   return (
     <div className="overflow-x-auto flex flex-1 mt-4 w-10/12">
       {childrenAutoDiaryData.map((item, idx) => (
-        <>
+        <React.Fragment key={idx}>
           {idx % 2 === 0 ? (
             <div
-              key={idx}
+
               className="border border-gray-300 shadow-lg rounded-xl w-[14rem] flex-shrink-0 mr-6 bg-green-100"
             >
               <div className="h-3/5 flex flex-col justify-center">
@@ -81,7 +82,7 @@ export default function AutoDiary({ childrenAutoDiaryData }: Props) {
             </div>
           ) : (
             <div
-              key={idx}
+
               className="border border-gray-300 shadow-lg rounded-xl w-[14rem] flex-shrink-0 mr-6 bg-gray-200"
             >
               <div className="h-3/5 flex flex-col justify-center">
@@ -102,7 +103,7 @@ export default function AutoDiary({ childrenAutoDiaryData }: Props) {
               </div>
             </div>
           )}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
