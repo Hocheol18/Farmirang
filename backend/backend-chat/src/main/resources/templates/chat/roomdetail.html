@@ -51,9 +51,7 @@
     // STOMP 구독 및 메시지 수신 처리
     stompClient.connect({}, function(frame) {
         stompClient.subscribe('/queue/chats/rooms/'+roomId, function(message) {
-            console.log("여기까지 오니")
             var chatMessage = JSON.parse(message.body);
-            console.log(chatMessage)
             var chatElement = document.createElement('div');
             chatElement.textContent = `[${senderNickname}]: ${chatMessage.message}`;
             document.getElementById('chatMessages').appendChild(chatElement);
