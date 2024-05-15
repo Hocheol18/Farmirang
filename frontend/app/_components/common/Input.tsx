@@ -8,6 +8,7 @@ interface Props {
   value: any;
   topcss: string;
   labeltext: string;
+  name : string;
   onChange: (value: any) => void;
 
 }
@@ -20,6 +21,7 @@ export default function Input({
   placeholder,
   type,
   value,
+  name,
   onChange,
 
 }: Props) {
@@ -32,9 +34,10 @@ export default function Input({
           <input
             type={type}
             value={value}
+            name={name}
             className={`focus:outline-none focus:ring-green-400 focus:ring-1 ${inputcss}`}
             placeholder={placeholder}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange(e)}
           />
         </div>
       </div>

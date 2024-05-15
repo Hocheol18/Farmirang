@@ -50,7 +50,7 @@ const config: Config = {
       },
       colors: {
         red: {
-          100: "ff0000",
+          100: "#ff0000",
         },
         green: {
           100: "#F3FAF3",

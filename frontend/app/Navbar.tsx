@@ -69,8 +69,8 @@ export default function Navbar() {
         <Disclosure>
           {() => (
             <>
-              <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="flex h-full items-center justify-between">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div
                       className="flex-shrink-0 text-green-500 font-extrabold text-h4 font-tmoney cursor-pointer"
@@ -133,7 +133,7 @@ export default function Navbar() {
                             </Menu.Button>
                           </Menu>
                           <a
-                            onClick={handleLogout}
+                            onClick={() => {}}
                             className="text-green-500 cursor-pointer hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
                           >
                             로그아웃

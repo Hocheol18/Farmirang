@@ -42,7 +42,7 @@ export default function SelectMenu({
               className={`relative w-full cursor-pointer rounded-lg bg-white-100 py-1 pl-3 pr-10 text-left text-black-100 shadow-sm ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 border ${bordercss}`}
             >
               <span className="flex items-center">
-                <span className="ml-3 block truncate">
+                <span className="ml-1 block truncate text-h6">
                   {items[value - 1].name}
                 </span>
               </span>
@@ -68,7 +68,7 @@ export default function SelectMenu({
                     className={({ active }) =>
                       classNames(
                         active ? "bg-green-200 text-white" : "text-black-100",
-                        "relative cursor-pointer select-none py-2 pl-3 pr-9"
+                        "relative cursor-pointer select-none py-2 pl-3 pr-9 text-lg"
                       )
                     }
                     value={item}
