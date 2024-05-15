@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import TitleBox from "../TitleBox";
+import TitleBox from "./TitleBox";
 import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
-import ShowArrangement from "../../../../_components/common/ShowArrangement";
+import ShowArrangement from "../../../_components/common/ShowArrangement";
 import { Dialog, Transition } from "@headlessui/react";
 
-import BackgroundShapes from "./BackgroundShapes";
+import BackgroundShapes from "./second/BackgroundShapes";
 import MyModal from "@/app/_components/common/Modal";
 
 interface Props {
   handleStep: (step: number) => void;
+  step: number; //2단계에서 보여주는 추천된 텃밭인지 3단계에서 보여주는 완성된 텃밭인지
 }
 
-const SecondSecondPage = ({ handleStep }: Props) => {
-  // 임시...
+const ShowStylePage = ({ handleStep, step }: Props) => {
+  //임시
   const tmpHandleFunction = () => {};
 
   // 커스텀하러 가기
@@ -666,7 +667,11 @@ const SecondSecondPage = ({ handleStep }: Props) => {
     <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
       <div className={`relative flex items-start justify-center w-full`}>
         {/* <div className="flex-1"></div> */}
-        <TitleBox basicText1="추천된" pointText="텃밭꾸미기" basicText2="" />
+        <TitleBox
+          basicText1={step === 2 ? `추천된` : `완성된`}
+          pointText="텃밭꾸미기"
+          basicText2=""
+        />
 
         <MyModal
           buttonText="한눈에 보기 🔍"
@@ -711,12 +716,14 @@ const SecondSecondPage = ({ handleStep }: Props) => {
 
       {/* 버튼들 */}
       <div className="flex justify-around w-full">
-        <Button
-          text="커스텀하기"
-          bgStyles="bg-white-100 px-6"
-          textStyles="text-green-500 font-semibold"
-          handleClick={handleCustom}
-        />
+        {step === 2 ? (
+          <Button
+            text="커스텀하기"
+            bgStyles="bg-white-100 px-6"
+            textStyles="text-green-500 font-semibold"
+            handleClick={handleCustom}
+          />
+        ) : null}
         <div className="flex items-center gap-3 ">
           <div className="font-bold">텃밭 이름: </div>
           {/* value, onChange 바꿔야 함 */}
@@ -742,4 +749,4 @@ const SecondSecondPage = ({ handleStep }: Props) => {
   );
 };
 
-export default SecondSecondPage;
+export default ShowStylePage;

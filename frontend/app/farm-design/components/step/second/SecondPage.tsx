@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SecondFirstPage from "./SecondFirstPage";
-import SecondSecondPage from "./SecondSecondPage";
+import ShowStylePage from "../ShowStylePage";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -21,7 +21,7 @@ const SecondPage = ({ handleStep }: Props) => {
       {!isCheck ? (
         <SecondFirstPage handleCheck={handleCheck} />
       ) : (
-        <SecondSecondPage handleStep={handleStep} />
+        <ShowStylePage handleStep={handleStep} step={2} />
       )}
     </div>
   );

@@ -155,11 +155,9 @@ const ShowArrangement = ({
               key={`${rowIndex}-${colIndex}`}
               className={`flex justify-center items-center relative rounded ${
                 type === "custom" ? "border border-gray-300" : null
-              }  ${
-                type === "custom" && checkArray[rowIndex][colIndex]
-                  ? "cursor-pointer"
-                  : ""
-              }`}
+              } 
+              
+              `}
               style={{
                 backgroundColor:
                   checkArray[rowIndex][colIndex] && cell === 0
