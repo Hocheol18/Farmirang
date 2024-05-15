@@ -84,7 +84,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
   const topcss = "shrink-0";
   const labelcss = "font-semibold text-black-100 text-sm";
   const inputCSS = `rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
-  const xyInputCSS = `w-14 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
+  const xyInputCSS = `w-14 rounded-lg bg-white border border-[#c9e9cc] bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
 
   // 이랑/고랑의 방향 - 가로, 세로
   const directionArr = [
@@ -145,9 +145,6 @@ const FirstInputBox = ({ handleStep }: Props) => {
     setPoints([]);
   };
 
-  // 이 함수 쓴 애들 다 바꿔야 함!!!!!!! (임시로 그냥 한 거라...)
-  const handleCoordinateArrChange = () => {};
-
   // 위에 인풋5개의 height를 계산하여 아래(텃밭 모양 그리는 부분 + x와 y의 좌표 + 버튼들)부분의 height을 자동으로 계산하여 남은 부분을 100%에서 빼서 차지하게 만들기
   // topInputDivHeight: 위에 있는 인풋 5개 영역의 height
   const [topInputDivHeight, setTopInputDivHeight] = useState<number>(0);
@@ -160,6 +157,34 @@ const FirstInputBox = ({ handleStep }: Props) => {
       setTopInputDivHeight(topInputDivRef.current.clientHeight);
     }
   }, []);
+
+  // 인덱스 삭제하는 함수
+  const handleCoordinateDelete = (index: number) => {
+    const newPoints = points.filter((point, idx) => idx !== index);
+    setPoints(newPoints);
+  };
+
+  // x, y 좌표 바꾸는 함수
+  const handleChangeCoordinate = (
+    index: number,
+    coordinate: "x" | "y",
+    value: number
+  ) => {
+    //먼저 0부터 49 사이의 값인지 확인하기
+    //0 미만 => 0
+    if (value < 0) {
+      value = 0;
+      //49 초과 => 49
+    } else if (value > 49) {
+      value = 49;
+    }
+
+    //기존 배열
+    const newPoints = [...points];
+    //바꾸는 값
+    newPoints[index][coordinate] = value;
+    setPoints(newPoints);
+  };
 
   return (
     // 전체
@@ -216,21 +241,23 @@ const FirstInputBox = ({ handleStep }: Props) => {
           />
         </div>
         {/* 텃밭 좌표+button 있는 곳 */}
-        <div className="flex flex-col flex-1 bg-red-200 justify-between">
+        <div className="flex flex-col flex-1 mt-5 justify-between">
           {/* 텃밭 좌표 */}
-          <div className="flex flex-1 flex-col items-center justify-center bg-yellow-100 overflow-y-auto">
-            <div className="font-extrabold">텃밭 좌표</div>
+          <div className="flex flex-1 flex-col gap-1 items-center justify-center overflow-y-auto">
+            <div className="text-lg font-extrabold">텃밭 좌표</div>
             {/* x, y 좌표 인풋 - 동적 컴포넌트는 따로 만들어야 함 */}
-            <div className="flex flex-col items-center justify-start w-full bg-green-400 overflow-y-auto">
+            <div className="flex flex-col items-center justify-start bg-white-100 rounded-xl shadow px-12 overflow-y-auto">
               {points.map((point, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-center text-sm border border-blue-200 gap-3"
+                  className="flex py-1 items-center justify-center  gap-3"
                 >
-                  <div>{index + 1}번째 점</div>
+                  <div className="text-green-400 font-bold mr-3 ">
+                    {index + 1}번째 점
+                  </div>
                   <div className="flex items-center gap-3 mr-5">
+                    {/* x 좌표*/}
                     <div className="font-bold">x </div>
-                    {/* value, onChange 바꿔야 함 */}
                     <Input
                       topcss={topcss}
                       labeltext={""}
@@ -239,12 +266,14 @@ const FirstInputBox = ({ handleStep }: Props) => {
                       placeholder={""}
                       type={"number"}
                       value={point.x}
-                      onChange={handleCoordinateArrChange}
+                      onChange={(value) =>
+                        handleChangeCoordinate(index, "x", value)
+                      }
                     />
                   </div>
                   <div className="flex items-center gap-3">
+                    {/* y 좌표*/}
                     <div className="font-bold">y </div>
-                    {/* value, onChange 바꿔야 함 */}
                     <Input
                       topcss={topcss}
                       labeltext={""}
@@ -253,22 +282,37 @@ const FirstInputBox = ({ handleStep }: Props) => {
                       placeholder={""}
                       type={"number"}
                       value={point.y}
-                      onChange={handleCoordinateArrChange}
+                      onChange={(value) =>
+                        handleChangeCoordinate(index, "y", value)
+                      }
                     />
                   </div>
+                  <Button
+                    text="x"
+                    bgStyles="px-1 ml-1 bg-gray-100 rounded"
+                    buttonStyle="reset"
+                    textStyles="text-gray-500"
+                    handleClick={() => handleCoordinateDelete(index)}
+                  />
                 </div>
               ))}
             </div>
-
-            <Button
-              text="모두 지우기 (Reset)"
-              bgStyles="mt-5 w-56 bg-green-300"
-              textStyles="text-white-100 font-bold"
-              handleClick={handleResetPoints}
-            />
+            {points.length > 0 ? (
+              <Button
+                text="모두 지우기 (Reset)"
+                bgStyles="mt-5 w-56 bg-green-300"
+                textStyles="text-white-100 font-bold"
+                handleClick={handleResetPoints}
+              />
+            ) : (
+              <div className="flex flex-col items-center h-[40%] justify-center">
+                <div>왼쪽 판에 마우스를 클릭하여 점을 찍고</div>
+                <div>텃밭 모양을 그려보세요!</div>
+              </div>
+            )}
           </div>
           {/* 텃밭 좌표 끝 */}
-          <div className="flex justify-end gap-5">
+          <div className="flex justify-end gap-5 mt-5">
             <Button
               text="추천 받기"
               bgStyles="bg-green-400"
