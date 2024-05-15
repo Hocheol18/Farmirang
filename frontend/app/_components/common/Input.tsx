@@ -9,6 +9,7 @@ interface Props {
   topcss: string;
   labeltext: string;
   onChange: (value: any) => void;
+
 }
 
 export default function Input({
@@ -20,13 +21,14 @@ export default function Input({
   type,
   value,
   onChange,
+
 }: Props) {
   return (
     <div className={topcss}>
       <div className={labelcss}>{labeltext}</div>
 
       <div className="relative mt-2">
-        <div className="flex rounded-lg border border-gray-300">
+        <div className={`flex rounded-lg`}>
           <input
             type={type}
             value={value}

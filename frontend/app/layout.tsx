@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./Navbar";
+import Script from "next/script";
 import ChatButton from "./chatButton";
 
 export const metadata: Metadata = {
@@ -16,9 +17,12 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
+        <Script strategy="beforeInteractive" src={process.env.API_URL} />
         <div className="flex flex-col h-full">
           <NavBar />
-          {children}
+
+          <div className="pt-[5rem] h-full">{children}</div>
+
           <ChatButton />
         </div>
       </body>

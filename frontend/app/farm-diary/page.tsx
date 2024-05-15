@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Modal from "../_components/common/Modal";
-import DaumPost from "../farm-enroll/component/Address";
+import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Input from "../_components/common/Input";
+import Editor from "../_components/common/Editor";
 
 interface Props {
   areaAddress: string;
@@ -21,12 +22,18 @@ export default function Diary() {
 
   return (
     <>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
+      <div className="h-full">
+        <Link href={"/farm-diary/1"}>밭1</Link>
+        <Link href={"/farm-diary/1"}>밭1</Link>
+        <Link href={"/farm-diary/1"}>밭1</Link>
 
-      {/*  */}
-      <Modal
+        <div className="h-[100rem]">김현지</div>
+
+        <div className="h-[100rem]">1</div>
+
+        {/*  */}
+        {/* <Modal
+        Titlebottom={""}
         subTitlecss={"text-base font-bold"}
         Titlecss={"text-h3 font-extrabold"}
         buttonText={"버튼"}
@@ -34,6 +41,7 @@ export default function Diary() {
         buttonTextStyles={"text-h4"}
         Title="센서 구매"
         subTitle="밭에 심을 센서를 구매하는 폼입니다"
+        Modalcss="w-[30rem]"
         contents={
           <>
             <Input
@@ -93,7 +101,9 @@ export default function Diary() {
             </div>
           </>
         }
-      />
+        next={"확인"}
+      /> */}
+      </div>
     </>
   );
 }

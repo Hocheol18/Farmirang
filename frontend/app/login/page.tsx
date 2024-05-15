@@ -5,7 +5,7 @@ import "./style.css";
 export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center gap-[10px] relative">
-      <div className="relative self-stretch w-full h-full bg-[url(/user/farm.jpg)] bg-cover bg-[50%_50%]">
+      <div className="relative self-stretch overflow-hidden w-full h-full bg-[url(/user/farm.jpg)] bg-cover bg-[50%_50%]">
         <div className="background-box" />
       </div>
       <div className="flex flex-col w-[23.75rem] items-center justify-center gap-[25px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

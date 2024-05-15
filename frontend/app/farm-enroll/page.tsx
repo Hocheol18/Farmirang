@@ -4,7 +4,7 @@ import Input from "../_components/common/Input";
 import DatePicker from "../_components/common/SelectDate";
 import SelectMenu from "../_components/common/SelectMenus";
 import { GoPlus } from "react-icons/go";
-import DaumPost from "./component/Address";
+import DaumPost from "../_components/common/address";
 import { useState } from "react";
 import Button from "../_components/common/Button";
 
@@ -75,18 +75,14 @@ export default function FarmEnroll() {
           <div className="">
             <h2 className="text-h1 font-semibold text-black-100">밭 등록</h2>
 
-            {/* <p className="mt-1 text-sm leading-6 text-gray-600">
-            This information will be displayed publicly so be careful what you share.
-          </p> */}
-
             <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
               <div className="col-span-full mt-10">
                 <Input
                   labeltext={"밭 이름"}
                   topcss="mt-8"
-                  labelcss={"block text-h4 leading-12 text-black-100"}
+                  labelcss={"block text-h5 font-bold leading-12 text-black-100"}
                   inputcss={
-                    "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                    "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
                   }
                   placeholder={"밭 이름을 정해주세요"}
                   type={"text"}
@@ -98,37 +94,37 @@ export default function FarmEnroll() {
                 <SelectMenu
                   value={direction}
                   onChange={handleDirectionChange}
-                  labelcss={"text-h4 text-black-100"}
+                  labelcss={"text-h5 font-bold text-black-100"}
                   topScript={"꾸민 텃밭 목록"}
                   items={people}
-                  bordercss="border-gray-400"
+                  bordercss="border-gray-400 h-[2.5rem]"
                 />
               </div>
 
               <div className="col-span-full mt-8">
-                <div className="block text-h4 leading-12 text-black-100">
+                <div className="block text-h5 font-bold leading-12 text-black-100">
                   IoT 기기 등록
                 </div>
                 <div className="flex mt-2 justify-between">
-                  <div className="relative mt-2 w-1/3">
+                  <div className="relative mt-2 w-1/2 mr-[1rem]">
                     <div className="flex rounded-md border border-green-300">
                       <input
                         type={"text"}
                         name={"IoT"}
                         id={"IoT"}
-                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2 placeholder:text-sm"
+                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-sm"
                         placeholder={"센서 UUID를 입력해주세요"}
                       />
                     </div>
                   </div>
-                  <div className="w-1/3">
+                  <div className="w-1/2 ml-[1rem]">
                     <SelectMenu
                       value={direction}
                       onChange={handleDirectionChange}
                       labelcss={"text-h4 text-black-100"}
                       topScript={""}
                       items={people}
-                      bordercss="border-gray-400"
+                      bordercss="border-gray-400 h-[2.5rem]"
                     />
                   </div>
                 </div>
@@ -140,7 +136,7 @@ export default function FarmEnroll() {
               </div>
 
               <div className="col-span-full mt-8">
-                <div className="block text-h4 leading-12 text-black-100">
+                <div className="block text-h5 font-bold leading-12 text-black-100">
                   경작 시작 시기
                 </div>
                 <div className="mt">
@@ -149,11 +145,13 @@ export default function FarmEnroll() {
               </div>
 
               <div className="col-span-full mt-8">
-                <div className="block text-h4 leading-12 text-black-100">
-                  위치
-                </div>
-                <div className="block flex justify-end">
-                  <DaumPost setAddressObj={setAddressObj} />
+                <div className="flex w-full justify-between">
+                  <div className="block text-h5 font-bold leading-12 text-black-100 flex flex-col justify-center">
+                    내 밭 주소
+                  </div>
+                  <div className="block flex justify-end">
+                    <DaumPost setAddressObj={setAddressObj} />
+                  </div>
                 </div>
 
                 <div className="mt-4">
@@ -183,7 +181,7 @@ export default function FarmEnroll() {
               </div>
 
               <div className="col-span-full mt-8">
-                <div className="block text-h4 leading-12 text-black-100">
+                <div className="block text-h5 font-bold leading-12 text-black-100">
                   텃밭 소개
                 </div>
                 <div className="mt-2">
@@ -203,7 +201,7 @@ export default function FarmEnroll() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-[10rem] pb-[13rem]">
+      <div className="flex justify-center mt-[10rem] pb-[10rem]">
         <Button
           text="확인"
           bgStyles="bg-green-400 w-32"

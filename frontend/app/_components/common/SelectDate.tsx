@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 const MONTH_NAMES = [
   "1",
@@ -19,35 +19,35 @@ const MONTH_NAMES = [
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 const DatePicker = () => {
-  const [showDatepicker, setShowDatepicker] = useState(false);
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [datepickerValue, setDatepickerValue] = useState("");
   const [month, setMonth] = useState(new Date().getMonth());
   const [year, setYear] = useState(new Date().getFullYear());
-  const [noOfDays, setNoOfDays] = useState([]);
-  const [blankDays, setBlankDays] = useState([]);
+  const [noOfDays, setNoOfDays] = useState<Array<number>>([]);
+  const [blankDays, setBlankDays] = useState<Array<number>>([]);
 
   const dateToStr = (date: any) => {
-    var week = new Array("일", "월", "화", "수", "목", "금", "토");
+    const week = new Array("일", "월", "화", "수", "목", "금", "토");
 
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var dayName = week[date.getDay()];
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dayName = week[date.getDay()];
 
     return year + "년 " + month + "월 " + day + "일 " + dayName + "요일 ";
   };
 
   useEffect(() => {
     function initDate() {
-      let today = new Date();
+      const today = new Date();
       setDatepickerValue(dateToStr(today));
     }
 
     function getNoOfDays() {
-      let daysInMonth = new Date(year, month + 1, 0).getDate();
-      let dayOfWeek = new Date(year, month).getDay();
-      let blankdaysArray = Array.from({ length: dayOfWeek }, (_, i) => i);
-      let daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const dayOfWeek = new Date(year, month).getDay();
+      const blankdaysArray = Array.from({ length: dayOfWeek }, (_, i) => i);
+      const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
       setBlankDays(blankdaysArray);
       setNoOfDays(daysArray);
@@ -58,7 +58,7 @@ const DatePicker = () => {
   }, [month, year]);
 
   const getDateValue = (date: number) => {
-    let selectedDate = new Date(year, month, date);
+    const selectedDate = new Date(year, month, date);
     setDatepickerValue(dateToStr(selectedDate));
     setShowDatepicker(false);
   };
@@ -101,7 +101,10 @@ const DatePicker = () => {
           </div>
 
           {showDatepicker && (
-            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400">
+            <div
+              className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400"
+              
+            >
               <div className="flex justify-between items-center mb-2 ml-4">
                 <div>
                   <span className="text-lg font-bold text-black-100">
