@@ -18,8 +18,8 @@ export default function ChangePicture({
         topcss={""}
         topsecondcss={""}
         displayImage={selectImage}
-        setDisplayImage={setSelectImage}
-      />
+        setDisplayImage={setSelectImage} 
+        heightcss={""} />
     </>
   );
 }

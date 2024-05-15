@@ -22,8 +22,8 @@ interface Props {
   setDisplayImage?: React.Dispatch<any>;
   // 이미지 높이
   heightcss: string;
-  // 함수 적용
-  handleEvent: () => void;
+  // // 함수 적용
+  // handleEvent: () => void;
 }
 
 export default function ImageComponent({
@@ -33,7 +33,7 @@ export default function ImageComponent({
   topsecondcss,
   displayImage,
   setDisplayImage,
-  handleEvent,
+  // handleEvent,
   heightcss,
 }: Props) {
   const { userInfo, resetAuth } = useUserStore();
@@ -69,12 +69,12 @@ export default function ImageComponent({
                   className="mx-auto h-12 w-12 text-gray-400"
                   aria-hidden="true"
                 />
-                <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                <div className="mt-4 flex leading-6 text-gray-600 justify-center">
                   <label
                     htmlFor="file-upload"
-                    className="relative cursor-pointer rounded-md bg-white font-semibold text-green-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                    className="relative cursor-pointer rounded-md bg-white text-green-400"
                   >
-                    <span>5MB이내</span>
+                    <span className="font-extrabold text-h6 mr-2">1MB이내</span>
                     <input
                       id="file-upload"
                       name="file-upload"
@@ -82,7 +82,7 @@ export default function ImageComponent({
                       className="sr-only"
                     />
                   </label>
-                  <p className="pl-1 text-gray-500">PNG, JPG, JPEG 파일</p>
+                  <p className="pl-1 text-gray-500 text-lg font-semibold">PNG, JPG, JPEG 파일</p>
                 </div>
               </>
             )}
