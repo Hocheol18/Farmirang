@@ -4,11 +4,15 @@ import React from "react";
 interface ChangePictureProps {
   selectImage: any;
   setSelectImage: React.Dispatch<any>;
+  showImage?: any;
+  setShowImage?: React.Dispatch<any>;
 }
 
 export default function ChangePicture({
   selectImage,
   setSelectImage,
+  showImage,
+  setShowImage,
 }: ChangePictureProps) {
   return (
     <>
@@ -20,6 +24,8 @@ export default function ChangePicture({
         topsecondcss={""}
         displayImage={selectImage}
         setDisplayImage={setSelectImage}
+        showImage={showImage}
+        setShowImage={setShowImage}
         handleEvent={() => {}}
       />
     </>
