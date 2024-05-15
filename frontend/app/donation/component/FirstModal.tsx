@@ -131,6 +131,7 @@ export default function FirstModal() {
                             placeholder={"기부 품목을 적어주세요"}
                             type={"text"}
                             value={goods}
+                            name={""}
                             onChange={setGoods}
                           />{" "}
                           <Input
@@ -145,6 +146,7 @@ export default function FirstModal() {
                             placeholder={"물품 갯수를 적어주세요"}
                             type={"text"}
                             value={goodscount}
+                            name={""}
                             onChange={setGoodsCount}
                           />
                         </div>
@@ -154,7 +156,7 @@ export default function FirstModal() {
                           topcss={"mt-[4rem] justify-center"}
                           topsecondcss="w-5/6"
                           heightcss={""}
-                          handleEvent={() => {}}
+                          // handleEvent={() => {}}
                         />
 
                         <div className="flex justify-end mt-10">

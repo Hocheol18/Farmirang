@@ -146,6 +146,7 @@ export default function DonationWrite() {
                     placeholder={"밭 이름을 정해주세요"}
                     type={"text"}
                     value={name}
+                    name={""}
                     onChange={setName}
                   />
                 </div>

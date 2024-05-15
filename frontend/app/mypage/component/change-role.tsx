@@ -187,6 +187,7 @@ export default function ChangeRole() {
                 placeholder={"기관 또는 단체의 공식 명칭을 입력하세요."}
                 type={"string"}
                 value={name}
+                name={""}
                 topcss={"mt-10"}
                 labeltext={"시설명"}
                 onChange={(value) => setName(value)}
@@ -226,6 +227,7 @@ export default function ChangeRole() {
                 placeholder={"복지시설 신고번호를 입력하세요."}
                 type={"string"}
                 value={report}
+                name={""}
                 topcss={"mt-10"}
                 labeltext={"복지시설신고번호"}
                 onChange={(e) => setReport(e)}
@@ -238,6 +240,7 @@ export default function ChangeRole() {
                 placeholder={"연락 가능한 전화번호를 입력하세요."}
                 type={"string"}
                 value={contact}
+                name={""}
                 topcss={"mt-10"}
                 labeltext={"전화번호"}
                 onChange={(e) => setContact(e)}
@@ -256,7 +259,7 @@ export default function ChangeRole() {
                   showImage={showImage}
                   setShowImage={setShowImage}
                   heightcss={""}
-                  handleEvent={() => {}}
+                  // handleEvent={() => {}}
                 />
               </div>
               <div className="text-gray-400 text-[13px] font-m-6 leading-[18px] mt-[10px]">

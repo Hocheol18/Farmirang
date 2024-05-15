@@ -27,7 +27,7 @@ interface Props {
   // 이미지 높이
   heightcss: string;
   // // 함수 적용
-  // handleEvent: () => void;
+  handleEvent?: () => void;
 }
 
 export default function ImageComponent({
@@ -88,7 +88,9 @@ export default function ImageComponent({
                       className="sr-only"
                     />
                   </label>
-                  <p className="pl-1 text-gray-500 text-lg font-semibold">PNG, JPG, JPEG 파일</p>
+                  <p className="pl-1 text-gray-500 text-lg font-semibold">
+                    PNG, JPG, JPEG 파일
+                  </p>
                 </div>
               </>
             )}

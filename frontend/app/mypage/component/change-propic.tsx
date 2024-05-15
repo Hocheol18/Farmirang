@@ -26,7 +26,7 @@ export default function ChangePicture({
         setDisplayImage={setSelectImage}
         showImage={showImage}
         setShowImage={setShowImage}
-        handleEvent={() => {}}
+        // handleEvent={() => {}}
       />
     </>
   );

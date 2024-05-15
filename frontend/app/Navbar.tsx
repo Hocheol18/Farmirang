@@ -46,8 +46,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     const response = await fetch(
-      "http://localhost:8081/api/v1/security/logout",
-      // `${MEMBER_URL}/v1/security/logout`,
+      // "http://localhost:8081/api/v1/security/logout",
+      `${MEMBER_URL}/v1/security/logout`,
       {
         method: "DELETE",
         headers: {
@@ -133,7 +133,7 @@ export default function Navbar() {
                             </Menu.Button>
                           </Menu>
                           <a
-                            onClick={() => {}}
+                            onClick={handleLogout}
                             className="text-green-500 cursor-pointer hover:text-green-400 px-3 py-6 text-h6 font-extrabold font-tmoney"
                           >
                             로그아웃

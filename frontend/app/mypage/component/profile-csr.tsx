@@ -172,6 +172,7 @@ export default function ProfileCSR({
                 value={newNickname}
                 topcss={"mt-10"}
                 labeltext={"변경할 이름을 작성해주세요"}
+                name={""}
                 onChange={(value) => setNewNickname(value)}
               />
             }
