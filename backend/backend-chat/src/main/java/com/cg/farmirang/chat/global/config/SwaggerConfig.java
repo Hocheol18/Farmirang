@@ -37,8 +37,8 @@ public class SwaggerConfig {
 
 	private Info apiInfo() {
 		return new Info()
-			.title("Famirang Design API")
-			.description("Famirang Design API Documentation")
+			.title("Famirang Chat API")
+			.description("Famirang Chat API Documentation")
 			.version("1.0.0");
 	}
 }

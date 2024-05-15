@@ -1,7 +1,7 @@
 package com.cg.farmirang.chat.global.common.service;
 
-import com.cg.farmirang.design.global.common.response.JwtValidationResponseDto;
-import com.cg.farmirang.design.global.config.FeignClientConfig;
+import com.cg.farmirang.chat.global.common.response.JwtValidationResponseDto;
+import com.cg.farmirang.chat.global.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
