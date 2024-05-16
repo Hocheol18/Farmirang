@@ -17,6 +17,7 @@ import com.cg.farmirang.backenduser.feature.security.dto.response.JwtValidateTok
 import com.cg.farmirang.backenduser.feature.security.entity.RedisTokenEntity;
 import com.cg.farmirang.backenduser.feature.security.repository.RedisTokenRepository;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
+import com.cg.farmirang.backenduser.feature.user.repository.RedisRoleRepository;
 import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
 import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
 import com.google.gson.FieldNamingPolicy;
@@ -46,6 +47,7 @@ public class JwtServiceImpl implements JwtService{
 	private int refreshTokenValidTime;
 
 	private final RedisTokenRepository redis;
+	private final RedisRoleRepository roleRedis;
 
 
 	/**
@@ -157,10 +159,13 @@ public class JwtServiceImpl implements JwtService{
 			log.error("JWT-Service-reissueToken-Exception", e);
 			throw new BusinessExceptionHandler("토큰이 유효하지 않습니다", ErrorCode.WRONG_TOKEN_ERROR);
 		}
+		// get role from redis
+		var role = roleRedis.findById(claims.get("id", Double.class).intValue()).orElse(null);
+		log.debug("JWT-Service-reissueToken-role-cache: {}", role);
 		// create new token
 		var token = create(JwtCreateTokenRequestDto.builder()
 			.memberId(claims.get("id", Double.class).intValue())
-			.role(MemberRole.valueOf(claims.get("role", String.class)))
+			.role(role==null?MemberRole.valueOf(claims.get("role", String.class)) : role.getRole())
 			.deviceId(claims.get("device_id", String.class))
 			.build());
 		// update redis
