@@ -8,9 +8,8 @@ interface Props {
   value: any;
   topcss: string;
   labeltext: string;
-  name : string;
+  name?: string;
   onChange: (value: any) => void;
-
 }
 
 export default function Input({
@@ -23,7 +22,6 @@ export default function Input({
   value,
   name,
   onChange,
-
 }: Props) {
   return (
     <div className={topcss}>

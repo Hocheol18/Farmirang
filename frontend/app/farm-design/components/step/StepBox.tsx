@@ -9,14 +9,76 @@ import ThirdPage from "./third/ThirdPage";
 interface Props {
   currentStep: number;
   handleStep: (step: number) => void;
+  userAccessToken: string;
 }
 
-const StepBox = ({ currentStep, handleStep }: Props) => {
+interface FieldCropsListType {
+  cropId: number;
+  number: number;
+}
+
+const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
+  // 밭의 디자인 ID 관리
+  const [fieldDesignId, setFieldDesignId] = useState<number>(0);
+
+  // 밭의 true, false 배열 관리 (배치 가능한 유무 배열)
+  const [fieldClickableArray, setFieldClickableFieldArray] = useState<
+    boolean[][]
+  >([]);
+
+  // 밭의 작물 배열 관리
+  const [fieldGridArray, setFieldGridArray] = useState<number[][]>([]);
+
+  // 밭의 작물 리스트 배열 관리
+  const [fieldCropsList, setFieldCropsList] = useState<FieldCropsListType[]>(
+    []
+  );
+
+  // 디자인 Id update
+  const handleUpdateFieldDesignId = (newDesignId: number) => {
+    setFieldDesignId(newDesignId);
+  };
+
+  // 배치 가능한 유무 배열 update
+  const handleUpdateFieldClickableArray = (
+    newFieldClickableArray: boolean[][]
+  ) => {
+    setFieldClickableFieldArray(newFieldClickableArray);
+  };
+
+  // 밭의 작물 배열 update
+  const handleUpdateFieldGridArray = (newFieldGridArray: number[][]) => {
+    setFieldGridArray(newFieldGridArray);
+  };
+
+  // 밭의 작물 리스트 배열 update
+  const handleUpdateFieldCropsList = (
+    newFieldCropsList: FieldCropsListType[]
+  ) => {
+    setFieldCropsList(newFieldCropsList);
+  };
+
   // 각 단계별 컴포넌트들
   const content: JSX.Element[] = [
-    <FirstPage key="first" handleStep={handleStep} />,
-    <SecondPage key="second" handleStep={handleStep} />,
-    <ThirdPage key="third" handleStep={handleStep} />,
+    <FirstPage
+      key="first"
+      handleStep={handleStep}
+      userAccessToken={userAccessToken}
+      handleUpdateFieldDesignId={handleUpdateFieldDesignId}
+      handleUpdateFieldClickableArray={handleUpdateFieldClickableArray}
+      handleUpdateFieldGridArray={handleUpdateFieldGridArray}
+    />,
+    <SecondPage
+      key="second"
+      handleStep={handleStep}
+      userAccessToken={userAccessToken}
+      fieldDesignId={fieldDesignId}
+    />,
+    <ThirdPage
+      key="third"
+      handleStep={handleStep}
+      userAccessToken={userAccessToken}
+    />,
     <FourthPage key="fourth" />,
   ];
 

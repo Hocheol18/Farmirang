@@ -13,10 +13,11 @@ import { useParams } from "next/navigation";
 import AutoDiary from "./AutoDiary";
 import MyDiary from "./MyDiary";
 import TemperatureComponent from "./TemperatureComponent";
-import MyModal from "@/app/_components/common/Modal";
+import MypageModal from "@/app/_components/common/MypageModal";
 import ImageComponent from "@/app/_components/common/Image";
 import Editor from "@/app/_components/common/Editor";
 import Spinner from "@/app/_components/common/Spinner";
+import MyModal from "@/app/_components/common/Modal";
 
 interface ApiResponse {
   data: fetchAutoDiaryDataType;

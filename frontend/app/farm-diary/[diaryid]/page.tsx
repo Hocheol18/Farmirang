@@ -1,5 +1,5 @@
 import CalendarSideBar from "./component/CalendarSidebar";
-import Calendar from "./component/Calendar";
+import Calendar from "./component/calendar";
 
 export default function DiaryPage() {
   return (
