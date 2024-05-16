@@ -5,7 +5,7 @@ interface Coordinate {
 }
 
 // 1단계 - 디자인용 텃밭 생성 POST Request
-export interface createFieldRequest {
+export interface createFieldParams {
   coordinates: Coordinate[];
   area: number;
   startMonth: number;

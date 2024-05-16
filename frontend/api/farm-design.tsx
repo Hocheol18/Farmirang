@@ -1,3 +1,5 @@
+import { createFieldParams } from "@/type/farmDesginType";
+
 import { useUserStore } from "@/app/_stores/userStore";
 ("@/app/_stores/userStore");
 import { makeQuerystring } from "@/utils/ApiUtils";
@@ -11,7 +13,7 @@ const { userInfo } = useUserStore();
 
 const putNewNickname = async () => {
   const response = await fetch(`${DESIGN_URL}/v1/designs`, {
-    method: "PUT",
+    method: "POST",
     headers: {
       Authorization: `Bearer ${userInfo.accessToken}`,
       "Content-Type": "application/json",
@@ -19,7 +21,7 @@ const putNewNickname = async () => {
     body: JSON.stringify({ nickname: "들어갈 말" }),
   });
   if (response.ok) {
-    window.location.reload();
+    // 코드 적기
   }
 };
 

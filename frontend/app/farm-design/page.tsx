@@ -1,10 +1,19 @@
-`use client`;
+"use client";
 // 밭꾸미기 가이드라인 ~ 4단계
 
+import { useUserStore } from "@/app/_stores/userStore";
 import GuidlineBox from "./components/guideline/GuidlineBox";
 import TotalLayout from "./components/step/TotalLayout";
+import { useEffect } from "react";
 
 export default function FarmDesign() {
+  const { userInfo } = useUserStore();
+
+  useEffect(() => {
+    if (userInfo.accessToken === "") {
+    }
+  }, []);
+
   // 임시
   const view: number = 1;
 
