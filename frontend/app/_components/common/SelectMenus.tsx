@@ -3,7 +3,7 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import EnrollSelectMenu from "@/type/type";
+import { fetchDesignDataType, fetchFarmListType } from "@/type/farm-field";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
@@ -12,11 +12,10 @@ function classNames(...classes: Array<string>) {
 interface Props {
   labelcss: string;
   topScript: string;
-  items: EnrollSelectMenu[];
+  items: any;
   bordercss: string;
   topcss?: string;
-  value: number;
-  onChange: (value: any) => void;
+  onChange: (parentValue: any) => void;
 }
 
 export default function SelectMenu({
@@ -25,15 +24,20 @@ export default function SelectMenu({
   labelcss,
   bordercss,
   topcss,
-  value,
   onChange,
 }: Props) {
-  const handleChange = (selectedItem: EnrollSelectMenu) => {
-    onChange(selectedItem.id);
+  const [value, setValue] = useState<number>(1);
+  const handleChange = (selectedItem: any) => {
+    setValue(selectedItem.id);
+    onChange(selectedItem.designId);
   };
+  const dataWithId = items.map((item: fetchDesignDataType, index: number) => ({
+    ...item,
+    id: index + 1,
+  }));
 
   return (
-    <Listbox value={items[value - 1]} onChange={handleChange}>
+    <Listbox value={dataWithId[value - 1]} onChange={handleChange}>
       {({ open }) => (
         <div className={topcss}>
           <Listbox.Label className={labelcss}>{topScript}</Listbox.Label>
@@ -43,7 +47,7 @@ export default function SelectMenu({
             >
               <span className="flex items-center">
                 <span className="ml-1 block truncate text-h6">
-                  {items[value - 1].name}
+                  {dataWithId[value - 1].name}
                 </span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -62,9 +66,9 @@ export default function SelectMenu({
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white-100 py-1 text-base shadow-lg border border-gray-300 ring-opacity-5 focus:outline-none sm:text-sm">
-                {items.map((item) => (
+                {dataWithId.map((item: any, idx: number) => (
                   <Listbox.Option
-                    key={item.id}
+                    key={idx}
                     className={({ active }) =>
                       classNames(
                         active ? "bg-green-200 text-white" : "text-black-100",

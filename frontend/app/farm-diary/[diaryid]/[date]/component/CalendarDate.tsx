@@ -45,7 +45,7 @@ export default function CalendarDate() {
   const [diaryPicture, setDiaryPicture] = useState<any>();
 
   const [totalValue, setTotalValue] = useState<postManualDiaryType>({
-    diaryId: Number(params.date),
+    diaryId: Number(params?.date),
     content: "",
   });
 
@@ -61,7 +61,6 @@ export default function CalendarDate() {
     formData.append("image", diaryPicture);
     formData.append("request", JSON.stringify(totalValue));
     const response = await postManualDiary(formData);
-    console.log(response);
 
     if (response) {
       if (response.success) {

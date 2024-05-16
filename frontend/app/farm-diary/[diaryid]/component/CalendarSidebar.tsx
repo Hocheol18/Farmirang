@@ -1,33 +1,31 @@
 "use client";
 
-import Image from "next/image";
 import { CiCalendar, CiCircleList, CiSearch } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { RiFileList3Line } from "react-icons/ri";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fetchFieldData } from "@/api/farm-field";
+import { deleteFieldData, fetchFieldData } from "@/api/farm-field";
 import { fetchFarmListType } from "@/type/farm-field";
 import { CiTrash } from "react-icons/ci";
-import DaumPost from "@/app/_components/common/address";
-import Modal from "@/app/_components/common/Modal";
-import Input from "@/app/_components/common/Input";
-
-interface Props {
-  areaAddress: string;
-  townAddress: string;
-}
 
 export default function CalendarSideBar() {
   const [fetchFarmList, setFetchFarmList] = useState<fetchFarmListType[]>();
-  const [addressObj, setAddressObj] = useState<Props>({
-    areaAddress: "",
-    townAddress: "",
-  });
-  const totalPrice = 1000;
+
+  // localStorage에서 accessToken 받는 방법
+  let memberId = 0;
+  const ls = window.localStorage.getItem("userInfo");
+  if (ls) {
+    const lsInfo = JSON.parse(ls);
+    memberId = lsInfo.state.userInfo.memberId;
+  }
+
   const fetchData = async () => {
     // userId 입력 받기
-    fetchFieldData(9).then((res) => setFetchFarmList(res.data.fields));
+    fetchFieldData(Number(memberId)).then(
+      (res: { data: { fields: fetchFarmListType[] } }) =>
+        setFetchFarmList(res.data.fields)
+    );
   };
 
   const router = useRouter();
@@ -53,6 +51,16 @@ export default function CalendarSideBar() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const deleteFunction = async (userId: number, fieldId: number) => {
+    const result = await deleteFieldData(userId, fieldId);
+    if (result?.success) {
+      alert("삭제 성공");
+      window.location.reload();
+    } else {
+      alert("삭제 실패. 다시 시도해주세요");
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between mt-10 h-full">
@@ -111,11 +119,17 @@ export default function CalendarSideBar() {
                 {item.title}
               </div>
             </div>
-            <CiTrash className="h-7 w-7 cursor-pointer" onClick={() => {}} />
+            <CiTrash
+              className="h-7 w-7 cursor-pointer"
+              onClick={() => {
+                deleteFunction(Number(memberId), item.fieldId);
+              }}
+            />
           </div>
         ))}
       </div>
-      <div className="flex place-content-center cursor-pointer">
+      {/* 추후 추가 예정 (센서 구매 페이지) */}
+      {/* <div className="flex place-content-center cursor-pointer">
         <Modal
           Titlebottom={""}
           subTitlecss={"text-base font-bold"}
@@ -193,7 +207,7 @@ export default function CalendarSideBar() {
           }
           next={"확인"}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

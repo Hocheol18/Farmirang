@@ -18,7 +18,12 @@ const MONTH_NAMES = [
 ];
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-const DatePicker = () => {
+interface Props {
+  parentData: string;
+  setParentData: (parentData: string) => void;
+}
+
+const DatePicker = ({ parentData, setParentData }: Props) => {
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [datepickerValue, setDatepickerValue] = useState("");
   const [month, setMonth] = useState(new Date().getMonth());
@@ -59,6 +64,8 @@ const DatePicker = () => {
 
   const getDateValue = (date: number) => {
     const selectedDate = new Date(year, month, date);
+    const isoString = selectedDate.toISOString();
+    setParentData(isoString);
     setDatepickerValue(dateToStr(selectedDate));
     setShowDatepicker(false);
   };
@@ -101,10 +108,7 @@ const DatePicker = () => {
           </div>
 
           {showDatepicker && (
-            <div
-              className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400"
-              
-            >
+            <div className="bg-white-100 mt-12 rounded-lg shadow p-4 absolute top-0 left w-full border border-gray-400">
               <div className="flex justify-between items-center mb-2 ml-4">
                 <div>
                   <span className="text-lg font-bold text-black-100">
