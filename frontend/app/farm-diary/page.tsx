@@ -2,25 +2,27 @@
 
 import { fetchFieldData } from "@/api/farm-field";
 import { fetchFarmListType } from "@/type/farm-field";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import DiaryPage from "./[diaryid]/page";
 import { useRouter } from "next/navigation";
+import Spinner from "../_components/common/Spinner";
 
 export default function Diary() {
   const [isTrue, setIsTrue] = useState<boolean>(true);
-  const router = useRouter()
+  const router = useRouter();
   let memberId = "";
-  const ls = window.localStorage.getItem("userInfo");
-  if (ls) {
-    const lsInfo = JSON.parse(ls);
-    memberId = lsInfo.state.userInfo.memberId;
+
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      memberId = lsInfo.state.userInfo.memberId;
+    }
   }
 
   const fetchDataBoolean = (res: { data: { fields: fetchFarmListType[] } }) => {
     if (res.data.fields) {
       setIsTrue(true);
-      router.push(`/farm-diary/${res.data.fields[0].fieldId}`)
+      router.push(`/farm-diary/${res.data.fields[0].fieldId}`);
     } else {
       setIsTrue(false);
     }
@@ -30,16 +32,25 @@ export default function Diary() {
     fetchFieldData(Number(memberId)).then((res) => fetchDataBoolean(res));
   }, [memberId]);
 
-
   return (
     <>
-      {isTrue ? (
-        <>
-          <div className="h-full my-auto">
-            
+      <div className="h-full flex items-center justify-center">
+        {isTrue ? (
+          <>
+            <Spinner />
+          </>
+        ) : (
+          <div className="h-full flex flex-col justify-center text-h4">
+            등록된 밭이 없습니다. 밭을 등록해주세요
+            <div
+              className="flex justify-center px-4 border border-green-400 w-[13rem] h-[4rem] rounded-xl mt-6 mx-auto hover:bg-green-400 hover:text-white-100"
+              onClick={() => router.push("/farm-enroll")}
+            >
+              <div className="my-auto">밭 추가하기</div>
+            </div>
           </div>
-        </>
-      ) : null}
+        )}
+      </div>
     </>
   );
 }

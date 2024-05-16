@@ -7,14 +7,9 @@ import SelectMenu from "../_components/common/SelectMenus";
 import DaumPost from "../_components/common/address";
 import { useEffect, useState } from "react";
 import Button from "../_components/common/Button";
-import {
-  fetchDesignDataType,
-  fetchFarmListType,
-  postFieldType,
-} from "@/type/farm-field";
+import { fetchDesignDataType, postFieldType } from "@/type/farm-field";
 import Editor from "../_components/common/Editor";
 import { fetchDesignData, postField } from "@/api/farm-field";
-import { useUserStore } from "../_stores/userStore";
 
 interface Props {
   areaAddress: string;
@@ -22,15 +17,17 @@ interface Props {
 }
 
 export default function FarmEnroll() {
-  
   // localStorage에서 accessToken 받는 방법
-  let accessToken = ""
-  const ls = window.localStorage.getItem("userInfo");
-  if (ls) {
-    const lsInfo = JSON.parse(ls);
-    accessToken = lsInfo.state.userInfo.accessToken;
+  let accessToken = "";
+
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+    }
   }
-  
+
   //
   const router = useRouter();
   const [fetchDesignList, setFetchDesignList] =
