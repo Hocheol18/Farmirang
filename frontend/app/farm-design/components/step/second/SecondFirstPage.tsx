@@ -27,25 +27,6 @@ const SecondFirstPage = ({
   userAccessToken,
   fieldDesignId,
 }: Props) => {
-  const cropsName: string[] = [
-    "감자",
-    "고구마",
-    "청양고추",
-    "당근",
-    "딸기",
-    "땅콩",
-    "방울토마토",
-    "부추",
-    "블루베리",
-    "상추",
-    "생강",
-    "양파",
-    "열무",
-    "오이",
-    "옥수수",
-    "참외",
-  ];
-
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<Crops[]>([]);
 
@@ -96,12 +77,13 @@ const SecondFirstPage = ({
   }, []);
 
   //   작물 컴포넌트 클릭시 isClick 변환
-  const handleClick = (id: number) => {
+  const handleClick = (index: number) => {
     setCropsList((prevCropsList) => {
+      console.log(prevCropsList);
       const updatedCropsList = [...prevCropsList];
-      updatedCropsList[id - 1] = {
-        ...updatedCropsList[id - 1],
-        isClick: !updatedCropsList[id - 1].isClick,
+      updatedCropsList[index] = {
+        ...updatedCropsList[index],
+        isClick: !updatedCropsList[index].isClick,
       };
       return updatedCropsList;
     });
@@ -129,6 +111,7 @@ const SecondFirstPage = ({
             <CropsBox
               key={index}
               id={crops.id}
+              index={index}
               name={crops.name}
               isClick={crops.isClick}
               isRecommend={crops.isRecommend}

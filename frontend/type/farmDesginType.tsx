@@ -23,13 +23,12 @@ export interface createFieldResponse {
   farm: boolean[][];
 }
 
-export interface getCropInfoParams {
+export interface getDesignIdParams {
   accessToken: string;
   designId: number;
 }
 
 // 2단계 - 작물 정보 조회 GET Response
-
 export interface CropLengthAndAreaDto {
   cropHeight: number;
   cropWidth: number;
@@ -49,3 +48,5 @@ export interface getCropInfoResponse {
   ridgeWidth: number;
   ridgeHeight: number;
 }
+
+// 3단계 - 커스텀용 조회 GET
