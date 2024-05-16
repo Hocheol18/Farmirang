@@ -1,17 +1,17 @@
 package com.cg.farmirang.donation.feature.donation.repository;
 
 import static com.cg.farmirang.donation.feature.donation.entity.QDonor.*;
+import static com.cg.farmirang.donation.feature.donation.entity.QDonationBoard.*;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.cg.farmirang.donation.feature.donation.dto.request.ApproveDonorRequestDto;
 import com.cg.farmirang.donation.feature.donation.dto.request.GetDonorListServiceRequestDto;
-import com.cg.farmirang.donation.feature.donation.dto.response.ApproveDonorResponseDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.DonorInfoDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.GetDonorListResponseDto;
+import com.cg.farmirang.donation.feature.donation.entity.Donor;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -53,23 +53,16 @@ public class DonorRepositoryCustomImpl implements DonorRepositoryCustom {
 			.donors(query)
 			.build();
 	}
-
 	@Override
-	public ApproveDonorResponseDto approveAll(Integer memberId, ApproveDonorRequestDto data) {
-		log.debug("DonorRepositoryCustomImpl approveAll");
-		ArrayList<Integer> result = new ArrayList<>();
-		for(var dto : data.data()) {
-			int id = dto.id();
-			var update = queryFactory.update(donor)
-				.set(donor.approval, dto.approval())
-				.where(donor.id.eq(id), donor.board.member.id.eq(memberId))
-				.execute();
-			if(update != 0) {
-				result.add(id);
-			}
-		}
-		return ApproveDonorResponseDto.builder()
-			.result(result)
-			.build();
+	public Optional<Donor> getDonorByBoardMemberId(Integer id, Integer memberId) {
+		log.debug("DonorRepositoryCustomImpl getDonorListByBoardMemberId: memberId: {}", memberId);
+		var res = queryFactory.select(donor)
+			.from(donor)
+			.innerJoin(donationBoard)
+			.on(donor.board.id.eq(donationBoard.id))
+			.where(donationBoard.member.id.eq(memberId).and(donor.id.eq(id)))
+			.fetchOne();
+
+		return Optional.ofNullable(res);
 	}
 }

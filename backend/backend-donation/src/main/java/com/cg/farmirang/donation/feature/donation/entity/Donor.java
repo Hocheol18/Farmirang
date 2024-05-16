@@ -2,6 +2,7 @@ package com.cg.farmirang.donation.feature.donation.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.cg.farmirang.donation.feature.farm.entity.Crop;
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicUpdate
 @Table(name = "donor", indexes = {
 	@Index(name = "idx_donor_donation_board_id", columnList = "donation_board_id"),
 	@Index(name = "idx_donor_member_id", columnList = "member_id"),
@@ -65,5 +67,11 @@ public class Donor {
 
 	@Column(name = "confirm_img", nullable = false)
 	private String confirmImg;
+
+
+	public Integer updateApproval(Boolean approval) {
+		this.approval = approval;
+		return this.id;
+	}
 
 }

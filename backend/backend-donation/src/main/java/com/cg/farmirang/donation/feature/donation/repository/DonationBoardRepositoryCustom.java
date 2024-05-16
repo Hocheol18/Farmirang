@@ -5,4 +5,5 @@ import com.cg.farmirang.donation.feature.donation.dto.response.GetDonationListRe
 
 public interface DonationBoardRepositoryCustom {
 	GetDonationListResponseDto getList(GetDonationListServiceRequestDto dto);
+	Integer updateProgress(Integer boardId, Double progress);
 }

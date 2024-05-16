@@ -89,6 +89,8 @@ public enum ErrorCode {
     // board error
     NOT_FOUND_POST_ERROR(404, "B017", "Not Found Post Exception"),
     NOT_FOUND_COMMENT_ERROR(404, "B018", "Not Found Comment Exception"),
+    INVALID_POST_ITEM_ADD_ERROR(400, "B019", "Invalid Post Item Add Exception"),
+    INVALID_POST_ITEM_SUBTRACT_ERROR(400, "B020", "Invalid Post Item Delete Exception"),
 
     ; // End
 

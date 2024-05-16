@@ -1,11 +1,13 @@
 package com.cg.farmirang.donation.feature.donation.repository;
 
-import com.cg.farmirang.donation.feature.donation.dto.request.ApproveDonorRequestDto;
+
+import java.util.Optional;
+
 import com.cg.farmirang.donation.feature.donation.dto.request.GetDonorListServiceRequestDto;
-import com.cg.farmirang.donation.feature.donation.dto.response.ApproveDonorResponseDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.GetDonorListResponseDto;
+import com.cg.farmirang.donation.feature.donation.entity.Donor;
 
 public interface DonorRepositoryCustom {
 	GetDonorListResponseDto getList(GetDonorListServiceRequestDto data);
-	ApproveDonorResponseDto approveAll(Integer memberId, ApproveDonorRequestDto data);
+	Optional<Donor> getDonorByBoardMemberId(Integer id, Integer memberId);
 }

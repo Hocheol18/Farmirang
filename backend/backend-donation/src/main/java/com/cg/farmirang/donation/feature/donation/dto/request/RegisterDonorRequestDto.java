@@ -14,10 +14,6 @@ public record RegisterDonorRequestDto(
 	@JsonProperty("board_id")
 	Integer boardId,
 	@NotNull
-	@Schema(description = "후원자 번호")
-	@JsonProperty("member_id")
-	Integer memberId,
-	@NotNull
 	@Schema(description = "농작물 번호")
 	@JsonProperty("crop_id")
 	Integer cropId,

@@ -1,12 +1,15 @@
 package com.cg.farmirang.donation.feature.donation.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.cg.farmirang.donation.feature.donation.entity.DonationState;
+import com.cg.farmirang.donation.feature.donation.repository.DonationItemInfoDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -56,6 +59,9 @@ public record GetDonationDetailResponseDto(
 	@Schema(description = "기부 현황")
 	Double progress,
 	@Schema(description = "기부글 요약")
-	String summary
+	String summary,
+	@NotEmpty
+	@Schema(description = "기부 작물 정보")
+	List<DonationItemInfoDto> items
 ) {
 }

@@ -1,5 +1,6 @@
 package com.cg.farmirang.donation.feature.donation.entity;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,8 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +28,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicUpdate
 @Table(name = "donation_item", indexes = {
 	@Index(name = "idx_donation_item_donation_board_id", columnList = "donation_board_id")
+}, uniqueConstraints = {
+	@UniqueConstraint(name = "uk_donation_item_donation_board_id_crop_id", columnNames = {"donation_board_id", "crop_id"})
 })
 public class DonationItem {
 	@Id
@@ -41,7 +45,7 @@ public class DonationItem {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private DonationBoard board;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "crop_id")
 	private Crop crop;
 
@@ -53,4 +57,5 @@ public class DonationItem {
 
 	@Column(name = "current_amount", nullable = false)
 	private Integer current = 0;
+
 }

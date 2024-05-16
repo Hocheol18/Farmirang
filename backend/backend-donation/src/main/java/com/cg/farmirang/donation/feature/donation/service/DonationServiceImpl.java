@@ -166,6 +166,10 @@ public class DonationServiceImpl implements DonationService {
 			return new BusinessExceptionHandler("글이 없습니다", ErrorCode.NOT_FOUND_POST_ERROR);
 		});
 
+		// get item entity list
+		var items = ir.findAllByBoardId(boardId);
+
+
 		// return dto created from entity
 		return GetDonationDetailResponseDto.builder()
 			.id(board.getId())
@@ -181,6 +185,7 @@ public class DonationServiceImpl implements DonationService {
 			.registerDate(board.getRegisterDate())
 			.progress(board.getProgress())
 			.summary(board.getSummary())
+			.items(items)
 			.build();
 	}
 }

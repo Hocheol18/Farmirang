@@ -88,7 +88,7 @@ public class DonationController {
 	 * 기부 신청글 목록 조회
 	 * */
 	@GetMapping
-
+	@Operation(summary = "기부 신청글 목록 조회", description = "cursor는 시작번호, size는 불러올 최대 개수, user는 사용자 id")
 	public ResponseEntity<SuccessResponse<GetDonationListResponseDto>> getDonationListController(
 		@RequestParam(value = "cursor", required = false) Integer cursor,
 		@RequestParam(value = "size", required = false) Integer size,
@@ -109,6 +109,7 @@ public class DonationController {
 	 * 기부 신청글 상세조회
 	 * */
 	@GetMapping("/{id}")
+	@Operation(summary = "기부 신청글 상세조회", description = "기부글 상세조회, id는 글 번호")
 	public ResponseEntity<SuccessResponse<GetDonationDetailResponseDto>> getDonationDetailController(
 		@PathVariable("id") Integer donationId
 	){

@@ -7,4 +7,5 @@ import com.cg.farmirang.donation.feature.donation.entity.DonationBoard;
 
 @Repository
 public interface DonationBoardRepository extends JpaRepository<DonationBoard, Integer>, DonationBoardRepositoryCustom{
+
 }

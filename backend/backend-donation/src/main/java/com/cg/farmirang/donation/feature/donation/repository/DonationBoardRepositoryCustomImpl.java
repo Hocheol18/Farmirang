@@ -12,6 +12,8 @@ import com.cg.farmirang.donation.feature.donation.dto.request.GetDonationListSer
 import com.cg.farmirang.donation.feature.donation.dto.response.DonationInfoDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.GetDonationListResponseDto;
 import com.cg.farmirang.donation.feature.donation.entity.DonationState;
+import com.cg.farmirang.donation.global.common.code.ErrorCode;
+import com.cg.farmirang.donation.global.exception.BusinessExceptionHandler;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -42,7 +44,7 @@ public class DonationBoardRepositoryCustomImpl implements DonationBoardRepositor
 				donationBoard.summary
 			))
 			.from(donationBoard)
-			.leftJoin(welfareFacility)
+			.innerJoin(welfareFacility)
 			.on(donationBoard.member.id.eq(welfareFacility.memberId));
 
 		// set query for user if user is not null
@@ -66,5 +68,16 @@ public class DonationBoardRepositoryCustomImpl implements DonationBoardRepositor
 			.cursor(cursor)
 			.posts(res)
 			.build();
+	}
+
+	@Override
+	public Integer updateProgress(Integer boardId, Double progress) {
+		log.debug("DonationBoardRepositoryCustomImpl updateProgress: boardId={}, progress={}", boardId, progress);
+		var res = queryFactory.update(donationBoard)
+			.set(donationBoard.progress, progress)
+			.where(donationBoard.id.eq(boardId))
+			.execute();
+		if (res == 0)  throw new BusinessExceptionHandler("기부 진행률 갱신 오류", ErrorCode.INTERNAL_SERVER_ERROR);
+		return boardId;
 	}
 }

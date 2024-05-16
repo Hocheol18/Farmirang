@@ -16,6 +16,7 @@ import com.cg.farmirang.donation.feature.donation.dto.response.DonorIdResponseDt
 import com.cg.farmirang.donation.feature.donation.dto.response.GetDonorListResponseDto;
 import com.cg.farmirang.donation.feature.donation.entity.Donor;
 import com.cg.farmirang.donation.feature.donation.repository.DonationBoardRepository;
+import com.cg.farmirang.donation.feature.donation.repository.DonationItemRepository;
 import com.cg.farmirang.donation.feature.donation.repository.DonorRepository;
 import com.cg.farmirang.donation.feature.farm.repository.CropRepository;
 import com.cg.farmirang.donation.feature.user.repository.MemberRepository;
@@ -32,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DonorServiceImpl implements DonorService {
 	private final DonorRepository repo;
 	private final DonationBoardRepository br;
+	private final DonationItemRepository ir;
 	private final MemberRepository mr;
 	private final CropRepository cr;
 	private final S3Service s3;
@@ -139,6 +141,19 @@ public class DonorServiceImpl implements DonorService {
 	@Transactional
 	public ApproveDonorResponseDto approveDonorService(Integer memberId, ApproveDonorRequestDto data) {
 		log.debug("DonorServiceImpl approveDonorService: memberId: {}", memberId);
-		return repo.approveAll(memberId, data);
+		var donor = repo.getDonorByBoardMemberId(data.id(), memberId).orElseThrow(() -> {
+			log.warn("DonorServiceImpl approveDonorService: donor not found");
+			return new BusinessExceptionHandler("기부글을 찾을 수 없습니다", ErrorCode.NOT_FOUND_POST_ERROR);
+		});
+		if(data.approval() == donor.getApproval()) return ApproveDonorResponseDto.builder().id(data.id()).build();
+		Double avg = null;
+		if(data.approval())  avg = ir.approveCurrentAndGetAverage(donor.getBoard().getId(), donor.getCrop().getId(), donor.getAmount());
+		else if (donor.getApproval() != null) avg = ir.rejectCurrentAndGetAverage(donor.getBoard().getId(), donor.getCrop().getId(), donor.getAmount());
+
+		if(avg != null) br.updateProgress(donor.getBoard().getId(), avg);
+
+		donor.updateApproval(data.approval());
+
+		return ApproveDonorResponseDto.builder().id(data.id()).build();
 	}
 }

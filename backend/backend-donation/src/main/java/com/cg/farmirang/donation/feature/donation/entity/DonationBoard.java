@@ -3,6 +3,7 @@ package com.cg.farmirang.donation.feature.donation.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.cg.farmirang.donation.feature.user.entity.Member;
@@ -31,6 +32,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicUpdate
 @Table(name = "donation_board", indexes = {
 	@Index(name = "idx_donation_board_member_id", columnList = "member_id")
 })
