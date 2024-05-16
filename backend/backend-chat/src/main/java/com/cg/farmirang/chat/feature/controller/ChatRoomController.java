@@ -3,7 +3,10 @@ package com.cg.farmirang.chat.feature.controller;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomListGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.request.ChatRoomCreateRequestDto;
+import com.cg.farmirang.chat.feature.entity.ChatMessage;
 import com.cg.farmirang.chat.feature.entity.ChatRoom;
+import com.cg.farmirang.chat.feature.repository.ChatMessageRepository;
+import com.cg.farmirang.chat.feature.service.ChatMessageService;
 import com.cg.farmirang.chat.feature.service.ChatRoomService;
 import com.cg.farmirang.chat.global.common.code.SuccessCode;
 import com.cg.farmirang.chat.global.common.response.ErrorResponse;
@@ -22,12 +25,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/chats")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
+    private final ChatMessageService chatMessageService;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
@@ -75,8 +81,10 @@ public class ChatRoomController {
     })
     public String selectChatRoom(@PathVariable("chatRoomId") String chatRoomId, Model model) {
         ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, 10);
+        List<ChatMessage> messages = chatMessageService.getMessages(chatRoomId);
         model.addAttribute("response", response);
-        return "/chat/roomdetail";
+        model.addAttribute("messages", messages);
+        return "chat/roomdetail";
     }
 
     // TODO : 채팅방 나가기

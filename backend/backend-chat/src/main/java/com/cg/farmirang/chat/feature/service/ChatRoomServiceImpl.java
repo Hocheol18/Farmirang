@@ -83,6 +83,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         String senderNickname = memberRepository.findNicknameByMemberId(memberId).orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.MEMBER_NOT_FOUND));
         Integer friendId = (memberId.equals(chatRoom.getFirstMemberId())) ? chatRoom.getSecondMemberId() : chatRoom.getFirstMemberId();
         String friendNickname = memberRepository.findNicknameByMemberId(friendId).orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.MEMBER_NOT_FOUND));
+
         return ChatRoomGetResponseDto.builder()
                 .chatRoomId(chatRoomId)
                 .friendNickname(friendNickname)
