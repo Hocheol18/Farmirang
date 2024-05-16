@@ -18,6 +18,7 @@ import ImageComponent from "@/app/_components/common/Image";
 import Editor from "@/app/_components/common/Editor";
 import Spinner from "@/app/_components/common/Spinner";
 import MyModal from "@/app/_components/common/Modal";
+import Modal from "@/app/_components/common/Modal";
 
 interface ApiResponse {
   data: fetchAutoDiaryDataType;
@@ -119,7 +120,7 @@ export default function CalendarDate() {
             {isTrue ? (
               <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
-                  <MyModal
+                  <Modal
                     buttonText={"나만의 일기 추가"}
                     buttonBgStyles={
                       "rounded-xl px-10 py-6 border border-black-100 shadow-sm hover:text-white-100 hover:bg-green-400 focus-visible:outline focus-visible:outline-2"
