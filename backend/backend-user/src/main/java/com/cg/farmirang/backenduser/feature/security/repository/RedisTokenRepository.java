@@ -7,4 +7,5 @@ import com.cg.farmirang.backenduser.feature.security.entity.RedisTokenEntity;
 
 @Repository
 public interface RedisTokenRepository extends CrudRepository<RedisTokenEntity, String> {
+	void deleteAllByMemberId(Integer memberId);
 }

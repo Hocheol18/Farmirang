@@ -2,6 +2,10 @@ package com.cg.farmirang.backenduser.feature.user.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cg.farmirang.backenduser.feature.user.dto.request.AdminUserListServiceRequestDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserDetailResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserIdResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserListResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoResponseDto;
@@ -18,5 +22,8 @@ public interface UserService {
 	UserUpdateImgResponseDto updateUserProfileImgService(Integer memberId, MultipartFile file);
 	UserAnotherInfoResponseDto userProfileService(Integer anotherMemberId);
 	UserIntegerResponseDto userBadgeService(Integer memberId);
+	AdminUserListResponseDto adminUserListService(AdminUserListServiceRequestDto dto);
+	AdminUserDetailResponseDto adminUserDetailService(Integer memberId);
+	AdminUserIdResponseDto adminUserWithdrawService(Integer memberId);
 
 }

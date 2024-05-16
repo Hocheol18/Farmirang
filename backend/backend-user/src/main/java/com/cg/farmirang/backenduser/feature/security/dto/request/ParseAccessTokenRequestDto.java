@@ -1,4 +1,4 @@
-package com.cg.farmirang.backenduser.feature.security.dto.response;
+package com.cg.farmirang.backenduser.feature.security.dto.request;
 
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,19 +11,19 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-@Schema(name = "JwtValidateTokenResponseDto", description = "JWT 토큰 조회 응답")
-public record JwtValidateTokenResponseDto(
+@Schema(name = "ParseAccessTokenRequestDto", description = "액세스 토큰 파싱")
+public record ParseAccessTokenRequestDto(
 	@NotNull
-	@Schema(description = "사용자 ID", example = "1")
-	@JsonProperty("member_id")
-	Integer memberId,
+	@Schema(description = "사용자 구분 번호", example = "1")
+	Integer id,
 	@NotNull
-	@Schema(description = "사용자 권한", example = "member")
+	@Schema(description = "사용자 권한", example = "MEMBER")
 	@Enumerated(EnumType.STRING)
 	MemberRole role,
 	@NotBlank
 	@Schema(description = "기기 구분 번호", example = "1234")
 	@JsonProperty("device_id")
 	String deviceId
+
 ) {
 }

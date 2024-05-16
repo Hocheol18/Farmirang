@@ -7,12 +7,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
 @Schema(name = "JwtCreateTokenRequestDto", description = "JWT 토큰 생성 요청")
 public record JwtCreateTokenRequestDto(
-	@NotBlank
+	@NotNull
 	@Schema(description = "사용자 ID", example = "1")
 	@JsonProperty("member_id")
 	Integer memberId,
@@ -23,7 +24,7 @@ public record JwtCreateTokenRequestDto(
 	@JsonProperty("profile_img")
 	@NotBlank
 	String profileImg,
-	@NotBlank
+	@NotNull
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
 	MemberRole role,

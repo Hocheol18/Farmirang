@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtCreateTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
+import com.cg.farmirang.backenduser.feature.security.dto.request.ParseAccessTokenRequestDto;
+import com.cg.farmirang.backenduser.feature.security.dto.request.ParseRefreshTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtCreateTokenResponseDto;
 import com.cg.farmirang.backenduser.feature.security.dto.response.JwtValidateTokenResponseDto;
@@ -17,6 +19,8 @@ import com.cg.farmirang.backenduser.feature.security.repository.RedisTokenReposi
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
 import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
 import com.cg.farmirang.backenduser.global.exception.BusinessExceptionHandler;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -79,15 +83,17 @@ public class JwtServiceImpl implements JwtService{
 		var accessToken = dto.accessToken();
 		if(!Objects.isNull(accessToken)) {
 			var split = accessToken.split(" ");
-			if(split.length != 2 || !split[0].equalsIgnoreCase("Bearer")) {
+			if(split.length != 2 || !split[0].equalsIgnoreCase("bearer")) {
 				throw new BusinessExceptionHandler("지원하지 않는 토큰 형식입니다.", ErrorCode.UNSUPPORTED_TOKEN_ERROR);
 			}
 			return validateAccessToken(split[1]);
 		}
 		// 액세스 토큰이 없는 경우 리프레시 토큰 검증
 		var refreshToken = dto.refreshToken();
-		var deviceId = dto.deviceId();
-		if(Objects.isNull(refreshToken) || Objects.isNull(deviceId)) {
+		var deviceId = parseClaims(refreshToken, ParseRefreshTokenRequestDto.class).deviceId();
+		log.debug("JWT-Service-validateToken-parse: {}", parseClaims(refreshToken, ParseRefreshTokenRequestDto.class));
+		log.debug("JWT-Service-validateToken-device_id: {}", deviceId);
+		if(Objects.isNull(deviceId)) {
 			log.error("JWT-Service-validateToken-NullTokenError");
 			throw new BusinessExceptionHandler("요청한 값이 없습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
 		}
@@ -107,10 +113,23 @@ public class JwtServiceImpl implements JwtService{
 	@Override
 	@Transactional
 	public JwtBooleanResponseDto revokeToken(JwtTokenRequestDto dto) {
-		var deviceId = dto.deviceId();
+		String deviceId = null;
+		if(dto.accessToken() == null || dto.accessToken().isBlank()){
+			if(dto.refreshToken() == null || dto.refreshToken().isBlank()) throw new BusinessExceptionHandler("토큰이 없습니다", ErrorCode.MISSING_REQUEST_PARAMETER_ERROR);
+			deviceId = parseClaims(dto.refreshToken(), ParseRefreshTokenRequestDto.class).deviceId();
+		} else {
+			deviceId = parseClaims(dto.accessToken(), ParseAccessTokenRequestDto.class).deviceId();
+		}
 		validateToken(dto);
 		redis.deleteById(deviceId);
 		return JwtBooleanResponseDto.builder().result(true).build();
+	}
+
+	@Override
+	public JwtBooleanResponseDto revokeAllByMemberId(Integer memberId) {
+		redis.deleteAllByMemberId(memberId);
+		return JwtBooleanResponseDto.builder().result(true).build();
+
 	}
 
 	/**
@@ -123,7 +142,8 @@ public class JwtServiceImpl implements JwtService{
 	public JwtCreateTokenResponseDto reissueToken(JwtTokenRequestDto dto) {
 		// validate token
 		var accessDto = JwtTokenRequestDto.builder().accessToken(dto.accessToken()).build();
-		var refreshDto = JwtTokenRequestDto.builder().refreshToken(dto.refreshToken()).deviceId(dto.deviceId()).build();
+		var deviceId = parseClaims(dto.refreshToken(), ParseRefreshTokenRequestDto.class).deviceId();
+		var refreshDto = JwtTokenRequestDto.builder().refreshToken(dto.refreshToken()).deviceId(deviceId).build();
 		validateToken(accessDto);
 		validateToken(refreshDto);
 		// parsing token to get member info
@@ -144,7 +164,7 @@ public class JwtServiceImpl implements JwtService{
 			.deviceId(claims.get("device_id", String.class))
 			.build());
 		// update redis
-		var entity = redis.findById(dto.deviceId()).orElse(null);
+		var entity = redis.findById(deviceId).orElse(null);
 		try {
 			entity.setRefreshToken(token.refreshToken());
 			redis.save(entity);
@@ -228,6 +248,16 @@ public class JwtServiceImpl implements JwtService{
 			log.error("JWT-Service-getClaims-RequiredTypeException", e);
 			throw new BusinessExceptionHandler("토큰 변환에 실패했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@Override
+	public <T> T parseClaims(String token, Class<T> classOfT) {
+		var split = token.split("\\.");
+		if(split.length != 3) throw new BusinessExceptionHandler("지원하지 않는 토큰 형식입니다.", ErrorCode.UNSUPPORTED_TOKEN_ERROR);
+		var payload = split[1];
+		var decoded = new String(java.util.Base64.getDecoder().decode(payload));
+		var gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+		return gson.fromJson(decoded, classOfT);
 	}
 
 	@Override

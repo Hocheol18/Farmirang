@@ -45,8 +45,6 @@ public class SecurityConfig {
 	private String loginResult;
 	@Value("${com.farmirang.user.login.location}")
 	private String loginLocation;
-	@Value("${com.farmirang.user.logout.location}")
-	private String logoutLocation;
 	@Value("${com.farmirang.user.login.redirect}")
 	private String loginRedirect;
 
@@ -84,17 +82,9 @@ public class SecurityConfig {
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler())
 		);
-		//TODO: 쿠버네티스에 올리면 session id를 찾지 못해 에러 발생할 수 있음. 그러면 그냥 controller에 옮겨서 구현하기
-		http.logout(
-			logout -> logout
-				.logoutUrl(logoutLocation)
-				.addLogoutHandler(logoutHandler())
-		);
 		return http.build();
 	}
 
-
-	@Bean
 	public LogoutHandler logoutHandler() {
 		var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 		return (req, res, auth) -> {
@@ -184,10 +174,7 @@ public class SecurityConfig {
 			// add device-id to cookie
 			var resCookie = new Cookie("device-id", devideId);
 			resCookie.setPath("/");
-			resCookie.setMaxAge(60 * 60 * 24 * 61);
-			// resCookie.setHttpOnly(true);
-			// resCookie.setSecure(true);
-			// resCookie.setAttribute("SameSite", "None");
+			resCookie.setMaxAge(60*2);
 			res.addCookie(resCookie);
 
 			res.addCookie(createCookie("access-token", token.accessToken()));

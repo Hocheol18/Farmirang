@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cg.farmirang.backenduser.feature.donation.repository.DonorRepository;
+import com.cg.farmirang.backenduser.feature.user.dto.request.AdminUserListServiceRequestDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserDetailResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserIdResponseDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserListResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserAnotherInfoResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserBooleanResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserInfoForLoginResponseDto;
@@ -40,6 +45,7 @@ public class UserServiceImpl implements UserService{
 
 	private final SocialLoginRepository socialRepo;
 	private final MemberRepository memberRepo;
+	private final DonorRepository donorRepo;
 	private final S3Service s3;
 
 	/**
@@ -82,13 +88,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public UserBooleanResponseDto withdrawService(Integer memberId) {
-		// find member
-		var socialLogin = socialRepo.findByMemberId(memberId).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
-		log.debug("UserService withdrawService: social_login: {}", socialLogin.getId());
+		log.debug("UserService withdrawService: member id: {}", memberId);
 		// delete social login info
-		socialRepo.delete(socialLogin);
+		socialRepo.deleteByMemberId(memberId);
 		// delete profile image
-		String filename = socialLogin.getMember().getProfileImg();
+		String filename = memberRepo.getProfileImg(memberId);
 		if(!filename.contains("default.png")) {
 			String key = filename.substring(filename.indexOf(s3Dir) + s3Dir.length() + 1);
 			if (s3.delete(key, s3Dir) >= 400) {
@@ -108,6 +112,7 @@ public class UserServiceImpl implements UserService{
 		// find member
 		var member = memberRepo.findByIdAndRoleNot(memberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
 		log.debug("UserService userInfoService: find member, member_id: {}", member.getId());
+		var badge = donorRepo.countDonorByMemberIdAndApproval(memberId, true);
 		// return the result
 		return UserInfoResponseDto.builder()
 			.memberId(member.getId())
@@ -115,7 +120,7 @@ public class UserServiceImpl implements UserService{
 			.profileImg(member.getProfileImg())
 			.role(member.getRole())
 			.joinDate(member.getJoinDate())
-			.badge(member.getBadge())
+			.badge(badge)
 			.build();
 	}
 
@@ -147,7 +152,7 @@ public class UserServiceImpl implements UserService{
 		if(file != null) {
 			String uuid = UUID.randomUUID().toString();
 			String key = s3.upload(file, s3Dir, uuid);
-			url = s3Url+"/"+s3Dir+"/"+key;
+			url = s3Url+"/"+key;
 			log.debug("UserService updateUserProfileImgService: upload image to s3, image key: {}", key);
 		}
 		// update profile image
@@ -158,8 +163,9 @@ public class UserServiceImpl implements UserService{
 	public UserAnotherInfoResponseDto userProfileService(Integer anotherMemberId) {
 		var member = memberRepo.findByIdAndRoleNot(anotherMemberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
 		log.debug("UserService userProfileService: find member, member_id: {}", member.getId());
+		var badge = donorRepo.countDonorByMemberIdAndApproval(anotherMemberId, true);
 		return UserAnotherInfoResponseDto.builder()
-			.badge(member.getBadge())
+			.badge(badge)
 			.nickname(member.getNickname())
 			.profileImg(member.getProfileImg())
 			.role(member.getRole())
@@ -168,8 +174,44 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserIntegerResponseDto userBadgeService(Integer memberId) {
+		log.debug("UserService userBadgeService: start find badge, member_id: {}", memberId);
+		var res = donorRepo.countDonorByMemberIdAndApproval(memberId, true);
+
+		return UserIntegerResponseDto.builder().result(res).build();
+	}
+
+	@Override
+	public AdminUserListResponseDto adminUserListService(AdminUserListServiceRequestDto dto) {
+		log.debug("UserService adminUserListService: start find list, cursor: {}, size: {}", dto.cursor(), dto.size());
+		return memberRepo.getUserListForAdmin(dto);
+	}
+
+	@Override
+	public AdminUserDetailResponseDto adminUserDetailService(Integer memberId) {
+		log.debug("UserService adminUserDetailService: start find detail, member_id: {}", memberId);
+		// get member info
 		var member = memberRepo.findByIdAndRoleNot(memberId, MemberRole.ANONYMOUS).orElseThrow(() -> new BusinessExceptionHandler("회원 정보가 없습니다.", ErrorCode.NOT_FOUND_ERROR));
-		log.debug("UserService userBadgeService: find member, member_id: {}", member.getId());
-		return UserIntegerResponseDto.builder().result(member.getBadge()).build();
+		// get social login info
+		var socialLogins = socialRepo.getSocialLoginInfoList(memberId);
+		// get badge info
+		var badge = donorRepo.countDonorByMemberIdAndApproval(memberId, true);
+		// return
+		return AdminUserDetailResponseDto.builder()
+			.id(member.getId())
+			.nickname(member.getNickname())
+			.profileImg(member.getProfileImg())
+			.role(member.getRole())
+			.joinDate(member.getJoinDate())
+			.badge(badge)
+			.socialLogins(socialLogins)
+			.build();
+	}
+
+	@Override
+	@Transactional
+	public AdminUserIdResponseDto adminUserWithdrawService(Integer memberId) {
+		log.debug("UserService adminUserWithdrawService: start withdrawal, member_id: {}", memberId);
+		withdrawService(memberId);
+		return AdminUserIdResponseDto.builder().id(memberId).build();
 	}
 }

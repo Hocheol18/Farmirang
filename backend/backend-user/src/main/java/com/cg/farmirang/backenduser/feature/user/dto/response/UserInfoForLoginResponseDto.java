@@ -7,16 +7,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
 @Schema(name = "UserInfoForLoginResponseDto", description = "사용자 고유번호 응답 DTO")
 public record UserInfoForLoginResponseDto(
-	@NotBlank
+	@NotNull
 	@Schema(description = "사용자 고유 번호", example = "1")
 	@JsonProperty("member_id")
 	Integer memberId,
-	@NotBlank
+	@NotNull
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
 	MemberRole role,

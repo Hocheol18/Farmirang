@@ -45,7 +45,7 @@ public class Member {
 	private MemberRole role;
 
 	@CreationTimestamp
-	@Column(name = "join_date", nullable = false)
+	@Column(name = "join_date", nullable = false, updatable = false)
 	private LocalDateTime joinDate;
 
 	@ColumnDefault("0")

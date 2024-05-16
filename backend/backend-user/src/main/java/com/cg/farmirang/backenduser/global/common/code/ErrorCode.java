@@ -80,6 +80,10 @@ public enum ErrorCode {
     S3_UPLOAD_ERROR(400, "B007", "S3 Upload Exception"),
     S3_DELETE_ERROR(400, "B008", "S3 Delete Exception"),
 
+    // 권한 에러
+    FORBIDDEN_AGENCY_ERROR(403, "B009", "Forbidden Agency Exception"),
+    FORBIDDEN_ADMIN_ERROR(403, "B010", "Forbidden Admin Exception"),
+
     ; // End
 
     /**

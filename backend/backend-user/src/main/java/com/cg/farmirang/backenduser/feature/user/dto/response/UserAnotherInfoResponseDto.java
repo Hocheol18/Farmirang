@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
@@ -19,12 +20,12 @@ public record UserAnotherInfoResponseDto(
 	@Schema(description = "사용자 프로필 이미지", example = "http://localhost/profile.jpg")
 	@JsonProperty("profile_img")
 	String profileImg,
-	@NotBlank
+	@NotNull
 	@Schema(description = "사용자 권한", example = "member")
 	@Enumerated(EnumType.STRING)
 	MemberRole role,
-	@NotBlank
+	@NotNull
 	@Schema(description = "뱃지", example = "0")
-	Integer badge
+	Long badge
 ) {
 }

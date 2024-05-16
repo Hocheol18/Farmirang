@@ -23,6 +23,9 @@ logging:
         security: DEBUG
         data:
           redis: DEBUG
+    com:
+      cg:
+        farmirang: DEBUG
 
 
 com:
@@ -31,8 +34,6 @@ com:
       login:
         location: /v1/security/oauth2/**
         redirect: /v1/security/code/**
-      logout:
-        location: /v1/security/logout
 
 
 

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.cg.farmirang.backenduser.feature.user.dto.request.AdminUserListServiceRequestDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserInfoDto;
+import com.cg.farmirang.backenduser.feature.user.dto.response.AdminUserListResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateImgResponseDto;
 import com.cg.farmirang.backenduser.feature.user.dto.response.UserUpdateNicknameResponseDto;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
@@ -82,6 +85,35 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 				member.profileImg
 			)).from(member)
 			.where(member.id.eq(memberId), member.role.ne(MemberRole.ANONYMOUS))
+			.fetchOne();
+	}
+
+	@Override
+	public AdminUserListResponseDto getUserListForAdmin(AdminUserListServiceRequestDto dto) {
+		log.debug("MemberRepositoryCustomImpl getUserListForAdmin: start get user list for admin");
+		var res = queryFactory.select(Projections.constructor(AdminUserInfoDto.class,
+			member.id,
+			member.nickname,
+			member.profileImg))
+			.from(member)
+			.offset(dto.cursor())
+			.limit(dto.size())
+			.orderBy(member.id.asc())
+			.fetch();
+
+		var cursor = res.isEmpty() ? dto.cursor() : res.get(res.size() - 1).id();
+		return AdminUserListResponseDto.builder()
+			.cursor(cursor)
+			.members(res)
+			.build();
+	}
+
+	@Override
+	public String getProfileImg(Integer memberId) {
+		log.debug("MemberRepositoryCustomImpl getProfileImg: start get profile image, memberId: {}", memberId);
+		return queryFactory.select(member.profileImg)
+			.from(member)
+			.where(member.id.eq(memberId))
 			.fetchOne();
 	}
 }
