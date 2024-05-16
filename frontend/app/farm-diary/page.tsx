@@ -1,102 +1,56 @@
 "use client";
 
-import Link from "next/link";
-import Modal from "../_components/common/Modal";
-import Input from "../_components/common/Input";
-import DaumPost from "../farm-enroll/component/address";
-import { useState } from "react";
-
-interface Props {
-  areaAddress: string;
-  townAddress: string;
-}
+import { fetchFieldData } from "@/api/farm-field";
+import { fetchFarmListType } from "@/type/farm-field";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Spinner from "../_components/common/Spinner";
 
 export default function Diary() {
-  const totalPrice = 1000;
+  const [isTrue, setIsTrue] = useState<boolean>(true);
+  const router = useRouter();
+  let memberId = "";
 
-  const [addressObj, setAddressObj] = useState<Props>({
-    areaAddress: "",
-    townAddress: "",
-  });
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      memberId = lsInfo.state.userInfo.memberId;
+    }
+  }
+
+  const fetchDataBoolean = (res: { data: { fields: fetchFarmListType[] } }) => {
+    if (res.data.fields) {
+      setIsTrue(true);
+      router.push(`/farm-diary/${res.data.fields[0].fieldId}`);
+    } else {
+      setIsTrue(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFieldData(Number(memberId)).then((res) => fetchDataBoolean(res));
+  }, [memberId]);
 
   return (
     <>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      <Link href={"/farm-diary/1"}>밭1</Link>
-      
-      {/*  */}
-      <Modal
-        subTitlecss={"text-base font-bold"}
-        Titlecss={"text-h3 font-extrabold"}
-        buttonText={"버튼"}
-        buttonBgStyles={"w-20 b-green-400"}
-        buttonTextStyles={"text-h4"}
-        Title="센서 구매"
-        subTitle="밭에 심을 센서를 구매하는 폼입니다"
-        contents={
+      <div className="h-full flex items-center justify-center">
+        {isTrue ? (
           <>
-            <Input
-              labelcss={"text-lg font-semibold"}
-              inputcss={"h-10 w-full"}
-              placeholder={"구매할 센서의 갯수를 적어주세요"}
-              type={"number"}
-              value={undefined}
-              topcss={"mt-10"}
-              labeltext={"센서갯수"}
-              onChange={() => {}}
-            />
-
-            <div className="block flex justify-end mt-6">
-              <DaumPost setAddressObj={setAddressObj} />
-            </div>
-
-            <div className="mt-4">
-              <div className="flex rounded-lg border border-green-300 w-full">
-                <input
-                  value={addressObj.areaAddress}
-                  onChange={() => {}}
-                  className="focus:outline-none focus:ring-green-400 focus:ring-1 h-10 ml-2 w-full"
-                  placeholder="주소 찾기를 눌러주세요"
-                />
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="flex rounded-lg border border-green-300 w-full mt-4">
-                <input
-                  value={addressObj.townAddress}
-                  onChange={() => {}}
-                  className="focus:outline-none focus:ring-green-400 focus:ring-1 h-10 ml-2 w-full"
-                  placeholder="주소 찾기를 눌러주세요"
-                />
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="flex rounded-lg border border-green-300 w-full mt-4">
-                <input
-                  type="text"
-                  onChange={() => {}}
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-black-100 placeholder:text-gary-500 focus:ring-1 h-10 focus:ring-green-400"
-                  placeholder="상세 주소를 입력해주세요"
-                />
-              </div>
-            </div>
-            <div className="mt-12">
-              <div className="text-lg font-semibold">총 가격</div>
-
-              <div className="relative mt-2">
-                <div className="flex rounded-lg border border-gray-300">
-                  <input
-                    disabled
-                    className={`h-10 rounded-lg focus:outline-none w-full focus:ring-green-400 focus:ring-1 ml-2 h-10`}
-                    value={totalPrice}
-                  />
-                </div>
-              </div>
-            </div>
+            <Spinner />
           </>
-        }
-      />
+        ) : (
+          <div className="h-full flex flex-col justify-center text-h4">
+            등록된 밭이 없습니다. 밭을 등록해주세요
+            <div
+              className="flex justify-center px-4 border border-green-400 w-[13rem] h-[4rem] rounded-xl mt-6 mx-auto hover:bg-green-400 hover:text-white-100"
+              onClick={() => router.push("/farm-enroll")}
+            >
+              <div className="my-auto">밭 추가하기</div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

@@ -1,9 +1,11 @@
 import Step from "./Step";
 import StepName from "./StepName";
 
-const Stepper = () => {
-  const nowStep: number = 1; // 현재 단계
+interface Props {
+  nowStep: number;
+}
 
+const Stepper = ({ nowStep }: Props) => {
   // 단계의 제목과 내용을 배열로 관리
   const stepsDetails = [
     { title: "1단계", content: "텃밭 모양과 이랑 넓이 입력하기" },

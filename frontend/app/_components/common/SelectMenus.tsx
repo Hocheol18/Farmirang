@@ -1,9 +1,8 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import EnrollSelectMenu from "@/type/type";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
@@ -12,11 +11,12 @@ function classNames(...classes: Array<string>) {
 interface Props {
   labelcss: string;
   topScript: string;
-  items: EnrollSelectMenu[];
+  items: any;
   bordercss: string;
   topcss?: string;
-  value: number;
   onChange: (value: any) => void;
+  value: number;
+  handleDirectionChange?: (parentValue: number) => void;
 }
 
 export default function SelectMenu({
@@ -25,11 +25,13 @@ export default function SelectMenu({
   labelcss,
   bordercss,
   topcss,
-  value,
   onChange,
+  value,
+  handleDirectionChange,
 }: Props) {
-  const handleChange = (selectedItem: EnrollSelectMenu) => {
+  const handleChange = (selectedItem: any) => {
     onChange(selectedItem.id);
+    handleDirectionChange?.(Number(selectedItem.designId));
   };
 
   return (
@@ -42,7 +44,7 @@ export default function SelectMenu({
               className={`relative w-full cursor-pointer rounded-lg bg-white-100 py-1 pl-3 pr-10 text-left text-black-100 shadow-sm ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 border ${bordercss}`}
             >
               <span className="flex items-center">
-                <span className="ml-3 block truncate">
+                <span className="ml-1 block truncate text-h6">
                   {items[value - 1].name}
                 </span>
               </span>
@@ -62,13 +64,13 @@ export default function SelectMenu({
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white-100 py-1 text-base shadow-lg border border-gray-300 ring-opacity-5 focus:outline-none sm:text-sm">
-                {items.map((item) => (
+                {items.map((item: any, idx: number) => (
                   <Listbox.Option
-                    key={item.id}
+                    key={idx}
                     className={({ active }) =>
                       classNames(
                         active ? "bg-green-200 text-white" : "text-black-100",
-                        "relative cursor-pointer select-none py-2 pl-3 pr-9"
+                        "relative cursor-pointer select-none py-2 pl-3 pr-9 text-lg"
                       )
                     }
                     value={item}

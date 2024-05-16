@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# frontend 초기 설정
 
-## Getting Started
+Next,js 14 + Typescript
 
-First, run the development server:
+# Fetch API의 예시 코드
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### GET
+
+```
+fetch(url, { cache: 'no-store' })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .then(data => {
+    // 데이터 처리
+  })
+  .catch(error => {
+    // 오류 처리
+  });
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### POST
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  cache : 'no-store'
+  body: JSON.stringify(data)
+})
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .then(data => {
+    // 응답 데이터 처리
+  })
+  .catch(error => {
+    // 오류 처리
+  });
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### PUT
 
-## Learn More
+```
+fetch(url, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  cache : 'no-store'
+  body: JSON.stringify(data)
+})
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .then(data => {
+    // 응답 데이터 처리
+  })
+  .catch(error => {
+    // 오류 처리
+  });
+```
 
-To learn more about Next.js, take a look at the following resources:
+### DELETE
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+const url = 'https://api.example.com/resource/123'; // DELETE 요청을 보낼 대상 URL
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+fetch(url, {
+  method: 'DELETE',
+  cache : 'no-store'
+})
+  .then(response => {
+    if (response.ok) {
+      console.log('Resource deleted successfully.');
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .catch(error => {
+    // 오류 처리
+    console.error('Error:', error);
+  });
+```
