@@ -2,6 +2,7 @@ import {
   fetchDonationDataType,
   fetchDonationDataFunctionType,
   postDonationDataType,
+  fetchDonationDetailDataType,
 } from "@/type/donation";
 import { makeQuerystring } from "@/utils/ApiUtils";
 import { DONATION_URL } from "@/utils/ServerApi";
@@ -39,4 +40,14 @@ export const postDonationData = async ({
     },
     body: JSON.stringify({ data: inputData }),
   });
+};
+
+export const fetchDonationDetailData = async (
+  donationId: number
+): Promise<{ data: fetchDonationDetailDataType }> => {
+  const response = await fetch(`${DONATION_URL}/v1/donation/${donationId}`, {
+    method: "GET",
+    cache: "no-cache",
+  });
+  return await response.json();
 };

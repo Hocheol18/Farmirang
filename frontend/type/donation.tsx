@@ -23,3 +23,26 @@ export interface postDonationDataType {
   content: string;
   summary: string;
 }
+
+export interface fetchDonationDetailDataType {
+  member_id: number;
+  header_img: string;
+  main_img: string;
+  start_date: string;
+  end_date: string;
+  delivery_address: string;
+  register_date: string;
+  id: number;
+  title: string;
+  content: string;
+  state: string;
+  progress: number;
+  summary: string;
+  items: Array<{
+    crop_id: number;
+    id: number;
+    amount: number;
+    unit: string;
+    current: number;
+  }>;
+}

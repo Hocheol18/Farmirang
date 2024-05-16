@@ -1,5 +1,4 @@
 import Card from "./component/Card";
-import Spinner from "../_components/common/Spinner";
 import AosComponent from "./component/AosComponent";
 import { fetchDonationData } from "@/api/farm-donation";
 import { fetchDonationDataType } from "@/type/donation";
