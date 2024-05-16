@@ -20,9 +20,7 @@ export default function RootLayout({
         <Script strategy="beforeInteractive" src={process.env.API_URL} />
         <div className="flex flex-col h-full">
           <NavBar />
-
           <div className="pt-[5rem] h-full">{children}</div>
-
           <ChatButton />
         </div>
       </body>

@@ -1,13 +1,13 @@
-
 import Card from "./component/Card";
 import { BASE_URL } from "@/utils/ServerApi";
 import Spinner from "../_components/common/Spinner";
 import AosComponent from "./component/AosComponent";
+import Posts from "../farm-diary/[diaryid]/page";
 
 // 데이터 가져오기
 const fetchDatas = async () => {
   const response = await fetch(`${BASE_URL}/api/v1/field/1`, {
-    cache: "no-store",
+    cache: "no-store", // 매 요청마다 패치됨
     method: "GET",
   });
 
@@ -95,7 +95,8 @@ export default async function Donation() {
   
   return (
     <>
-      {JSON.stringify(res.data.fields)}
+      {JSON.stringify(res)}
+     
       <Display />
     </>
   );

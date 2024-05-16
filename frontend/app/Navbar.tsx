@@ -1,27 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "./_stores/userStore";
+import Logo from "../public/main/NavLogo3.png";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
-  const { userInfo, resetAuth } = useUserStore();
-  // const userInfo = useUserStore((state) => state.userInfo);
-  // console.log(userInfo);
+  const { userInfo, resetAuth, updateToken } = useUserStore();
   const router = useRouter();
-  // router
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "/farm-design", current: false },
     { name: "텃밭일기", href: "/farm-diary", current: false },
-    { name: "이웃이야기", href: "/board/neighbor", current: false },
+    // { name: "이웃이야기", href: "/board/neighbor", current: false },
     { name: "기부하기", href: "/donation", current: false },
   ]);
 
@@ -53,8 +51,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     const response = await fetch(
-      "http://localhost:8081/api/v1/security/logout",
-      // `${MEMBER_URL}/v1/security/logout`,
+      // "http://localhost:8081/api/v1/security/logout",
+      `${MEMBER_URL}/v1/security/logout`,
       {
         method: "DELETE",
         headers: {
@@ -70,22 +68,65 @@ export default function Navbar() {
     }
   };
 
+  const reissueToken = async (accessToken: string, refreshToken: string) => {
+    try {
+      const response = await fetch(`${MEMBER_URL}/v1/security/token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          refresh_token: refreshToken,
+          grant_type: "refresh_token",
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("토큰 재발급 요청이 실패했습니다.");
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+
+      const tokenData = {
+        accessToken: responseData.accessToken,
+        refreshToken: responseData.refreshToken,
+      };
+
+      updateToken(responseData.accessToken, responseData.refreshToken);
+      return responseData;
+    } catch (error) {
+      // 토큰 재발급 요청이 실패한 경우에 대한 에러 처리
+      console.error("토큰 재발급 요청 중 오류가 발생했습니다:", error);
+      throw error; // 예외를 다시 throw하여 호출자에게 전파
+    }
+  };
+
+  // 토큰 유효시간이 10분이기 때문에 8분마다 재요청을 하기로 함
+  const SILENT_REFRESH_TIME = 480000;
+  const interval = setInterval(async () => {
+    await reissueToken(userInfo.accessToken, userInfo.refreshToken);
+  }, SILENT_REFRESH_TIME);
+
   return (
     <>
       <div className="border-b bg-white-100 fixed z-10 w-full">
         <Disclosure>
           {() => (
             <>
-              <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="flex h-full items-center justify-between">
+              <div className="mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div
-                      className="flex-shrink-0 text-green-500 font-extrabold text-h4 font-tmoney cursor-pointer"
+                      className="flex-shrink-0 w-[86px] h-[55px] text-green-500 font-extrabold text-h4 font-tmoney cursor-pointer relative"
                       onClick={() => {
                         extraPageEvent("/");
                       }}
                     >
-                      팜이랑
+                      <Image
+                        src={Logo}
+                        alt="Logo"
+                        className="absolute w-full h-full z-20"
+                      />
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-32 flex items-baseline space-x-8">
@@ -116,13 +157,19 @@ export default function Navbar() {
                     <>
                       <div className="hidden md:block">
                         <div className="ml-6 flex items-center md:ml-6 space-x-2">
-                          <button
+                          {/* <button
                             type="button"
                             className="relative rounded-full p-1"
+                            onClick={() => {
+                              reissueToken(
+                                userInfo.accessToken,
+                                userInfo.refreshToken
+                              );
+                            }}
                           >
                             <span className="absolute -inset-1.5" />
                             <BellIcon className="h-8 w-8" aria-hidden="true" />
-                          </button>
+                          </button> */}
 
                           <Menu as="div" className="relative ml-6">
                             <Menu.Button

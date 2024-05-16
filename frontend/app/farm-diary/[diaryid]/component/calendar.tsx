@@ -1,343 +1,147 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import SunIcon from "../../../../public/icons/weather/Sun.svg";
-import RainIcon from "../../../../public/icons/weather/Rain.svg";
-import SnowIcon from "../../../../public/icons/weather/Snowman.svg";
-import { GiPlainCircle } from "react-icons/gi";
-import { GoChevronLeft } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
-import MyModal from "@/app/_components/common/Modal";
-import ImageComponent from "@/app/_components/common/Image";
-import Editor from "@/app/_components/common/Editor";
-
-const MONTH_NAMES = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-];
+import CalendarDateComponent from "./CalendarDateComponent";
+import { useEffect, useState } from "react";
+import { fetchCalendar } from "@/api/farm-diary";
+import React from "react";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Calendar() {
-  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
-  const [datepickerValue, setDatepickerValue] = useState("");
-  const [month, setMonth] = useState(new Date().getMonth());
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [noOfDays, setNoOfDays] = useState<Array<number>>([]);
-  const [blankDays, setBlankDays] = useState<Array<number>>([]);
-
-  const weatherList = {
-    sun: <Image src={SunIcon} width={30} height={30} alt="sun" />,
-    rain: <Image src={RainIcon} width={30} height={30} alt="rain" />,
-    snow: <Image src={SnowIcon} width={30} height={30} alt="snow" />,
+  const today = new Date();
+  const [year, setYear] = useState<number>(today.getFullYear());
+  const [month, setMonth] = useState<number>(today.getMonth() + 1);
+  const todayDay = today.getDate();
+  const todayMonth = today.getMonth() + 1;
+  const [calendarDate, setCalendarDate] = useState([]);
+  const { diaryid } = useParams<{ diaryid: string }>() as { diaryid: string };
+  const setData = (res: any) => {
+    setCalendarDate(res.data.result);
   };
 
-  const dateToStr = (date: any) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    return year + "년 " + month + "월 ";
-  };
-
-  const getDateValue = (date: number) => {
-    const selectedDate = new Date(year, month, date);
-    setDatepickerValue(dateToStr(selectedDate));
-    setShowDatepicker(false);
-  };
-
-  const isToday = (date: number) => {
-    const today = new Date();
-    const d = new Date(year, month, date);
-    return today.toDateString() === d.toDateString();
-  };
+  const router = useRouter();
 
   useEffect(() => {
-    function initDate() {
-      const today = new Date();
-      setDatepickerValue(dateToStr(today));
-    }
-
-    function getNoOfDays() {
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const dayOfWeek = new Date(year, month).getDay();
-      const blankdaysArray = Array.from({ length: dayOfWeek }, (_, i) => i);
-      const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-      setBlankDays(blankdaysArray);
-      setNoOfDays(daysArray);
-    }
-
-    initDate();
-    getNoOfDays();
-  }, [month, year]);
+    fetchCalendar({ fieldId: Number(diaryid), year: year, month: month })
+      .then(setData)
+      .catch(console.error);
+  }, [diaryid, year, month]);
 
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
         <header className="flex items-center justify-between border-b border-gray-300 px-6 py-4 lg:flex-none">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">
-            <time>
-              {year}년 {MONTH_NAMES[month]}월
-            </time>
-          </h1>
-          <div className="flex items-center">
-            <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-              <button
-                type="button"
-                disabled={month === 0}
-                onClick={() => setMonth(month - 1)}
-                className="flex h-9 w-12 items-center justify-center rounded-l-md border border-gray-300 pr-1 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
-              >
-                <GoChevronLeft />
-              </button>
-
-              <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden"></span>
-              <button
-                type="button"
-                disabled={month === 11}
-                onClick={() => setMonth(month + 1)}
-                className="flex h-9 w-12 items-center justify-center rounded-r-md border border-gray-300 pl-1 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
-              >
-                <GoChevronRight />
-              </button>
-            </div>
-            <div className="hidden md:ml-4 md:flex md:items-center">
-              {/* Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95" */}
-
-              <div className="ml-3 h-6 w-px bg-gray-400"></div>
-              <MyModal
-                buttonText={"일기 추가"}
-                buttonBgStyles={
-                  "ml-3 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:font-green-400 focus-visible:outline focus-visible:outline-2"
-                }
-                buttonTextStyles={""}
-                Title={"일기 추가"}
-                subTitle={""}
-                contents={
-                  <>
-                    <ImageComponent
-                      title={"일기 대표 사진"}
-                      titlecss={"font-bold text-h5"}
-                      topcss={"mt-[2rem] h-[20rem]"}
-                      topsecondcss={"w-full"}
-                      heightcss={"h-[18rem]"}
-                      handleEvent={() => {}}
-                    />
-                    <div className="font-bold text-h5 mt-10 mb-4">일지 쓰기</div>
-                    <Editor />
-                  </>
-                }
-                subTitlecss={""}
-                Titlecss={"font-bold text-h2"}
-                Modalcss={"w-5/6"}
-                Titlebottom={undefined}
-                next={"작성"}
-              />
-            </div>
-          </div>
+          <CalendarDateComponent
+            pastyear={year}
+            pastmonth={month}
+            pastsetYear={setYear}
+            pastsetMonth={setMonth}
+          />
         </header>
         <div className="lg:flex lg:flex-auto lg:flex-col">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-white-100 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>월요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>화요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>수요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>목요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>금요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>토요일</span>
             </div>
-            <div className="flex justify-center bg-white py-2 text-base">
+            <div className="flex justify-center bg-white py-2 text-lg">
               <span>일요일</span>
             </div>
           </div>
           <div className="flex bg-white-100 text-xs leading-6 text-gray-700 lg:flex-auto">
             <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2021-12-27 ">27</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2021-12-28">28</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2021-12-29">29</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2021-12-30">30</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2021-12-31">31</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <div className="group flex">
-                  <div className="flex-auto">1</div>
-                  <div className="flex-none">{weatherList.rain}</div>
-                </div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <div className="group flex">
-                  <div className="flex-auto">2</div>
-                  <div className="flex-none">{weatherList.sun}</div>
-                </div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-03">3</time>
-                <ol className="mt-2">
-                  <li>
-                    <a href="#" className="group flex">
-                      <div className="flex-auto truncate hover:text-green-400 text-s">
-                        새로운 알람이 있어요!
+              {calendarDate.map((item: any, idx: number) =>
+                item.map((items: any, idxes: number) => (
+                  <React.Fragment key={idx * 10 + idxes}>
+                    {items === null ? (
+                      <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-300"></div>
+                    ) : items.diaryId !== null &&
+                      Number(items.day) === todayDay &&
+                      month === todayMonth ? (
+                      <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-bold text-base text-white-100">
+                          {items.day}
+                        </div>
+                        <ol className="mt-8">
+                          <li>
+                            <div
+                              className="group flex flex-col justify-center cursor-pointer"
+                              onClick={() =>
+                                router.push(`${diaryid}/${items.diaryId}`)
+                              }
+                            >
+                              <div className="flex">
+                                <p className="flex-auto truncate font-extrabold text-gray-900 text-s">
+                                  일기 보기
+                                </p>
+                                <div className="place-content-center">
+                                  <GoChevronRight />
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ol>
                       </div>
-                      <div className="ml-3 flex-none place-content-center">
-                        <GiPlainCircle className="h-2 w-2 fill-red-500" />
+                    ) : items.diaryId !== null && items.day !== todayDay ? (
+                      <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full font-bold text-base">
+                          {items.day}
+                        </div>
+                        <ol className="mt-8">
+                          <li>
+                            <div
+                              className="group flex cursor-pointer flex-col justify-center"
+                              onClick={() =>
+                                router.push(`${diaryid}/${items.diaryId}`)
+                              }
+                            >
+                              <div className="flex">
+                                <p className="flex-auto truncate font-extrabold text-gray-900 text-l">
+                                  일기 보기
+                                </p>
+                                <div className="place-content-center">
+                                  <GoChevronRight />
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ol>
                       </div>
-                    </a>
-                  </li>
-                </ol>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <div className="text-s font-bold">4</div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <div className="text-s font-bold">5</div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <div className="text-s font-bold">6</div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <div>7</div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-08">8</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-09">9</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-10">10</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-11">11</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time
-                  dateTime="2022-01-12"
-                  className="flex h-6 w-6 items-center justify-center rounded-full bg-green-300 font-semibold text-white"
-                >
-                  12
-                </time>
-                <ol className="mt-2">
-                  <li>
-                    <a href="#" className="group flex">
-                      <p className="flex-auto truncate font-medium text-gray-900 text-s">
-                        일기 보기
-                      </p>
-                      <div className="place-content-center">
-                        <GoChevronRight />
+                    ) : Number(items.day) === todayDay &&
+                      month === todayMonth ? (
+                      <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
+                        <div className="group flex">
+                          <div className="flex h-8 w-8 font-bold text-base items-center justify-center rounded-full bg-green-300 text-white-100">
+                            {items.day}
+                          </div>
+                        </div>
                       </div>
-                    </a>
-                  </li>
-                </ol>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-13">13</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-14">14</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-15">15</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-16">16</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-17">17</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-18">18</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-19">19</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-20">20</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <time dateTime="2022-01-21">21</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300">
-                <div>22</div>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-23">23</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-24">24</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-25">25</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-26">26</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-27">27</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-28">28</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-29">29</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-30">30</time>
-              </div>
-              <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-01-31">31</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-02-01">1</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-02-02">2</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-02-03">3</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <div>4</div>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-02-05">5</time>
-              </div>
-              <div className="relative bg-gray-100 px-3 py-2 text-gray-500 border-b border-gray-300 border-r border-gray-200">
-                <time dateTime="2022-02-06">6</time>
-              </div>
+                    ) : (
+                      <div className="relative bg-white px-3 py-2 border-b border-gray-300 border-r border-gray-300 py-4 px-4">
+                        <div className="group flex">
+                          <div className="flex-auto font-bold text-base">
+                            {items.day}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))
+              )}
             </div>
             <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
               {/* <!--

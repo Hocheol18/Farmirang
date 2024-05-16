@@ -182,3 +182,85 @@ div#__next > div {
   background: rgba(56, 129, 64, 0.3);
   border-radius: 10px;
 }
+
+.cloud1 {
+  animation: cloudMove 10s linear infinite;
+}
+
+.cloud2 {
+  animation: cloudMove 8s linear infinite;
+  animation-delay: 1.2s;
+}
+
+.cloud3 {
+  animation: cloudMove 7s linear infinite;
+  animation-delay: 1.4s;
+}
+
+.cloud4 {
+  animation: cloudMove 6s linear infinite;
+  animation-delay: 1.6s;
+}
+
+.cloud5 {
+  animation: cloudMove 11s linear infinite;
+  animation-delay: 1s;
+}
+
+.sun {
+  animation: sunMove 5s linear infinite;
+}
+
+.light-effect {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.26);
+  border-radius: 50%;
+  box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.151);
+  animation: sunExpand 5s infinite ease-out forwards;
+}
+
+@keyframes sunExpand {
+  0% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(40);
+
+    opacity: 0;
+  }
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(-35%);
+  }
+
+  50% {
+    transform: translateX(0%);
+  }
+
+  75% {
+    transform: translateX(35%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes sunMove {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

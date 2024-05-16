@@ -16,14 +16,18 @@ interface Props {
   topcss: string;
   // 이미지 가로 길이 조정
   topsecondcss: string;
-  // 이미지 미리보기 변수
+  // 선택된 이미지 변수
   displayImage?: any;
-  // 이미지 미리보기 설정 변수
+  // 선택된 이미지 설정 변수
   setDisplayImage?: React.Dispatch<any>;
+  // 이미지 미리보기 변수
+  showImage?: any;
+  // 이미지 미리보기 설정 변수
+  setShowImage?: React.Dispatch<any>;
   // 이미지 높이
   heightcss: string;
-  // 함수 적용
-  handleEvent: () => void;
+  // // 함수 적용
+  handleEvent?: () => void;
 }
 
 export default function ImageComponent({
@@ -33,6 +37,8 @@ export default function ImageComponent({
   topsecondcss,
   displayImage,
   setDisplayImage,
+  showImage,
+  setShowImage,
   handleEvent,
   heightcss,
 }: Props) {
@@ -41,11 +47,11 @@ export default function ImageComponent({
   // 이미지 선택시 미리보기
   const handleImage = (file: File) => {
     setDisplayImage?.(file);
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //     setDisplayImage?.(reader.result);
-    // };
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setShowImage?.(reader.result);
+    };
   };
 
   return (
@@ -57,11 +63,11 @@ export default function ImageComponent({
             {displayImage && displayImage ? (
               <>
                 {/* NextJS 에서 Image 태그에서는 URL을 읽는것을 선호하지 않아서 발생한 밑줄 */}
-                {/* <img
-                    src={displayImage}
-                    alt=""
-                    style={{ width: "250px", aspectRatio: 1 }}
-                  /> */}
+                <img
+                  src={showImage}
+                  alt=""
+                  style={{ width: "250px", aspectRatio: 1 }}
+                />
               </>
             ) : (
               <>
@@ -69,12 +75,12 @@ export default function ImageComponent({
                   className="mx-auto h-12 w-12 text-gray-400"
                   aria-hidden="true"
                 />
-                <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                <div className="mt-4 flex leading-6 text-gray-600 justify-center">
                   <label
                     htmlFor="file-upload"
-                    className="relative cursor-pointer rounded-md bg-white font-semibold text-green-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                    className="relative cursor-pointer rounded-md bg-white text-green-400"
                   >
-                    <span>5MB이내</span>
+                    <span className="font-extrabold text-h6 mr-2">1MB이내</span>
                     <input
                       id="file-upload"
                       name="file-upload"
@@ -82,7 +88,9 @@ export default function ImageComponent({
                       className="sr-only"
                     />
                   </label>
-                  <p className="pl-1 text-gray-500">PNG, JPG, JPEG 파일</p>
+                  <p className="pl-1 text-gray-500 text-lg font-semibold">
+                    PNG, JPG, JPEG 파일
+                  </p>
                 </div>
               </>
             )}
