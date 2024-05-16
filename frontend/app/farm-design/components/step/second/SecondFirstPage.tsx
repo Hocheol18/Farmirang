@@ -14,6 +14,13 @@ interface Crops {
   cropHeight: number;
   cropWidth: number;
   area: number;
+  priority: number;
+  inputNumber: number | "";
+}
+
+interface Priority {
+  id: number;
+  name: string;
 }
 
 interface Props {
@@ -36,69 +43,166 @@ const SecondFirstPage = ({
   // totalRidgeArea: 심을 수 있는 밭의 전체 면적
   const [totalRidgeArea, setTotalRidgeArea] = useState<number>(0);
 
+  // currentRidgeArea: 전체 면적 - 각 작물의 갯수 x 각 작물의 면적
+  const [currentRidgeArea, setCurrentRidgeArea] = useState<number>(0);
+
   // ridgeWidth: 두둑 가로 (작물의 cropWidth랑 비교)
   const [ridgeWidth, setRidgeWidth] = useState<number>(0);
 
   // ridgeWidth: 두둑 세로 (작물의 cropHeight랑 비교)
   const [ridgeHeight, setRidgeHeight] = useState<number>(0);
 
-  // 처음 렌더링 할때 작물 배열에 넣기
-  useEffect(() => {
-    const fetchGetCropInfo = async () => {
-      if (fieldDesignId !== 0) {
-        const result: getCropInfoResponse = await getCropInfo({
-          accessToken: userAccessToken,
-          designId: fieldDesignId,
-        });
-
-        // 작물 목록 초기화
-        const initialCropsList: Crops[] = result.cropList.map(
-          (crop: CropInfo) => ({
-            id: crop.cropId,
-            name: crop.name,
-            isClick: false,
-            isRecommend: crop.isRecommended,
-            cropHeight: crop.cropLengthAndAreaDto.cropHeight,
-            cropWidth: crop.cropLengthAndAreaDto.cropWidth,
-            area: crop.cropLengthAndAreaDto.area,
-          })
-        );
-        setCropsList(initialCropsList);
-
-        // 밭의 면적, 두둑 가로, 두둑 세로 모두 업데이트
-        setTotalRidgeArea(result.totalRidgeArea);
-        setRidgeWidth(result.ridgeWidth);
-        setRidgeHeight(result.ridgeHeight);
-      }
-      //if 끝
-    };
-
-    fetchGetCropInfo();
-  }, []);
-
-  //   작물 컴포넌트 클릭시 isClick 변환
+  //   작물 컴포넌트 클릭시
   const handleClick = (index: number) => {
-    setCropsList((prevCropsList) => {
-      console.log(prevCropsList);
-      const updatedCropsList = [...prevCropsList];
-      updatedCropsList[index] = {
-        ...updatedCropsList[index],
-        isClick: !updatedCropsList[index].isClick,
-      };
-      return updatedCropsList;
-    });
-  };
+    if (
+      cropsList[index].cropWidth <= ridgeWidth &&
+      cropsList[index].cropHeight <= ridgeHeight
+    ) {
+      // isClick 변수 변경
+      setCropsList((prevCropsList) => {
+        console.log(prevCropsList);
+        const updatedCropsList = [...prevCropsList];
+        updatedCropsList[index] = {
+          ...updatedCropsList[index],
+          isClick: !updatedCropsList[index].isClick,
+          inputNumber: "", // 초기화
+        };
+        return updatedCropsList;
+      });
 
-  // 작물 배열이 변할 때마다 선택한 작물 배열 변함
-  useEffect(() => {
-    const updatedClickedCrops = cropsList.filter((crops) => crops.isClick);
-    setClickedCrops(updatedClickedCrops);
-  }, [cropsList]);
+      // 우선 순위 배열 객체 추가
+      const updatePriorityArr = priorityArr;
+
+      updatePriorityArr.push({
+        id: priorityArr.length + 1,
+        name: `${priorityArr.length + 1}`,
+      });
+
+      setPriorityArr(updatePriorityArr);
+    } else {
+      alert("이 작물을 두둑에 심기에는 너무 큽니다.");
+    }
+  };
 
   // 임시...함수
   const tmpHandleFunction = () => {
     handleCheck();
   };
+
+  // 우선 순위 배열
+  const [priorityArr, setPriorityArr] = useState<Priority[]>([]);
+
+  // 선택한 작물의 우선순위 변경 함수
+  const handlePriority = (cropId: number, priority: number) => {
+    setCropsList((prevCropsList) => {
+      const updatedCropsList = prevCropsList.map((crop) => {
+        if (crop.id === cropId) {
+          return {
+            ...crop,
+            priority: priority,
+          };
+        }
+        return crop;
+      });
+      return updatedCropsList;
+    });
+  };
+
+  // 선택한 작물의 개수 변경 함수
+  const handleChangeInput = (
+    cropId: number,
+    inputNumber: number | "",
+    area: number
+  ) => {
+    setCropsList((prevCropsList) => {
+      const updatedCropsList = prevCropsList.map((crop) => {
+        if (crop.id === cropId) {
+          let updatedInputNumber: number | "" = inputNumber;
+
+          if (inputNumber !== "") {
+            const parsedInputNumber = Number(inputNumber);
+            const remainingArea =
+              currentRidgeArea +
+              (crop.inputNumber ? crop.inputNumber * area : 0);
+            const possibleNumber = Math.floor(remainingArea / area);
+
+            if (parsedInputNumber > possibleNumber) {
+              updatedInputNumber = possibleNumber;
+            } else if (parsedInputNumber < 0) {
+              updatedInputNumber = 0;
+            } else {
+              updatedInputNumber = parsedInputNumber;
+            }
+          }
+
+          return {
+            ...crop,
+            inputNumber: updatedInputNumber,
+          };
+        }
+        return crop;
+      });
+      return updatedCropsList;
+    });
+
+    console.log(cropsList);
+  };
+
+  // 처음 렌더링 할때 작물 배열에 넣기
+  useEffect(() => {
+    const fetchGetCropInfo = async () => {
+      // if (fieldDesignId !== 0) {
+      const result: getCropInfoResponse = await getCropInfo({
+        accessToken: userAccessToken,
+        designId: fieldDesignId,
+      });
+
+      // 작물 목록 초기화
+      const initialCropsList: Crops[] = result.cropList.map(
+        (crop: CropInfo) => ({
+          id: crop.cropId,
+          name: crop.name,
+          isClick: false,
+          isRecommend: crop.isRecommended,
+          cropHeight: crop.cropLengthAndAreaDto.cropHeight,
+          cropWidth: crop.cropLengthAndAreaDto.cropWidth,
+          area: crop.cropLengthAndAreaDto.area,
+          priority: 1,
+          inputNumber: "",
+        })
+      );
+      setCropsList(initialCropsList);
+
+      // 밭의 면적, 두둑 가로, 두둑 세로 모두 업데이트
+      setTotalRidgeArea(result.totalRidgeArea);
+      setRidgeWidth(result.ridgeWidth);
+      setRidgeHeight(result.ridgeHeight);
+    };
+    //if 끝
+    // };
+
+    fetchGetCropInfo();
+  }, []);
+
+  useEffect(() => {
+    // 작물 배열이 변할 때마다 선택한 작물 배열 변함
+    const updatedClickedCrops = cropsList.filter((crops) => crops.isClick);
+    setClickedCrops(updatedClickedCrops);
+  }, [cropsList]);
+
+  useEffect(() => {
+    // 선택한 배열이 변할 때마다 현재 사용 가능한 면적 업데이트
+    let sum = 0;
+    clickedCrops.forEach((item, index) => {
+      if (item.inputNumber !== "") {
+        sum += item.inputNumber * item.area;
+      }
+    });
+
+    console.log("sum" + sum + " totalRidgeArea: " + totalRidgeArea);
+
+    setCurrentRidgeArea(totalRidgeArea - sum);
+  }, [clickedCrops]);
 
   return (
     <div className="gap-10 overflow-y-auto w-full h-full flex flex-col items-center">
@@ -129,7 +233,19 @@ const SecondFirstPage = ({
         {clickedCrops.length > 0 ? (
           <div className="grid grid-cols-2 w-[80%] gap-4">
             {clickedCrops.map((crops, index) => (
-              <CropsInput key={index} id={crops.id} name={crops.name} />
+              <CropsInput
+                key={index}
+                id={crops.id}
+                name={crops.name}
+                priorityArr={priorityArr}
+                priority={crops.priority}
+                onChange={(priority) => handlePriority(crops.id, priority)}
+                inputNumber={crops.inputNumber}
+                handleChangeInput={(inputNumber) =>
+                  handleChangeInput(crops.id, inputNumber, crops.area)
+                }
+                placeholder={Math.floor(currentRidgeArea / crops.area)}
+              />
             ))}
           </div>
         ) : (

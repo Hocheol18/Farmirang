@@ -31,7 +31,7 @@ export const CreateField = async (params: createFieldParams) => {
 // /api/v1/designs/{designId}/crops
 export const getCropInfo = async (params: getDesignIdParams) => {
   const { accessToken, designId } = params;
-  const response = await fetch(`${DESIGN_URL}/v1/designs/${designId}/crops`, {
+  const response = await fetch(`${DESIGN_URL}/v1/designs/54/crops`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
