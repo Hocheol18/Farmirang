@@ -52,7 +52,7 @@ public class DonationBoardRepositoryCustomImpl implements DonationBoardRepositor
 			query.where(donationBoard.member.id.eq(dto.memberId()));
 		}
 		else {
-			query.where(donationBoard.startDate.before(now));
+			query.where(donationBoard.startDate.before(now), donationBoard.endDate.after(now), donationBoard.state.eq(DonationState.DOING));
 		}
 
 		// set query for cusor, size
