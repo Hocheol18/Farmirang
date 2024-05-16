@@ -3,6 +3,8 @@ package com.cg.farmirang.chat.feature.controller;
 import com.cg.farmirang.chat.feature.dto.request.ChatRoomCreateRequestDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomListGetResponseDto;
+import com.cg.farmirang.chat.feature.entity.ChatMessage;
+import com.cg.farmirang.chat.feature.service.ChatMessageService;
 import com.cg.farmirang.chat.feature.service.ChatRoomService;
 import com.cg.farmirang.chat.global.common.code.SuccessCode;
 import com.cg.farmirang.chat.global.common.response.ErrorResponse;
@@ -20,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChatRoomRestController {
     private final ChatRoomService chatRoomService;
     private final JwtClient jwtClient;
+    private final ChatMessageService chatMessageService;
 
     /* 개인의 채팅방 목록 반환 */
     @GetMapping("/rooms/lists")
@@ -68,6 +73,8 @@ public class ChatRoomRestController {
     public SuccessResponse<?> selectChatRoom(@PathVariable("chatRoomId") String chatRoomId, @Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
         var result = jwtClient.validateAccessToken(accessToken);
         ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, result.memberId());
+        List<ChatMessage> messages = chatMessageService.getMessages(chatRoomId);
+        response.setChatMessages(messages);
         return SuccessResponse.builder().data(response).status(SuccessCode.SELECT_SUCCESS).build();
     }
 

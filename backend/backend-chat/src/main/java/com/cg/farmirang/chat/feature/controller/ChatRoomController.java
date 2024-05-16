@@ -3,10 +3,14 @@ package com.cg.farmirang.chat.feature.controller;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomListGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.request.ChatRoomCreateRequestDto;
+import com.cg.farmirang.chat.feature.entity.ChatMessage;
 import com.cg.farmirang.chat.feature.entity.ChatRoom;
+import com.cg.farmirang.chat.feature.repository.ChatMessageRepository;
+import com.cg.farmirang.chat.feature.service.ChatMessageService;
 import com.cg.farmirang.chat.feature.service.ChatRoomService;
 import com.cg.farmirang.chat.global.common.code.SuccessCode;
 import com.cg.farmirang.chat.global.common.response.ErrorResponse;
+import com.cg.farmirang.chat.global.common.response.JwtValidationResponseDto;
 import com.cg.farmirang.chat.global.common.response.SuccessResponse;
 import com.cg.farmirang.chat.global.common.service.JwtClient;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,12 +26,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/chats")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
+    private final ChatMessageService chatMessageService;
+    private final JwtClient jwtClient;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
@@ -43,8 +51,9 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public String room(Model model) {
-        ChatRoomListGetResponseDto response = chatRoomService.selectChatRoomList(10);
+    public String room(Model model, @Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
+        var result = jwtClient.validateAccessToken(accessToken);
+        ChatRoomListGetResponseDto response = chatRoomService.selectChatRoomList(result.memberId());
         model.addAttribute("response",response);
         return "/chat/roomlist";
     }
@@ -58,9 +67,10 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "404", description = "없는 회원입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public String createRoom(@RequestParam Integer memberId, Model model) {
+    public String createRoom(@RequestParam Integer memberId, Model model,@Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
+        var result = jwtClient.validateAccessToken(accessToken);
         ChatRoomCreateRequestDto request=ChatRoomCreateRequestDto.builder().memberId(memberId).build();
-        String chatRoomId = chatRoomService.createChatRoom(10, request);
+        String chatRoomId = chatRoomService.createChatRoom(result.memberId(), request);
         model.addAttribute("chatRoomId", chatRoomId);
         return "/chat/room";
     }
@@ -73,10 +83,13 @@ public class ChatRoomController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 문제입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public String selectChatRoom(@PathVariable("chatRoomId") String chatRoomId, Model model) {
-        ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, 10);
+    public String selectChatRoom(@PathVariable("chatRoomId") String chatRoomId, Model model, @Parameter(hidden = true) @RequestHeader("Authorization") String accessToken) {
+        var result = jwtClient.validateAccessToken(accessToken);
+        ChatRoomGetResponseDto response = chatRoomService.selectChatRoom(chatRoomId, result.memberId());
+        List<ChatMessage> messages = chatMessageService.getMessages(chatRoomId);
         model.addAttribute("response", response);
-        return "/chat/roomdetail";
+        model.addAttribute("messages", messages);
+        return "chat/roomdetail";
     }
 
     // TODO : 채팅방 나가기

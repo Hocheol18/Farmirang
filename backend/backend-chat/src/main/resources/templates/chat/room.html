@@ -63,8 +63,6 @@
 </div>
 <!--JavaScript-->
 <script>
-    // 페이지가 로드될 때 이벤트 리스너를 추가하는 함수
-    window.onload = function() {
         document.getElementById("submitBtn").addEventListener("click", function(event) {
             event.preventDefault(); // 폼 전송을 방지
             // 입력 받은 값들을 변수에 저장
@@ -80,6 +78,7 @@
             // 새로운 페이지로 이동
             window.location.href = "/chats/rooms/" + roomId;
         });
+
     }
 </script>
 
