@@ -13,7 +13,7 @@ import { useParams } from "next/navigation";
 import AutoDiary from "./AutoDiary";
 import MyDiary from "./MyDiary";
 import TemperatureComponent from "./TemperatureComponent";
-import MyModal from "@/app/_components/common/Modal";
+import MypageModal from "@/app/_components/common/MypageModal";
 import ImageComponent from "@/app/_components/common/Image";
 import Editor from "@/app/_components/common/Editor";
 
@@ -65,7 +65,7 @@ export default function CalendarDate() {
 
     if (response) {
       if (response.success) {
-        alert("업로드 성공")
+        alert("업로드 성공");
         window.location.reload();
       } else {
         alert("일지 작성에 오류가 발생했습니다. 다시 시도해주세요");
@@ -113,7 +113,7 @@ export default function CalendarDate() {
           {isTrue ? (
             <div className="h-full flex flex-col justify-center">
               <div className="flex justify-center">
-                <MyModal
+                <MypageModal
                   buttonText={"일기 추가"}
                   buttonBgStyles={
                     "rounded-xl px-10 py-6 border border-black-100 shadow-sm hover:bg-green-100 focus-visible:outline focus-visible:outline-2"
