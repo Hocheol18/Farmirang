@@ -33,6 +33,7 @@ export default function FarmEnroll() {
   const [fetchDesignList, setFetchDesignList] =
     useState<fetchDesignDataType[]>();
   const [parentData, setParentData] = useState<string>("");
+  const [farmDesignIndex, setFarmDesignIndex] = useState<number>(1);
 
   const setEditorData = (model: string) => {
     setTotalValue((prevValue: any) => ({
@@ -104,6 +105,17 @@ export default function FarmEnroll() {
     }));
   };
 
+  const dataWithId = fetchDesignList?.map(
+    (item: fetchDesignDataType, index: number) => ({
+      ...item,
+      id: index + 1,
+    })
+  );
+
+  useEffect(() => {
+    console.log(totalValue)
+  }, [totalValue])
+
   return (
     <>
       <div className="flex justify-center mt-20">
@@ -130,11 +142,15 @@ export default function FarmEnroll() {
               <div className="col-span-full mt-8">
                 {fetchDesignList ? (
                   <SelectMenu
-                    onChange={handleDirectionChange}
+                    handleDirectionChange={handleDirectionChange}
+                    onChange={(value: number) => {
+                      setFarmDesignIndex(value);
+                    }}
                     labelcss={"text-h5 font-bold text-black-100"}
                     topScript={"꾸민 텃밭 목록"}
-                    items={fetchDesignList}
+                    items={dataWithId}
                     bordercss="border-gray-400 h-[3rem]"
+                    value={farmDesignIndex}
                   />
                 ) : null}
               </div>
