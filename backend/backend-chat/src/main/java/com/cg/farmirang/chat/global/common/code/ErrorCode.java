@@ -105,7 +105,11 @@ public enum ErrorCode {
      * ================= Chat Error CodeList =================
      */
     // Chat Room Not Found
-    CHATROOM_NOT_FOUND(404, "C001", "채팅방이 없습니다."); // End
+    CHATROOM_NOT_FOUND(404, "C001", "채팅방이 없습니다."),
+    // Kafka 관련 오류
+    KAFKA_ERROR(500, "C002", "카프카 전송 과정에서 문제가 생겼습니다.")
+
+    ; // End
 
     /**
      * ******************************* Error Code Constructor ***************************************
