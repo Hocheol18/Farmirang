@@ -13,7 +13,7 @@ export default function AosComponent() {
     <>
       <div>
         <div
-          className="flex justify-center mt-32"
+          className="flex justify-center mt-20"
           data-aos="fade-up"
           data-aos-easing="ease-out"
           data-aos-duration="500"
@@ -29,8 +29,8 @@ export default function AosComponent() {
           className="text-h5 font-semibold flex justify-center"
           data-aos="fade-up"
           data-aos-easing="ease-out"
-          data-aos-duration="1000"
-          data-aos-delay="1000"
+          data-aos-duration="800"
+          data-aos-delay="1300"
         >
           봄, 여름, 가을, 그리고 겨울
         </div>
@@ -38,8 +38,8 @@ export default function AosComponent() {
           className="text-h5 font-semibold flex justify-center mb-8"
           data-aos="fade-up"
           data-aos-easing="ease-out"
-          data-aos-duration="1000"
-          data-aos-delay="2000"
+          data-aos-duration="800"
+          data-aos-delay="2100"
         >
           팜이랑은 가장 먼저 주변의 힘든 이웃을 도왔습니다.
         </div>

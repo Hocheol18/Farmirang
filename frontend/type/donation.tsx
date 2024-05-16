@@ -1,7 +1,6 @@
 export interface fetchDonationDataFunctionType {
   cursor: number;
   size: number;
-  user: number | null;
 }
 
 export interface fetchDonationDataType {
@@ -12,5 +11,15 @@ export interface fetchDonationDataType {
   title: string;
   name: string;
   progress: number;
+  summary: string;
+}
+
+export interface postDonationDataType {
+  address: string;
+  title: string;
+  crops: Array<{ id: number; amount: number; unit: string }>;
+  startDate: string;
+  endDate: string;
+  content: string;
   summary: string;
 }
