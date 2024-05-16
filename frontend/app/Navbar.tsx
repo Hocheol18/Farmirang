@@ -7,6 +7,7 @@ import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "./_stores/userStore";
+import Logo from "../public/main/NavLogo3.png";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
@@ -21,7 +22,7 @@ export default function Navbar() {
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "/farm-design", current: false },
     { name: "텃밭일기", href: "/farm-diary", current: false },
-    { name: "이웃이야기", href: "/board/neighbor", current: false },
+    // { name: "이웃이야기", href: "/board/neighbor", current: false },
     { name: "기부하기", href: "/donation", current: false },
   ]);
 
@@ -73,12 +74,16 @@ export default function Navbar() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div
-                      className="flex-shrink-0 text-green-500 font-extrabold text-h4 font-tmoney cursor-pointer"
+                      className="flex-shrink-0 w-[86px] h-[55px] text-green-500 font-extrabold text-h4 font-tmoney cursor-pointer relative"
                       onClick={() => {
                         extraPageEvent("/");
                       }}
                     >
-                      팜이랑
+                      <Image
+                        src={Logo}
+                        alt="Logo"
+                        className="absolute w-full h-full z-20"
+                      />
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-32 flex items-baseline space-x-8">
@@ -109,13 +114,13 @@ export default function Navbar() {
                     <>
                       <div className="hidden md:block">
                         <div className="ml-6 flex items-center md:ml-6 space-x-2">
-                          <button
+                          {/* <button
                             type="button"
                             className="relative rounded-full p-1"
                           >
                             <span className="absolute -inset-1.5" />
                             <BellIcon className="h-8 w-8" aria-hidden="true" />
-                          </button>
+                          </button> */}
 
                           <Menu as="div" className="relative ml-6">
                             <Menu.Button
