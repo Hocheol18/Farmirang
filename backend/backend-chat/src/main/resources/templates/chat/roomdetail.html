@@ -10,7 +10,7 @@
 <body>
 <h1>채팅방 상세내용</h1>
 <p>채팅방 ID : <span th:text="${response.chatRoomId}"></span></p>
-<p>상대방 : <span th:text="${response.nickname}"></span></p>
+<p>상대방 : <span th:text="${response.friendNickname}"></span></p>
 
 <!-- 채팅 입력 폼 -->
 <textarea id="chatInput" placeholder="메시지를 입력하세요"></textarea>
@@ -22,13 +22,16 @@
 <!-- STOMP 관련 스크립트 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var roomId = /*[[${response.chatRoomId}]]*/; // Thymeleaf 변수를 JavaScript 변수로 전환합니다.
+    var senderId = /*[[${response.senderId}]]*/; // 사용자 ID
+    var senderNickname = /*[[${response.senderNickname}]]*/;
+
     // STOMP 클라이언트 생성 및 연결
-    var socket = new SockJS('/v1/chat');
+    var socket = new SockJS('/ws');
     var stompClient = Stomp.over(socket);
-    const roomId=localStorage.getItem("roomId");
-    const senderId= localStorage.getItem("senderId"); // 사용자 ID
-    const senderNickname= localStorage.getItem("senderNickname");
 
     // 메시지 전송 버튼 클릭 이벤트 핸들러
     document.getElementById('sendButton').addEventListener('click', function() {
@@ -47,7 +50,6 @@
         }
     });
 
-
     // STOMP 구독 및 메시지 수신 처리
     stompClient.connect({}, function(frame) {
         stompClient.subscribe('/queue/chats/rooms/'+roomId, function(message) {
@@ -57,9 +59,7 @@
             document.getElementById('chatMessages').appendChild(chatElement);
         });
     });
-
-
-
+    /*]]>*/
 </script>
 </body>
 </html>

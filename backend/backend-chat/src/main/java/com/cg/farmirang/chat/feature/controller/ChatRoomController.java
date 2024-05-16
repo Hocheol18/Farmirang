@@ -79,4 +79,6 @@ public class ChatRoomController {
         return "/chat/roomdetail";
     }
 
+    // TODO : 채팅방 나가기
+
 }

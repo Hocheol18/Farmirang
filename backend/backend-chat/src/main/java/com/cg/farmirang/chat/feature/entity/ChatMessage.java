@@ -29,7 +29,7 @@ public class ChatMessage {
                 .senderId(chatMessageRequestDto.getSenderId())
                 .senderNickname(chatMessageRequestDto.getSenderNickname())
                 .message(chatMessageRequestDto.getMessage())
-                .sendTime(LocalDateTime.now())
+                .sendTime(chatMessageRequestDto.getSendTime())
                 .build();
     }
 }
