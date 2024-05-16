@@ -34,21 +34,13 @@ export default function ProfileCSR({
   role,
   profileImg,
 }: ProfileCSRProps) {
-  const tqtqtq = (event: any) => {
-    setNewNickname((prev: { value: string }) => ({
-      ...prev,
-      ["value"]: event?.target.value,
-    }));
-  };
   const { userInfo, updateImg } = useUserStore();
   const [userImage, setUserimage] = useState<string>(
     profileData?.profile_img || profileImg
   );
   const [selectImage, setSelectImage] = useState<any>();
   const [showImage, setShowImage] = useState<any>();
-  const [newNickname, setNewNickname] = useState<{ value: string }>({
-    value: "",
-  });
+  const [newNickname, setNewNickname] = useState<string>("");
 
   // 입력한 닉네임으로 백엔드 저장하는 로직
   const putNewNickname = async () => {
@@ -65,9 +57,9 @@ export default function ProfileCSR({
     }
   };
 
-  useEffect(() => {
-    console.log(newNickname);
-  }, [newNickname]);
+  // useEffect(() => {
+  //   console.log(newNickname);
+  // }, [newNickname]);
 
   // 고른 이미지로 백엔드 저장하는 로직
   const imageSelect = async () => {
@@ -129,6 +121,7 @@ export default function ProfileCSR({
               className="w-full h-full rounded-[90px/92.5px]"
               width={180}
               height={185}
+              loading="eager"
             />
           </div>
         </div>
@@ -189,19 +182,12 @@ export default function ProfileCSR({
                 inputcss={
                   "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
                 }
-                placeholder={""}
+                placeholder={"변경할 닉네임"}
                 type={"string"}
-                // name={""}
-                value={newNickname.value}
-                // onChange={(value) => setNewNickname(value)}
-                // 닉네임
-
-                // 닉네임:닉네임
-
-                // post (닉네임.value)
+                value={newNickname}
+                onChange={(value) => setNewNickname(value)}
                 topcss={"mt-10"}
                 labeltext={"변경할 이름을 작성해주세요"}
-                onChange={(event) => tqtqtq(event)}
               />
             }
             onSuccess={putNewNickname}
