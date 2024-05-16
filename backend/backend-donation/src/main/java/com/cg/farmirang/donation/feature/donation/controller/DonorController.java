@@ -105,7 +105,7 @@ public class DonorController {
 	 * 후원 승인/반려
 	 * */
 	@PutMapping
-	@Operation(summary = "후원 승인/반려", description = "후원댓글 승인/반려, 리스트 형식으로 여러 후원 댓글을 한번에 처리할 수 있습니다")
+	@Operation(summary = "후원 승인/반려", description = "후원댓글 승인/반려")
 	public ResponseEntity<SuccessResponse<ApproveDonorResponseDto>> approveDonorController(
 		@Parameter(hidden = true) @RequestHeader("Authorization") String accessToken,
 		@Valid @RequestBody ApproveDonorRequestDto data

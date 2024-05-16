@@ -58,4 +58,14 @@ public class DonationItemRepositoryCustomImpl implements DonationItemRepositoryC
 			.where(donationItem.board.id.eq(boardId))
 			.fetchOne();
 	}
+
+	@Override
+	public Boolean checkDonationComplete(Integer boardId) {
+		log.debug("DonationItemRepositoryCustomImpl checkDonationComplete, boardId: {}", boardId);
+		var res = queryFactory.select(donationItem.id.count())
+			.from(donationItem)
+			.where(donationItem.board.id.eq(boardId), donationItem.current.lt(donationItem.amount))
+			.fetchOne();
+		return res == null || res <= 0;
+	}
 }

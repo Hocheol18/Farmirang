@@ -14,6 +14,7 @@ import com.cg.farmirang.donation.feature.donation.dto.request.RegisterDonorReque
 import com.cg.farmirang.donation.feature.donation.dto.response.ApproveDonorResponseDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.DonorIdResponseDto;
 import com.cg.farmirang.donation.feature.donation.dto.response.GetDonorListResponseDto;
+import com.cg.farmirang.donation.feature.donation.entity.DonationState;
 import com.cg.farmirang.donation.feature.donation.entity.Donor;
 import com.cg.farmirang.donation.feature.donation.repository.DonationBoardRepository;
 import com.cg.farmirang.donation.feature.donation.repository.DonationItemRepository;
@@ -150,7 +151,12 @@ public class DonorServiceImpl implements DonorService {
 		if(data.approval())  avg = ir.approveCurrentAndGetAverage(donor.getBoard().getId(), donor.getCrop().getId(), donor.getAmount());
 		else if (donor.getApproval() != null) avg = ir.rejectCurrentAndGetAverage(donor.getBoard().getId(), donor.getCrop().getId(), donor.getAmount());
 
-		if(avg != null) br.updateProgress(donor.getBoard().getId(), avg);
+		if(avg != null) {
+			br.updateProgress(donor.getBoard().getId(), avg);
+			if(ir.checkDonationComplete(donor.getBoard().getId())) {
+				br.updateState(donor.getBoard().getId(), DonationState.DONE);
+			}
+		}
 
 		donor.updateApproval(data.approval());
 

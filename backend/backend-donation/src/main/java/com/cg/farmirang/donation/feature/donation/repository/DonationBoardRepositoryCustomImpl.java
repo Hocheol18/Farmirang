@@ -80,4 +80,14 @@ public class DonationBoardRepositoryCustomImpl implements DonationBoardRepositor
 		if (res == 0)  throw new BusinessExceptionHandler("기부 진행률 갱신 오류", ErrorCode.INTERNAL_SERVER_ERROR);
 		return boardId;
 	}
+
+	@Override
+	public Integer updateState(Integer boardId, DonationState state) {
+		log.debug("DonationBoardRepositoryCustomImpl updateState: boardId={}, state={}", boardId, state);
+		var res = queryFactory.update(donationBoard)
+			.set(donationBoard.state, state)
+			.where(donationBoard.id.eq(boardId))
+			.execute();
+		return boardId;
+	}
 }
