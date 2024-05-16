@@ -1,12 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Input from "../_components/common/Input";
 import DatePicker from "../_components/common/SelectDate";
 import SelectMenu from "../_components/common/SelectMenus";
 import DaumPost from "../_components/common/address";
 import { useEffect, useState } from "react";
 import Button from "../_components/common/Button";
-import { postFieldType } from "@/type/farm-field";
+import { fetchDesignDataType, postFieldType } from "@/type/farm-field";
+import Editor from "../_components/common/Editor";
+import { fetchDesignData, postField } from "@/api/farm-field";
 
 interface Props {
   areaAddress: string;
@@ -14,13 +17,36 @@ interface Props {
 }
 
 export default function FarmEnroll() {
-  const [farmDesign, setFarmDesign] = useState<number>(1);
+  // localStorage에서 accessToken 받는 방법
+  let accessToken = "";
+
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+    }
+  }
+
+  //
+  const router = useRouter();
+  const [fetchDesignList, setFetchDesignList] =
+    useState<fetchDesignDataType[]>();
+  const [parentData, setParentData] = useState<string>("");
+  const [farmDesignIndex, setFarmDesignIndex] = useState<number>(1);
+
+  const setEditorData = (model: string) => {
+    setTotalValue((prevValue: any) => ({
+      ...prevValue,
+      ["content"]: model,
+    }));
+  };
   const [totalValue, setTotalValue] = useState<postFieldType>({
     title: "",
     content: "",
     address: "",
     startAt: "",
-    user: 0,
+    user: 13,
     design: 0,
     iot: "string",
   });
@@ -34,24 +60,61 @@ export default function FarmEnroll() {
     }));
   };
 
+  const OnSubmit = async (data: postFieldType) => {
+    const response = await postField(data);
+    if (response.success) {
+      alert("밭 등록 성공");
+      router.push("/farm-diary");
+    } else {
+      alert("밭 등록 실패. 다시 시도해주세요");
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
-    console.log(totalValue);
-  }, [totalValue]);
-  // const [farmName, setFarmName] = useState<string>();
-  // const [cropName, setCropName] = useState<string>();
-  // const [IoTName, setIoTName] = useState<string>();
-  // const [startDate, setStartDate] = useState<string>();
-  // const [currentAddress, setCurrentAddress] = useState<string>();
-  // const [farmIntroduce, setFarmIntroduce] = useState<string>();
+    setTotalValue((prevValue: any) => ({
+      ...prevValue,
+      ["startAt"]: parentData,
+    }));
+  }, [parentData]);
+
+  useEffect(() => {
+    fetchDesignData(accessToken).then((res) =>
+      setFetchDesignList(res.data.designList)
+    );
+  }, [accessToken]);
 
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
     townAddress: "",
   });
 
-  const handleDirectionChange = (value: number) => {
-    setFarmDesign(value);
+  // 주소 데이터 입력 함수
+  useEffect(() => {
+    setTotalValue((prev: postFieldType) => ({
+      ...prev,
+      ["address"]: JSON.stringify(addressObj),
+    }));
+  }, [addressObj]);
+
+  // 디자인 번호 입력 함수
+  const handleDirectionChange = (parentValue: number) => {
+    setTotalValue((prev: postFieldType) => ({
+      ...prev,
+      ["design"]: parentValue,
+    }));
   };
+
+  const dataWithId = fetchDesignList?.map(
+    (item: fetchDesignDataType, index: number) => ({
+      ...item,
+      id: index + 1,
+    })
+  );
+
+  useEffect(() => {
+    console.log(totalValue)
+  }, [totalValue])
 
   return (
     <>
@@ -77,14 +140,19 @@ export default function FarmEnroll() {
                 />
               </div>
               <div className="col-span-full mt-8">
-                <SelectMenu
-                  value={farmDesign}
-                  onChange={handleDirectionChange}
-                  labelcss={"text-h5 font-bold text-black-100"}
-                  topScript={"꾸민 텃밭 목록"}
-                  items={[{ id: 0, name: "Hocheol" }]}
-                  bordercss="border-gray-400 h-[3rem]"
-                />
+                {fetchDesignList ? (
+                  <SelectMenu
+                    handleDirectionChange={handleDirectionChange}
+                    onChange={(value: number) => {
+                      setFarmDesignIndex(value);
+                    }}
+                    labelcss={"text-h5 font-bold text-black-100"}
+                    topScript={"꾸민 텃밭 목록"}
+                    items={dataWithId}
+                    bordercss="border-gray-400 h-[3rem]"
+                    value={farmDesignIndex}
+                  />
+                ) : null}
               </div>
 
               <div className="col-span-full mt-8">
@@ -96,10 +164,10 @@ export default function FarmEnroll() {
                     <div className="flex rounded-md border border-green-300 ">
                       <input
                         type={"text"}
-                        name={"IoT"}
-                        id={"IoT"}
+                        name={"iot"}
                         className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-base"
                         placeholder={"센서 UUID를 입력해주세요"}
+                        onChange={stringHandleEvent}
                       />
                     </div>
                   </div>
@@ -111,7 +179,10 @@ export default function FarmEnroll() {
                   경작 시작 시기
                 </div>
                 <div className="mt">
-                  <DatePicker />
+                  <DatePicker
+                    parentData={parentData}
+                    setParentData={setParentData}
+                  />
                 </div>
               </div>
 
@@ -156,28 +227,23 @@ export default function FarmEnroll() {
                   텃밭 소개
                 </div>
                 <div className="mt-2">
-                  <textarea
-                    id="about"
-                    name="about"
-                    rows={6}
-                    className="flex rounded-md border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 p-4"
-                    defaultValue={""}
-                  />
+                  <Editor setEditorData={setEditorData} />
                 </div>
+
                 <p className="mt-1 text-[0.8rem] leading-6 text-gray-400">
-                  텃밭을 설명할 글을 적어주세요
+                  텃밭을 설명할 글을 적어주세요 (선택 사항)
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-[10rem] pb-[10rem]">
+      <div className="flex justify-center mt-[7rem] pb-[7rem]">
         <Button
           text="확인"
           bgStyles="bg-green-400 w-32"
           textStyles="text-white-100"
-          handleClick={() => {}}
+          handleClick={() => OnSubmit(totalValue)}
         />
       </div>
       <div></div>

@@ -38,9 +38,10 @@ interface CropLength {
 
 interface Props {
   handleStep: (step: number) => void;
+  userAccessToken: string;
 }
 
-const ThirdPage = ({ handleStep }: Props) => {
+const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
   const cropsName: string[] = [
     "감자",
     "고구마",
@@ -489,7 +490,11 @@ const ThirdPage = ({ handleStep }: Props) => {
   return (
     <>
       {isSave ? (
-        <ShowStylePage handleStep={handleStep} step={3} />
+        <ShowStylePage
+          handleStep={handleStep}
+          step={3}
+          userAccessToken={userAccessToken}
+        />
       ) : (
         <div className="relative flex flex-col justify-between items-center w-[90%] h-[95%]">
           <TitleBox

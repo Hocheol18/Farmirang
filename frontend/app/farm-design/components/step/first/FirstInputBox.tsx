@@ -5,6 +5,8 @@ import Input from "@/app/_components/common/Input";
 import SelectMenu from "@/app/_components/common/SelectMenus";
 import { useEffect, useRef, useState } from "react";
 import FarmShapeDraw from "./FarmShapeDraw";
+import { CreateField } from "@/api/farm-design";
+import { createFieldResponse } from "@/type/farmDesginType";
 
 interface InputType {
   placeholder: string;
@@ -22,9 +24,21 @@ interface Point {
 
 interface Props {
   handleStep: (step: number) => void;
+  userAccessToken: string;
+  handleUpdateFieldDesignId: (newDesignId: number) => void;
+  handleUpdateFieldClickableArray: (
+    newFieldClickableArray: boolean[][]
+  ) => void;
+  handleUpdateFieldGridArray: (newFieldGridArray: number[][]) => void;
 }
 
-const FirstInputBox = ({ handleStep }: Props) => {
+const FirstInputBox = ({
+  handleStep,
+  userAccessToken,
+  handleUpdateFieldDesignId,
+  handleUpdateFieldClickableArray,
+  handleUpdateFieldGridArray,
+}: Props) => {
   const [farmArea, setFarmArea] = useState<number>(); //밭 넓이
   const [furrrowWidth, setFurrowWidth] = useState<number>(); //고랑 너비
   const [ridgeWidth, setRidgeWidth] = useState<number>(); //두둑 너비
@@ -104,16 +118,66 @@ const FirstInputBox = ({ handleStep }: Props) => {
     monthArr.push({ id: i, name: `${i}월` });
   }
 
-  // x, y 좌표
+  // 텃밭 모양 생성 api 연결
+  async function fetchPostCreateField() {
+    // 텃밭 모양 배열 & 밭 넓이 & 고랑/두둑 너비 유무 확인
+    if (farmArea && furrrowWidth && ridgeWidth) {
+      // coordinateArr: 텃밭 모양 배열 api 보낼 형식으로 만든 배열
+      const coordinateArr: { column: number; row: number; sequence: number }[] =
+        [];
 
-  const [coordinateArr, setCoordinateArr] = useState([
-    { x: 0, y: 0 },
-    { x: 0, y: 50 },
-  ]);
+      points.forEach((point, idx) => {
+        coordinateArr.push({
+          column: point.x,
+          row: point.y,
+          sequence: idx + 1,
+        });
+      });
 
-  // 추천 단계로 넘어가기
-  const handleRecommend = () => {
-    handleStep(2);
+      const result = await CreateField({
+        accessToken: userAccessToken,
+        request: {
+          coordinates: coordinateArr,
+          area: farmArea,
+          startMonth: month,
+          ridgeWidth: ridgeWidth,
+          furrowWidth: furrrowWidth,
+          isVertical: direction === 2,
+        },
+      });
+
+      return result;
+    }
+  }
+
+  // 밭 생성!! (step 단계로 넘어가기)
+  const handleRecommendAndCustom = async (step: number) => {
+    if (farmArea && furrrowWidth && ridgeWidth) {
+      if (points.length < 3) {
+        alert("점은 세 개 이상 찍어야 합니다.");
+      } else {
+        const result: createFieldResponse = await fetchPostCreateField();
+
+        console.log(result.farm);
+
+        // true, false 배열 업데이트
+        handleUpdateFieldClickableArray(result.farm);
+
+        console.log(result.designId);
+
+        // 디자인 ID 업데이트
+        handleUpdateFieldDesignId(result.designId);
+
+        console.log(result.designArray);
+        // 작물 0 ,1, 2, 이런 배열 업데이트
+        handleUpdateFieldGridArray(result.designArray);
+
+        // 해당 step으로 넘어가기
+        handleStep(step);
+      }
+    } else {
+      alert("빈 칸을 모두 채워주세요.");
+    }
   };
 
   // 커스텀 단계로 넘어가기
@@ -181,6 +245,7 @@ const FirstInputBox = ({ handleStep }: Props) => {
 
     //기존 배열
     const newPoints = [...points];
+
     //바꾸는 값
     newPoints[index][coordinate] = value;
     setPoints(newPoints);
@@ -317,13 +382,13 @@ const FirstInputBox = ({ handleStep }: Props) => {
               text="추천 받기"
               bgStyles="bg-green-400"
               textStyles="text-white-100 font-extrabold"
-              handleClick={handleRecommend}
+              handleClick={() => handleRecommendAndCustom(2)}
             />
             <Button
               text="커스텀하기"
               bgStyles="bg-white-100"
               textStyles="text-green-500 font-extrabold"
-              handleClick={handleCustom}
+              handleClick={() => handleRecommendAndCustom(3)}
             />
           </div>
         </div>
