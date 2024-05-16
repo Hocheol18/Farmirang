@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { useUserStore } from "@/app/_stores/userStore";
 import MiniNavigation from "../component/mini-nav";
-import Modal from "@/app/_components/common/Modal";
+import MypageModal from "@/app/_components/common/MypageModal";
 import ProfileCSR from "../component/profile-csr";
 import ChangeRole from "../component/change-role";
 
@@ -82,7 +82,7 @@ export default function MyPage() {
               <div className="justify-center mx-auto">
                 <ProfileCSR profileData={profileData} />
               </div>
-              <Modal
+              <MypageModal
                 buttonText={"회원 탈퇴 하기"}
                 buttonBgStyles={"bg-red-500"}
                 buttonTextStyles={"text-font-m5 text-white-100"}

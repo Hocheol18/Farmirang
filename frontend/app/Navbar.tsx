@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
@@ -14,11 +14,8 @@ function classNames(...classes: Array<string>) {
 }
 
 export default function Navbar() {
-  const { userInfo, resetAuth } = useUserStore();
-  // const userInfo = useUserStore((state) => state.userInfo);
-  // console.log(userInfo);
+  const { userInfo, resetAuth, updateToken } = useUserStore();
   const router = useRouter();
-  // router
   const [navigation, setNavigation] = useState([
     { name: "텃밭꾸미기", href: "/farm-design", current: false },
     { name: "텃밭일기", href: "/farm-diary", current: false },
@@ -63,6 +60,45 @@ export default function Navbar() {
       router.push("/");
     }
   };
+
+  const reissueToken = async (accessToken: string, refreshToken: string) => {
+    try {
+      const response = await fetch(`${MEMBER_URL}/v1/security/token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          refresh_token: refreshToken,
+          grant_type: "refresh_token",
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("토큰 재발급 요청이 실패했습니다.");
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+
+      const tokenData = {
+        accessToken: responseData.accessToken,
+        refreshToken: responseData.refreshToken,
+      };
+
+      updateToken(responseData.accessToken, responseData.refreshToken);
+      return responseData;
+    } catch (error) {
+      // 토큰 재발급 요청이 실패한 경우에 대한 에러 처리
+      console.error("토큰 재발급 요청 중 오류가 발생했습니다:", error);
+      throw error; // 예외를 다시 throw하여 호출자에게 전파
+    }
+  };
+
+  // 토큰 유효시간이 10분이기 때문에 8분마다 재요청을 하기로 함
+  const SILENT_REFRESH_TIME = 480000;
+  const interval = setInterval(async () => {
+    await reissueToken(userInfo.accessToken, userInfo.refreshToken);
+  }, SILENT_REFRESH_TIME);
 
   return (
     <>
@@ -117,6 +153,12 @@ export default function Navbar() {
                           {/* <button
                             type="button"
                             className="relative rounded-full p-1"
+                            onClick={() => {
+                              reissueToken(
+                                userInfo.accessToken,
+                                userInfo.refreshToken
+                              );
+                            }}
                           >
                             <span className="absolute -inset-1.5" />
                             <BellIcon className="h-8 w-8" aria-hidden="true" />
