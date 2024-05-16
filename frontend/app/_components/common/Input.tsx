@@ -32,10 +32,12 @@ export default function Input({
           <input
             type={type}
             value={value}
-            name={name}
+            {...(name && {
+              name: name,
+            })}
             className={`focus:outline-none focus:ring-green-400 focus:ring-1 ${inputcss}`}
             placeholder={placeholder}
-            onChange={(e) => onChange(e)}
+            onChange={(e) => (name ? onChange(e) : onChange(e.target.value))}
           />
         </div>
       </div>
