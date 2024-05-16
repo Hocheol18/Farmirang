@@ -1,8 +1,8 @@
 import { createFieldParams, getCropInfoParams } from "@/type/farmDesginType";
 
 ("@/app/_stores/userStore");
-import { makeQuerystring } from "@/utils/ApiUtils";
-import { BASE_URL, DESIGN_URL } from "@/utils/ServerApi";
+
+import { DESIGN_URL } from "@/utils/ServerApi";
 
 // createField
 // 1단계 - 디자인용 텃밭 생성 POST
