@@ -3,19 +3,30 @@ import CropsBox from "../CropsBox";
 import TitleBox from "../TitleBox";
 import CropsInput from "./CropsInput";
 import Button from "@/app/_components/common/Button";
+import { getCropInfo } from "@/api/farm-design";
+import { CropInfo, getCropInfoResponse } from "@/type/farmDesginType";
 
 interface Crops {
   id: number;
   name: string;
   isClick: boolean;
   isRecommend: boolean;
+  cropHeight: number;
+  cropWidth: number;
+  area: number;
 }
 
 interface Props {
   handleCheck: () => void;
+  userAccessToken: string;
+  fieldDesignId: number;
 }
 
-const SecondFirstPage = ({ handleCheck }: Props) => {
+const SecondFirstPage = ({
+  handleCheck,
+  userAccessToken,
+  fieldDesignId,
+}: Props) => {
   const cropsName: string[] = [
     "감자",
     "고구마",
@@ -41,18 +52,47 @@ const SecondFirstPage = ({ handleCheck }: Props) => {
   // clickedCrops: 선택한 작물 배열
   const [clickedCrops, setClickedCrops] = useState<Crops[]>([]);
 
+  // totalRidgeArea: 심을 수 있는 밭의 전체 면적
+  const [totalRidgeArea, setTotalRidgeArea] = useState<number>(0);
+
+  // ridgeWidth: 두둑 가로 (작물의 cropWidth랑 비교)
+  const [ridgeWidth, setRidgeWidth] = useState<number>(0);
+
+  // ridgeWidth: 두둑 세로 (작물의 cropHeight랑 비교)
+  const [ridgeHeight, setRidgeHeight] = useState<number>(0);
+
   // 처음 렌더링 할때 작물 배열에 넣기
   useEffect(() => {
-    const initialCropsList: Crops[] = [];
-    for (let i = 1; i <= 16; i++) {
-      initialCropsList.push({
-        id: i,
-        name: cropsName[i - 1],
-        isClick: false,
-        isRecommend: false,
-      });
-    }
-    setCropsList(initialCropsList);
+    const fetchGetCropInfo = async () => {
+      if (fieldDesignId !== 0) {
+        const result: getCropInfoResponse = await getCropInfo({
+          accessToken: userAccessToken,
+          designId: fieldDesignId,
+        });
+
+        // 작물 목록 초기화
+        const initialCropsList: Crops[] = result.cropList.map(
+          (crop: CropInfo) => ({
+            id: crop.cropId,
+            name: crop.name,
+            isClick: false,
+            isRecommend: crop.isRecommended,
+            cropHeight: crop.cropLengthAndAreaDto.cropHeight,
+            cropWidth: crop.cropLengthAndAreaDto.cropWidth,
+            area: crop.cropLengthAndAreaDto.area,
+          })
+        );
+        setCropsList(initialCropsList);
+
+        // 밭의 면적, 두둑 가로, 두둑 세로 모두 업데이트
+        setTotalRidgeArea(result.totalRidgeArea);
+        setRidgeWidth(result.ridgeWidth);
+        setRidgeHeight(result.ridgeHeight);
+      }
+      //if 끝
+    };
+
+    fetchGetCropInfo();
   }, []);
 
   //   작물 컴포넌트 클릭시 isClick 변환
