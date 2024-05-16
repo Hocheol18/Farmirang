@@ -24,6 +24,13 @@ export default function Navbar() {
   ]);
 
   const handleEvent = (href: string, index: number) => {
+    // 텃밭꾸미기할 때 accessToken 없으면
+    if (index === 0 && userInfo.accessToken === "") {
+      // 경고창 띄우고 들어가지 못하게
+      alert("로그인이 필요한 서비스입니다");
+      return;
+    }
+
     const newNavigation = navigation.map((item, idx) => ({
       ...item,
       current: idx === index,

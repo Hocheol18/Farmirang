@@ -11,9 +11,10 @@ import MyModal from "@/app/_components/common/Modal";
 interface Props {
   handleStep: (step: number) => void;
   step: number; //2단계에서 보여주는 추천된 텃밭인지 3단계에서 보여주는 완성된 텃밭인지
+  userAccessToken: string;
 }
 
-const ShowStylePage = ({ handleStep, step }: Props) => {
+const ShowStylePage = ({ handleStep, step, userAccessToken }: Props) => {
   //임시
   const tmpHandleFunction = () => {};
 
