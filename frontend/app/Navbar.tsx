@@ -102,10 +102,11 @@ export default function Navbar() {
   };
 
   // 토큰 유효시간이 10분이기 때문에 8분마다 재요청을 하기로 함
-  const SILENT_REFRESH_TIME = 480000;
-  const interval = setInterval(async () => {
-    await reissueToken(userInfo.accessToken, userInfo.refreshToken);
-  }, SILENT_REFRESH_TIME);
+  // TODO
+  // const SILENT_REFRESH_TIME = 480000;
+  // const interval = setInterval(async () => {
+  //   await reissueToken(userInfo.accessToken, userInfo.refreshToken);
+  // }, SILENT_REFRESH_TIME);
 
   return (
     <>
