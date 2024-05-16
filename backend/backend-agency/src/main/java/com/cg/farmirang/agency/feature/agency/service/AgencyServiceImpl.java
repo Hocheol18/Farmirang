@@ -17,7 +17,9 @@ import com.cg.farmirang.agency.feature.agency.dto.response.AdminApproveResponseD
 import com.cg.farmirang.agency.feature.agency.dto.response.AgencyDetailResponseDto;
 import com.cg.farmirang.agency.feature.agency.dto.response.AgencyProfileResponseDto;
 import com.cg.farmirang.agency.feature.agency.dto.response.AgencyRegisterResponseDto;
+import com.cg.farmirang.agency.feature.agency.entity.RedisRoleEntity;
 import com.cg.farmirang.agency.feature.agency.entity.WelfareFacility;
+import com.cg.farmirang.agency.feature.agency.repository.RedisRoleRepository;
 import com.cg.farmirang.agency.feature.agency.repository.WelfareFacilityRepository;
 import com.cg.farmirang.agency.feature.user.entity.MemberRole;
 import com.cg.farmirang.agency.feature.user.repository.MemberRepository;
@@ -35,6 +37,7 @@ public class AgencyServiceImpl implements AgencyService {
 	private final S3Service s3;
 	private final WelfareFacilityRepository repo;
 	private final MemberRepository memberRepo;
+	private final RedisRoleRepository redis;
 
 	@Value("${cloud.aws.s3.dir}")
 	private String s3Dir;
@@ -139,11 +142,23 @@ public class AgencyServiceImpl implements AgencyService {
 		// if approve, change member's role to agency
 		var memberId = repo.getMemberId(dto.agencyId());
 		log.debug("AgencyServiceImpl adminApproveAgencyService memberId: {}", memberId);
-		if (dto.approval()) memberRepo.changeRole(memberId, MemberRole.AGENCY);
-		else memberRepo.changeRole(memberId, MemberRole.MEMBER);
+		if (dto.approval()) {
+			memberRepo.changeRole(memberId, MemberRole.AGENCY);
+			cacheRole(memberId, MemberRole.AGENCY);
+		}
+		else {
+			memberRepo.changeRole(memberId, MemberRole.MEMBER);
+			cacheRole(memberId, MemberRole.MEMBER);
+		}
 
 		return AdminApproveResponseDto.builder()
 			.id(result)
 			.build();
+	}
+	@Transactional
+	protected void cacheRole(Integer memberId, MemberRole role) {
+		var entity = redis.findById(memberId).orElse(RedisRoleEntity.builder().id(memberId).build());
+		entity.setRole(role);
+		redis.save(entity);
 	}
 }
