@@ -44,11 +44,6 @@ dependencies {
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer'
-    implementation 'com.google.code.gson:gson:2.8.8'
 }
 
 dependencyManagement {
