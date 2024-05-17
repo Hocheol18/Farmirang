@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+"use client";
+
 import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
 
-async function getData(memberId: number) {
-  const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
-  return res.json();
-}
+// async function getData(memberId: number) {
+//   const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
+//   return res.json();
+// }
 
-export default async function MyFarm() {
+export default function MyFarm() {
   // localStorage에서 accessToken 받는 방법
   let accessToken = "";
   let memberId = "";
@@ -24,11 +25,11 @@ export default async function MyFarm() {
       role = lsInfo.state.userInfo.role;
     }
   }
+  // const data = await getData(Number(memberId));
+  // console.log(data);
 
-  useEffect(() => {
-    const data = await getData(Number(memberId));
-    console.log(data);
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   return (
     <div>
@@ -52,6 +53,7 @@ export default async function MyFarm() {
               {/* 카드 리스트 */}
               <div className="w-full flex flex-col gap-[20px] justify-center">
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -59,6 +61,7 @@ export default async function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -66,6 +69,7 @@ export default async function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -73,6 +77,7 @@ export default async function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
