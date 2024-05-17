@@ -1,7 +1,7 @@
+import { useEffect } from "react";
+import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
-
-import { BASE_URL } from "@/utils/ServerApi";
 
 async function getData(memberId: number) {
   const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
@@ -25,8 +25,10 @@ export default async function MyFarm() {
     }
   }
 
-  const data = await getData(Number(memberId));
-  console.log(data);
+  useEffect(() => {
+    const data = await getData(Number(memberId));
+    console.log(data);
+  }, []);
 
   return (
     <div>

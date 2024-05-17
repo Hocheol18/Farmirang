@@ -8,6 +8,7 @@ const nextConfig = {
       "s3.ap-northeast-2.amazonaws.com",
     ],
   },
+  reactStrictMode: false,
   env: {
     CUSTOM_URL: process.env.NEXT_PUBLIC_API_URL,
   },
