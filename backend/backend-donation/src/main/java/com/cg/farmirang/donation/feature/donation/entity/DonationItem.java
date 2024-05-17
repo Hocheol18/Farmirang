@@ -53,9 +53,9 @@ public class DonationItem {
 	private Integer amount;
 
 	@Column(name = "unit", nullable = false)
-	private String unit = "개";
+	private String unit;
 
 	@Column(name = "current_amount", nullable = false)
-	private Integer current = 0;
+	private Integer current;
 
 }
