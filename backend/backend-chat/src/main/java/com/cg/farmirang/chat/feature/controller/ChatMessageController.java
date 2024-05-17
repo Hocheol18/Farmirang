@@ -4,9 +4,7 @@ import com.cg.farmirang.chat.feature.dto.request.ChatMessageRequestDto;
 import com.cg.farmirang.chat.feature.entity.ChatMessage;
 import com.cg.farmirang.chat.feature.repository.ChatMessageRepository;
 import com.cg.farmirang.chat.feature.service.ChatMessageService;
-import com.cg.farmirang.chat.global.config.KafkaConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -21,14 +19,17 @@ public class ChatMessageController {
     private final SimpMessageSendingOperations sendingOperations;
     private final ChatMessageRepository chatMessageRepository;
 
-    @Value(value = "${spring.kafka.consumer.group-id}")
-    private String groupId;
 
-    @MessageMapping("/message")
+    /* 메시지 보내기 */
+    @MessageMapping("/message/{roomId}")
     @Transactional
-    @KafkaListener(topics = "groupId")
     public void message(ChatMessageRequestDto request){
-        ChatMessage chatMessage=chatMessageService.sendMessage(request);
+        chatMessageService.sendMessage(request);
+    }
+
+    /* 메시지 받기 */
+    @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    public void kafkaMessageListener(ChatMessage chatMessage) {
         chatMessageRepository.save(chatMessage);
         sendingOperations.convertAndSend("/queue/chats/rooms/"+chatMessage.getRoomId(),chatMessage);
     }

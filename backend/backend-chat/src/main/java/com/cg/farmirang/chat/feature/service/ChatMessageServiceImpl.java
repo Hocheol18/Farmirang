@@ -24,15 +24,14 @@ public class ChatMessageServiceImpl implements ChatMessageService{
 
     /**
      * 메시지 보내기
+     *
      * @param request
-     * @return
      */
     @Override
-    public ChatMessage sendMessage(ChatMessageRequestDto request) {
+    public void sendMessage(ChatMessageRequestDto request) {
         try {
             ChatMessage chatMessage = ChatMessage.toEntity(request);
             kafkaTemplate.send(topic.name(), chatMessage);
-            return chatMessage;
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessExceptionHandler(ErrorCode.KAFKA_ERROR);

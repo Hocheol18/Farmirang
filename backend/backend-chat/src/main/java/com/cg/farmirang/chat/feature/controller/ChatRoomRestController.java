@@ -10,13 +10,16 @@ import com.cg.farmirang.chat.global.common.code.SuccessCode;
 import com.cg.farmirang.chat.global.common.response.ErrorResponse;
 import com.cg.farmirang.chat.global.common.response.SuccessResponse;
 import com.cg.farmirang.chat.global.common.service.JwtClient;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -26,6 +29,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@Tag(name = "1. REST API", description = "이걸로만 해주세효")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chats")
 public class ChatRoomRestController {

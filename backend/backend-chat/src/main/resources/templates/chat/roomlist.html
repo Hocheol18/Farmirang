@@ -9,12 +9,46 @@
 </head>
 <body>
 <h1>채팅방 리스트</h1>
+
 <div th:each="room : ${response.chatRoomDtoList}">
-    <div>
-        <a th:href="@{/chats/rooms/{chatRoomId}(chatRoomId=${room.chatRoomId})}"
-           th:text="${room.chatRoomId}">ChatRoomId</a>
-    </div>
-    <div th:text="${room.nickname}">nickname</div>
+    <form th:action="@{/chats/rooms/{chatRoomId}(chatRoomId=${room.chatRoomId})}" method="get">
+        <label for="accessToken">Access Token:</label>
+        <input type="text" id="accessToken" name="accessToken" class="form-control" required>
+        <div th:text="${room.chatRoomId}">ChatRoomId</div>
+        <div th:text="${room.nickname}">nickname</div>
+        <div th:text="${room.lastMessage}">Latest message</div>
+        <button type="submit">입장</button>
+    </form>
 </div>
+
+<script>
+    var socket = new SockJS('/ws'); // 서버의 엔드포인트 URL을 사용하세요.
+    var stompClient = Stomp.over(socket);
+
+    function initializeSubscriptions() {
+        // 페이지에 있는 모든 채팅방 ID를 가져와 각각 구독합니다.
+        document.querySelectorAll('[id^="chatRoom-"]').forEach(function(roomElement) {
+            var chatRoomId = roomElement.id.replace('chatRoom-', '');
+            stompClient.subscribe('/queue/chats/rooms/' + chatRoomId, function(message) {
+                var messageData = JSON.parse(message.body);
+                var chatRoomId = messageData.chatRoomId;
+                var lastMessage = messageData.lastMessage;
+                updateLastMessage(chatRoomId, lastMessage);
+            });
+        });
+    }
+
+    function updateLastMessage(chatRoomId, lastMessage) {
+        // DOM에서 해당 채팅방의 lastMessage를 찾아 업데이트합니다.
+        var lastMessageElement = document.querySelector('#chatRoom-' + chatRoomId + ' .lastMessage');
+        if (lastMessageElement) {
+            lastMessageElement.textContent = lastMessage;
+        } else {
+            // 해당 chatRoomId를 가진 채팅방이 없으면 새로 생성하는 로직을 추가할 수 있습니다.
+            console.log('해당 채팅방이 목록에 없습니다: ' + chatRoomId);
+        }
+    }
+</script>
+
 </body>
 </html>

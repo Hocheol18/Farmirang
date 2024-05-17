@@ -4,6 +4,7 @@ import com.cg.farmirang.chat.feature.dto.ChatRoomDto;
 import com.cg.farmirang.chat.feature.dto.request.ChatRoomCreateRequestDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomGetResponseDto;
 import com.cg.farmirang.chat.feature.dto.response.ChatRoomListGetResponseDto;
+import com.cg.farmirang.chat.feature.entity.ChatMessage;
 import com.cg.farmirang.chat.feature.entity.ChatRoom;
 import com.cg.farmirang.chat.feature.repository.ChatMessageRepository;
 import com.cg.farmirang.chat.feature.repository.ChatRoomRepository;
@@ -47,7 +48,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         for (ChatRoom chatRoom : chatRoomList) {
             Integer friendId = (memberId.equals(chatRoom.getFirstMemberId())) ? chatRoom.getSecondMemberId() : chatRoom.getFirstMemberId();
             String friendNickname = memberRepository.findNicknameByMemberId(friendId).orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.MEMBER_NOT_FOUND));
-            chatRoomDtoList.add(ChatRoomDto.toDto(chatRoom, friendNickname));
+            ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdOrderBySendTimeDesc(chatRoom.getChatRoomUUID()).orElse(null);
+            chatRoomDtoList.add(ChatRoomDto.toDto(chatRoom, friendNickname, (chatMessage!=null)? chatMessage.getMessage() : null));
         }
 
         return ChatRoomListGetResponseDto.builder().chatRoomDtoList(chatRoomDtoList).build();
