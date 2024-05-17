@@ -1,3 +1,5 @@
+"use-client";
+
 import { useState, useEffect } from "react";
 import { AGENCY_URL } from "@/utils/ServerApi";
 import Input from "@/app/_components/common/Input";
