@@ -3,6 +3,7 @@ import { BASE_URL } from "@/utils/ServerApi";
 import Spinner from "../_components/common/Spinner";
 import AosComponent from "./component/AosComponent";
 import Posts from "../farm-diary/[diaryid]/page";
+import { fetchDonationData } from "@/api/farm-donation";
 
 // 데이터 가져오기
 const fetchDatas = async () => {
@@ -91,7 +92,7 @@ function Display() {
 }
 
 export default async function Donation() {
-  const res = await fetchDatas();
+  const res = await fetchDonationData({});
   
   return (
     <>

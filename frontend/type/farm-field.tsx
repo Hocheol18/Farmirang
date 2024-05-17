@@ -6,6 +6,7 @@ export interface fetchFarmListType {
   iot: number;
   title: string;
   startAt: string;
+  fieldId: number;
 }
 
 // 밭 등록 인터페이스
@@ -17,4 +18,14 @@ export interface postFieldType {
   user: number;
   design: number;
   iot: string;
+}
+
+// 밭 디자인 리스트 인터페이스
+export interface fetchDesignDataType {
+  designId: number;
+  designArray: any;
+  cropNumberAndCropIdDtoList: any;
+  name: string;
+  savedTime: string;
+  isThumbnail: false;
 }

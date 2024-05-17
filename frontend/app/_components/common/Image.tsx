@@ -80,7 +80,7 @@ export default function ImageComponent({
                     htmlFor="file-upload"
                     className="relative cursor-pointer rounded-md bg-white text-green-400"
                   >
-                    <span className="font-extrabold text-h6 mr-2">1MB이내</span>
+                    <span className="font-extrabold text-h6 mr-2">5MB이내</span>
                     <input
                       id="file-upload"
                       name="file-upload"

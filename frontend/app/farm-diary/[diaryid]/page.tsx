@@ -1,7 +1,7 @@
 import CalendarSideBar from "./component/CalendarSidebar";
-import Calendar from "./component/calendar";
+import Calendar from "./component/Calendar";
 
-export default function Page() {
+export default function DiaryPage() {
   return (
     <>
       <div className="flex h-full">

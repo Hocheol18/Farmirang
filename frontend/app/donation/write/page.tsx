@@ -194,9 +194,19 @@ export default function DonationWrite() {
                   기부 시작일
                 </div>
                 <div className="flex justfiy-between">
-                  <DatePicker />
+                  <DatePicker
+                    parentData=""
+                    setParentData={function (parentData: string): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
                   <div className="w-[3rem]"></div>
-                  <DatePicker />
+                  <DatePicker
+                    parentData={""}
+                    setParentData={function (parentData: string): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
                 </div>
               </div>
 
