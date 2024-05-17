@@ -1,5 +1,5 @@
 import { fetchDonationListData } from "@/api/farm-donation";
-import FirstModal from "./FirstModal";
+import FirstModal from "../[donationId]/component/FirstModal";
 
 interface Props {
   progress: number;
@@ -17,6 +17,7 @@ interface Props {
 }
 
 export default async function Remote({
+  progress,
   startDate,
   endDate,
   address,
@@ -31,15 +32,13 @@ export default async function Remote({
   );
   const remainCrops = donationItem.filter((item) => item.current < item.amount);
 
-  const progressBarWidth = `w-[${Math.round(
-    (completeCrops.length / totalCrops) * 100
-  )}%]`;
+  const progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
 
   return (
     <div className="sticky top-[7rem] w-[22rem] border border-black-100 h-[420px] rounded-xl p-8">
       <div className="flex justify-end">
         <div className="text-green-400 text-h2 font-bold">
-          {Math.round((completeCrops.length / totalCrops) * 100)}%
+          {Math.round(progress * 100)}%
         </div>
       </div>
 

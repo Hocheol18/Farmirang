@@ -21,21 +21,21 @@ export default async function Participate({
   const donationListData = await fetchDonationListData(donationIdChildren);
 
   // 맴버 아이디 추출
-  const memberIds = donationListData.data.donors.map(
-    (donor) => donor.member_id
-  );
+  const memberIds = donationListData.data.donors
+    .filter((donor) => donor.approval === true)
+    .map((donor) => donor.member_id);
 
   // 프로필과 맴버 아이디 일치하는 항목만 받아서 Promise 저장
   const profilePromises = memberIds.map((memberId) => fetchProfile(memberId));
   const profiles = await Promise.all(profilePromises);
 
   // 기존의 있는 항목에 profile 항목을 추가해서 저장
-  const donorsWithProfiles = donationListData.data.donors.map(
-    (donor, index) => ({
+  const donorsWithProfiles = donationListData.data.donors
+    .filter((donor) => donor.approval)
+    .map((donor, index) => ({
       ...donor,
       profile: profiles[index],
-    })
-  );
+    }));
 
   // 식물 받아오는 항목을 다시 저장
   const donorsWithProfileCrops = donorsWithProfiles.map((donor) => {
@@ -75,7 +75,7 @@ export default async function Participate({
             key={idx}
             className="mx-[2.5rem] my-[2rem] w-[110px] h-[110px] border border-black-100 rounded-full relative flex items-center justify-center"
           >
-            <div>
+            <div className="text-center">
               <div className="stroke-black">{item.cropImage}</div>
               <div className="font-bold text-h5 mt-[2px]">{item.current}개</div>
             </div>
@@ -88,11 +88,15 @@ export default async function Participate({
         <React.Fragment key={idx}>
           <div className="flex justify-between my-10">
             <div className="w-3/4 flex gap-[2rem]">
-              <div className="border border-black-100 w-[50px] h-[50px] rounded-[10rem] relative overflow-hidden">
-                <Image src={item.profile.data.profile_img} alt="" fill></Image>
+              <div className="border border-black-100 w-[80px] h-[80px] rounded-[10rem] relative overflow-hidden">
+                <Image
+                  src={item.profile.data.profile_img}
+                  alt="Profile Image"
+                  fill
+                />
               </div>
               <div className="flex flex-col justify-center">
-                <div className="text-h4">{item.profile.data.nickname}</div>
+                {/* <div className="text-h4">{item.profile.data.nickname}</div> */}
               </div>
             </div>
             <div className="w-1/3 flex justify-end gap-[2rem]">

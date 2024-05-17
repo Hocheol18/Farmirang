@@ -20,6 +20,7 @@ export default function DonationWrite() {
   const [direction, setDirection] = useState<number>(1);
   const [name, setName] = useState<string>("");
   const crop = cropData;
+  
 
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
