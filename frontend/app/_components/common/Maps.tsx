@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export default function KakaoMap() {
+export default function KakaoMap({address} : {address : string}) {
   const mapRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.kakao.maps.load(() => {

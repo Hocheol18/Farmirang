@@ -3,9 +3,10 @@ import {
   fetchDonationDataFunctionType,
   postDonationDataType,
   fetchDonationDetailDataType,
+  fetchDonationListDataType
 } from "@/type/donation";
 import { makeQuerystring } from "@/utils/ApiUtils";
-import { DONATION_URL } from "@/utils/ServerApi";
+import { DONATION_URL, MEMBER_URL } from "@/utils/ServerApi";
 
 export const fetchDonationData = async (
   params: fetchDonationDataFunctionType
@@ -42,6 +43,7 @@ export const postDonationData = async ({
   });
 };
 
+// 도네이션 기부 상세글
 export const fetchDonationDetailData = async (
   donationId: number
 ): Promise<{ data: fetchDonationDetailDataType }> => {
@@ -50,4 +52,26 @@ export const fetchDonationDetailData = async (
     cache: "no-cache",
   });
   return await response.json();
+};
+
+// 도네이션 후원 목록 조회
+export const fetchDonationListData = async (
+  donationId: number
+): Promise<{data : {donors : fetchDonationListDataType[]}}> => {
+  const response = await fetch(`${DONATION_URL}/v1/donor?id=${donationId}`, {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  return await response.json();
+};
+
+// 프로필 받아오는 함수
+export const fetchProfile = async (memberId : number) => {
+  const response = await fetch(
+    `${MEMBER_URL}/v1/user/${memberId}/profile`
+  );
+  if (response && response.ok) {
+    return await response.json();
+  }
 };

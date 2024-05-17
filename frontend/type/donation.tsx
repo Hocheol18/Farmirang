@@ -46,3 +46,14 @@ export interface fetchDonationDetailDataType {
     current: number;
   }>;
 }
+
+export interface fetchDonationListDataType {
+  board_id: number;
+  member_id: number;
+  crop_id: number;
+  register_date: string;
+  confirm_img: string;
+  id: number;
+  amount: number;
+  approval: boolean;
+}

@@ -6,8 +6,31 @@ import Input from "@/app/_components/common/Input";
 import KakaoMap from "@/app/_components/common/Maps";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { cropData } from "../[donationId]/component/Crop";
 
-export default function FirstModal() {
+export default function FirstModal({
+  address,
+  remainCrops,
+}: {
+  address: string;
+  remainCrops: Array<{
+    crop_id: number;
+    id: number;
+    amount: number;
+    unit: string;
+    current: number;
+  }>;
+}) {
+  const combinedData = remainCrops
+    .filter((donation) => cropData.some((crop) => crop.id === donation.crop_id))
+    .map((donation) => {
+      const crop = cropData.find((crop) => crop.id === donation.crop_id);
+      return {
+        ...donation,
+        cropName: crop?.name,
+        cropImage: crop?.image,
+      };
+    });
   const [state, setState] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const setDefault = () => {
@@ -62,23 +85,22 @@ export default function FirstModal() {
                             {"가능한 기부 품목"}
                           </p>
                         </div>
+                        {JSON.stringify(combinedData)}
                         <div className="mt-6">
-                          <div className="flex justify-center">
-                            <div className="flex flex-wrap content-start">
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-                            </div>
+                          <div className="flex flex-wrap content-start">
+                            {combinedData.map((item, idx: number) => (
+                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0">
+                                <div className="stroke-black flex flex-col justify-center">
+                                  {item.cropImage}
+                                </div>
+                              </div>
+                            ))}
                           </div>
 
                           <div className="text-h4 mt-[2rem] mb-[1rem] font-bold">
                             여기로 보내면 되요!
                           </div>
-                          <KakaoMap />
+                          <KakaoMap address={address} />
 
                           <div className="mt-4 text-h6">
                             멀티캠퍼스 역삼 (서울 강남구 테헤란로 212)
@@ -114,7 +136,7 @@ export default function FirstModal() {
                           as="h3"
                           className={`text-black-100 ${"font-bold text-h3 relative"}`}
                         >
-                          {"이미 작물을 보냈어요!"}
+                          {"작물을 보냈어요!"}
                           <div className="bg-green-200 w-[20rem] h-5 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
                         </Dialog.Title>
 

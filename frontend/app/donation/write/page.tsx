@@ -8,6 +8,8 @@ import DaumPost from "@/app/_components/common/address";
 import SelectMenu from "@/app/_components/common/SelectMenus";
 import DatePicker from "@/app/_components/common/SelectDate";
 import ImageComponent from "@/app/_components/common/Image";
+import { cropData } from "./component/CropList";
+import { postDonationDataType } from "@/type/donation";
 
 interface Props {
   areaAddress: string;
@@ -17,48 +19,7 @@ interface Props {
 export default function DonationWrite() {
   const [direction, setDirection] = useState<number>(1);
   const [name, setName] = useState<string>("");
-  const people = [
-    {
-      id: 1,
-      name: "Wade Cooper",
-    },
-    {
-      id: 2,
-      name: "Arlene Mccoy",
-    },
-    {
-      id: 3,
-      name: "Devon Webb",
-    },
-    {
-      id: 4,
-      name: "Tom Cook",
-    },
-    {
-      id: 5,
-      name: "Tanya Fox",
-    },
-    {
-      id: 6,
-      name: "Hellen Schmidt",
-    },
-    {
-      id: 7,
-      name: "Caroline Schultz",
-    },
-    {
-      id: 8,
-      name: "Mason Heaney",
-    },
-    {
-      id: 9,
-      name: "Claudie Smitham",
-    },
-    {
-      id: 10,
-      name: "Emil Schaefer",
-    },
-  ];
+  const crop = cropData;
 
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
@@ -68,6 +29,8 @@ export default function DonationWrite() {
   const handleDirectionChange = (value: number) => {
     setDirection(value);
   };
+
+  const onSubmit = (data: postDonationDataType) => {};
 
   return (
     <>
@@ -163,7 +126,7 @@ export default function DonationWrite() {
                       onChange={handleDirectionChange}
                       labelcss={"text-h4 text-black-100"}
                       topScript={""}
-                      items={people}
+                      items={crop}
                       bordercss="border-gray-400 h-[2.5rem]"
                     />
                   </div>
