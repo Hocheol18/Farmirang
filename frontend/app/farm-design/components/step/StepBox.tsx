@@ -22,6 +22,17 @@ export interface FieldCropsListType {
   area: number;
 }
 
+export interface cropIndexType {
+  cropId: number;
+  number: number;
+}
+
+export interface FarmCoordinateType {
+  row: number;
+  column: number;
+  sequence: number;
+}
+
 const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
   // 밭의 디자인 ID 관리
   const [fieldDesignId, setFieldDesignId] = useState<number>(0);
@@ -38,6 +49,14 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
   const [fieldCropsList, setFieldCropsList] = useState<FieldCropsListType[]>(
     []
   );
+
+  // 몇 번에 cropId 몇인지 알려주는 배열
+  const [cropIndexArray, setCropIndexArray] = useState<cropIndexType[]>([]);
+
+  // 밭의 좌표 배열(보여줄 때 밭 모양도 보여줄 것)
+  const [farmCoordinateArray, setFarmCoordinateArray] = useState<
+    FarmCoordinateType[]
+  >([]);
 
   // 디자인 Id update
   const handleUpdateFieldDesignId = (newDesignId: number) => {
@@ -63,6 +82,17 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
     setFieldCropsList(newFieldCropsList);
   };
 
+  const handleUpdateCropIndexArray = (newCropIndexArray: cropIndexType[]) => {
+    setCropIndexArray(newCropIndexArray);
+  };
+
+  // 밭 좌표 배열 update
+  const handleFarmCoordinateArray = (
+    newCoordinateArray: FarmCoordinateType[]
+  ) => {
+    setFarmCoordinateArray(newCoordinateArray);
+  };
+
   // 각 단계별 컴포넌트들
   const content: JSX.Element[] = [
     <FirstPage
@@ -79,6 +109,13 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       userAccessToken={userAccessToken}
       fieldDesignId={fieldDesignId}
       handleUpdateFieldCropsList={handleUpdateFieldCropsList}
+      cropIndexArray={cropIndexArray}
+      handleUpdateCropIndexArray={handleUpdateCropIndexArray}
+      fieldClickableArray={fieldClickableArray}
+      fieldGridArray={fieldGridArray}
+      handleUpdateFieldGridArray={handleUpdateFieldGridArray}
+      handleFarmCoordinateArray={handleFarmCoordinateArray}
+      farmCoordinateArray={farmCoordinateArray}
     />,
     <ThirdPage
       key="third"
@@ -89,6 +126,10 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       clickableField={fieldClickableArray}
       grid={fieldGridArray}
       handleUpdateFieldGridArray={handleUpdateFieldGridArray}
+      cropIndexArray={cropIndexArray}
+      handleUpdateCropIndexArray={handleUpdateCropIndexArray}
+      farmCoordinateArray={farmCoordinateArray}
+      handleFarmCoordinateArray={handleFarmCoordinateArray}
     />,
     <FourthPage key="fourth" />,
   ];

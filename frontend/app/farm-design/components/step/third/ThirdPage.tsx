@@ -6,14 +6,16 @@ import CropsBox from "../CropsBox";
 import TitleBox from "../TitleBox";
 import ShowArrangement from "@/app/_components/common/ShowArrangement";
 import ShowStylePage from "../ShowStylePage";
-import { FieldCropsListType } from "../StepBox";
-import { getCustomEmptyField } from "@/api/farm-design";
-import { getCustomEmptyResponse } from "@/type/farmDesginType";
-
-interface CropIndex {
-  cropId: number;
-  number: number;
-}
+import {
+  FarmCoordinateType,
+  FieldCropsListType,
+  cropIndexType,
+} from "../StepBox";
+import { CreateCustomDesign, getCustomEmptyField } from "@/api/farm-design";
+import {
+  CreateCustomDesignParams,
+  getCustomEmptyResponse,
+} from "@/type/farmDesginType";
 
 interface CropQuantity {
   cropId: number;
@@ -39,6 +41,11 @@ interface Props {
   clickableField: boolean[][];
   grid: number[][];
   handleUpdateFieldGridArray: (newFieldGridArray: number[][]) => void;
+  cropIndexArray: cropIndexType[];
+  handleUpdateCropIndexArray: (newCropIndexArray: cropIndexType[]) => void;
+  farmCoordinateArray: FarmCoordinateType[];
+
+  handleFarmCoordinateArray: (newCoordinateArray: FarmCoordinateType[]) => void;
 }
 
 const ThirdPage = ({
@@ -49,6 +56,10 @@ const ThirdPage = ({
   clickableField,
   grid,
   handleUpdateFieldGridArray,
+  cropIndexArray,
+  farmCoordinateArray,
+  handleFarmCoordinateArray,
+  handleUpdateCropIndexArray,
 }: Props) => {
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<FieldCropsListType[]>([]);
@@ -87,14 +98,14 @@ const ThirdPage = ({
   };
 
   // 저장하기
-  const handleSave = () => {
+  const handleSave = async () => {
     // 작물마다 몇 개인지 알려주는 배열
     const numberCropLsit: CropQuantity[] = [];
 
-    for (let i = 0; i < indexArray.length; i++) {
+    for (let i = 0; i < cropIndexArray.length; i++) {
       //indexArray[i]의 cropId와 같은 cropId를 numberCropList에서 찾음
       const findCrop = numberCropLsit.find(
-        (crop) => crop.cropId === indexArray[i].cropId
+        (crop) => crop.cropId === cropIndexArray[i].cropId
       );
 
       // 있으면 +1
@@ -103,43 +114,23 @@ const ThirdPage = ({
       } else {
         // 없으면 새로 추가함
         numberCropLsit.push({
-          cropId: indexArray[i].cropId,
+          cropId: cropIndexArray[i].cropId,
           quantity: 1,
         });
       }
     }
 
-    handleStep(4);
+    // api 연결
+    const result: CreateCustomDesignParams = await CreateCustomDesign({
+      accessToken: userAccessToken,
+      request: {
+        designArray: grid,
+        cropNumberAndCropIdDtoList: cropIndexArray,
+        cropIdAndQuantityDtoList: numberCropLsit,
+      },
+      designId: fieldDesignId,
+    });
   };
-
-  const crops: CropIndex[] = [
-    {
-      cropId: 1,
-      number: 1,
-    },
-    {
-      cropId: 2,
-      number: 2,
-    },
-
-    {
-      cropId: 3,
-      number: 3,
-    },
-    {
-      cropId: 4,
-      number: 4,
-    },
-
-    {
-      cropId: 5,
-      number: 5,
-    },
-    {
-      cropId: 6,
-      number: 6,
-    },
-  ];
 
   // 삭제 버튼 (작물 배치한 거 취소할 때)
   const [isCancel, setIsCancel] = useState<boolean>(false);
@@ -157,14 +148,18 @@ const ThirdPage = ({
         };
       }
 
+      // cropIndexArray에서 해당 작물 제거
+      handleUpdateCropIndexArray(
+        cropIndexArray.filter(
+          (crop) => crop.cropId !== updatedCropsList[currentCropsIndex].id
+        )
+      );
+
       setCurrentCropsIndex(-1);
 
       return updatedCropsList;
     });
   };
-
-  // 몇 번에 cropId 몇인지 알려주는 배열 (처음엔 crops 배열과 같음)
-  const [indexArray, setIndexArray] = useState<CropIndex[]>(crops);
 
   // nextIndex: 다음 번호
   const [nextIndex, setNextIndex] = useState<number>(1);
@@ -172,64 +167,55 @@ const ThirdPage = ({
   // 셀을 클릭할 때
   const handleClickCell = (rowIndex: number, colIndex: number) => {
     // 작물 클릭 후 셀 클릭 할 때
-    if (currentCropsIndex >= 0) {
-      // 1. currentCrops가 null이 아닐 때, grid[rowIndex][colIndex]이 0이 아닌 걸 클릭하면 아무런 일도 일어나지 않음
-      if (grid[rowIndex][colIndex] !== 0) {
-        return;
-      }
+    // 1. currentCrops가 null이 아닐 때, grid[rowIndex][colIndex]이 0이 아닌 걸 클릭하면 아무런 일도 일어나지 않음
+    // 2. currentCrops가 null이 아닐 때, grid[rowIndex][colIndex] 값이 0이고 clickableField[rowIndex][colIndex] 값이 true면
+    if (
+      currentCropsIndex >= 0 &&
+      grid[rowIndex][colIndex] === 0 &&
+      clickableField[rowIndex][colIndex]
+    ) {
+      // 2-1. currentCrops의 id(cropId임)(이것도변경)가 cropLengthList(변경 cropsList로)에서 cropId와 같은 객체의 cropLengthAndAreaDto의 height와 width를 가져옴
+      const { cropHeight: height, cropWidth: width } =
+        cropsList[currentCropsIndex];
 
-      // 2. currentCrops가 null이 아닐 때, grid[rowIndex][colIndex] 값이 0이고 clickableField[rowIndex][colIndex] 값이 true면
-      if (
-        grid[rowIndex][colIndex] === 0 &&
-        clickableField[rowIndex][colIndex]
-      ) {
-        // 2-1. currentCrops의 id(cropId임)(이것도변경)가 cropLengthList(변경 cropsList로)에서 cropId와 같은 객체의 cropLengthAndAreaDto의 height와 width를 가져옴
-        const height = cropsList[currentCropsIndex].cropHeight;
-        const width = cropsList[currentCropsIndex].cropWidth;
-
-        // 2-2. 클릭한 셀로부터 가로로 width/10 만큼의 크기, 세로로 height/10만큼의 크기만큼의 칸들이 clickableField에서 true인지, grid에서 0인지 확인함
-        let isValid = true;
-        for (let r = rowIndex; r < rowIndex + height / 10; r++) {
-          for (let c = colIndex; c < colIndex + width / 10; c++) {
-            if (!clickableField[r]?.[c] || grid[r]?.[c] !== 0) {
-              isValid = false;
-              break;
-            }
-          }
-          if (!isValid) {
-            alert(`해당 작물을 배치하기엔 칸이 부족합니다.
-            가로: ${width / 10}칸, 세로: ${height / 10}칸 필요`);
+      // 2-2. 클릭한 셀로부터 가로로 width/10 만큼의 크기, 세로로 height/10만큼의 크기만큼의 칸들이 clickableField에서 true인지, grid에서 0인지 확인함
+      let isValid = true;
+      for (let r = rowIndex; r < rowIndex + height / 10; r++) {
+        for (let c = colIndex; c < colIndex + width / 10; c++) {
+          if (!clickableField[r]?.[c] || grid[r]?.[c] !== 0) {
+            isValid = false;
             break;
           }
         }
-
-        // 3. 만약 2-2까지 통과한다면 클릭한 셀로부터 가로로 width/10 만큼의 크기, 세로로 height/10만큼의 크기만큼의 칸들에 인덱스를 줄 건데 그 인덱스 숫자는 indexArray의 가장 큰 number에 +1 한 값이며, grid[][] 배열에서 0을 해당 인덱스 숫자로 바꾼다.
-        if (isValid) {
-          setNextIndex((pre) => pre + 1);
-          const newGrid = [...grid];
-          for (let r = rowIndex; r < rowIndex + height / 10; r++) {
-            for (let c = colIndex; c < colIndex + width / 10; c++) {
-              newGrid[r][c] = nextIndex;
-            }
-          }
-          handleUpdateFieldGridArray(newGrid);
-
-          // 4. indexArray에 해당 인덱스 number와 해당 작물을 추가한다.
-          setIndexArray([
-            ...indexArray,
-            { cropId: cropsList[currentCropsIndex].id, number: nextIndex },
-          ]);
+        if (!isValid) {
+          alert(`해당 작물을 배치하기엔 칸이 부족합니다.
+            가로: ${width / 10}칸, 세로: ${height / 10}칸 필요`);
+          break;
         }
+      }
+
+      // 3. 만약 2-2까지 통과한다면 클릭한 셀로부터 가로로 width/10 만큼의 크기, 세로로 height/10만큼의 크기만큼의 칸들에 인덱스를 줄 건데 그 인덱스 숫자는 indexArray의 가장 큰 number에 +1 한 값이며, grid[][] 배열에서 0을 해당 인덱스 숫자로 바꾼다.
+      if (isValid) {
+        setNextIndex((pre) => pre + 1);
+        const newGrid = [...grid];
+        for (let r = rowIndex; r < rowIndex + height / 10; r++) {
+          for (let c = colIndex; c < colIndex + width / 10; c++) {
+            newGrid[r][c] = nextIndex;
+          }
+        }
+        handleUpdateFieldGridArray(newGrid);
+
+        // 4. indexArray에 해당 인덱스 number와 해당 작물을 추가한다.
+        handleUpdateCropIndexArray([
+          ...cropIndexArray,
+          { cropId: cropsList[currentCropsIndex].id, number: nextIndex },
+        ]);
       }
     }
 
     // 삭제 버튼 클릭 후 셀 클릭 할 때
-    if (isCancel) {
-      // 1. 삭제 버튼이 true일 경우에만 작동하며 grid[rowIndex][colIndex]가 0이면 아무 일도 일어나지 않음
-      if (grid[rowIndex][colIndex] === 0) {
-        return;
-      }
-
+    // 1. 삭제 버튼이 true일 경우에만 작동하며 grid[rowIndex][colIndex]가 0이면 아무 일도 일어나지 않음
+    if (isCancel && grid[rowIndex][colIndex] !== 0) {
       // 2. 삭제 버튼이 true이고, 클릭한 셀의 grid[rowIndex][colIndex]에 숫자가 있다면 grid 안에 같은 해당 숫자를 모두 0으로 바꿈
       const clickedIndex = grid[rowIndex][colIndex];
       const newGrid = grid.map((row) =>
@@ -238,7 +224,9 @@ const ThirdPage = ({
       handleUpdateFieldGridArray(newGrid);
 
       // 3. 해당 숫자와 같은 indexArray의 number 값을 찾고 해당 객체{}를 삭제함
-      setIndexArray(indexArray.filter((crop) => crop.number !== clickedIndex));
+      handleUpdateCropIndexArray(
+        cropIndexArray.filter((crop) => crop.number !== clickedIndex)
+      );
     }
   };
 
@@ -250,7 +238,9 @@ const ThirdPage = ({
       );
       handleUpdateFieldGridArray(newGrid);
 
-      setIndexArray(indexArray.filter((crop) => crop.number !== cropNumber));
+      handleUpdateCropIndexArray(
+        cropIndexArray.filter((crop) => crop.number !== cropNumber)
+      );
     }
   };
 
@@ -280,15 +270,12 @@ const ThirdPage = ({
     // 처음 렌더링 할 때 저장한 작물 리스트가 있으면 있는 거 가져옴
     if (fieldCropsList.length > 0) {
       setCropsList(fieldCropsList);
+      setNextIndex(cropIndexArray.length + 2);
     } else {
       // 처음 렌더링 할때 저장한 작물 리스트가 없을 때 작물리스트 넣기
       //(1단게 => 3단계 커스텀 바로 갈 때)
       fetchGetCustomInfo();
     }
-
-    // 처음 렌더링 할 때 nextIndex 찾기
-    const nextNum = Math.max(...indexArray.map((crop) => crop.number)) + 1;
-    setNextIndex(nextNum);
   }, []);
 
   useEffect(() => {
@@ -299,6 +286,10 @@ const ThirdPage = ({
     if (currentCropsIndex >= 0) console.log(cropsList[currentCropsIndex].id);
   }, [currentCropsIndex]);
 
+  useEffect(() => {
+    console.log(cropIndexArray);
+  }, [cropIndexArray]);
+
   return (
     <>
       {isSave ? (
@@ -306,9 +297,13 @@ const ThirdPage = ({
           handleStep={handleStep}
           step={3}
           userAccessToken={userAccessToken}
+          crops={cropIndexArray}
+          clickableField={clickableField}
+          grid={grid}
+          farmCoordinateArray={farmCoordinateArray}
         />
       ) : (
-        <div className="relative flex flex-col justify-between items-center w-[90%] h-[95%]">
+        <div className="relative flex flex-col justify-between items-center w-[90%] h-[95%] ">
           <TitleBox
             basicText1="텃밭을"
             pointText="커스텀"
@@ -340,49 +335,53 @@ const ThirdPage = ({
                 />
               ))}
             </div>
-            <div className="flex jsutify-center items-center border border-green-100 rounded-[20px] w-[70%] bg-white-100 overflow-y-auto">
-              <ShowArrangement
-                grid={grid}
-                crops={indexArray}
-                type="custom"
-                checkArray={clickableField}
-                handlePlace={handleClickCell}
-                handleDeleteCrop={handleDeleteCrop}
-              />
+            <div className="flex justify-center items-center border border-green-100 rounded-[20px] w-[70%] bg-white-100 overflow-hidden">
+              <div className="w-full h-full overflow-y-auto">
+                <ShowArrangement
+                  grid={grid}
+                  crops={cropIndexArray}
+                  type="custom"
+                  checkArray={clickableField}
+                  handlePlace={handleClickCell}
+                  handleDeleteCrop={handleDeleteCrop}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="absolute left-0 top-5">
-            <div className="flex gap-2 items-center">
-              <div className="font-bold text-lg">
-                {cropsList[currentCropsIndex].name}
-              </div>
-              <div className="flex gap-1">
-                <div> 세로: </div>
-                <div className="flex">
-                  <div className="text-green-300 font-bold">
-                    {cropsList[currentCropsIndex].cropHeight / 10}
-                  </div>
-                  <div>칸</div>
+          {currentCropsIndex !== -1 ? (
+            <div className="absolute left-0 top-5">
+              <div className="flex gap-2 items-center">
+                <div className="font-bold text-lg">
+                  {cropsList[currentCropsIndex].name}
                 </div>
-              </div>
-              <div className="flex gap-1">
-                <div> 가로: </div>
-                <div className="flex">
-                  <div className="text-green-300 font-bold">
-                    {cropsList[currentCropsIndex].cropWidth / 10}
+                <div className="flex gap-1">
+                  <div> 세로: </div>
+                  <div className="flex">
+                    <div className="text-green-300 font-bold">
+                      {cropsList[currentCropsIndex].cropHeight / 10}
+                    </div>
+                    <div>칸</div>
                   </div>
-                  <div>칸</div>
+                </div>
+                <div className="flex gap-1">
+                  <div> 가로: </div>
+                  <div className="flex">
+                    <div className="text-green-300 font-bold">
+                      {cropsList[currentCropsIndex].cropWidth / 10}
+                    </div>
+                    <div>칸</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : null}
 
           <Button
             text="저장하기"
             bgStyles="bg-green-400 px-5"
             textStyles="text-white-100 font-semibold"
-            handleClick={handleSaveButton}
+            handleClick={handleSave}
           />
         </div>
       )}

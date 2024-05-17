@@ -3,9 +3,17 @@ import CropsBox from "../CropsBox";
 import TitleBox from "../TitleBox";
 import CropsInput from "./CropsInput";
 import Button from "@/app/_components/common/Button";
-import { getCropInfo } from "@/api/farm-design";
-import { CropInfo, getCropInfoResponse } from "@/type/farmDesginType";
-import { FieldCropsListType } from "../StepBox";
+import { CreateRecommendation, getCropInfo } from "@/api/farm-design";
+import {
+  CreateRecommendResponse,
+  CropInfo,
+  getCropInfoResponse,
+} from "@/type/farmDesginType";
+import {
+  FarmCoordinateType,
+  FieldCropsListType,
+  cropIndexType,
+} from "../StepBox";
 
 interface Crops {
   id: number;
@@ -29,6 +37,9 @@ interface Props {
   userAccessToken: string;
   fieldDesignId: number;
   handleUpdateFieldCropsList: (newFieldCropsList: FieldCropsListType[]) => void;
+  handleUpdateCropIndexArray: (newCropIndexArray: cropIndexType[]) => void;
+  handleUpdateFieldGridArray: (newFieldGridArray: number[][]) => void;
+  handleFarmCoordinateArray: (newCoordinateArray: FarmCoordinateType[]) => void;
 }
 
 const SecondFirstPage = ({
@@ -36,6 +47,9 @@ const SecondFirstPage = ({
   userAccessToken,
   fieldDesignId,
   handleUpdateFieldCropsList,
+  handleUpdateCropIndexArray,
+  handleUpdateFieldGridArray,
+  handleFarmCoordinateArray,
 }: Props) => {
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<Crops[]>([]);
@@ -63,7 +77,6 @@ const SecondFirstPage = ({
     ) {
       // isClick 변수 변경
       setCropsList((prevCropsList) => {
-        console.log(prevCropsList);
         const updatedCropsList = [...prevCropsList];
         updatedCropsList[index] = {
           ...updatedCropsList[index],
@@ -142,12 +155,11 @@ const SecondFirstPage = ({
       });
       return updatedCropsList;
     });
-
-    console.log(cropsList);
   };
 
   // 확인 버튼 (다음 컴포넌트 보여주기 위해)
-  const OkButton = () => {
+  const OkButton = async () => {
+    // 받아온 작물 리스트 위로 올려서 저장
     if (cropsList.length > 0) {
       const resultCropsList: FieldCropsListType[] = cropsList.map(
         (crop: Crops) => ({
@@ -162,6 +174,47 @@ const SecondFirstPage = ({
       );
 
       handleUpdateFieldCropsList(resultCropsList);
+    }
+
+    // 만약 클릭한 작물이 있고
+    if (clickedCrops.length > 0) {
+      let isVaild = true;
+      for (let i = 0; i < clickedCrops.length; i++) {
+        if (
+          clickedCrops[i].inputNumber === "" ||
+          Number(clickedCrops[i].inputNumber) < 0
+        ) {
+          isVaild = false;
+          break;
+        }
+      }
+
+      // 유효성 검사 통과했다면
+      if (isVaild) {
+        // body로 보낼 request
+        const cropList: {
+          cropId: number;
+          priority: number;
+          quantity: number;
+        }[] = clickedCrops.map((crop: Crops) => ({
+          cropId: crop.id,
+          priority: crop.priority,
+          quantity: Number(crop.inputNumber),
+        }));
+
+        // api 연결
+        const result: CreateRecommendResponse = await CreateRecommendation({
+          accessToken: userAccessToken,
+          request: { cropList: cropList },
+          designId: fieldDesignId,
+        });
+
+        // console.log(cropsList);
+
+        handleUpdateCropIndexArray(result.cropNumberAndCropIdDtoList);
+        handleUpdateFieldGridArray(result.designArray);
+        handleFarmCoordinateArray(result.farmCoordinateList);
+      }
     }
 
     handleCheck();
@@ -217,8 +270,6 @@ const SecondFirstPage = ({
         sum += item.inputNumber * item.area;
       }
     });
-
-    console.log("sum" + sum + " totalRidgeArea: " + totalRidgeArea);
 
     setCurrentRidgeArea(totalRidgeArea - sum);
   }, [clickedCrops]);

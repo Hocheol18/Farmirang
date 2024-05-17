@@ -53,9 +53,7 @@ export interface getCropInfoResponse {
 export interface CreateRecommendParams {
   accessToken: string;
   request: {
-    cropId: number;
-    quantity: number;
-    priority: number;
+    cropList: { cropId: number; priority: number; quantity: number }[];
   };
   designId: number;
 }
@@ -66,13 +64,13 @@ export interface CreateRecommendResponse {
   cropNumberAndCropIdDtoList: {
     cropId: number;
     number: number;
-  };
+  }[];
   // 밭 좌표
   farmCoordinateList: {
     row: number;
     column: number;
     sequence: number;
-  };
+  }[];
 }
 
 // 2, 3단계 이름 수정 PUT Request
@@ -102,6 +100,6 @@ export interface CreateCustomDesignParams {
     cropIdAndQuantityDtoList: {
       cropId: number;
       quantity: number;
-    };
+    }[];
   };
 }
