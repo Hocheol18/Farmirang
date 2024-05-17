@@ -63,7 +63,6 @@ const ShowArrangement = ({
   const rLen = grid.length; // 그리드의 행 개수
   const cLen = grid[0].length; // 그리드의 열 개수
   const gridRef = useRef<HTMLDivElement>(null); // 그리드 ref (그리드 요소에 대한 참조)
-  const [scale, setScale] = useState(1); // 초기 스케일 값을 1로 설정
 
   //getCropBorderStyle: 작물 테두리 스타일을 계산하는 함수
   const getCropBorderStyle = (cropId: number): React.CSSProperties | null => {

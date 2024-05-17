@@ -7,6 +7,12 @@ interface Crop {
   name: string;
   isClick: boolean;
   pic: StaticImageData;
+  nitrogen: number;
+  phosphate: number;
+  potassium: number;
+  addNitrogen: number;
+  addPhosphate: number;
+  addPotassium: number;
 }
 
 interface Props {
@@ -20,17 +26,17 @@ const FertilizerContent = ({ selectedCrop }: Props) => {
         type="front"
         id={selectedCrop.id}
         name={selectedCrop.name}
-        N={13}
-        P={3.3}
-        K={11.4}
+        N={selectedCrop.nitrogen}
+        P={selectedCrop.phosphate}
+        K={selectedCrop.potassium}
       />
       <FertilizerBox
         type="back"
         id={selectedCrop.id}
         name={selectedCrop.name}
-        N={13}
-        P={3.3}
-        K={11.4}
+        N={selectedCrop.addNitrogen}
+        P={selectedCrop.addPhosphate}
+        K={selectedCrop.addPotassium}
       />
     </div>
   );

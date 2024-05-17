@@ -12,9 +12,25 @@ interface Props {
   userAccessToken: string;
 }
 
-interface FieldCropsListType {
+export interface FieldCropsListType {
+  id: number;
+  name: string;
+  isClick: boolean;
+  isRecommend: boolean;
+  cropHeight: number;
+  cropWidth: number;
+  area: number;
+}
+
+export interface cropIndexType {
   cropId: number;
   number: number;
+}
+
+export interface FarmCoordinateType {
+  row: number;
+  column: number;
+  sequence: number;
 }
 
 const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
@@ -33,6 +49,17 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
   const [fieldCropsList, setFieldCropsList] = useState<FieldCropsListType[]>(
     []
   );
+
+  // 몇 번에 cropId 몇인지 알려주는 배열
+  const [cropIndexArray, setCropIndexArray] = useState<cropIndexType[]>([]);
+
+  // 밭의 좌표 배열(보여줄 때 밭 모양도 보여줄 것)
+  const [farmCoordinateArray, setFarmCoordinateArray] = useState<
+    FarmCoordinateType[]
+  >([]);
+
+  // 4단계 들어갈 때 필요한 작물 이름 리스트
+  const [cropsNameList, setCropsNameList] = useState<string[]>([]);
 
   // 디자인 Id update
   const handleUpdateFieldDesignId = (newDesignId: number) => {
@@ -58,6 +85,23 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
     setFieldCropsList(newFieldCropsList);
   };
 
+  // 몇 번에 cropId 몇인지 알려주는 배열 update
+  const handleUpdateCropIndexArray = (newCropIndexArray: cropIndexType[]) => {
+    setCropIndexArray(newCropIndexArray);
+  };
+
+  // 밭 좌표 배열 update
+  const handleFarmCoordinateArray = (
+    newCoordinateArray: FarmCoordinateType[]
+  ) => {
+    setFarmCoordinateArray(newCoordinateArray);
+  };
+
+  // 작물에 있는 이름 리스트 배열 update (2, 3단계에서 저장 누를 때 실행)
+  const handleUpdateCropsNameList = (newCropsNameList: string[]) => {
+    setCropsNameList(newCropsNameList);
+  };
+
   // 각 단계별 컴포넌트들
   const content: JSX.Element[] = [
     <FirstPage
@@ -73,13 +117,36 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       handleStep={handleStep}
       userAccessToken={userAccessToken}
       fieldDesignId={fieldDesignId}
+      handleUpdateFieldCropsList={handleUpdateFieldCropsList}
+      cropIndexArray={cropIndexArray}
+      handleUpdateCropIndexArray={handleUpdateCropIndexArray}
+      fieldClickableArray={fieldClickableArray}
+      fieldGridArray={fieldGridArray}
+      handleUpdateFieldGridArray={handleUpdateFieldGridArray}
+      handleFarmCoordinateArray={handleFarmCoordinateArray}
+      farmCoordinateArray={farmCoordinateArray}
+      handleUpdateCropsNameList={handleUpdateCropsNameList}
     />,
     <ThirdPage
       key="third"
       handleStep={handleStep}
       userAccessToken={userAccessToken}
+      fieldCropsList={fieldCropsList}
+      fieldDesignId={fieldDesignId}
+      clickableField={fieldClickableArray}
+      grid={fieldGridArray}
+      handleUpdateFieldGridArray={handleUpdateFieldGridArray}
+      cropIndexArray={cropIndexArray}
+      handleUpdateCropIndexArray={handleUpdateCropIndexArray}
+      farmCoordinateArray={farmCoordinateArray}
+      handleFarmCoordinateArray={handleFarmCoordinateArray}
+      handleUpdateCropsNameList={handleUpdateCropsNameList}
     />,
-    <FourthPage key="fourth" />,
+    <FourthPage
+      key="fourth"
+      cropsNameList={cropsNameList}
+      fieldCropsList={fieldCropsList}
+    />,
   ];
 
   return (
