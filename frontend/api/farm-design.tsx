@@ -1,4 +1,10 @@
-import { createFieldParams, getDesignIdParams } from "@/type/farmDesginType";
+import {
+  CreateCustomDesignParams,
+  CreateRecommendParams,
+  createFieldParams,
+  getDesignIdParams,
+  updateDesignNameParams,
+} from "@/type/farmDesginType";
 
 ("@/app/_stores/userStore");
 import { makeQuerystring } from "@/utils/ApiUtils";
@@ -50,10 +56,49 @@ export const getCropInfo = async (params: getDesignIdParams) => {
 // createRecommendation
 // 2단계 - 추천 디자인 생성 POST
 // /api/v1/designs/{designId}/recommendations
+export const CreateRecommendation = async (params: CreateRecommendParams) => {
+  const { accessToken, request, designId } = params;
+  const response = await fetch(
+    `${DESIGN_URL}/v1/designs/${designId}/recommendations`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    }
+  );
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
 
 // updateDesignName
 // 2단계&3단계 - 디자인 이름 수정 PUT
 // /api/v1/designs/{designId}/names
+export const UpdateDesignName = async (params: updateDesignNameParams) => {
+  const { accessToken, request, designId } = params;
+  const response = await fetch(`${DESIGN_URL}/v1/designs/${designId}/names`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
 
 // getCustomEmptyField
 // 3단계 - 커스텀용 조회 GET
@@ -79,6 +124,24 @@ export const getCustomEmptyField = async (params: getDesignIdParams) => {
 // createCustomDesign
 // 3단계 - 커스텀 디자인 생성 POST
 // /api/v1/designs/{designId}/customs
+export const CreateCustomDesign = async (params: CreateCustomDesignParams) => {
+  const { accessToken, request, designId } = params;
+  const response = await fetch(`${DESIGN_URL}/v1/designs/${designId}/customs`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
 
 // recommendFertilizer
 // 4단계 - 비료 추천 POST (BASE_URL, Header X)

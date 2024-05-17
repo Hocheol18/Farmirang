@@ -49,7 +49,59 @@ export interface getCropInfoResponse {
   ridgeHeight: number;
 }
 
+// 2단계 - 작물 정보로 추천 디자인 생성 POST Request
+export interface CreateRecommendParams {
+  accessToken: string;
+  request: {
+    cropId: number;
+    quantity: number;
+    priority: number;
+  };
+  designId: number;
+}
+
+// 2단계 - 작물 정보로 추천 디자인 생성 POST Response
+export interface CreateRecommendResponse {
+  designArray: number[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  };
+  // 밭 좌표
+  farmCoordinateList: {
+    row: number;
+    column: number;
+    sequence: number;
+  };
+}
+
+// 2, 3단계 이름 수정 PUT Request
+export interface updateDesignNameParams {
+  accessToken: string;
+  designId: number;
+  request: {
+    name: string;
+  };
+}
+
 // 3단계 - 커스텀용 조회 GET
 export interface getCustomEmptyResponse {
   cropList: CropInfo[];
+}
+
+// 3단계 커스텀 디자인 생성 POST Request
+export interface CreateCustomDesignParams {
+  accessToken: string;
+  designId: number;
+  request: {
+    designArray: number[][];
+    cropNumberAndCropIdDtoList: {
+      cropId: number;
+      number: number;
+    }[];
+    cropIdAndQuantityDtoList: {
+      cropId: number;
+      quantity: number;
+    };
+  };
 }
