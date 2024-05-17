@@ -2,14 +2,12 @@ package com.cg.farmirang.backenduser.feature.security.config;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,20 +15,13 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cg.farmirang.backenduser.feature.security.dto.common.CustomOAuth2User;
 import com.cg.farmirang.backenduser.feature.security.dto.request.JwtCreateTokenRequestDto;
-import com.cg.farmirang.backenduser.feature.security.dto.request.JwtTokenRequestDto;
 import com.cg.farmirang.backenduser.feature.security.service.CustomOAuth2UserService;
 import com.cg.farmirang.backenduser.feature.security.service.JwtService;
-import com.cg.farmirang.backenduser.feature.security.utils.InstantAdapter;
 import com.cg.farmirang.backenduser.feature.user.entity.MemberRole;
-import com.cg.farmirang.backenduser.global.common.code.ErrorCode;
-import com.cg.farmirang.backenduser.global.common.response.ErrorResponse;
-import com.google.gson.GsonBuilder;
-
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +32,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SecurityConfig {
 
-	@Value("${com.farmirang.user.login.result}")
-	private String loginResult;
 	@Value("${com.farmirang.user.login.location}")
 	private String loginLocation;
 	@Value("${com.farmirang.user.login.redirect}")
 	private String loginRedirect;
+	@Value("${com.farmirang.user.login.redirect.host}")
+	private String loginResultHost;
+	@Value("${com.farmirang.user.login.redirect.port}")
+	private String loginResultPort;
+	@Value("${com.farmirang.user.login.redirect.success}")
+	private String loginResultSuccess;
+	@Value("${com.farmirang.user.login.redirect.cancel}")
+	private String loginResultCancel;
 
 	private final CustomOAuth2UserService customUserService;
 	private final JwtService jwt;
@@ -85,59 +82,14 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	public LogoutHandler logoutHandler() {
-		var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
-		return (req, res, auth) -> {
-			var cookies = req.getCookies();
-			String deviceId = req.getHeader("device-id");
-			if(cookies != null) {
-				for (var c : cookies) {
-					if(c.getName().equals("device-id")) {
-						deviceId = c.getValue();
-						break;
-					}
-				}
-			}
-			var accessToken = req.getHeader("Authorization");
-			if(accessToken != null) {
-				var split = accessToken.split(" ");
-				if(split.length != 2 || !split[0].equalsIgnoreCase("Bearer")) {
-					var errorResponse = ErrorResponse.of(ErrorCode.UNSUPPORTED_TOKEN_ERROR, "지원하지 않는 토큰 형식입니다.");
-					res.setStatus(401);
-					res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-					try (var out = res.getWriter()) {
-						out.write(gson.toJson(errorResponse));
-						out.flush();
-					} catch (Exception e) {
-						log.error("LogoutHandler-Error: {}", e.getMessage());
-					}
-				}
-				var token = JwtTokenRequestDto.builder().accessToken(accessToken).deviceId(deviceId).build();
-				log.warn("LogoutHandler-토큰 폐기 시도: {}", token);
-				var result = jwt.revokeToken(token);
-				if(!result.result()) log.warn("LogoutHandler-토큰 폐기 실패, device-id: {}", deviceId);
-				res.setStatus(200);
-				res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				try(var out = res.getWriter()) {
-					out.write(gson.toJson(result));
-					out.flush();
-				} catch (Exception e) {
-					log.error("LogoutHandler-Error: {}", e.getMessage());
-				}
-			}
-		};
-	}
-
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {
-		var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+		// var gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 		return (req, res, e) -> {
-			var errorResponse = ErrorResponse.of(ErrorCode.WRONG_TOKEN_ERROR, Arrays.toString(e.getStackTrace()));
-			res.setStatus(401);
-			res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			var out = res.getWriter();
-			out.write(gson.toJson(errorResponse));
-			out.flush();
+			log.debug("SecurityConfig AuthenticationFailureHandler: {}", e.getMessage());
+			log.warn("SecurityConfig AuthenticationFailureHandler: {}", Arrays.toString(e.getStackTrace()));
+			var loginResult = loginResultHost + ":" + loginResultPort + loginResultCancel;
+			redirectStrategy.sendRedirect(req, res, loginResult);
 		};
 	}
 
@@ -187,7 +139,7 @@ public class SecurityConfig {
 			res.addCookie(createCookie("role", dto.role().name()));
 			res.addCookie(createCookie("profile-img", (String)attributes.get("profile_img")));
 
-
+			var loginResult = loginResultHost + ":" + loginResultPort + loginResultSuccess;
 			redirectStrategy.sendRedirect(req, res, loginResult);
 		};
 	}
