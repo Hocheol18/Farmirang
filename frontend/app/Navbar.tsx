@@ -51,8 +51,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     const response = await fetch(
-      // "http://localhost:8081/api/v1/security/logout",
-      `${MEMBER_URL}/v1/security/logout`,
+      "http://localhost:8081/api/v1/security/logout",
+      // `${MEMBER_URL}/v1/security/logout`,
       {
         method: "DELETE",
         headers: {
@@ -68,45 +68,48 @@ export default function Navbar() {
     }
   };
 
-  const reissueToken = async (accessToken: string, refreshToken: string) => {
-    try {
-      const response = await fetch(`${MEMBER_URL}/v1/security/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("토큰 재발급 요청이 실패했습니다.");
+  useEffect(() => {
+    const reissueToken = async (accessToken: string, refreshToken: string) => {
+      try {
+        const response = await fetch(`${MEMBER_URL}/v1/security/token`, {
+          cache: "no-store",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            refresh_token: refreshToken,
+            grant_type: "refresh_token",
+          }),
+        });
+        const responseData = await response.json();
+        updateToken(
+          responseData.data.access_token,
+          responseData.data.refresh_token
+        );
+      } catch (error) {
+        // 토큰 재발급 요청이 실패한 경우에 대한 에러 처리
+        console.error("토큰 재발급 요청 중 오류가 발생했습니다:", error);
+        throw error; // 예외를 다시 throw하여 호출자에게 전파
       }
-      const responseData = await response.json();
-      console.log(responseData);
+    };
 
-      const tokenData = {
-        accessToken: responseData.accessToken,
-        refreshToken: responseData.refreshToken,
-      };
-
-      updateToken(responseData.accessToken, responseData.refreshToken);
-      return responseData;
-    } catch (error) {
-      // 토큰 재발급 요청이 실패한 경우에 대한 에러 처리
-      console.error("토큰 재발급 요청 중 오류가 발생했습니다:", error);
-      throw error; // 예외를 다시 throw하여 호출자에게 전파
-    }
-  };
-
-  // 토큰 유효시간이 10분이기 때문에 8분마다 재요청을 하기로 함
-  // TODO
-  // const SILENT_REFRESH_TIME = 480000;
-  // const interval = setInterval(async () => {
-  //   await reissueToken(userInfo.accessToken, userInfo.refreshToken);
-  // }, SILENT_REFRESH_TIME);
+    // 토큰 유효시간이 10분이기 때문에 8분마다 재요청을 하기로 함
+    const SILENT_REFRESH_TIME = 540000;
+    const interval = setInterval(async () => {
+      // userInfo.accessToken이 공백이 아닌 경우에만 reissueToken 함수 실행
+      if (
+        userInfo.accessToken &&
+        userInfo.refreshToken &&
+        userInfo.accessToken.trim() !== "" &&
+        userInfo.refreshToken.trim() !== ""
+      ) {
+        await reissueToken(userInfo.accessToken, userInfo.refreshToken);
+      }
+    }, SILENT_REFRESH_TIME);
+    return () => clearInterval(interval);
+  }, [userInfo]);
 
   return (
     <>
@@ -154,7 +157,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   {/* 로그인 상태일 경우 알람 아이콘과 마이페이지 버튼이 보이도록 한다 */}
-                  {userInfo.accessToken.length > 0 ? (
+                  {userInfo.memberId.length > 0 ? (
                     <>
                       <div className="hidden md:block">
                         <div className="ml-6 flex items-center md:ml-6 space-x-2">

@@ -1,12 +1,11 @@
-"use client";
-
-import MiniNavigation from "../component/mini-nav";
+import { DESIGN_URL } from "@/utils/ServerApi";
 import Button from "@/app/_components/common/Button";
 import Modal from "@/app/_components/common/Modal";
-import DesignCard from "../component/design-card";
 import DesignUpload from "@/app/board/component/design-upload";
+import MiniNavigation from "../component/mini-nav";
+import DesignCard from "../component/design-card";
 
-export default function MyFarmDesign() {
+export default async function MyFarmDesign() {
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">

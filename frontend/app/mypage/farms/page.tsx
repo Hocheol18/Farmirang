@@ -1,10 +1,36 @@
 "use client";
 
+import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
-import Button from "@/app/_components/common/Button";
+
+// async function getData(memberId: number) {
+//   const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
+//   return res.json();
+// }
 
 export default function MyFarm() {
+  // localStorage에서 accessToken 받는 방법
+  let accessToken = "";
+  let memberId = "";
+  let profileImg = "";
+  let role = "";
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+      memberId = lsInfo.state.userInfo.memberId;
+      profileImg = lsInfo.state.userInfo.profileImg;
+      role = lsInfo.state.userInfo.role;
+    }
+  }
+  // const data = await getData(Number(memberId));
+  // console.log(data);
+
+  // useEffect(() => {
+  // }, []);
+
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">
@@ -22,16 +48,12 @@ export default function MyFarm() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 밭 목록</div>
-                <Button
-                  text={"새로추가"}
-                  bgStyles={"bg-green-300"}
-                  textStyles={"text-font-m5 text-white-100"}
-                  handleClick={() => {}}
-                />
+                모달버튼
               </div>
               {/* 카드 리스트 */}
               <div className="w-full flex flex-col gap-[20px] justify-center">
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -39,6 +61,7 @@ export default function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -46,6 +69,7 @@ export default function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}
@@ -53,6 +77,7 @@ export default function MyFarm() {
                   direction={"강동구 강일동"}
                 />
                 <FarmCard
+                  fieldId={0}
                   farmName={"강동주말농장"}
                   date={"2024년 1월 1일"}
                   cultivating={false}

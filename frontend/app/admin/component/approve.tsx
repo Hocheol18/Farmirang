@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { AGENCY_URL } from "@/utils/ServerApi";
 import Modal from "@/app/_components/common/Modal";
 import { useUserStore } from "@/app/_stores/userStore";
-import SelectMenu from "@/app/_components/common/SelectMenus";
 import Image from "next/image";
 
 interface AgencyData {
@@ -24,11 +23,9 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
   const [approval, setApproval] = useState<number>(1);
   const [payloadApprove, setPayloadApprove] = useState<boolean>(false);
   const [agencyData, setAgencyData] = useState<AgencyData>();
-  const MyDesignArr = [
-    { id: 1, name: "승인 허가", value: true },
-    { id: 2, name: "승인 불가", value: false },
-  ];
-  console.log(approval);
+  const plans = ["승인 허가", "승인 불가"];
+  const [selected, setSelected] = useState(plans[0]);
+
   // 셀렉트 메뉴
   const handleValueChange = (value: any) => {
     setApproval(value);
@@ -52,9 +49,9 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
   // 운영자의 기관신청 승인 로직
   const approveAgency = async () => {
     if (approval === 1) {
-      setPayloadApprove(true);
-    } else {
       setPayloadApprove(false);
+    } else {
+      setPayloadApprove(true);
     }
     const requestBody = JSON.stringify({
       agency_id: agencyId,
@@ -81,7 +78,7 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
       fetchAgency();
     }
   }, [userInfo]);
-  console.log(agencyData);
+  // console.log(agencyData);
   return (
     <>
       <Modal
@@ -108,14 +105,13 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
                 </>
               )
             ) : (
-              <SelectMenu
-                labelcss={"font-semibold text-black-100 text-sm"}
-                topScript={"승인여부!"}
-                items={MyDesignArr}
-                bordercss={"border-gray-300"}
-                value={approval}
-                onChange={handleValueChange}
-              />
+              <form action="a.jsp">
+                성별
+                <input type="radio" name="gender" value="female" />
+                여성
+                <input type="radio" name="gender" value="male" />
+                남성
+              </form>
             )}
 
             <div className="text-lg font-semibold mt-10">기관 아이디</div>
