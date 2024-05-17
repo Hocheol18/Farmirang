@@ -180,11 +180,6 @@ const FirstInputBox = ({
     }
   };
 
-  // 커스텀 단계로 넘어가기
-  const handleCustom = () => {
-    handleStep(3);
-  };
-
   // 그려진 점의 목록을 저장하는 상태
   const [points, setPoints] = useState<Point[]>([]);
   // 드래그 중인 점을 저장하는 상태
@@ -280,6 +275,7 @@ const FirstInputBox = ({
           bordercss="border-gray-300"
           onChange={handleDirectionChange}
           value={direction}
+          textSmall="text-md"
         />
         <SelectMenu
           labelcss={labelcss}
@@ -288,6 +284,7 @@ const FirstInputBox = ({
           bordercss="border-gray-300"
           onChange={handleMonthChange}
           value={month}
+          textSmall="text-md"
         />
       </div>
       {/* 좌표 그림판 및 좌표 표 (+버튼) div */}

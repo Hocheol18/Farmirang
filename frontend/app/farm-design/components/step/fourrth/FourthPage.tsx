@@ -27,19 +27,33 @@ import helpPoster from "../../../../../public/icons/tmpHelp.png";
 
 import { FaQuestion } from "react-icons/fa6";
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Image, { StaticImageData } from "next/image";
 import useOutsideClick from "@/app/_hooks/useOutsideClick";
+import { FieldCropsListType } from "../StepBox";
+import { getRecommendFertilizer } from "@/api/farm-design";
+import { Fertilizers } from "@/type/farmDesginType";
 
 interface Crops {
   id: number;
   name: string;
   isClick: boolean;
   pic: StaticImageData;
+  nitrogen: number;
+  phosphate: number;
+  potassium: number;
+  addNitrogen: number;
+  addPhosphate: number;
+  addPotassium: number;
 }
 
-const FourthPage = () => {
-  // 임시 함수...
-  const tmpHandleFunction = () => {};
+interface Props {
+  cropsNameList: string[];
+  fieldCropsList: FieldCropsListType[];
+}
+
+const FourthPage = ({ cropsNameList, fieldCropsList }: Props) => {
+  const router = useRouter();
 
   const picList: StaticImageData[] = [
     Potato,
@@ -60,28 +74,6 @@ const FourthPage = () => {
     Korean,
   ];
 
-  const cropsName: string[] = [
-    "감자",
-    "고구마",
-    "청양고추",
-    "당근",
-    "딸기",
-    "땅콩",
-    "방울토마토",
-    "부추",
-    "블루베리",
-    "상추",
-    "생강",
-    "양파",
-    "열무",
-    "오이",
-    "옥수수",
-    "참외",
-  ];
-
-  // ***임시로 오는 배열 ****
-  const arr: number[] = [2, 3, 5, 7, 9, 11, 12, 14, 16];
-
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<Crops[]>([]);
 
@@ -91,22 +83,43 @@ const FourthPage = () => {
   // selectedItem: 선택한 작물
   const [selectedItem, setSelectedItem] = useState<Crops>();
 
-  // 처음 렌더링 할때 작물 배열에 넣기
   useEffect(() => {
-    const initialCropsList: Crops[] = [];
-
-    for (let i of arr) {
-      initialCropsList.push({
-        id: i,
-        name: cropsName[i - 1],
-        isClick: false,
-        pic: picList[i - 1],
+    const fetchRecommendFertilizer = async () => {
+      const result: Fertilizers = await getRecommendFertilizer({
+        crops: cropsNameList,
       });
-    }
 
-    setCropsList(initialCropsList);
-    setSelectedItem(initialCropsList[0]);
-  }, []);
+      console.log(result);
+
+      // 처음 렌더링 할때 작물 배열에 넣기
+      const initialCropsList: Crops[] = fieldCropsList
+        .filter((item) => cropsNameList.includes(item.name))
+        .map((item) => {
+          const fertilizer = result[item.name];
+          console.log(fertilizer);
+          return {
+            id: item.id,
+            name: item.name,
+            isClick: false,
+            pic: picList[item.id - 1],
+            addNitrogen: fertilizer ? fertilizer[0].addNitrogen : 0,
+            addPhosphate: fertilizer ? fertilizer[0].addPhosphate : 0,
+            addPotassium: fertilizer ? fertilizer[0].addPotassium : 0,
+            nitrogen: fertilizer ? fertilizer[0].nitrogen : 0,
+            phosphate: fertilizer ? fertilizer[0].phosphate : 0,
+            potassium: fertilizer ? fertilizer[0].potassium : 0,
+          };
+        });
+
+      console.log(result);
+      console.log(initialCropsList);
+
+      setCropsList(initialCropsList);
+      setSelectedItem(initialCropsList[0]);
+    };
+
+    fetchRecommendFertilizer();
+  }, [cropsNameList, fieldCropsList]);
 
   // toggleSelectBox: 드롭다운 열리는 함수
   const toggleSelectBox = () => {
@@ -117,6 +130,7 @@ const FourthPage = () => {
   const handleItemClick = (item: Crops) => {
     // 해당 item이 선택되고
     setSelectedItem(item);
+
     // 드롭다운은 닫힌다
     setIsOpen(false);
   };
@@ -142,6 +156,11 @@ const FourthPage = () => {
       setIsHelp(false);
     }
   });
+
+  // 텃밭 등록하러 가기 함수
+  const handleRouter = () => {
+    router.push("/farm-enroll");
+  };
 
   return (
     <div className="flex flex-col justify-around items-center w-[90%] h-[90%]">
@@ -233,7 +252,7 @@ const FourthPage = () => {
             text="텃밭 등록하러 가기"
             bgStyles="bg-green-400 px-2"
             textStyles="text-white-100 font-semibold"
-            handleClick={tmpHandleFunction}
+            handleClick={handleRouter}
           />
         </div>
       </div>
