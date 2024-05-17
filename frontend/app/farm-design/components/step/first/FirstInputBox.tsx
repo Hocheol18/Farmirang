@@ -158,19 +158,19 @@ const FirstInputBox = ({
       } else {
         const result: createFieldResponse = await fetchPostCreateField();
 
-        // console.log(result.farm);
+        console.log(result.farm);
 
-        // // true, false 배열 업데이트
-        // handleUpdateFieldClickableArray(result.farm);
+        // true, false 배열 업데이트
+        handleUpdateFieldClickableArray(result.farm);
 
-        // console.log(result.designId);
+        console.log(result.designId);
 
-        // // 디자인 ID 업데이트
-        // handleUpdateFieldDesignId(result.designId);
+        // 디자인 ID 업데이트
+        handleUpdateFieldDesignId(result.designId);
 
-        // console.log(result.designArray);
-        // // 작물 0 ,1, 2, 이런 배열 업데이트
-        // handleUpdateFieldGridArray(result.designArray);
+        console.log(result.designArray);
+        // 작물 0 ,1, 2, 이런 배열 업데이트
+        handleUpdateFieldGridArray(result.designArray);
 
         // 해당 step으로 넘어가기
         handleStep(step);
@@ -178,11 +178,6 @@ const FirstInputBox = ({
     } else {
       alert("빈 칸을 모두 채워주세요.");
     }
-  };
-
-  // 커스텀 단계로 넘어가기
-  const handleCustom = () => {
-    handleStep(3);
   };
 
   // 그려진 점의 목록을 저장하는 상태

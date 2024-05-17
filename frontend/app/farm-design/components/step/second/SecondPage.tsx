@@ -3,14 +3,21 @@
 import { useState } from "react";
 import SecondFirstPage from "./SecondFirstPage";
 import ShowStylePage from "../ShowStylePage";
+import { FieldCropsListType } from "../StepBox";
 
 interface Props {
   handleStep: (step: number) => void;
   userAccessToken: string;
   fieldDesignId: number;
+  handleUpdateFieldCropsList: (newFieldCropsList: FieldCropsListType[]) => void;
 }
 
-const SecondPage = ({ handleStep, userAccessToken, fieldDesignId }: Props) => {
+const SecondPage = ({
+  handleStep,
+  userAccessToken,
+  fieldDesignId,
+  handleUpdateFieldCropsList,
+}: Props) => {
   // 몇 번째 second 페이지 보여줄지 (false => 1번째, true=> 2번째)
   const [isCheck, setIsCheck] = useState<boolean>(false);
 
@@ -25,6 +32,7 @@ const SecondPage = ({ handleStep, userAccessToken, fieldDesignId }: Props) => {
           handleCheck={handleCheck}
           userAccessToken={userAccessToken}
           fieldDesignId={fieldDesignId}
+          handleUpdateFieldCropsList={handleUpdateFieldCropsList}
         />
       ) : (
         <ShowStylePage

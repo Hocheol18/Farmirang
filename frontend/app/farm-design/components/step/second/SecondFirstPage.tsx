@@ -5,6 +5,7 @@ import CropsInput from "./CropsInput";
 import Button from "@/app/_components/common/Button";
 import { getCropInfo } from "@/api/farm-design";
 import { CropInfo, getCropInfoResponse } from "@/type/farmDesginType";
+import { FieldCropsListType } from "../StepBox";
 
 interface Crops {
   id: number;
@@ -27,12 +28,14 @@ interface Props {
   handleCheck: () => void;
   userAccessToken: string;
   fieldDesignId: number;
+  handleUpdateFieldCropsList: (newFieldCropsList: FieldCropsListType[]) => void;
 }
 
 const SecondFirstPage = ({
   handleCheck,
   userAccessToken,
   fieldDesignId,
+  handleUpdateFieldCropsList,
 }: Props) => {
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<Crops[]>([]);
@@ -82,11 +85,6 @@ const SecondFirstPage = ({
     } else {
       alert("이 작물을 두둑에 심기에는 너무 큽니다.");
     }
-  };
-
-  // 임시...함수
-  const tmpHandleFunction = () => {
-    handleCheck();
   };
 
   // 우선 순위 배열
@@ -148,38 +146,59 @@ const SecondFirstPage = ({
     console.log(cropsList);
   };
 
+  // 확인 버튼 (다음 컴포넌트 보여주기 위해)
+  const OkButton = () => {
+    if (cropsList.length > 0) {
+      const resultCropsList: FieldCropsListType[] = cropsList.map(
+        (crop: Crops) => ({
+          id: crop.id,
+          name: crop.name,
+          isClick: false,
+          isRecommend: crop.isRecommend,
+          cropHeight: crop.cropHeight,
+          cropWidth: crop.cropWidth,
+          area: crop.area,
+        })
+      );
+
+      handleUpdateFieldCropsList(resultCropsList);
+    }
+
+    handleCheck();
+  };
+
   // 처음 렌더링 할때 작물 배열에 넣기
   useEffect(() => {
     const fetchGetCropInfo = async () => {
-      // if (fieldDesignId !== 0) {
-      const result: getCropInfoResponse = await getCropInfo({
-        accessToken: userAccessToken,
-        designId: fieldDesignId,
-      });
+      if (fieldDesignId !== 0) {
+        const result: getCropInfoResponse = await getCropInfo({
+          accessToken: userAccessToken,
+          designId: fieldDesignId,
+        });
 
-      // 작물 목록 초기화
-      const initialCropsList: Crops[] = result.cropList.map(
-        (crop: CropInfo) => ({
-          id: crop.cropId,
-          name: crop.name,
-          isClick: false,
-          isRecommend: crop.isRecommended,
-          cropHeight: crop.cropLengthAndAreaDto.cropHeight,
-          cropWidth: crop.cropLengthAndAreaDto.cropWidth,
-          area: crop.cropLengthAndAreaDto.area,
-          priority: 1,
-          inputNumber: "",
-        })
-      );
-      setCropsList(initialCropsList);
+        // 작물 목록 초기화
+        const initialCropsList: Crops[] = result.cropList.map(
+          (crop: CropInfo) => ({
+            id: crop.cropId,
+            name: crop.name,
+            isClick: false,
+            isRecommend: crop.isRecommended,
+            cropHeight: crop.cropLengthAndAreaDto.cropHeight,
+            cropWidth: crop.cropLengthAndAreaDto.cropWidth,
+            area: crop.cropLengthAndAreaDto.area,
+            priority: 1,
+            inputNumber: "",
+          })
+        );
+        setCropsList(initialCropsList);
 
-      // 밭의 면적, 두둑 가로, 두둑 세로 모두 업데이트
-      setTotalRidgeArea(result.totalRidgeArea);
-      setRidgeWidth(result.ridgeWidth);
-      setRidgeHeight(result.ridgeHeight);
+        // 밭의 면적, 두둑 가로, 두둑 세로 모두 업데이트
+        setTotalRidgeArea(result.totalRidgeArea);
+        setRidgeWidth(result.ridgeWidth);
+        setRidgeHeight(result.ridgeHeight);
+      }
+      //if 끝
     };
-    //if 끝
-    // };
 
     fetchGetCropInfo();
   }, []);
@@ -260,7 +279,7 @@ const SecondFirstPage = ({
           text="확인"
           bgStyles="bg-green-400 px-6 "
           textStyles="text-white-100 font-semibold"
-          handleClick={tmpHandleFunction}
+          handleClick={OkButton}
         />
       ) : null}
     </div>

@@ -12,9 +12,14 @@ interface Props {
   userAccessToken: string;
 }
 
-interface FieldCropsListType {
-  cropId: number;
-  number: number;
+export interface FieldCropsListType {
+  id: number;
+  name: string;
+  isClick: boolean;
+  isRecommend: boolean;
+  cropHeight: number;
+  cropWidth: number;
+  area: number;
 }
 
 const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
@@ -73,11 +78,17 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       handleStep={handleStep}
       userAccessToken={userAccessToken}
       fieldDesignId={fieldDesignId}
+      handleUpdateFieldCropsList={handleUpdateFieldCropsList}
     />,
     <ThirdPage
       key="third"
       handleStep={handleStep}
       userAccessToken={userAccessToken}
+      fieldCropsList={fieldCropsList}
+      fieldDesignId={fieldDesignId}
+      clickableField={fieldClickableArray}
+      grid={fieldGridArray}
+      handleUpdateFieldGridArray={handleUpdateFieldGridArray}
     />,
     <FourthPage key="fourth" />,
   ];

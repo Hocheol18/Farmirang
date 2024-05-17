@@ -50,3 +50,6 @@ export interface getCropInfoResponse {
 }
 
 // 3단계 - 커스텀용 조회 GET
+export interface getCustomEmptyResponse {
+  cropList: CropInfo[];
+}

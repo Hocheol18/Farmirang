@@ -4,16 +4,11 @@ import Button from "@/app/_components/common/Button";
 import { useEffect, useState } from "react";
 import CropsBox from "../CropsBox";
 import TitleBox from "../TitleBox";
-import Input from "@/app/_components/common/Input";
 import ShowArrangement from "@/app/_components/common/ShowArrangement";
 import ShowStylePage from "../ShowStylePage";
-
-interface Crops {
-  id: number;
-  name: string;
-  isClick: boolean;
-  isRecommend: boolean;
-}
+import { FieldCropsListType } from "../StepBox";
+import { getCustomEmptyField } from "@/api/farm-design";
+import { getCustomEmptyResponse } from "@/type/farmDesginType";
 
 interface CropIndex {
   cropId: number;
@@ -39,53 +34,46 @@ interface CropLength {
 interface Props {
   handleStep: (step: number) => void;
   userAccessToken: string;
+  fieldCropsList: FieldCropsListType[];
+  fieldDesignId: number;
+  clickableField: boolean[][];
+  grid: number[][];
+  handleUpdateFieldGridArray: (newFieldGridArray: number[][]) => void;
 }
 
-const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
-  const cropsName: string[] = [
-    "감자",
-    "고구마",
-    "청양고추",
-    "당근",
-    "딸기",
-    "땅콩",
-    "방울토마토",
-    "부추",
-    "블루베리",
-    "상추",
-    "생강",
-    "양파",
-    "열무",
-    "오이",
-    "옥수수",
-    "참외",
-  ];
-
+const ThirdPage = ({
+  handleStep,
+  userAccessToken,
+  fieldCropsList,
+  fieldDesignId,
+  clickableField,
+  grid,
+  handleUpdateFieldGridArray,
+}: Props) => {
   // cropsList: 작물 배열
-  const [cropsList, setCropsList] = useState<Crops[]>([]);
+  const [cropsList, setCropsList] = useState<FieldCropsListType[]>([]);
 
-  //현재 클릭한 작물
-  const [currentCrops, setCurrentCrops] = useState<Crops | null>();
+  //현재 클릭한 작물의 인덱스
+  const [currentCropsIndex, setCurrentCropsIndex] = useState<number>(-1);
 
   //   작물 컴포넌트 클릭시 isClick 변환 (이전에 클릭된건 지움)
-  const handleClick = (id: number) => {
+  const handleClick = (index: number) => {
     setIsCancel(false);
     setCropsList((prevCropsList) => {
       const updatedCropsList = [...prevCropsList];
 
-      if (currentCrops) {
-        updatedCropsList[currentCrops.id - 1] = {
-          ...updatedCropsList[currentCrops.id - 1],
-          isClick: !updatedCropsList[currentCrops.id - 1].isClick,
+      if (currentCropsIndex >= 0) {
+        updatedCropsList[currentCropsIndex] = {
+          ...updatedCropsList[currentCropsIndex],
+          isClick: !updatedCropsList[currentCropsIndex].isClick,
         };
       }
-
-      updatedCropsList[id - 1] = {
-        ...updatedCropsList[id - 1],
-        isClick: !updatedCropsList[id - 1].isClick,
+      updatedCropsList[index] = {
+        ...updatedCropsList[index],
+        isClick: !updatedCropsList[index].isClick,
       };
 
-      setCurrentCrops(cropsList[id - 1]);
+      setCurrentCropsIndex(index);
 
       return updatedCropsList;
     });
@@ -97,9 +85,6 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
   const handleSaveButton = () => {
     setIsSave(!isSave);
   };
-
-  // 임시 함수...
-  const tmpHandleFunction = () => {};
 
   // 저장하기
   const handleSave = () => {
@@ -126,197 +111,6 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
 
     handleStep(4);
   };
-
-  const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
-
-  // 작물 리스트
-  const cropLengthList: CropLength[] = [
-    {
-      cropId: 5,
-      name: "딸기",
-      isRecommended: true,
-      cropLengthAndAreaDto: {
-        height: 10,
-        width: 20,
-        area: 1200,
-      },
-    },
-
-    {
-      cropId: 1,
-      name: "감자",
-      isRecommended: false,
-      cropLengthAndAreaDto: {
-        height: 20,
-        width: 30,
-        area: 1000,
-      },
-    },
-
-    {
-      cropId: 3,
-      name: "청양고추",
-      isRecommended: false,
-      cropLengthAndAreaDto: {
-        height: 10,
-        width: 30,
-        area: 3200,
-      },
-    },
-    {
-      cropId: 2,
-      name: "고구마",
-      isRecommended: false,
-      cropLengthAndAreaDto: {
-        height: 10,
-        width: 20,
-        area: 2400,
-      },
-    },
-    {
-      cropId: 6,
-      name: "땅콩",
-      isRecommended: false,
-      cropLengthAndAreaDto: {
-        height: 10,
-        width: 10,
-        area: 800,
-      },
-    },
-
-    {
-      cropId: 4,
-      name: "당근",
-      isRecommended: false,
-      cropLengthAndAreaDto: {
-        height: 10,
-        width: 10,
-        area: 1200,
-      },
-    },
-  ];
-
-  // 5 x 20
-  const [grid, setGrid] = useState<number[][]>([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5],
-  ]);
-
-  const clickableField = [
-    [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ],
-    [
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-    ],
-    [
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ],
-    [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ],
-    [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      true,
-    ],
-  ];
 
   const crops: CropIndex[] = [
     {
@@ -356,14 +150,14 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
     setCropsList((prevCropsList) => {
       const updatedCropsList = [...prevCropsList];
 
-      if (currentCrops) {
-        updatedCropsList[currentCrops.id - 1] = {
-          ...updatedCropsList[currentCrops.id - 1],
-          isClick: !updatedCropsList[currentCrops.id - 1].isClick,
+      if (currentCropsIndex >= 0) {
+        updatedCropsList[currentCropsIndex] = {
+          ...updatedCropsList[currentCropsIndex],
+          isClick: !updatedCropsList[currentCropsIndex].isClick,
         };
       }
 
-      setCurrentCrops(null);
+      setCurrentCropsIndex(-1);
 
       return updatedCropsList;
     });
@@ -378,7 +172,7 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
   // 셀을 클릭할 때
   const handleClickCell = (rowIndex: number, colIndex: number) => {
     // 작물 클릭 후 셀 클릭 할 때
-    if (currentCrops) {
+    if (currentCropsIndex >= 0) {
       // 1. currentCrops가 null이 아닐 때, grid[rowIndex][colIndex]이 0이 아닌 걸 클릭하면 아무런 일도 일어나지 않음
       if (grid[rowIndex][colIndex] !== 0) {
         return;
@@ -389,10 +183,9 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
         grid[rowIndex][colIndex] === 0 &&
         clickableField[rowIndex][colIndex]
       ) {
-        // 2-1. currentCrops의 id(cropId임)가 cropLengthList에서 cropId와 같은 객체의 cropLengthAndAreaDto의 height와 width를 가져옴
-        const { height, width } = cropLengthList.find(
-          (crop) => crop.cropId === currentCrops.id
-        )?.cropLengthAndAreaDto || { height: 0, width: 0 };
+        // 2-1. currentCrops의 id(cropId임)(이것도변경)가 cropLengthList(변경 cropsList로)에서 cropId와 같은 객체의 cropLengthAndAreaDto의 height와 width를 가져옴
+        const height = cropsList[currentCropsIndex].cropHeight;
+        const width = cropsList[currentCropsIndex].cropWidth;
 
         // 2-2. 클릭한 셀로부터 가로로 width/10 만큼의 크기, 세로로 height/10만큼의 크기만큼의 칸들이 clickableField에서 true인지, grid에서 0인지 확인함
         let isValid = true;
@@ -419,12 +212,12 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
               newGrid[r][c] = nextIndex;
             }
           }
-          setGrid(newGrid);
+          handleUpdateFieldGridArray(newGrid);
 
           // 4. indexArray에 해당 인덱스 number와 해당 작물을 추가한다.
           setIndexArray([
             ...indexArray,
-            { cropId: currentCrops.id, number: nextIndex },
+            { cropId: cropsList[currentCropsIndex].id, number: nextIndex },
           ]);
         }
       }
@@ -442,7 +235,7 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
       const newGrid = grid.map((row) =>
         row.map((cell) => (cell === clickedIndex ? 0 : cell))
       );
-      setGrid(newGrid);
+      handleUpdateFieldGridArray(newGrid);
 
       // 3. 해당 숫자와 같은 indexArray의 number 값을 찾고 해당 객체{}를 삭제함
       setIndexArray(indexArray.filter((crop) => crop.number !== clickedIndex));
@@ -455,24 +248,43 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
       const newGrid = grid.map((row) =>
         row.map((cell) => (cell === cropNumber ? 0 : cell))
       );
-      setGrid(newGrid);
+      handleUpdateFieldGridArray(newGrid);
 
       setIndexArray(indexArray.filter((crop) => crop.number !== cropNumber));
     }
   };
 
   useEffect(() => {
-    // 처음 렌더링 할때 작물 배열에 넣기
-    const initialCropsList: Crops[] = [];
-    for (let i = 1; i <= 16; i++) {
-      initialCropsList.push({
-        id: i,
-        name: cropsName[i - 1],
-        isClick: false,
-        isRecommend: false,
+    const fetchGetCustomInfo = async () => {
+      const result: getCustomEmptyResponse = await getCustomEmptyField({
+        accessToken: userAccessToken,
+        designId: fieldDesignId,
       });
+
+      // 작물 목록 초기화
+      const initialCropsList: FieldCropsListType[] = result.cropList.map(
+        (crop) => ({
+          id: crop.cropId,
+          name: crop.name,
+          isClick: false,
+          isRecommend: crop.isRecommended,
+          cropHeight: crop.cropLengthAndAreaDto.cropHeight,
+          cropWidth: crop.cropLengthAndAreaDto.cropWidth,
+          area: crop.cropLengthAndAreaDto.area,
+        })
+      );
+
+      setCropsList(initialCropsList);
+    };
+
+    // 처음 렌더링 할 때 저장한 작물 리스트가 있으면 있는 거 가져옴
+    if (fieldCropsList.length > 0) {
+      setCropsList(fieldCropsList);
+    } else {
+      // 처음 렌더링 할때 저장한 작물 리스트가 없을 때 작물리스트 넣기
+      //(1단게 => 3단계 커스텀 바로 갈 때)
+      fetchGetCustomInfo();
     }
-    setCropsList(initialCropsList);
 
     // 처음 렌더링 할 때 nextIndex 찾기
     const nextNum = Math.max(...indexArray.map((crop) => crop.number)) + 1;
@@ -484,8 +296,8 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
   }, [grid]);
 
   useEffect(() => {
-    if (currentCrops) console.log(currentCrops.id);
-  }, [currentCrops]);
+    if (currentCropsIndex >= 0) console.log(cropsList[currentCropsIndex].id);
+  }, [currentCropsIndex]);
 
   return (
     <>
@@ -513,12 +325,13 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
             handleClick={handleCancel}
             buttonStyle="reset"
           />
+
           {/* 가운데 (작물 리스트 + 커스텀 공간) */}
           <div className="flex w-full h-[80%] gap-1 ">
             <div className="flex flex-wrap overflow-y-auto flex-1 gap-3 py-3 rounded-lg justify-center items-center">
               {cropsList.map((crops, index) => (
                 <CropsBox
-                  key={index}
+                  index={index}
                   id={crops.id}
                   name={crops.name}
                   isClick={crops.isClick}
@@ -538,6 +351,33 @@ const ThirdPage = ({ handleStep, userAccessToken }: Props) => {
               />
             </div>
           </div>
+
+          <div className="absolute left-0 top-5">
+            <div className="flex gap-2 items-center">
+              <div className="font-bold text-lg">
+                {cropsList[currentCropsIndex].name}
+              </div>
+              <div className="flex gap-1">
+                <div> 세로: </div>
+                <div className="flex">
+                  <div className="text-green-300 font-bold">
+                    {cropsList[currentCropsIndex].cropHeight / 10}
+                  </div>
+                  <div>칸</div>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <div> 가로: </div>
+                <div className="flex">
+                  <div className="text-green-300 font-bold">
+                    {cropsList[currentCropsIndex].cropWidth / 10}
+                  </div>
+                  <div>칸</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Button
             text="저장하기"
             bgStyles="bg-green-400 px-5"
