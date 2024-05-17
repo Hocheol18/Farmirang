@@ -1,3 +1,5 @@
+"use client";
+
 import { DESIGN_URL } from "@/utils/ServerApi";
 import Button from "@/app/_components/common/Button";
 import Modal from "@/app/_components/common/Modal";
@@ -5,7 +7,7 @@ import DesignUpload from "@/app/board/component/design-upload";
 import MiniNavigation from "../component/mini-nav";
 import DesignCard from "../component/design-card";
 
-export default async function MyFarmDesign() {
+export default function MyFarmDesign() {
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">

@@ -324,6 +324,7 @@ const ThirdPage = ({
             <div className="flex flex-wrap overflow-y-auto flex-1 gap-3 py-3 rounded-lg justify-center items-center">
               {cropsList.map((crops, index) => (
                 <CropsBox
+                  key={crops.id}
                   index={index}
                   id={crops.id}
                   name={crops.name}
