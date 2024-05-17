@@ -1,5 +1,6 @@
 package com.cg.farmirang.donation.feature.donation.service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -73,6 +74,7 @@ public class DonorServiceImpl implements DonorService {
 			.crop(crop)
 			.amount(data.amount())
 			.confirmImg(url)
+			.registerDate(LocalDateTime.now())
 			.build();
 		// save entity
 		repo.save(entity);
