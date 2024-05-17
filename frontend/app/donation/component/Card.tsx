@@ -32,7 +32,7 @@ export default function Card({
   }
   return (
     <div
-      className={`relative flex flex-col mt-6 text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
+      className={`relative flex flex-col mb-[10rem] text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
     >
       <div
         className={`relative h-64 mx-4 mt-6 overflow-hidden text-white bg-clip-border rounded-xl shadow-blue-gray-500/40`}

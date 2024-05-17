@@ -212,7 +212,7 @@ export default function FirstModal({
                           <div className="bg-green-200 w-[20rem] h-5 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
                         </Dialog.Title>
 
-                        {JSON.stringify(selectedMenuItem)}
+                      
 
                         <div className="flex mt-[2rem] w-full">
                           <div className="w-1/2 mt-8 pr-[1rem]">
