@@ -46,6 +46,7 @@ interface Props {
   farmCoordinateArray: FarmCoordinateType[];
 
   handleFarmCoordinateArray: (newCoordinateArray: FarmCoordinateType[]) => void;
+  handleUpdateCropsNameList: (newCropsNameList: string[]) => void;
 }
 
 const ThirdPage = ({
@@ -60,6 +61,7 @@ const ThirdPage = ({
   farmCoordinateArray,
   handleFarmCoordinateArray,
   handleUpdateCropIndexArray,
+  handleUpdateCropsNameList,
 }: Props) => {
   // cropsList: 작물 배열
   const [cropsList, setCropsList] = useState<FieldCropsListType[]>([]);
@@ -91,11 +93,6 @@ const ThirdPage = ({
   };
 
   const [isSave, setIsSave] = useState<boolean>(false);
-
-  // 저장하기 버튼 눌렀는지
-  const handleSaveButton = () => {
-    setIsSave(!isSave);
-  };
 
   // 저장하기
   const handleSave = async () => {
@@ -130,6 +127,12 @@ const ThirdPage = ({
       },
       designId: fieldDesignId,
     });
+
+    handleUpdateCropIndexArray(cropIndexArray);
+    handleUpdateFieldGridArray(grid);
+
+    // 저장하기 버튼 누름
+    setIsSave(true);
   };
 
   // 삭제 버튼 (작물 배치한 거 취소할 때)
@@ -147,13 +150,6 @@ const ThirdPage = ({
           isClick: !updatedCropsList[currentCropsIndex].isClick,
         };
       }
-
-      // cropIndexArray에서 해당 작물 제거
-      handleUpdateCropIndexArray(
-        cropIndexArray.filter(
-          (crop) => crop.cropId !== updatedCropsList[currentCropsIndex].id
-        )
-      );
 
       setCurrentCropsIndex(-1);
 
@@ -301,6 +297,8 @@ const ThirdPage = ({
           clickableField={clickableField}
           grid={grid}
           farmCoordinateArray={farmCoordinateArray}
+          designId={fieldDesignId}
+          handleUpdateCropsNameList={handleUpdateCropsNameList}
         />
       ) : (
         <div className="relative flex flex-col justify-between items-center w-[90%] h-[95%] ">

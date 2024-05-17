@@ -103,3 +103,33 @@ export interface CreateCustomDesignParams {
     }[];
   };
 }
+
+// 4단계 비료 추천 GET Response
+export interface Fertilizer {
+  id: number;
+  // add 안 붙은 건 밑거름
+  nitrogen: number; //질소
+  phosphate: number; //인산
+  potassium: number; //칼륨
+  // add 붙은 건 웃거름
+  addNitrogen: number;
+  addPhosphate: number;
+  addPotassium: number;
+}
+
+export interface Fertilizers {
+  [cropName: string]: Fertilizer[];
+}
+
+// 디자인 상세보기 GET Resonse
+export interface getDesignDetailResponse {
+  farm: boolean[][];
+  designArray: number[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  }[];
+  name: string;
+  cropList: string[];
+  saveTime: string;
+}

@@ -21,6 +21,7 @@ interface Props {
   fieldGridArray: number[][];
   handleFarmCoordinateArray: (newCoordinateArray: FarmCoordinateType[]) => void;
   farmCoordinateArray: FarmCoordinateType[];
+  handleUpdateCropsNameList: (newCropsNameList: string[]) => void;
 }
 
 const SecondPage = ({
@@ -35,6 +36,7 @@ const SecondPage = ({
   fieldGridArray,
   handleFarmCoordinateArray,
   farmCoordinateArray,
+  handleUpdateCropsNameList,
 }: Props) => {
   // 몇 번째 second 페이지 보여줄지 (false => 1번째, true=> 2번째)
   const [isCheck, setIsCheck] = useState<boolean>(false);
@@ -64,6 +66,8 @@ const SecondPage = ({
           clickableField={fieldClickableArray}
           grid={fieldGridArray}
           farmCoordinateArray={farmCoordinateArray}
+          designId={fieldDesignId}
+          handleUpdateCropsNameList={handleUpdateCropsNameList}
         />
       )}
     </div>

@@ -8,6 +8,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import BackgroundShapes from "./second/BackgroundShapes";
 import MyModal from "@/app/_components/common/Modal";
 import { FarmCoordinateType, cropIndexType } from "./StepBox";
+import {
+  getDesignDetailResponse,
+  updateDesignNameParams,
+} from "@/type/farmDesginType";
+import { UpdateDesignName, getDesignDetail } from "@/api/farm-design";
 
 interface Props {
   handleStep: (step: number) => void;
@@ -17,6 +22,8 @@ interface Props {
   clickableField: boolean[][];
   grid: number[][];
   farmCoordinateArray: FarmCoordinateType[];
+  designId: number;
+  handleUpdateCropsNameList: (newCropsNameList: string[]) => void;
 }
 
 const ShowStylePage = ({
@@ -27,18 +34,47 @@ const ShowStylePage = ({
   clickableField,
   grid,
   farmCoordinateArray,
+  designId,
+  handleUpdateCropsNameList,
 }: Props) => {
-  //임시
-  const tmpHandleFunction = () => {};
-
   // 커스텀하러 가기
   const handleCustom = () => {
     handleStep(3);
   };
 
   // 저장하기
-  const handleSave = () => {
-    handleStep(4);
+  const handleSave = async () => {
+    if (designName !== undefined) {
+      // api 연결 (디자인 이름 update)
+      const result: boolean = await UpdateDesignName({
+        accessToken: userAccessToken,
+        request: {
+          name: designName,
+        },
+        designId: designId,
+      });
+
+      // 디자인 이름 update 성공했다면 디자인 상세보기에서 cropList 가져온 뒤 cropsNameList에 업데이트
+      if (result) {
+        const detailResult: getDesignDetailResponse = await getDesignDetail({
+          accessToken: userAccessToken,
+          designId: designId,
+        });
+
+        console.log(detailResult.cropList);
+
+        handleUpdateCropsNameList(detailResult.cropList);
+      }
+
+      handleStep(4);
+    }
+  };
+
+  // 디자인 이름!
+  const [designName, setDesignName] = useState<string | undefined>();
+
+  const handleChangeDesignName = (value: any) => {
+    setDesignName(value);
   };
 
   const InputCSS = `w-36 rounded-lg bg-white-100 border-0 bg-transparent h-[2rem] py-1 pl-3 text-black-100 placeholder:text-gary-500 sm:text-sm sm:leading-6 shadow`;
@@ -70,6 +106,10 @@ const ShowStylePage = ({
       seteachRight("right-[5%]");
     }
   }, []);
+
+  useEffect(() => {
+    console.log(designName);
+  }, [designName]);
 
   return (
     <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
@@ -142,8 +182,8 @@ const ShowStylePage = ({
             inputcss={InputCSS}
             placeholder={"이름을 지정해주세요"}
             type={"text"}
-            value={""}
-            onChange={tmpHandleFunction}
+            value={designName}
+            onChange={handleChangeDesignName}
           />
           <Button
             text="저장하기"

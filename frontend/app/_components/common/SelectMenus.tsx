@@ -17,6 +17,7 @@ interface Props {
   onChange: (value: any) => void;
   value: number;
   handleDirectionChange?: (parentValue: number) => void;
+  textSmall?: string;
 }
 
 export default function SelectMenu({
@@ -28,6 +29,7 @@ export default function SelectMenu({
   onChange,
   value,
   handleDirectionChange,
+  textSmall,
 }: Props) {
   const handleChange = (selectedItem: any) => {
     onChange(selectedItem.id);
@@ -44,7 +46,11 @@ export default function SelectMenu({
               className={`relative w-full cursor-pointer rounded-lg bg-white-100 py-1 pl-3 pr-10 text-left text-black-100 shadow-sm ring-inset focus:outline-none focus:ring-2 focus:ring-green-400 sm:text-sm sm:leading-6 border ${bordercss}`}
             >
               <span className="flex items-center">
-                <span className="ml-1 block truncate text-h6">
+                <span
+                  className={`ml-1 block truncate ${
+                    textSmall ? textSmall : "text-h6"
+                  } `}
+                >
                   {items[value - 1].name}
                 </span>
               </span>

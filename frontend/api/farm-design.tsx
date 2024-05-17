@@ -8,7 +8,7 @@ import {
 
 ("@/app/_stores/userStore");
 
-import { DESIGN_URL } from "@/utils/ServerApi";
+import { BASE_URL, DESIGN_URL } from "@/utils/ServerApi";
 
 // createField
 // 1단계 - 디자인용 텃밭 생성 POST
@@ -146,3 +146,42 @@ export const CreateCustomDesign = async (params: CreateCustomDesignParams) => {
 // recommendFertilizer
 // 4단계 - 비료 추천 POST (BASE_URL, Header X)
 // /api/v1/recommend/fertilizer
+export const getRecommendFertilizer = async (params: { crops: string[] }) => {
+  const response = await fetch(`${BASE_URL}/v1/recommend/fertilizer`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+    console.log(result.data);
+    return result.data.fertilizers;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
+
+//  getDesignDetail
+// 디자인 상세보기 GET
+// /api/v1/designs/{designId}
+export const getDesignDetail = async (params: getDesignIdParams) => {
+  const { accessToken, designId } = params;
+  const response = await fetch(`${DESIGN_URL}/v1/designs/${designId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};

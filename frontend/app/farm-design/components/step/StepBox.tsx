@@ -58,6 +58,9 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
     FarmCoordinateType[]
   >([]);
 
+  // 4단계 들어갈 때 필요한 작물 이름 리스트
+  const [cropsNameList, setCropsNameList] = useState<string[]>([]);
+
   // 디자인 Id update
   const handleUpdateFieldDesignId = (newDesignId: number) => {
     setFieldDesignId(newDesignId);
@@ -82,6 +85,7 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
     setFieldCropsList(newFieldCropsList);
   };
 
+  // 몇 번에 cropId 몇인지 알려주는 배열 update
   const handleUpdateCropIndexArray = (newCropIndexArray: cropIndexType[]) => {
     setCropIndexArray(newCropIndexArray);
   };
@@ -91,6 +95,11 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
     newCoordinateArray: FarmCoordinateType[]
   ) => {
     setFarmCoordinateArray(newCoordinateArray);
+  };
+
+  // 작물에 있는 이름 리스트 배열 update (2, 3단계에서 저장 누를 때 실행)
+  const handleUpdateCropsNameList = (newCropsNameList: string[]) => {
+    setCropsNameList(newCropsNameList);
   };
 
   // 각 단계별 컴포넌트들
@@ -116,6 +125,7 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       handleUpdateFieldGridArray={handleUpdateFieldGridArray}
       handleFarmCoordinateArray={handleFarmCoordinateArray}
       farmCoordinateArray={farmCoordinateArray}
+      handleUpdateCropsNameList={handleUpdateCropsNameList}
     />,
     <ThirdPage
       key="third"
@@ -130,8 +140,13 @@ const StepBox = ({ currentStep, handleStep, userAccessToken }: Props) => {
       handleUpdateCropIndexArray={handleUpdateCropIndexArray}
       farmCoordinateArray={farmCoordinateArray}
       handleFarmCoordinateArray={handleFarmCoordinateArray}
+      handleUpdateCropsNameList={handleUpdateCropsNameList}
     />,
-    <FourthPage key="fourth" />,
+    <FourthPage
+      key="fourth"
+      cropsNameList={cropsNameList}
+      fieldCropsList={fieldCropsList}
+    />,
   ];
 
   return (

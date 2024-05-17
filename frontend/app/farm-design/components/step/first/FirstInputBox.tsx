@@ -275,6 +275,7 @@ const FirstInputBox = ({
           bordercss="border-gray-300"
           onChange={handleDirectionChange}
           value={direction}
+          textSmall="text-md"
         />
         <SelectMenu
           labelcss={labelcss}
@@ -283,6 +284,7 @@ const FirstInputBox = ({
           bordercss="border-gray-300"
           onChange={handleMonthChange}
           value={month}
+          textSmall="text-md"
         />
       </div>
       {/* 좌표 그림판 및 좌표 표 (+버튼) div */}
