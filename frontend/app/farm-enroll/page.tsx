@@ -112,10 +112,6 @@ export default function FarmEnroll() {
     })
   );
 
-  useEffect(() => {
-    console.log(totalValue)
-  }, [totalValue])
-
   return (
     <>
       <div className="flex justify-center mt-20">
