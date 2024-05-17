@@ -48,7 +48,7 @@ public class Member {
 	@Column(name = "join_date", nullable = false, updatable = false)
 	private LocalDateTime joinDate;
 
-	@ColumnDefault("0")
-	@Column(name = "badge", nullable = false)
-	private Integer badge;
+	// @ColumnDefault("0")
+	// @Column(name = "badge", nullable = false)
+	// private Integer badge;
 }

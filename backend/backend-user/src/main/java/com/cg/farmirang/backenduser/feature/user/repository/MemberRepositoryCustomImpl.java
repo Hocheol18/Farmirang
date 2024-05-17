@@ -43,7 +43,6 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 			.set(member.nickname, "anonymous" + number)
 			.set(member.profileImg, defaultProfile)
 			.set(member.role, MemberRole.ANONYMOUS)
-			.set(member.badge, 0)
 			.where(member.id.eq(memberId))
 			.execute();
 	}
