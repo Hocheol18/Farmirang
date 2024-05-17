@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { useUserStore } from "@/app/_stores/userStore";
@@ -85,9 +86,10 @@ export default function MyPage() {
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
                 {role === "ADMIN" && (
-                  <a href="/admin/role-list">관리자 페이지</a>
+                  <Link href="/admin/role-list">
+                    <p>관리자 페이지</p>
+                  </Link>
                 )}
-
                 <ChangeRole />
               </div>
               {/* 프로필 리스트 */}
