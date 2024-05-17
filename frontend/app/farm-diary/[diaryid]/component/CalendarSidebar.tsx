@@ -29,7 +29,6 @@ export default function CalendarSideBar() {
   };
 
   const fetchData = async () => {
-    // userId 입력 받기
     fetchFieldData(Number(memberId)).then(
       (res: { data: { fields: fetchFarmListType[] } }) => func(res)
     );
