@@ -69,7 +69,7 @@ public class DonationBoard {
 
 	@Column(name = "state", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private DonationState state = DonationState.DOING;
+	private DonationState state;
 
 	@CreatedDate
 	@Column(name = "register_date", updatable = false)
