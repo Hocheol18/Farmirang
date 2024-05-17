@@ -1,12 +1,44 @@
-"use client";
-
-import MiniNavigation from "../component/mini-nav";
+import { DESIGN_URL } from "@/utils/ServerApi";
 import Button from "@/app/_components/common/Button";
 import Modal from "@/app/_components/common/Modal";
-import DesignCard from "../component/design-card";
 import DesignUpload from "@/app/board/component/design-upload";
+import MiniNavigation from "../component/mini-nav";
+import DesignCard from "../component/design-card";
 
-export default function MyFarmDesign() {
+async function getData(accessToken: string) {
+  const res = await fetch(`${DESIGN_URL}/v1/designs/list`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+  console.log(accessToken);
+  console.log(res);
+  console.log(res.json);
+  return res.json();
+}
+
+export default async function MyFarmDesign() {
+  // localStorage에서 accessToken 받는 방법
+  let accessToken = "";
+  let memberId = "";
+  let profileImg = "";
+  let role = "";
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+      memberId = lsInfo.state.userInfo.memberId;
+      profileImg = lsInfo.state.userInfo.profileImg;
+      role = lsInfo.state.userInfo.role;
+    }
+  }
+
+  const data = await getData(accessToken);
+  console.log(data);
+
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">

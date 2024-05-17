@@ -46,9 +46,13 @@ export const useUserStore = create<UserInfoState & UserInfoActions>()(
         set((state) => ({ userInfo: { ...state.userInfo, ...newUserInfo } }));
       },
 
-      updateToken: (accessToken: string, refreshToken: string) => {
+      updateToken: (newAccessToken: string, newRefreshToken: string) => {
         set((state) => ({
-          userInfo: { ...state.userInfo, accessToken, refreshToken },
+          userInfo: {
+            ...state.userInfo,
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+          },
         }));
       },
 
