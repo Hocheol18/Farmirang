@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MEMBER_URL } from "@/utils/ServerApi";
 import { useUserStore } from "@/app/_stores/userStore";
@@ -23,11 +24,25 @@ export default function MyPage() {
   const [profileData, setProfileData] = useState<ProfileType>();
   const [userImage, setUserimage] = useState<string>("/user/user.png");
 
+  // localStorage에서 accessToken 받는 방법
+  let accessToken = "";
+  let memberId = "";
+  let profileImg = "";
+  let role = "";
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+      memberId = lsInfo.state.userInfo.memberId;
+      profileImg = lsInfo.state.userInfo.profileImg;
+      role = lsInfo.state.userInfo.role;
+    }
+  }
+
   // 초기 프로필 데이터를 받아오기 위한 fetch 함수
   const fetchProfile = async () => {
-    const response = await fetch(
-      `${MEMBER_URL}/v1/user/${userInfo.memberId}/profile`
-    );
+    const response = await fetch(`${MEMBER_URL}/v1/user/${memberId}/profile`);
     if (response && response.ok) {
       const data = await response.json();
       setProfileData(data.data);
@@ -35,17 +50,15 @@ export default function MyPage() {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      fetchProfile();
-      setUserimage(userInfo.profileImg);
-    }
+    fetchProfile();
+    setUserimage(profileImg);
   }, [userInfo]);
 
   const handleDelUser = async () => {
     const response = await fetch(`${MEMBER_URL}/v1/user`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${userInfo.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "device-id": `${userInfo.deviceId}`,
       },
     });
@@ -72,15 +85,22 @@ export default function MyPage() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 프로필</div>
-                {userInfo.role === "ADMIN" && (
-                  <a href="/admin/role-list">관리자 페이지</a>
+                {role === "ADMIN" && (
+                  <Link href="/admin/role-list">
+                    <p>관리자 페이지</p>
+                  </Link>
                 )}
-
                 <ChangeRole />
               </div>
               {/* 프로필 리스트 */}
               <div className="justify-center mx-auto">
-                <ProfileCSR profileData={profileData} />
+                <ProfileCSR
+                  profileData={profileData}
+                  accessToken={accessToken}
+                  memberId={memberId}
+                  role={role}
+                  profileImg={profileImg}
+                />
               </div>
               <MypageModal
                 buttonText={"회원 탈퇴 하기"}

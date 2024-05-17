@@ -1,27 +1,68 @@
+import Image from "next/image";
+
 interface Props {
   imgSrc: string;
   Title: string;
   contents: string;
+  progress: number;
+  state: string;
 }
 
-export default function Card({ imgSrc, Title, contents }: Props) {
+export default function Card({
+  imgSrc,
+  Title,
+  contents,
+  progress,
+  state,
+}: Props) {
+  let stateText;
+  let stateClass;
+  let progressBarWidth;
+  switch (state) {
+    case "DOING":
+      stateText = "기부중";
+      progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
+      break;
+    case "DONE":
+      stateText = "기부완료";
+      progressBarWidth = "w-full";
+      break;
+    default:
+      break;
+  }
   return (
-    <div className="relative flex flex-col mt-6 text-gray-700 bg-white bg-clip-border rounded-xl w-10/12">
-      <div className="relative h-64 mx-4 mt-6 overflow-hidden text-white bg-clip-border rounded-xl shadow-blue-gray-500/40">
-        <img
-          className="object-cover object-center w-full h-full"
-          src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2832&amp;q=80"
-          alt="nature image"
+    <div
+      className={`relative flex flex-col mb-[10rem] text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
+    >
+      <div
+        className={`relative h-64 mx-4 mt-6 overflow-hidden text-white bg-clip-border rounded-xl shadow-blue-gray-500/40`}
+      >
+        <Image
+          className={`object-cover object-center w-full h-full bg-white-300 ${stateClass} `}
+          width={100}
+          height={100}
+          src={`${imgSrc}`}
+          alt=""
         />
       </div>
       <div className="p-6">
-        <p className="block text-h6 text-green-400">기부중</p>
+        <p className="block text-h6 font-extrabold text-green-400">
+          {stateText}
+        </p>
         <h5 className="block mb-2 text-h2 font-bold antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
           {Title}
         </h5>
-        <p className="block font-sans text-h6 antialiased font-light leading-relaxed text-inherit">
+        <p className="block font-sans text-h5 antialiased font-light leading-relaxed text-inherit">
           {contents}
         </p>
+        <div className="flex text-green-400 text-h6 font-bold mt-4 justify-end">
+          현재 {Math.round(progress * 100)}%만큼 기부
+        </div>
+        <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium mt-2">
+          <div
+            className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full ${progressBarWidth}`}
+          ></div>
+        </div>
       </div>
     </div>
   );

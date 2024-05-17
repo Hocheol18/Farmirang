@@ -8,4 +8,4 @@ export const AGENCY_URL = "http://k10a105.p.ssafy.io:8083/api";
 
 export const DESIGN_URL = "http://k10a105.p.ssafy.io:8084/api";
 
-export const DONATION_URL = "http://k10a105.p.ssafy.io:8085/"
+export const DONATION_URL = "http://k10a105.p.ssafy.io:8085"

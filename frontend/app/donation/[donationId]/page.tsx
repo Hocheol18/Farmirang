@@ -1,78 +1,73 @@
 import Remote from "../component/Remote";
-
+import Image from "next/image";
 import DonationList from "../component/DonationList";
 import Participate from "../component/Participate";
+import { fetchDonationDetailData } from "@/api/farm-donation";
 
-export default function DonationDetailPage() {
-  const number = 25;
-  const count = 6;
+export default async function DonationDetailPage(donationId: {
+  params: { donationId: number };
+}) {
+  const res = await fetchDonationDetailData(donationId.params.donationId);
   return (
-    <div className="w-full pb-[10rem] mt-[5rem]">
-      <div className="flex justify-center text-h1 font-bold text-green-400">기부중</div>
-      <div className="flex justify-center text-[70px] font-extrabold">동네 주민에게 사랑을</div>
-      <div className="flex justify-center mt-16 h-full">
-        <div className="flex w-4/5 h-full">
-          <div className="w-8/12 mr-10">
-            <div className="w-full border border-black-100 h-[420px]"></div>
-            <div className="flex justify-end mt-10">
-              <div className="w-4/5">
-                <div className="border border-black-100 w-full h-[10rem]"></div>
-
-                {/*  */}
-                <div className="text-h6 mt-10 leading-10">
-                  <div>
-                    별빛내리는마을은 어린이를 위한 아동공동생활가정으로,
-                  </div>
-                  <div>
-                    가정 내에서 안전하고 안정된 환경을 제공하여 아동의 성장과
-                    발달을 도모하는 곳입니다.
-                  </div>
-                  <div>
-                    전문적인 교육자와 간병인이 함께 협력하여 아동들에게 필요한
-                    돌봄, 교육, 정서지원을 제공합니다.
-                  </div>
-                  <div>
-                    이곳은 어린이들이 가정 분위기에서 자연스럽게 성장하고,
-                  </div>
-                  <div>
-                    사회적 기술과 감정적 안정을 쌓을 수 있도록 도와줍니다.
-                  </div>
-                  <div className="mb-10">
-                    다양한 교육 활동을 통해 아동들은 자신의 잠재력을 발휘하고
-                    다양한 경험을 쌓을 수 있습니다.
-                  </div>
-                  <div>
-                    뿐만 아니라, 별빛내리는마을은 아동의 개인적인 성향과
-                    특성을 고려하여 맞춤형 지원을 제공합니다.
-                  </div>
-                  <div>
-                    각 아동의 Bedside Life로 불리는 일일 생활계획을 통해
-                    개인적인 Bedtime 및 일정이 지켜지며,
-                  </div>
-                  <div>아동 개개인의 특성에 맞게 맞춤형 지원을 제공합니다.</div>
-                  <div>
-                    또한, 지역사회와의 연계를 강화하여 아동들이 사회와 조화롭게
-                    교류할 수 있도록 도움을 주고 있습니다.
-                  </div>
-
-                  <div>
-                    별빛내리는마을은 아동들에게 따뜻하고 안전한 보금자리를
-                    제공하여,
-                  </div>
-                  <div>포그들의 행복하고 건강한 성장을 지원하고 있습니다.</div>
+    <>
+      <div className="w-full pb-[10rem] mt-[5rem]">
+        <div className="flex justify-center text-h1 font-bold text-green-400">
+          기부중
+        </div>
+        <div className="flex justify-center text-[70px] font-extrabold">
+          {res.data.title}
+        </div>
+        <div className="flex justify-center mt-16 h-full">
+          <div className="flex w-4/5 h-full">
+            <div className="w-8/12 mr-10">
+              <div className="flex justify-end">
+                <div className="w-5/6 aspect-video border border-black-100 relative">
+                  <Image src={res.data.header_img} alt="" fill></Image>
                 </div>
+              </div>
 
-                {/* 기부 목록 */}
-                <DonationList />
+              <div className="flex justify-end mt-10">
+                <div className="w-3/4">
+                  <div className="relative mt-6">
+                    <div className="text-h2">이런걸 진행해요</div>
+                    <div className="bg-green-200 w-[15rem] h-6 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
+                  </div>
+                  <div className="flex justify-end mt-4">
+                    <div className="border border-black-100 w-full aspect-video relative">
+                      <Image src={res.data.main_img} alt="" fill></Image>
+                    </div>
+                  </div>
 
-                {/* 참가자 목록 */}
-                <Participate />
+                  {/* 콘텐츠 내용 */}
+
+                  <div className="text-h6 mt-10 leading-10">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: res.data.content,
+                      }}
+                    />
+                  </div>
+
+                  {/* 기부 목록 */}
+                  <DonationList donationData={res.data.items} />
+
+                  {/* 참가자 목록 */}
+                  <Participate donationIdChildren={res.data.id} donationData={res.data.items} />
+                </div>
               </div>
             </div>
+      
+            <Remote
+              progress={res.data.progress}
+              startDate={res.data.start_date}
+              endDate={res.data.end_date}
+              address={res.data.delivery_address}
+              donationId={res.data.id}
+              donationItem={res.data.items}
+            />
           </div>
-          <Remote />
         </div>
       </div>
-    </div>
+    </>
   );
 }

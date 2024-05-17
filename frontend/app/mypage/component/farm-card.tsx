@@ -4,6 +4,7 @@ import { MdOutlineSensors } from "react-icons/md";
 import { SlDirections } from "react-icons/sl";
 
 interface Props {
+  fieldId: number;
   farmName: string;
   date: string;
   cultivating: boolean;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function FarmCard({
+  fieldId,
   date,
   farmName,
   cultivating,

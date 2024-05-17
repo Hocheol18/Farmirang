@@ -5,17 +5,103 @@ import ImageComponent from "@/app/_components/common/Image";
 import Input from "@/app/_components/common/Input";
 import KakaoMap from "@/app/_components/common/Maps";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, ReactEventHandler, useEffect, useState } from "react";
+import { cropData } from "./Crop";
+import SelectMenu from "@/app/_components/common/SelectMenus";
+import { useParams } from "next/navigation";
+import { postDonationCrops } from "@/api/farm-donation";
 
-export default function FirstModal() {
+export default function FirstModal({
+  address,
+  remainCrops,
+}: {
+  address: string;
+  remainCrops: Array<{
+    crop_id: number;
+    id: number;
+    amount: number;
+    unit: string;
+    current: number;
+  }>;
+}) {
+  const params = useParams<{ donationId: string }>();
+  const [diaryPicture, setDiaryPicture] = useState<any>();
+  const [totalValue, setTotalValue] = useState<{
+    crop_id: number;
+    board_id: number;
+    amount: number;
+  }>({
+    amount: 0,
+    board_id: Number(params.donationId),
+    crop_id: 0,
+  });
+  const combinedData = remainCrops
+    .filter((donation) => cropData.some((crop) => crop.id === donation.crop_id))
+    .map((donation) => {
+      const crop = cropData.find((crop) => crop.id === donation.crop_id);
+      return {
+        ...donation,
+        cropName: crop?.name,
+        cropImage: crop?.image,
+      };
+    });
+  const [direction, setDirection] = useState<number>(1);
   const [state, setState] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const setDefault = () => {
     setIsOpen(false);
     setState(true);
   };
-  const [goods, setGoods] = useState<string>("");
-  const [goodscount, setGoodsCount] = useState<number>();
+
+  const handleInputData = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setTotalValue((item) => ({
+      ...item,
+      [name]: Number(value),
+    }));
+  };
+
+  const handleDirectionChange = (parentValue: number) => {
+    setTotalValue((prev: any) => ({
+      ...prev,
+      ["crop_id"]: parentValue,
+    }));
+  };
+
+  // 데이터 재가공 (selectMenu를 위한)
+  const selectedMenuItem = combinedData.map((item, index: number) => ({
+    designId: item.crop_id,
+    name: item.cropName,
+    id: index + 1,
+  }));
+
+  const OnSubmit = async () => {
+    const formData = new FormData();
+    formData.append("img", diaryPicture);
+    formData.append("data", JSON.stringify(totalValue));
+    const response = await postDonationCrops(accessToken, formData);
+
+    if (response.success) {
+      alert("후원 등록 성공");
+      window.location.reload();
+    } else {
+      alert("후원 등록 실패, 다시 시도해주세요.");
+      window.location.reload();
+    }
+  };
+
+  let accessToken = "";
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem("userInfo");
+    if (ls) {
+      const lsInfo = JSON.parse(ls);
+      accessToken = lsInfo.state.userInfo.accessToken;
+    }
+  }
+
+  const parseAddress = JSON.parse(address);
 
   return (
     <>
@@ -62,26 +148,34 @@ export default function FirstModal() {
                             {"가능한 기부 품목"}
                           </p>
                         </div>
+
                         <div className="mt-6">
-                          <div className="flex justify-center">
-                            <div className="flex flex-wrap content-start">
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-
-                              <div className="mx-[1.8rem] my-[1.2rem] border border-green-400 rounded-[10rem] w-[96px] h-[96px] shrink-0"></div>
-                            </div>
+                          <div className="flex flex-wrap content-start">
+                            {combinedData.map((item, idx: number) => (
+                              <div
+                                key={idx}
+                                className="mx-[1.2rem] my-[1.2rem] w-[110px] h-[110px] border border-black-100 rounded-full relative flex items-center justify-center"
+                              >
+                                <div className="text-center">
+                                  <div className="stroke-black">
+                                    {item.cropImage}
+                                  </div>
+                                  <div className="font-bold text-h6 mt-[2px]">
+                                    {item.cropName}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
                           </div>
 
                           <div className="text-h4 mt-[2rem] mb-[1rem] font-bold">
                             여기로 보내면 되요!
                           </div>
-                          <KakaoMap />
+                          <KakaoMap address={address} />
 
                           <div className="mt-4 text-h6">
-                            멀티캠퍼스 역삼 (서울 강남구 테헤란로 212)
+                            {parseAddress.areaAddress}
+                            {parseAddress.townAddress}
                           </div>
                         </div>
 
@@ -114,27 +208,32 @@ export default function FirstModal() {
                           as="h3"
                           className={`text-black-100 ${"font-bold text-h3 relative"}`}
                         >
-                          {"이미 작물을 보냈어요!"}
+                          {"작물을 보냈어요!"}
                           <div className="bg-green-200 w-[20rem] h-5 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
                         </Dialog.Title>
 
+                      
+
                         <div className="flex mt-[2rem] w-full">
+                          <div className="w-1/2 mt-8 pr-[1rem]">
+                            <div className="block text-h5 leading-12 text-black-100 font-bold">
+                              기부 물품
+                            </div>
+                            <SelectMenu
+                              handleDirectionChange={handleDirectionChange}
+                              value={direction}
+                              onChange={(value: number) => {
+                                setDirection(value);
+                              }}
+                              labelcss={"text-h4 text-black-100"}
+                              topScript={""}
+                              items={selectedMenuItem}
+                              bordercss="border-gray-400 h-[2.8rem]"
+                            />
+                          </div>
+
                           <Input
-                            labeltext={"기부 물품"}
-                            topcss="mt-8 w-1/2 pr-[1rem]"
-                            labelcss={
-                              "block text-h5 leading-12 text-black-100 font-bold"
-                            }
-                            inputcss={
-                              "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 p-2"
-                            }
-                            placeholder={"기부 품목을 적어주세요"}
-                            type={"text"}
-                            value={goods}
-                            name={""}
-                            onChange={setGoods}
-                          />{" "}
-                          <Input
+                            name={"amount"}
                             labeltext={"갯수"}
                             topcss="mt-8 w-1/2 pl-[1rem]"
                             labelcss={
@@ -144,10 +243,11 @@ export default function FirstModal() {
                               "h-[2.8rem] flex rounded-lg border w-full border-green-300 focus:outline-none focus:ring-green-400 focus:ring-1 p-2"
                             }
                             placeholder={"물품 갯수를 적어주세요"}
-                            type={"text"}
-                            value={goodscount}
-                            name={""}
-                            onChange={setGoodsCount}
+                            type={"number"}
+                            value={
+                              totalValue.amount === 0 ? "" : totalValue.amount
+                            }
+                            onChange={handleInputData}
                           />
                         </div>
                         <ImageComponent
@@ -156,7 +256,7 @@ export default function FirstModal() {
                           topcss={"mt-[4rem] justify-center"}
                           topsecondcss="w-5/6"
                           heightcss={""}
-                          // handleEvent={() => {}}
+                          setDisplayImage={setDiaryPicture}
                         />
 
                         <div className="flex justify-end mt-10">
@@ -172,9 +272,7 @@ export default function FirstModal() {
                           <button
                             type="button"
                             className="inline-flex justify-center rounded-md shadow-xl border border-transparent bg-green-400 px-4 py-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                            onClick={() => {
-                              setState(false);
-                            }}
+                            onClick={OnSubmit}
                           >
                             <div className="text-white-100 font-bold">
                               {"확인"}

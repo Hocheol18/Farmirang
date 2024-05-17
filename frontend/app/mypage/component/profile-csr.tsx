@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { PiMedalFill, PiCertificateFill } from "react-icons/pi";
 import { FaHatCowboy } from "react-icons/fa6";
@@ -19,14 +19,24 @@ interface ProfileType {
   badge: number;
 }
 
+interface ProfileCSRProps {
+  profileData?: ProfileType;
+  accessToken: string;
+  memberId: string;
+  role: string;
+  profileImg: string;
+}
+
 export default function ProfileCSR({
   profileData,
-}: {
-  profileData?: ProfileType;
-}) {
+  accessToken,
+  memberId,
+  role,
+  profileImg,
+}: ProfileCSRProps) {
   const { userInfo, updateImg } = useUserStore();
   const [userImage, setUserimage] = useState<string>(
-    profileData?.profile_img || userInfo.profileImg
+    profileData?.profile_img || profileImg
   );
   const [selectImage, setSelectImage] = useState<any>();
   const [showImage, setShowImage] = useState<any>();
@@ -37,7 +47,7 @@ export default function ProfileCSR({
     const response = await fetch(`${MEMBER_URL}/v1/user/nickname`, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${userInfo.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ nickname: newNickname }),
@@ -47,6 +57,10 @@ export default function ProfileCSR({
     }
   };
 
+  // useEffect(() => {
+  //   console.log(newNickname);
+  // }, [newNickname]);
+
   // 고른 이미지로 백엔드 저장하는 로직
   const imageSelect = async () => {
     const formData = new FormData();
@@ -55,7 +69,7 @@ export default function ProfileCSR({
     const response = await fetch(`${MEMBER_URL}/v1/user/profile`, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${userInfo.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: formData,
     });
@@ -73,7 +87,7 @@ export default function ProfileCSR({
     const response = await fetch(`${MEMBER_URL}/v1/user/profile`, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${userInfo.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: formData,
     });
@@ -107,6 +121,7 @@ export default function ProfileCSR({
               className="w-full h-full rounded-[90px/92.5px]"
               width={180}
               height={185}
+              loading="eager"
             />
           </div>
         </div>
@@ -167,13 +182,12 @@ export default function ProfileCSR({
                 inputcss={
                   "flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
                 }
-                placeholder={""}
+                placeholder={"변경할 닉네임"}
                 type={"string"}
                 value={newNickname}
+                onChange={(value) => setNewNickname(value)}
                 topcss={"mt-10"}
                 labeltext={"변경할 이름을 작성해주세요"}
-                name={""}
-                onChange={(value) => setNewNickname(value)}
               />
             }
             onSuccess={putNewNickname}
@@ -182,7 +196,7 @@ export default function ProfileCSR({
         <div className="w-[300px] justify-center flex items-center relative mb-[40px]">
           <div className="flex items-center gap-[10px] flex-[0_0_auto] relative w-full">
             <div className="w-full flex justify-between font-m-h3 tracking-[var(--m-h3-letter-spacing)] [font-style:var(--m-h3-font-style)] text-[length:var(--m-h3-font-size)] text-black font-[number:var(--m-h3-font-weight)] leading-[var(--m-h3-line-height)] w-fit">
-              {userInfo.role === "MEMBER" && (
+              {role === "MEMBER" && (
                 <>
                   <div className="flex gap-2">
                     <FaHatCowboy />
@@ -194,7 +208,7 @@ export default function ProfileCSR({
                 </>
               )}
 
-              {userInfo.role === "AGENCY" && (
+              {role === "AGENCY" && (
                 <div className="flex items-center gap-[10px] justify-center text-center mx-auto">
                   <PiCertificateFill />
                   기관회원

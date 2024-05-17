@@ -12,11 +12,10 @@ import Spinner from "@/app/_components/common/Spinner";
 
 export default function CalendarSideBar() {
   const [fetchFarmList, setFetchFarmList] = useState<fetchFarmListType[]>();
-  let memberId = "";
   const [isTrue, setIsTrue] = useState<boolean>(true);
 
   // localStorage에서 accessToken 받는 방법
-
+  let memberId = "";
   if (typeof window !== "undefined") {
     const ls = window.localStorage.getItem("userInfo");
     if (ls) {
