@@ -154,7 +154,7 @@ export default function FirstModal({
                             {combinedData.map((item, idx: number) => (
                               <div
                                 key={idx}
-                                className="mx-[1.8rem] my-[1.2rem] w-[110px] h-[110px] border border-black-100 rounded-full relative flex items-center justify-center"
+                                className="mx-[1.2rem] my-[1.2rem] w-[110px] h-[110px] border border-black-100 rounded-full relative flex items-center justify-center"
                               >
                                 <div className="text-center">
                                   <div className="stroke-black">

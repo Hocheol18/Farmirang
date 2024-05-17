@@ -4,7 +4,7 @@ import {
   postDonationDataType,
   fetchDonationDetailDataType,
   fetchDonationListDataType,
-} from "@/type/donation";
+} from "@/type/farm-donation";
 import { makeQuerystring } from "@/utils/ApiUtils";
 import { DONATION_URL, MEMBER_URL } from "@/utils/ServerApi";
 
@@ -30,19 +30,30 @@ export const fetchDonationData = async (
 // 기부글 포스트
 export const postDonationData = async ({
   accessToken,
-  inputData,
+  formdata,
 }: {
   accessToken: string;
-  inputData: postDonationDataType;
+  formdata: FormData;
 }) => {
-  const response = await fetch(`${DONATION_URL}/v1/donation`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: inputData }),
-  });
+  try {
+    const response = await fetch(`${DONATION_URL}/v1/donation`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        accept: "application/json",
+        "accept-language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        Referer: "http://localhost:3000/",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+      },
+      body: formdata,
+    });
+
+    if (response.ok) {
+      return {success : true}
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // 도네이션 기부 상세글
@@ -94,12 +105,11 @@ export const postDonationCrops = async (
       body: FormData,
     });
     if (response.ok) {
-      return {success : true}
+      return { success: true };
     } else {
-      return {success : false}
+      return { success: false };
     }
   } catch (err) {
-    return {success : false}
+    return { success: false };
   }
-
 };

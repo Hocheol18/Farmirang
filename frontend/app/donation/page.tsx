@@ -1,7 +1,7 @@
 import Card from "./component/Card";
 import AosComponent from "./component/AosComponent";
 import { fetchDonationData } from "@/api/farm-donation";
-import { fetchDonationDataType } from "@/type/donation";
+import { fetchDonationDataType } from "@/type/farm-donation";
 import React from "react";
 import Link from "next/link";
 
