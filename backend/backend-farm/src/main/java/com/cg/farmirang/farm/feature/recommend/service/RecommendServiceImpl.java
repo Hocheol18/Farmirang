@@ -15,7 +15,6 @@ import com.cg.farmirang.farm.feature.recommend.dto.request.RecoPesticideRequestD
 import com.cg.farmirang.farm.feature.recommend.dto.response.RecoFertilizerResponseDto;
 import com.cg.farmirang.farm.feature.recommend.dto.response.RecoPesticideResponseDto;
 import com.cg.farmirang.farm.feature.recommend.entity.Crop;
-import com.cg.farmirang.farm.feature.recommend.entity.Fertilizer;
 import com.cg.farmirang.farm.feature.recommend.entity.Pesticide;
 import com.cg.farmirang.farm.feature.recommend.repository.CropRepository;
 import com.cg.farmirang.farm.feature.recommend.repository.PesticideRepository;

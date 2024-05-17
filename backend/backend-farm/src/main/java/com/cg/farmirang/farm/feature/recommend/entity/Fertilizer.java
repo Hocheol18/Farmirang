@@ -37,8 +37,4 @@ public class Fertilizer {
 	private Double addNitrogen;
 	private Double addPhosphate;
 	private Double addPotassium;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "crop_id")
-	private Crop crop;
 }
