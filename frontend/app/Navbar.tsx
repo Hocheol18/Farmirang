@@ -54,7 +54,7 @@ export default function Navbar() {
       // "http://localhost:8081/api/v1/security/logout",
       `${MEMBER_URL}/v1/security/logout`,
       {
-        method: "DELETE",
+        method: "GET",
         headers: {
           Authorization: `Bearer ${userInfo.accessToken}`,
           "device-id": `${userInfo.deviceId}`,

@@ -20,16 +20,10 @@ interface AgencyData {
 export default function ApproveAgency({ agencyId }: { agencyId: number }) {
   const { userInfo } = useUserStore();
   const reason = "";
-  const [approval, setApproval] = useState<number>(1);
   const [payloadApprove, setPayloadApprove] = useState<boolean>(false);
   const [agencyData, setAgencyData] = useState<AgencyData>();
   const plans = ["승인 허가", "승인 불가"];
   const [selected, setSelected] = useState(plans[0]);
-
-  // 셀렉트 메뉴
-  const handleValueChange = (value: any) => {
-    setApproval(value);
-  };
 
   // 운영자의 기관신청 상세 조회 로직
   const fetchAgency = async () => {
@@ -48,11 +42,6 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
 
   // 운영자의 기관신청 승인 로직
   const approveAgency = async () => {
-    if (approval === 1) {
-      setPayloadApprove(false);
-    } else {
-      setPayloadApprove(true);
-    }
     const requestBody = JSON.stringify({
       agency_id: agencyId,
       approval: payloadApprove,
@@ -105,13 +94,24 @@ export default function ApproveAgency({ agencyId }: { agencyId: number }) {
                 </>
               )
             ) : (
-              <form action="a.jsp">
-                성별
-                <input type="radio" name="gender" value="female" />
-                여성
-                <input type="radio" name="gender" value="male" />
-                남성
-              </form>
+              <>
+                <input
+                  type="radio"
+                  name="approval"
+                  value="true"
+                  // checked={approval === 1}
+                  onChange={() => setPayloadApprove(true)}
+                />
+                <label htmlFor="approve">승인</label>
+                <input
+                  type="radio"
+                  name="approval"
+                  value="false"
+                  // checked={approval === 0}
+                  onChange={() => setPayloadApprove(false)}
+                />
+                <label htmlFor="deny">불가</label>
+              </>
             )}
 
             <div className="text-lg font-semibold mt-10">기관 아이디</div>
