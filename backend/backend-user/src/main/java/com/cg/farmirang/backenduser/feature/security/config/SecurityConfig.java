@@ -38,8 +38,6 @@ public class SecurityConfig {
 	private String loginRedirect;
 	@Value("${com.farmirang.user.login.redirect.host}")
 	private String loginResultHost;
-	@Value("${com.farmirang.user.login.redirect.port}")
-	private String loginResultPort;
 	@Value("${com.farmirang.user.login.redirect.success}")
 	private String loginResultSuccess;
 	@Value("${com.farmirang.user.login.redirect.cancel}")
@@ -88,7 +86,7 @@ public class SecurityConfig {
 		return (req, res, e) -> {
 			log.debug("SecurityConfig AuthenticationFailureHandler: {}", e.getMessage());
 			log.warn("SecurityConfig AuthenticationFailureHandler: {}", Arrays.toString(e.getStackTrace()));
-			var loginResult = loginResultHost + ":" + loginResultPort + loginResultCancel;
+			var loginResult = loginResultHost + loginResultCancel;
 			redirectStrategy.sendRedirect(req, res, loginResult);
 		};
 	}
@@ -139,7 +137,7 @@ public class SecurityConfig {
 			res.addCookie(createCookie("role", dto.role().name()));
 			res.addCookie(createCookie("profile-img", (String)attributes.get("profile_img")));
 
-			var loginResult = loginResultHost + ":" + loginResultPort + loginResultSuccess;
+			var loginResult = loginResultHost + loginResultSuccess;
 			redirectStrategy.sendRedirect(req, res, loginResult);
 		};
 	}
