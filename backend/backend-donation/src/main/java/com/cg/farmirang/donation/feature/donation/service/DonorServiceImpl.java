@@ -114,7 +114,7 @@ public class DonorServiceImpl implements DonorService {
 	@Transactional
 	protected DonorIdResponseDto deleteDonor(Donor entity) {
 		// if approval is true, can't delete
-		if (entity.getApproval()){
+		if (entity.getApproval() != null && entity.getApproval()){
 			log.warn("DonorServiceImpl deleteDonorService: donor is approved");
 			throw new BusinessExceptionHandler("승인된 기부글은 삭제할 수 없습니다", ErrorCode.FORBIDDEN_ERROR);
 		}
