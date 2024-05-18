@@ -125,6 +125,7 @@ public class SecurityConfig {
 			var resCookie = new Cookie("device-id", devideId);
 			resCookie.setPath("/");
 			resCookie.setMaxAge(60*2);
+			resCookie.setAttribute("SameSite", "None");
 			res.addCookie(resCookie);
 
 			res.addCookie(createCookie("access-token", token.accessToken()));
@@ -147,6 +148,7 @@ public class SecurityConfig {
 		var cookie = new Cookie(key, encode);
 		cookie.setPath("/");
 		cookie.setMaxAge(60*2);
+		cookie.setAttribute("SameSite", "None");
 		return cookie;
 	}
 
