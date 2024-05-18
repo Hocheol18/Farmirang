@@ -7,6 +7,7 @@ import EditPen from "@/public/icons/edit-pen-icon.png";
 
 import Image from "next/image";
 import { useState } from "react";
+import Button from "@/app/_components/common/Button";
 
 interface Props {
   farmName: string;
@@ -19,6 +20,7 @@ interface Props {
   checkArray: boolean[][];
   isThumbnail: boolean;
   handleChangeTumbnail: () => void;
+  handleChangeName: (newName: string) => void;
 }
 
 const DesignDetailModal = ({
@@ -29,7 +31,20 @@ const DesignDetailModal = ({
   grid,
   isThumbnail,
   handleChangeTumbnail,
+  handleChangeName,
 }: Props) => {
+  const [isEditClick, setIsEditClick] = useState<boolean>(false);
+  const [name, setName] = useState<string>(farmName);
+
+  const handleUpdateName = (newName: string) => {
+    setName(newName);
+  };
+
+  const handleNameSave = () => {
+    handleChangeName(name);
+    setIsEditClick(false);
+  };
+
   return (
     <div className="relative flex flex-col">
       <div className="absolute right-0">
@@ -44,10 +59,34 @@ const DesignDetailModal = ({
         )}
       </div>
       <div className="flex justify-center  items-center pb-7">
-        <div className="flex justify-center font-bold text-2xl">{farmName}</div>
-        <button className="bg-gray-200 hover:bg-gray-300 p-1 rounded-full ml-2">
-          <Image className="w-6 h-6" src={EditPen} alt="이름 수정" />
-        </button>
+        {isEditClick ? (
+          <div>
+            <input
+              className="border-2 px-3 py-2 rounded-lg mr-3 w-44"
+              type="text"
+              value={name}
+              onChange={(e) => handleUpdateName(e.target.value)}
+            />
+            <Button
+              bgStyles="bg-green-300 hover:bg-green-400"
+              handleClick={handleNameSave}
+              text={"확인"}
+              textStyles="text-white-100"
+            />
+          </div>
+        ) : (
+          <>
+            <div className="flex justify-center font-bold text-2xl">
+              {farmName}
+            </div>
+            <button
+              onClick={() => setIsEditClick(true)}
+              className="bg-gray-200 hover:bg-gray-300 p-1 rounded-full ml-2"
+            >
+              <Image className="w-6 h-6" src={EditPen} alt="이름 수정" />
+            </button>
+          </>
+        )}
       </div>
       <ShowArrangement
         grid={grid}

@@ -9,7 +9,7 @@ import ThumbnailFalse from "@/public/icons/design-star-empty.png";
 
 import Image from "next/image";
 import { useState } from "react";
-import { updateThumbnailDesign } from "@/api/farm-design";
+import { UpdateDesignName, updateThumbnailDesign } from "@/api/farm-design";
 
 interface Props {
   farmName: string;
@@ -24,6 +24,7 @@ interface Props {
   designId: number;
   accessToken: string;
   handleChangeTumbnailId: (designId: number) => void;
+  handleIsEdit: () => void;
 }
 
 export default function DesignCard({
@@ -36,6 +37,7 @@ export default function DesignCard({
   designId,
   accessToken,
   handleChangeTumbnailId,
+  handleIsEdit,
 }: Props) {
   const handleChangeTumbnail = async () => {
     await updateThumbnailDesign({
@@ -44,6 +46,17 @@ export default function DesignCard({
     });
 
     handleChangeTumbnailId(designId);
+  };
+
+  const handleChangeName = async (newName: string) => {
+    await UpdateDesignName({
+      accessToken: accessToken,
+      designId: designId,
+      request: {
+        name: newName,
+      },
+    });
+    handleIsEdit();
   };
 
   return (
@@ -86,6 +99,7 @@ export default function DesignCard({
             checkArray={checkArray}
             isThumbnail={isThumbnail}
             handleChangeTumbnail={handleChangeTumbnail}
+            handleChangeName={handleChangeName}
           />
         }
         subTitlecss=""

@@ -18,9 +18,15 @@ export default function MyFarmDesign() {
 
   const router = useRouter();
 
+  // 현재 대표 디자인 ID
   const [currentThumbnailId, setCurrentThumbnailId] = useState<number>(-1);
+  // 대표 디자인 취소 여부
   const [isCancel, setIsCancel] = useState<boolean>(false);
 
+  // 디자인 이름 수정 여부
+  const [isEditName, setIsEditName] = useState<boolean>(false);
+
+  // 대표 디자인 변경 함수
   const handleChangeTumbnailId = (designId: number) => {
     if (currentThumbnailId === designId) {
       setIsCancel(true);
@@ -29,6 +35,11 @@ export default function MyFarmDesign() {
     }
   };
 
+  const handleIsEdit = () => {
+    setIsEditName(true);
+  };
+
+  // 디자인 리스트 받아오는 fetch
   const fetchGetDesignList = async () => {
     try {
       // 디자인 조회
@@ -60,7 +71,8 @@ export default function MyFarmDesign() {
     fetchGetDesignList();
 
     setIsCancel(false);
-  }, [currentThumbnailId, isCancel]);
+    setIsEditName(false);
+  }, [currentThumbnailId, isCancel, isEditName]);
 
   return (
     <div>
@@ -110,6 +122,7 @@ export default function MyFarmDesign() {
                         designId={design.designId}
                         accessToken={userInfo.accessToken}
                         handleChangeTumbnailId={handleChangeTumbnailId}
+                        handleIsEdit={handleIsEdit}
                       />
                     </div>
                   ))
