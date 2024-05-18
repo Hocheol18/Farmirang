@@ -78,6 +78,7 @@ export default function FarmEnroll() {
     }));
   }, [parentData]);
 
+  // 밭 디자인 
   useEffect(() => {
     fetchDesignData(accessToken).then((res) =>
       setFetchDesignList(res.data.designList)

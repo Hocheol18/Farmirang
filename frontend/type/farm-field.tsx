@@ -27,5 +27,5 @@ export interface fetchDesignDataType {
   cropNumberAndCropIdDtoList: any;
   name: string;
   savedTime: string;
-  isThumbnail: false;
+  isThumbnail: boolean;
 }
