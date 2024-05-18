@@ -20,9 +20,12 @@
         <button type="submit">입장</button>
     </form>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
-    var socket = new SockJS('/ws'); // 서버의 엔드포인트 URL을 사용하세요.
+
+    var socket = new SockJS('http://localhost:8080/ws'); // 서버의 엔드포인트 URL을 사용하세요.
     var stompClient = Stomp.over(socket);
 
     function initializeSubscriptions() {

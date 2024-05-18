@@ -9,4 +9,6 @@ public interface ChatMessageService {
     void sendMessage(ChatMessageRequestDto request);
 
     List<ChatMessage> getMessages(String chatRoomId);
+
+    ChatMessage getMessage(ChatMessage chatMessage);
 }

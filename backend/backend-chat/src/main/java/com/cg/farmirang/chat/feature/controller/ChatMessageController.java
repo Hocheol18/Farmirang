@@ -17,7 +17,6 @@ public class ChatMessageController {
 
     private final ChatMessageService chatMessageService;
     private final SimpMessageSendingOperations sendingOperations;
-    private final ChatMessageRepository chatMessageRepository;
 
 
     /* 메시지 보내기 */
@@ -30,7 +29,8 @@ public class ChatMessageController {
     /* 메시지 받기 */
     @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void kafkaMessageListener(ChatMessage chatMessage) {
-        chatMessageRepository.save(chatMessage);
-        sendingOperations.convertAndSend("/queue/chats/rooms/"+chatMessage.getRoomId(),chatMessage);
+        ChatMessage message = chatMessageService.getMessage(chatMessage);
+
+        sendingOperations.convertAndSend("/queue/chats/rooms/"+message.getRoomId(),message);
     }
 }

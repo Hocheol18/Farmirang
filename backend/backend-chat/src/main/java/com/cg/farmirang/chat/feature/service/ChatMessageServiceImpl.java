@@ -11,6 +11,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -47,5 +48,17 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     public List<ChatMessage> getMessages(String chatRoomId) {
         List<ChatMessage> messages = chatMessageRepository.findAllByRoomId(chatRoomId);
         return messages;
+    }
+
+    /**
+     * 메시지 받아서 시간 추가하고 저장
+     * @param chatMessage
+     * @return
+     */
+    @Override
+    public ChatMessage getMessage(ChatMessage chatMessage) {
+        chatMessage.setSendTime(LocalDateTime.now());
+        ChatMessage updatedMessage = chatMessageRepository.save(chatMessage);
+        return updatedMessage;
     }
 }

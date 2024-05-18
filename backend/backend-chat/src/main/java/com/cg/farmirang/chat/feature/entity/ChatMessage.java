@@ -29,7 +29,6 @@ public class ChatMessage {
                 .senderId(chatMessageRequestDto.getSenderId())
                 .senderNickname(chatMessageRequestDto.getSenderNickname())
                 .message(chatMessageRequestDto.getMessage())
-                .sendTime(chatMessageRequestDto.getSendTime())
                 .build();
     }
 }

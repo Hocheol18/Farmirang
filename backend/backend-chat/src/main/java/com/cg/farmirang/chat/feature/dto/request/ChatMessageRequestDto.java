@@ -18,5 +18,4 @@ public class ChatMessageRequestDto {
     private String senderNickname;
     @NotNull(message = "메시지를 입력해주세요")
     private String message;
-    private LocalDateTime sendTime;
 }
