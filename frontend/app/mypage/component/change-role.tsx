@@ -132,7 +132,7 @@ export default function ChangeRole() {
           Titlebottom={
             <div className="bg-green-200 w-[18rem] h-6 rounded-xl absolute top-11 left-6 z-[-1] opacity-70" />
           }
-          next={agencyData?.approval === null ? "신청 취소하기" : "재신청하기"}
+          next={agencyData?.approval === true ? "확인" : "재신청하기"}
           contents={
             <>
               <div className="text-lg font-semibold mt-10">기관 승인 여부</div>
@@ -140,8 +140,10 @@ export default function ChangeRole() {
                 <p>승인 대기중입니다</p>
               ) : agencyData?.reason === null ? (
                 <p>기관 신청 승인 완료</p>
+              ) : agencyData?.approval === true ? (
+                <p>기관 신청 승인 완료</p>
               ) : (
-                <p>승인이 거절되었습니다. 사유: {agencyData?.reason}</p>
+                <p>승인이 거절되었습니다.</p>
               )}
 
               <div className="text-lg font-semibold mt-10">기관 아이디</div>
@@ -155,8 +157,8 @@ export default function ChangeRole() {
             </>
           }
           onSuccess={
-            agencyData?.approval === null
-              ? () => deleteAgency(agencyData?.id ?? 0)
+            agencyData?.approval === true
+              ? () => {}
               : () => deleteAgency(agencyData?.id ?? 0)
           }
           // onSuccess={
