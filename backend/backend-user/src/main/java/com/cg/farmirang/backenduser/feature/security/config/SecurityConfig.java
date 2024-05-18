@@ -122,11 +122,7 @@ public class SecurityConfig {
 			var token = jwt.createToken(dto);
 
 			// add device-id to cookie
-			var resCookie = new Cookie("device-id", devideId);
-			resCookie.setPath("/");
-			resCookie.setMaxAge(60*2);
-			resCookie.setAttribute("SameSite", "None");
-			res.addCookie(resCookie);
+			res.addCookie(createCookie("device-id", devideId));
 
 			res.addCookie(createCookie("access-token", token.accessToken()));
 			res.addCookie(createCookie("refresh-token", token.refreshToken()));
@@ -149,6 +145,7 @@ public class SecurityConfig {
 		cookie.setPath("/");
 		cookie.setMaxAge(60*2);
 		cookie.setAttribute("SameSite", "None");
+		cookie.setSecure(true);
 		return cookie;
 	}
 
