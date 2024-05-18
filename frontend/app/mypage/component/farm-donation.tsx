@@ -175,7 +175,7 @@ export default function FarmDonation({
                             </>}
                             subTitlecss={"text-h6"}
                             Titlecss={"font-bold text-h1"}
-                            Modalcss={"w-[90rem] p-20"}
+                            Modalcss={"w-2/3 p-16"}
                             Titlebottom={undefined}
                             onSuccess={() => { window.location.reload() }}
                             next={"새로고침"}></MyModal>

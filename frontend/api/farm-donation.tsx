@@ -177,6 +177,24 @@ export const putDonorApprove = async (accessToken : string, dataList : {id : num
   } 
 }
 
+// 후원글 유저 삭제
+export const deleteDonor = async (accessToken : string, donorId : number) => {
+  const response = await fetch(`${DONATION_URL}/v1/donor?id=${donorId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      accept : "*/*",
+      'Content-Type' : "aaplication/json"
+    }
+  })
+  if (response.ok) {
+    return {success : true}
+  } else {
+    return {success : false}
+  }
+
+}
+
 // 기부글 삭제
 export const deleteDonation = async (donationId : number, accessToken : string) => {
   const response = await fetch(`${DONATION_URL}/v1/donation?id=${donationId}`, {
