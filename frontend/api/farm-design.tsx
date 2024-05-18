@@ -3,6 +3,8 @@ import {
   CreateRecommendParams,
   createFieldParams,
   getDesignIdParams,
+  getDesignListResponse,
+  getThumbnailDesignResponse,
   updateDesignNameParams,
 } from "@/type/farmDesginType";
 
@@ -176,6 +178,76 @@ export const getDesignDetail = async (params: getDesignIdParams) => {
       "Content-Type": "application/json",
     },
   });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
+
+// getDesignList
+// 디자인 리스트 조회
+// /api/v1/designs/lists
+export const getDesignList = async (
+  accessToken: string
+): Promise<{ data: { designList: getDesignListResponse[] } }> => {
+  const response = await fetch(`${DESIGN_URL}/v1/designs/lists`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+
+    return result;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
+
+// getThumbnailDesign
+// 대표 디자인 조회
+// /api/v1/designs/thumbnails
+export const getThumbnailDesign = async (
+  accessToken: string
+): Promise<getThumbnailDesignResponse> => {
+  const response = await fetch(`${DESIGN_URL}/v1/designs/thumbnails`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+
+    return result.data;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
+
+// updateThumbnailDesign
+// 대표 디자인 수정
+// /api/v1/designs/thumbnails/{designId}
+export const updateThumbnailDesign = async (params: getDesignIdParams) => {
+  const { accessToken, designId } = params;
+  const response = await fetch(
+    `${DESIGN_URL}/v1/designs/thumbnails/${designId}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (response.ok) {
     // JSON 데이터 추출
     const result = await response.json();

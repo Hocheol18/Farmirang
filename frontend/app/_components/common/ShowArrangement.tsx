@@ -92,7 +92,7 @@ const ShowArrangement = ({
         width: `${(rightCol - leftCol + 1) * cellWidth}%`, // 테두리의 가로 길이
         height: `${(bottomRow - topRow + 1) * cellHeight}%`, // 테두리의 세로 길이
         boxShadow: "0 0 0 2px #388140 inset", // 내부에 3px 두께의 초록색 테두리를 생성
-        borderRadius: "0.25rem",
+        borderRadius: `${type === "mypage" ? null : "0.25rem"}`,
       };
     }
 
@@ -152,9 +152,9 @@ const ShowArrangement = ({
           {row.map((cell, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className={`flex justify-center items-center relative rounded ${
-                type === "custom" ? "border border-gray-300" : null
-              } 
+              className={`flex justify-center items-center relative 
+              ${type === "mypage" ? null : "rounded"}
+             ${type === "custom" ? "border border-gray-300" : null} 
               
               `}
               style={{
@@ -210,7 +210,7 @@ const ShowArrangement = ({
               style={{
                 ...borderStyle,
                 pointerEvents: "auto",
-                cursor: "pointer",
+                cursor: `${type === "mypage" ? "" : "pointer"}`,
               }}
               {...(handleDeleteCrop && {
                 onClick: () => handleDeleteCrop(crop.number),

@@ -6,7 +6,7 @@ import Button from "./Button";
 
 interface Props {
   // 버튼 텍스트
-  buttonText: string;
+  buttonText: any;
   // 버튼 배경 스타일
   buttonBgStyles: string;
   // 버튼 텍스트 스타일
@@ -37,6 +37,7 @@ interface Props {
   noButton?: boolean;
   grid?: number[][];
   buttonStyle?: string;
+  type?: string;
 }
 
 export default function MyModal({
@@ -56,6 +57,7 @@ export default function MyModal({
   noButton,
   grid,
   buttonStyle,
+  type,
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -93,8 +95,10 @@ export default function MyModal({
                     maxWidth: `${grid ? "90vw" : ""}`,
 
                     maxHeight: `${grid ? "90vh" : ""}`,
-                    aspectRatio: `${grid ? grid[0].length : 1} / ${
-                      grid ? grid.length : null
+                    aspectRatio: `${
+                      grid && !(type === "mypageModal") ? grid[0].length : 1
+                    } / ${
+                      grid && !(type === "mypageModal") ? grid.length : null
                     }`,
                   }}
                 >

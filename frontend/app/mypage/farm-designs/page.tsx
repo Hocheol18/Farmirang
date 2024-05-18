@@ -6,8 +6,74 @@ import Modal from "@/app/_components/common/Modal";
 import DesignUpload from "@/app/board/component/design-upload";
 import MiniNavigation from "../component/mini-nav";
 import DesignCard from "../component/design-card";
+import { useUserStore } from "@/app/_stores/userStore";
+import { useRouter } from "next/navigation";
+import { getDesignList } from "@/api/farm-design";
+import { useEffect, useState } from "react";
+import { getDesignListResponse } from "@/type/farmDesginType";
 
 export default function MyFarmDesign() {
+  const { userInfo } = useUserStore();
+  const [designList, setDesignList] = useState<getDesignListResponse[]>([]);
+
+  const router = useRouter();
+
+  // 현재 대표 디자인 ID
+  const [currentThumbnailId, setCurrentThumbnailId] = useState<number>(-1);
+  // 대표 디자인 취소 여부
+  const [isCancel, setIsCancel] = useState<boolean>(false);
+
+  // 디자인 이름 수정 여부
+  const [isEditName, setIsEditName] = useState<boolean>(false);
+
+  // 대표 디자인 변경 함수
+  const handleChangeTumbnailId = (designId: number) => {
+    if (currentThumbnailId === designId) {
+      setIsCancel(true);
+    } else {
+      setCurrentThumbnailId(designId);
+    }
+  };
+
+  const handleIsEdit = () => {
+    setIsEditName(true);
+  };
+
+  // 디자인 리스트 받아오는 fetch
+  const fetchGetDesignList = async () => {
+    try {
+      // 디자인 조회
+      const result = await getDesignList(userInfo.accessToken);
+      const list = result.data.designList;
+      setDesignList(list);
+    } catch (error) {
+      console.error("Failed to fetch design list:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo.accessToken === "") {
+      alert("로그인을 해 주세요.");
+      router.push("/");
+      return;
+    }
+
+    fetchGetDesignList();
+
+    for (let design of designList) {
+      if (design.isThumbnail) {
+        setCurrentThumbnailId(design.designId);
+      }
+    }
+  }, [userInfo.accessToken]);
+
+  useEffect(() => {
+    fetchGetDesignList();
+
+    setIsCancel(false);
+    setIsEditName(false);
+  }, [currentThumbnailId, isCancel, isEditName]);
+
   return (
     <div>
       <div className="w-full p-[70px] inline-flex flex-col items-center justify-center gap-[115px] relative bg-white">
@@ -43,34 +109,26 @@ export default function MyFarmDesign() {
               </div>
               {/* 카드 리스트 */}
               <div className="w-full grid grid-cols-3">
-                <div className="flex justify-center">
-                  <DesignCard
-                    imgSrc="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                    farmName="가짜밭"
-                    date="2024년 1월 2일"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <DesignCard
-                    imgSrc="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                    farmName="엄마밭"
-                    date="2024년 1월 2일"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <DesignCard
-                    imgSrc="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                    farmName="아빠밭"
-                    date="2024년 1월 2일"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <DesignCard
-                    imgSrc="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                    farmName="아가밭"
-                    date="2024년 1월 2일"
-                  />
-                </div>
+                {designList.length > 0 ? (
+                  designList.map((design) => (
+                    <div key={design.designId} className="flex justify-center">
+                      <DesignCard
+                        isThumbnail={design.isThumbnail}
+                        farmName={design.name}
+                        date={design.savedTime}
+                        grid={design.designArray}
+                        crops={design.cropNumberAndCropIdDtoList}
+                        checkArray={design.farm}
+                        designId={design.designId}
+                        accessToken={userInfo.accessToken}
+                        handleChangeTumbnailId={handleChangeTumbnailId}
+                        handleIsEdit={handleIsEdit}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div>꾸민 텃밭이 없습니다</div>
+                )}
               </div>
             </div>
           </div>

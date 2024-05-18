@@ -133,3 +133,27 @@ export interface getDesignDetailResponse {
   cropList: string[];
   saveTime: string;
 }
+
+// 디자인 리스트 조회 GET Response
+export interface getDesignListResponse {
+  designId: number;
+  designArray: number[][];
+  farm: boolean[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  }[];
+  name: string;
+  savedTime: string;
+  isThumbnail: false;
+}
+
+// 대표 디자인 조회 GET Response
+export interface getThumbnailDesignResponse {
+  designArray: number[][];
+  booleanFarmArrangement: boolean[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  }[];
+}

@@ -1,7 +1,7 @@
 "use client";
 
 interface Props {
-  text: string;
+  text: any;
   bgStyles: string;
   textStyles: string;
   handleClick: () => void;
