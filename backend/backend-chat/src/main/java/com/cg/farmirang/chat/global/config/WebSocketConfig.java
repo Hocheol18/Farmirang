@@ -30,6 +30,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setErrorHandler(stompExceptionHandler)
                 .addEndpoint("/ws")
                 .setAllowedOriginPatterns(WEB_SOCKET_HOST)
+                .withSockJS()
         ;
     }
 
