@@ -3,6 +3,8 @@ package com.cg.farmirang.donation.feature.donation.entity;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.cg.farmirang.donation.feature.farm.entity.Crop;
@@ -42,6 +44,7 @@ public class Donor {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "donation_board_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private DonationBoard board;
 
 	@ManyToOne(fetch = FetchType.LAZY)
