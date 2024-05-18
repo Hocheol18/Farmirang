@@ -28,8 +28,8 @@ export default function FarmCard({
             <div className="text-[length:var(--m-h3-font-size)] leading-10">
               {farmName}
             </div>
-            <div className="text-gray-400 text-[length:var(--m-h5-font-size)] leading-loose">
-              {date} 시작
+            <div className="text-gray-400 text-[length:var(--m-h5-font-size)] leading-loose ml-4">
+              {date} 종료
             </div>
           </div>
           <div className="h-12 justify-between items-center flex gap-[10px]">

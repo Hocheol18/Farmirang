@@ -6,7 +6,7 @@ import React from "react";
 import Link from "next/link";
 
 export default async function Donation() {
-  const res = await fetchDonationData({ cursor: 0, size: 10 });
+  const res = await fetchDonationData({ cursor: 0, size: 12, user: null});
 
   return (
     <>

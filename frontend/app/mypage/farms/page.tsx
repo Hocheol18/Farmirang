@@ -3,6 +3,8 @@
 import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
+import { fetchFieldData } from "@/api/farm-field";
+import { useEffect } from "react";
 
 // async function getData(memberId: number) {
 //   const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
@@ -10,26 +12,24 @@ import FarmCard from "../component/farm-card";
 // }
 
 export default function MyFarm() {
-  // localStorage에서 accessToken 받는 방법
-  let accessToken = "";
+
   let memberId = "";
-  let profileImg = "";
-  let role = "";
+
   if (typeof window !== "undefined") {
     const ls = window.localStorage.getItem("userInfo");
     if (ls) {
-      const lsInfo = JSON.parse(ls);
-      accessToken = lsInfo.state.userInfo.accessToken;
+      const lsInfo = JSON.parse(ls);    
       memberId = lsInfo.state.userInfo.memberId;
-      profileImg = lsInfo.state.userInfo.profileImg;
-      role = lsInfo.state.userInfo.role;
-    }
-  }
+  }}
   // const data = await getData(Number(memberId));
   // console.log(data);
 
   // useEffect(() => {
   // }, []);
+
+  useEffect(() => {
+    fetchFieldData(Number(memberId))
+  }, []) 
 
   return (
     <div>

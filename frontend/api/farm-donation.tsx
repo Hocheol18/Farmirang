@@ -1,9 +1,10 @@
 import {
   fetchDonationDataType,
   fetchDonationDataFunctionType,
-  postDonationDataType,
   fetchDonationDetailDataType,
   fetchDonationListDataType,
+  fetchDonorListDataType,
+  fetchDonorPersonListDataType,
 } from "@/type/farm-donation";
 import { makeQuerystring } from "@/utils/ApiUtils";
 import { DONATION_URL, MEMBER_URL } from "@/utils/ServerApi";
@@ -18,6 +19,7 @@ export const fetchDonationData = async (
     `${DONATION_URL}/v1/donation${makeQuerystring({
       cursor,
       size,
+      
     })}`,
     {
       cache: "no-store",
@@ -49,7 +51,7 @@ export const postDonationData = async ({
     });
 
     if (response.ok) {
-      return {success : true}
+      return { success: true }
     }
   } catch (err) {
     console.log(err);
@@ -113,3 +115,98 @@ export const postDonationCrops = async (
     return { success: false };
   }
 };
+
+// 개인 유저 후원 목록 조회
+export const fetchDonorData = async (donationId : number) : Promise<fetchDonorPersonListDataType> => {
+  const response = await fetch(`${DONATION_URL}/v1/donor?id=${donationId}`, {
+    cache: "no-store",
+    method : "GET"
+  })
+  return await response.json()
+}
+
+// 기부글 특정 기업 회원 조회
+export const fetchDonationDataWithCompony = async (
+  params: fetchDonationDataFunctionType
+): Promise<{ data: { posts: fetchDonationDataType[] } }> => {
+  const { cursor, size, user } = params;
+
+  const response = await fetch(
+    `${DONATION_URL}/v1/donation${makeQuerystring({
+      cursor,
+      size,
+      user
+    })}`,
+    {
+      cache: "no-store",
+      method: "GET",
+    }
+  );
+  return await response.json();
+};
+
+
+// 후원 목록 조회
+export const fetchDonorList = async (donationId: number): Promise<{ data: { donors: fetchDonorListDataType[] } }> => {
+
+  const response = await fetch(`${DONATION_URL}/v1/donor?id=${donationId}`, {
+    method: "GET",
+    cache: "no-store"
+  })
+  return await response.json()
+
+}
+
+// 후원 승인, 거절
+export const putDonorApprove = async (accessToken : string, dataList : {id : number, approval : boolean}) => {
+  const response = await fetch(`${DONATION_URL}/v1/donor`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      accept: "*/*",
+      'Content-Type' : "application/json",
+      Referer: "http://localhost:3000/",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    },
+    body : JSON.stringify(dataList),
+  })
+  if (response.ok) {
+    return {success : true}
+  } else {
+    return {success : false}
+  } 
+}
+
+// 후원글 유저 삭제
+export const deleteDonor = async (accessToken : string, donorId : number) => {
+  const response = await fetch(`${DONATION_URL}/v1/donor?id=${donorId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      accept : "*/*",
+      'Content-Type' : "aaplication/json"
+    }
+  })
+  if (response.ok) {
+    return {success : true}
+  } else {
+    return {success : false}
+  }
+
+}
+
+// 기부글 삭제
+export const deleteDonation = async (donationId : number, accessToken : string) => {
+  const response = await fetch(`${DONATION_URL}/v1/donation?id=${donationId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      accept : "*/*"
+    }
+  })
+  if (response.ok) {
+    return {success : true}
+  } else {
+    return {success : false}
+  }
+}
