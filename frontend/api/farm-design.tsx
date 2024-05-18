@@ -4,6 +4,7 @@ import {
   createFieldParams,
   getDesignIdParams,
   getDesignListResponse,
+  getThumbnailDesignResponse,
   updateDesignNameParams,
 } from "@/type/farmDesginType";
 
@@ -212,8 +213,10 @@ export const getDesignList = async (
 // getThumbnailDesign
 // 대표 디자인 조회
 // /api/v1/designs/thumbnails
-export const getThumbnailDesign = async (accessToken: string) => {
-  const response = await fetch(`${DESIGN_URL}/v1/designs/thumbnails}`, {
+export const getThumbnailDesign = async (
+  accessToken: string
+): Promise<getThumbnailDesignResponse> => {
+  const response = await fetch(`${DESIGN_URL}/v1/designs/thumbnails`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,

@@ -149,3 +149,11 @@ export interface getDesignListResponse {
 }
 
 // 대표 디자인 조회 GET Response
+export interface getThumbnailDesignResponse {
+  designArray: number[][];
+  farm: boolean[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  }[];
+}

@@ -10,6 +10,9 @@ import Button from "@/app/_components/common/Button";
 import Input from "@/app/_components/common/Input";
 import ChangePicture from "./change-propic";
 import { useUserStore } from "@/app/_stores/userStore";
+import ShowArrangement from "@/app/_components/common/ShowArrangement";
+import { getThumbnailDesignResponse } from "@/type/farmDesginType";
+import { getThumbnailDesign } from "@/api/farm-design";
 
 // 프로필 데이터를 나타내는 인터페이스
 interface ProfileType {
@@ -41,6 +44,19 @@ export default function ProfileCSR({
   const [selectImage, setSelectImage] = useState<any>();
   const [showImage, setShowImage] = useState<any>();
   const [newNickname, setNewNickname] = useState<string>("");
+
+  // 대표디자인
+  const [thumbnailDesign, setThumbnailDesign] =
+    useState<getThumbnailDesignResponse>();
+
+  useEffect(() => {
+    const fetchGetThumbnailDesign = async () => {
+      const design = await getThumbnailDesign(userInfo.accessToken);
+
+      setThumbnailDesign(design);
+    };
+    fetchGetThumbnailDesign();
+  }, [userInfo.accessToken]);
 
   // 입력한 닉네임으로 백엔드 저장하는 로직
   const putNewNickname = async () => {
@@ -102,13 +118,26 @@ export default function ProfileCSR({
       {/* 유저 사진 헤더 */}
       <div className="flex flex-col items-start gap-[10px] p-[10px] relative self-stretch w-full flex-[0_0_auto]">
         {/* 밭 디자인 */}
-        <Image
-          className="w-[880px] h-[378px] mr-[-10.00px] relative object-cover"
-          alt="User's Farm-design Image"
-          src="/user/ground.jpg"
-          width={880}
-          height={378}
-        />
+        <div className="w-[880px] h-[378px] mr-[-10.00px] relative overflow-hidden">
+          {thumbnailDesign ? (
+            <div>
+              <ShowArrangement
+                grid={thumbnailDesign.designArray}
+                crops={thumbnailDesign.cropNumberAndCropIdDtoList}
+                type={"mypage"}
+                checkArray={thumbnailDesign.booleanFarmArrangement}
+              />
+            </div>
+          ) : (
+            <Image
+              className="w-full h-full object-cover"
+              alt="User's Farm-design Image"
+              src="/user/ground.jpg"
+              width={880}
+              height={378}
+            />
+          )}
+        </div>
         {/* 유저 프사 */}
         <div
           className="inline-flex items-start gap-[10px] absolute top-[295px] left-[360px]"
