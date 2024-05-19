@@ -299,6 +299,7 @@ const FirstInputBox = ({
           onChange={handleDirectionChange}
           value={direction}
           textSmall="text-md"
+          topcss={"w-28"}
         />
         <SelectMenu
           labelcss={labelcss}
