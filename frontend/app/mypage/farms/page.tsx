@@ -3,33 +3,30 @@
 import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
-
-// async function getData(memberId: number) {
-//   const res = await fetch(`${BASE_URL}/v1/field/${memberId}`);
-//   return res.json();
-// }
+import { fetchFieldData } from "@/api/farm-field";
+import { useEffect, useState } from "react";
+import { fetchFarmListType } from "@/type/farm-field";
+import React from "react";
 
 export default function MyFarm() {
-  // localStorage에서 accessToken 받는 방법
-  let accessToken = "";
   let memberId = "";
-  let profileImg = "";
-  let role = "";
+
   if (typeof window !== "undefined") {
     const ls = window.localStorage.getItem("userInfo");
     if (ls) {
       const lsInfo = JSON.parse(ls);
-      accessToken = lsInfo.state.userInfo.accessToken;
       memberId = lsInfo.state.userInfo.memberId;
-      profileImg = lsInfo.state.userInfo.profileImg;
-      role = lsInfo.state.userInfo.role;
     }
   }
-  // const data = await getData(Number(memberId));
-  // console.log(data);
 
-  // useEffect(() => {
-  // }, []);
+  const [fetchFieldDataList, setFetchFieldDataList] =
+    useState<fetchFarmListType[]>();
+
+  useEffect(() => {
+    fetchFieldData(Number(memberId)).then((res) =>
+      setFetchFieldDataList(res.data.fields)
+    );
+  }, [memberId]);
 
   return (
     <div>
@@ -51,39 +48,21 @@ export default function MyFarm() {
                 모달버튼
               </div>
               {/* 카드 리스트 */}
+
               <div className="w-full flex flex-col gap-[20px] justify-center">
-                <FarmCard
-                  fieldId={0}
-                  farmName={"강동주말농장"}
-                  date={"2024년 1월 1일"}
-                  cultivating={false}
-                  sensor={true}
-                  direction={"강동구 강일동"}
-                />
-                <FarmCard
-                  fieldId={0}
-                  farmName={"강동주말농장"}
-                  date={"2024년 1월 1일"}
-                  cultivating={false}
-                  sensor={true}
-                  direction={"강동구 강일동"}
-                />
-                <FarmCard
-                  fieldId={0}
-                  farmName={"강동주말농장"}
-                  date={"2024년 1월 1일"}
-                  cultivating={false}
-                  sensor={true}
-                  direction={"강동구 강일동"}
-                />
-                <FarmCard
-                  fieldId={0}
-                  farmName={"강동주말농장"}
-                  date={"2024년 1월 1일"}
-                  cultivating={false}
-                  sensor={true}
-                  direction={"강동구 강일동"}
-                />
+                {fetchFieldDataList?.map((item, idx: number) => (
+                  <React.Fragment key={idx}>
+                    <FarmCard
+                      userId={Number(memberId)}
+                      fieldId={item.fieldId}
+                      farmName={item.title}
+                      startdate={item.startAt}
+                      cultivating={false}
+                      sensor={item.iot}
+                      direction={item.address}
+                    />
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </div>

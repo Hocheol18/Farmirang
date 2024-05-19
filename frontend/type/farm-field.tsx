@@ -3,7 +3,7 @@ export interface fetchFarmListType {
   address: string;
   content: string;
   design: number;
-  iot: number;
+  iot: string;
   title: string;
   startAt: string;
   fieldId: number;
@@ -23,8 +23,12 @@ export interface postFieldType {
 // 밭 디자인 리스트 인터페이스
 export interface fetchDesignDataType {
   designId: number;
-  designArray: any;
-  cropNumberAndCropIdDtoList: any;
+  designArray: number[][];
+  farm: boolean[][];
+  cropNumberAndCropIdDtoList: {
+    cropId: number;
+    number: number;
+  }[];
   name: string;
   savedTime: string;
   isThumbnail: false;

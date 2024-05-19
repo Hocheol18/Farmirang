@@ -5,31 +5,11 @@ interface Props {
   Title: string;
   contents: string;
   progress: number;
-  state: string;
 }
 
-export default function Card({
-  imgSrc,
-  Title,
-  contents,
-  progress,
-  state,
-}: Props) {
+export default function Card({ imgSrc, Title, contents, progress }: Props) {
   let stateText;
   let stateClass;
-  let progressBarWidth;
-  switch (state) {
-    case "DOING":
-      stateText = "기부중";
-      progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
-      break;
-    case "DONE":
-      stateText = "기부완료";
-      progressBarWidth = "w-full";
-      break;
-    default:
-      break;
-  }
   return (
     <div
       className={`relative flex flex-col mb-[10rem] text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
@@ -37,14 +17,21 @@ export default function Card({
       <div
         className={`relative h-64 mx-4 mt-6 overflow-hidden text-white bg-clip-border rounded-xl shadow-blue-gray-500/40`}
       >
-        <Image
-          className={`object-cover object-center w-full h-full bg-white-300 ${stateClass} `}
-          width={100}
-          height={100}
-          src={`${imgSrc}`}
-          alt=""
-        />
+        <div
+          className={`relative w-full h-full bg-white-300 overflow-hidden ${stateClass}`}
+        >
+          <div className="relative w-full h-full top-[0.5%] left-[0.5%]">
+            <Image
+              src={imgSrc}
+              alt=""
+              fill
+              className="object-cover object-center transition-transform duration-200 ease-out transform hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        </div>
       </div>
+
       <div className="p-6">
         <p className="block text-h6 font-extrabold text-green-400">
           {stateText}
@@ -60,7 +47,8 @@ export default function Card({
         </div>
         <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium mt-2">
           <div
-            className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full ${progressBarWidth}`}
+            className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full`}
+            style={{ width: `${Math.round(progress * 100)}%` }}
           ></div>
         </div>
       </div>

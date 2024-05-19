@@ -1,6 +1,7 @@
 export interface fetchDonationDataFunctionType {
   cursor: number;
   size: number;
+  user: number | null;
 }
 
 export interface fetchDonationDataType {
@@ -56,4 +57,45 @@ export interface fetchDonationListDataType {
   id: number;
   amount: number;
   approval: boolean;
+}
+
+export interface fetchDonorListDataType {
+  board_id: number,
+  member_id: number,
+  crop_id: number,
+  register_date: string,
+  confirm_img: string,
+  id: number,
+  amount: number,
+  approval: boolean
+}
+
+
+
+export interface fetchDonorProfileListDataType {
+  badge: number;
+  nickname: string;
+  profile_img: string;
+  role: string;
+}
+
+interface innerFetchDonorListDataType {
+  board_id: number,
+  member_id: number,
+  crop_id: number,
+  register_date: string,
+  confirm_img: string,
+  id: number,
+  amount: number,
+  approval: boolean
+}
+export interface fetchDonorPersonListDataType {
+  data: {
+    board_id: number
+    donors: Array<
+      innerFetchDonorListDataType
+    >,
+    cursor: number
+  }
+
 }

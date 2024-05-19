@@ -25,14 +25,12 @@ export default async function Remote({
   donationItem,
 }: Props) {
   const donationListData = await fetchDonationListData(donationId);
-  const totalCrops = donationItem.length;
-  const totalPeople = donationListData.data.donors.length;
-  const completeCrops = donationItem.filter(
-    (item) => item.current >= item.amount
+  const totalPeopleData = donationListData.data.donors.filter(
+    (donor) => donor.approval
   );
+  const totalCrops = donationItem.length;
+  const totalPeople = totalPeopleData.length;
   const remainCrops = donationItem.filter((item) => item.current < item.amount);
-
-  const progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
 
   return (
     <div className="sticky top-[7rem] w-[22rem] border border-black-100 h-[420px] rounded-xl p-8">
@@ -44,7 +42,8 @@ export default async function Remote({
 
       <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium">
         <div
-          className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full ${progressBarWidth}`}
+          className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full`}
+          style={{ width: `${Math.round(progress * 100)}%` }}
         ></div>
       </div>
       <div className="mt-2">
