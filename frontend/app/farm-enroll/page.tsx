@@ -69,6 +69,8 @@ export default function FarmEnroll() {
   const OnSubmit = async () => {
     if (totalValue.iot === "") {
       alert("IoT 기기 등록은 반드시 등록해야 합니다.");
+    } else if (totalValue.startAt === "") {
+      alert("반드시 날짜 데이터를 입력해주세요")
     } else {
       const response = await postField(totalValue);
       if (response.success) {

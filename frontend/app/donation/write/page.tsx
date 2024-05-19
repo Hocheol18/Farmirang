@@ -41,6 +41,7 @@ export default function DonationWrite() {
   const [detailPicture, setDetailPicture] = useState<any>();
   const [parentData, setParentData] = useState<string>("");
   const [showImage, setShowImage] = useState<any>();
+  const [showDetailImage, setShowDetailImage] = useState<any>();
   const [secondparentDate, setSecondparentDate] = useState<string>("");
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
@@ -134,7 +135,7 @@ export default function DonationWrite() {
       router.push("/");
     } else {
       alert("등록 실패");
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -186,8 +187,8 @@ export default function DonationWrite() {
                   topcss={"mt-20"}
                   heightcss={""}
                   displayImage={detailPicture}
-                  showImage={showImage}
-                  setShowImage={setShowImage}
+                  showImage={showDetailImage}
+                  setShowImage={setShowDetailImage}
                   setDisplayImage={setDetailPicture}
                 />
 
@@ -237,7 +238,7 @@ export default function DonationWrite() {
                     inputcss={
                       "h-[2.8rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
                     }
-                    placeholder={"밭 이름을 정해주세요"}
+                    placeholder={"기부 글 이름을 정해주세요"}
                     type={"text"}
                     value={totalValue.title}
                     name={"title"}
