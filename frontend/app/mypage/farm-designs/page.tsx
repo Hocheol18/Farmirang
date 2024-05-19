@@ -91,7 +91,8 @@ export default function MyFarmDesign() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 꾸미기 목록</div>
-                <Modal
+                {/* 게시하기 버튼 - 커뮤 필요 */}
+                {/* <Modal
                   buttonText={"게시하기"}
                   buttonBgStyles={"bg-green-300"}
                   buttonTextStyles={"text-font-m5 text-white-100"}
@@ -105,7 +106,7 @@ export default function MyFarmDesign() {
                   }
                   next={"저장"}
                   contents={<DesignUpload />}
-                />
+                /> */}
               </div>
               {/* 카드 리스트 */}
               <div className="w-full grid grid-cols-3">

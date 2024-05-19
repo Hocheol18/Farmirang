@@ -9,7 +9,12 @@ import ThumbnailFalse from "@/public/icons/design-star-empty.png";
 
 import Image from "next/image";
 import { useState } from "react";
-import { UpdateDesignName, updateThumbnailDesign } from "@/api/farm-design";
+import {
+  UpdateDesignName,
+  deleteDesign,
+  updateThumbnailDesign,
+} from "@/api/farm-design";
+import { useRouter } from "next/router";
 
 interface Props {
   farmName: string;
@@ -59,6 +64,15 @@ export default function DesignCard({
     handleIsEdit();
   };
 
+  const handleDelete = async () => {
+    await deleteDesign({
+      accessToken: accessToken,
+      designId: designId,
+    });
+
+    window.location.replace("/mypage/farm-designs");
+  };
+
   return (
     <div className="relative flex flex-col text-gray-700 bg-white bg-clip-border rounded-xl w-10/12">
       <div className="flex py-3 px-6 justify-center">
@@ -106,11 +120,12 @@ export default function DesignCard({
         Titlecss="font-bold"
         Modalcss="w-1/2 overflow-y-auto"
         Titlebottom=""
-        next="수정"
+        next="삭제"
         noButton={false}
         grid={grid}
         buttonStyle="reset"
         type="mypageModal"
+        onSuccess={handleDelete}
       />
 
       <div className="flex py-3 px-6 justify-end">
