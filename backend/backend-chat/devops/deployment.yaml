@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-chat-deployment
+  namespace: farmirang
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-chat
+  template:
+    metadata:
+      labels:
+        app: app-chat
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+        - name: container-chat
+          image: docker.io/hyeonjongkim/chat:latest
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          env:
+            - name: TZ
+              value: Asia/Seoul
+          ports:
+            - containerPort: 8080

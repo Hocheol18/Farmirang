@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>chat home</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>채팅방 홈</h1>
+<h2>채팅방 생성</h2>
+<div class="container" id="app">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="memberIdForm" th:action="@{/chats/rooms}" method="post">
+                <div class="form-group">
+                    <label for="memberId">
+                        Friend Member ID:</label>
+                    <input type="number" id="memberId" name="memberId" class="form-control" required>
+                    <label for="accessToken">Access Token:</label>
+                    <input type="text" id="accessToken" name="accessToken" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<h2>채팅방 생성 후</h2>
+<div class="row">
+    <div class="col-md-12">
+        <p>채팅방 ID: <span th:text="${chatRoomId}"></span></p>
+    </div>
+</div>
+<h2>채팅방 리스트 조회</h2>
+<form th:action="@{/chats/rooms/lists}" method="get">
+    <div>Access Token:</div>
+    <input type="text"  name="accessToken" class="form-control" required>
+    <button type="submit">리스트 조회</button>
+</form>
+
+<h2>채팅방 입장</h2>
+<div class="container" id="app">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- 폼 수정 -->
+            <div class="form-group">
+                <label for="roomId">Room ID:</label>
+                <input type="text" id="roomId" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="senderId">Sender ID:</label>
+                <input type="number" id="senderId" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="senderNickname">Sender Nickname:</label>
+                <input type="text" id="senderNickname" class="form-control" required>
+            </div>
+            <button id="submitBtn" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</div>
+<!--JavaScript-->
+<script>
+        document.getElementById("submitBtn").addEventListener("click", function(event) {
+            event.preventDefault(); // 폼 전송을 방지
+            // 입력 받은 값들을 변수에 저장
+            var roomId = document.getElementById("roomId").value;
+            var senderId = document.getElementById("senderId").value;
+            var senderNickname = document.getElementById("senderNickname").value;
+
+            // localStorage에 저장
+            localStorage.setItem("roomId", roomId);
+            localStorage.setItem("senderId", senderId);
+            localStorage.setItem("senderNickname", senderNickname);
+
+            // 새로운 페이지로 이동
+            window.location.href = "/chats/rooms/" + roomId;
+        })
+
+
+</script>
+
+</body>
+</html>
