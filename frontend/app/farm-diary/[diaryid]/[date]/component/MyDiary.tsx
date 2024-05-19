@@ -65,7 +65,7 @@ export default function MyDiary({
 
   return (
     <>
-      <div className="h-full">
+      <div className="">
         <div className="flex justify-between">
           <div className="text-h2 font-bold mt-10">나의 일지</div>
           <div>
@@ -79,7 +79,7 @@ export default function MyDiary({
         </div>
 
         {childrenDiaryManualData ? (
-          <div className="border border-gray-400 shadow-xl rounded-xl h-full p-6 mt-10">
+          <div className="border border-gray-400 shadow-xl rounded-xl min-h-full p-6 mt-10">
             <div className="relative w-[32rem] h-[24rem] mx-auto aspect-video">
               <Image src={childrenDiaryManualData.photo} alt="" fill />
             </div>

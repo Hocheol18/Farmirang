@@ -101,10 +101,13 @@ export default function CalendarDate() {
       {isTrueComponent ? (
         <Spinner />
       ) : (
-        <div className="h-full w-full">
-          <div className="w-3/5 p-8 ml-2 mt-8">
+        <div className="h-full w-full flex">
+          <div className="w-[80rem] p-10 ml-2 mt-2 h-full flex flex-col justify-between">
+            <div>
             <div className="text-h2 font-bold mt-10">심은 작물</div>
             <div className="text-h5 font-semibold mt-4">오늘 작물은요...</div>
+            </div>
+          
             <div className="flex justify-between h-[24rem] w-full">
               <AutoDiary childrenAutoDiaryData={fetchAutoDiaryData} />
             </div>
@@ -115,7 +118,7 @@ export default function CalendarDate() {
               />
             </div>
           </div>
-          <div className="w-2/5 p-8 mr-8 mt-8 h-full">
+          <div className="w-[40rem] p-10 mr-8 mt-2 min-h-full">
             {isTrue ? (
               <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
