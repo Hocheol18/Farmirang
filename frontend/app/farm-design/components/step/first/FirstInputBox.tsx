@@ -293,7 +293,7 @@ const FirstInputBox = ({
         ))}
         <SelectMenu
           labelcss={labelcss}
-          topScript={"두둑/고랑의 방향"}
+          topScript={"이랑의 방향"}
           items={directionArr}
           bordercss="border-gray-300"
           onChange={handleDirectionChange}
