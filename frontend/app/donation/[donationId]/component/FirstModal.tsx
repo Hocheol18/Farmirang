@@ -7,7 +7,6 @@ import KakaoMap from "@/app/_components/common/Maps";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Fragment,
-  ReactEventHandler,
   useEffect,
   useMemo,
   useState,
@@ -32,6 +31,7 @@ export default function FirstModal({
 }) {
   const params = useParams<{ donationId: string }>();
   const [diaryPicture, setDiaryPicture] = useState<any>();
+  const [showImage, setShowImage] = useState<any>();
   const [totalValue, setTotalValue] = useState<{
     crop_id: number;
     board_id: number;
@@ -283,6 +283,9 @@ export default function FirstModal({
                           topsecondcss="w-5/6"
                           heightcss={""}
                           setDisplayImage={setDiaryPicture}
+                          showImage={showImage}
+                          setShowImage={setShowImage}
+                          displayImage={diaryPicture}
                         />
 
                         <div className="flex justify-end mt-10">

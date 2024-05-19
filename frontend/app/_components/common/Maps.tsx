@@ -9,34 +9,33 @@ declare global {
 
 export default function KakaoMap({ address }: { address: string }) {
   const mapRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const loadKakaoMap = () => {
       const geocoder = new window.kakao.maps.services.Geocoder();
 
-      // Parse the input address string and form the full address
+      // parse 데이터 받아오기
       const addressObj = JSON.parse(address);
       const fullAddress = addressObj.areaAddress + addressObj.townAddress;
 
-      // Geocode the address
+      // Geocoder로 돌리기
       geocoder.addressSearch(fullAddress, (result: any[], status: string) => {
         if (status === window.kakao.maps.services.Status.OK) {
           const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
           const options = {
             center: coords,
-            level: 3, // Zoom level
+            level: 3,
           };
 
-          // Create the map
+          // 맵 생성
           const map = new window.kakao.maps.Map(mapRef.current, options);
 
-          // Create a marker
+          // 마커 생성
           const marker = new window.kakao.maps.Marker({
             position: coords,
           });
 
-          // Place the marker on the map
           marker.setMap(map);
         } else {
           console.error(

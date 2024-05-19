@@ -67,8 +67,8 @@ export default function FarmEnroll() {
 
   // 버튼 눌렀을 때
   const OnSubmit = async () => {
-    if (totalValue.iot.slice(0, 2) !== "dc") {
-      alert("IoT 기기 등록은 반드시 dc로 시작해야 합니다.");
+    if (totalValue.iot === "") {
+      alert("IoT 기기 등록은 반드시 등록해야 합니다.");
     } else {
       const response = await postField(totalValue);
       if (response.success) {
