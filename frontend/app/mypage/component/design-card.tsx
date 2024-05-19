@@ -114,6 +114,7 @@ export default function DesignCard({
             isThumbnail={isThumbnail}
             handleChangeTumbnail={handleChangeTumbnail}
             handleChangeName={handleChangeName}
+            handleDelete={handleDelete}
           />
         }
         subTitlecss=""
@@ -121,11 +122,10 @@ export default function DesignCard({
         Modalcss="w-1/2 overflow-y-auto"
         Titlebottom=""
         next="삭제"
-        noButton={false}
+        noButton={true}
         grid={grid}
         buttonStyle="reset"
         type="mypageModal"
-        onSuccess={handleDelete}
       />
 
       <div className="flex py-3 px-6 justify-end">
