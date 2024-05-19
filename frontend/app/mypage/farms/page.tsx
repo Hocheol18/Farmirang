@@ -1,6 +1,4 @@
 "use client";
-
-import { BASE_URL } from "@/utils/ServerApi";
 import MiniNavigation from "../component/mini-nav";
 import FarmCard from "../component/farm-card";
 import { fetchFieldData } from "@/api/farm-field";
@@ -45,7 +43,6 @@ export default function MyFarm() {
               {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
               <div className="flex w-full h-[40px] items-center justify-between mb-5">
                 <div>마이페이지 〉 내 밭 목록</div>
-                모달버튼
               </div>
               {/* 카드 리스트 */}
 

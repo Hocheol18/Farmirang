@@ -126,11 +126,11 @@ export default function CalendarSideBar() {
                     <CiSearch className="w-8 h-8" />
                   </div>
                   {item.fieldId === Number(diaryid) ? (
-                    <div className="font-extrabold text-base place-content-center">
+                    <div className="font-extrabold text-base text-green-400 place-content-center">
                       {item.title}
                     </div>
                   ) : (
-                    <div className="font-bold text-base place-content-center cursor-pointer">
+                    <div className="font-bold text-base place-content-center cursor-pointer" onClick={() => {router.push(`/farm-diary/${item.fieldId}`)}}>
                       {item.title}
                     </div>
                   )}
