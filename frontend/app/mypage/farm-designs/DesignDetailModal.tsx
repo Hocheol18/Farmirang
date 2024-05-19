@@ -21,6 +21,7 @@ interface Props {
   isThumbnail: boolean;
   handleChangeTumbnail: () => void;
   handleChangeName: (newName: string) => void;
+  handleDelete: () => void;
 }
 
 const DesignDetailModal = ({
@@ -32,6 +33,7 @@ const DesignDetailModal = ({
   isThumbnail,
   handleChangeTumbnail,
   handleChangeName,
+  handleDelete,
 }: Props) => {
   const [isEditClick, setIsEditClick] = useState<boolean>(false);
   const [name, setName] = useState<string>(farmName);
@@ -95,7 +97,14 @@ const DesignDetailModal = ({
         checkArray={checkArray}
       />
       <div className="flex justify-end text-gray-400 pt-2">{date}</div>
-      <div></div>
+      <div className="flex justify-end mt-3">
+        <Button
+          text={"삭제"}
+          bgStyles="bg-red-500 hover:bg-red-600"
+          textStyles="text-white-100 font-bold"
+          handleClick={handleDelete}
+        />
+      </div>
     </div>
   );
 };

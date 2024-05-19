@@ -257,3 +257,25 @@ export const updateThumbnailDesign = async (params: getDesignIdParams) => {
     throw new Error("Failed to create field");
   }
 };
+
+// deleteDesign
+// 디자인 삭제
+// /api/v1/designs/{ designId };
+export const deleteDesign = async (params: getDesignIdParams) => {
+  const { accessToken, designId } = params;
+  const response = await fetch(`${DESIGN_URL}/v1/designs/${designId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.ok) {
+    // JSON 데이터 추출
+    const result = await response.json();
+
+    return result;
+  } else {
+    throw new Error("Failed to create field");
+  }
+};
