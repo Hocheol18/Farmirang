@@ -7,7 +7,7 @@ interface LinkItem {
 
 const links: LinkItem[] = [
   { href: "/admin/role-list", text: "단체/기관 승인" },
-  { href: "/admin/user-list", text: "회원목록" },
+  // { href: "/admin/user-list", text: "회원목록" },
 ];
 
 export default function MiniNavigation({ status }: { status: string }) {
