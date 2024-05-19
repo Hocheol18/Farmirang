@@ -47,11 +47,23 @@ export default function DonationList({ donationData }: Props) {
                   {item.cropName}
                 </div>
               </div>
-              <div className="flex">
-                <span className="text-h5 flex flex-col justify-center mr-2">
-                  {item.amount - item.current}
-                </span>
-                <span className="text-h5 flex flex-col justify-center">개</span>
+              <div className="">
+                <div className="flex mb-4 justify-end">
+                  <span className="text-h4 font-bold flex flex-col justify-center mr-2 ">
+                    {item.amount}
+                  </span>
+                  <span className="text-h5 flex flex-col justify-center">
+                    개 후원 받아요
+                  </span>
+                </div>
+                <div className="flex justify-end">
+                  <span className="text-h4 font-bold flex flex-col justify-center mr-2">
+                    {item.amount - item.current}
+                  </span>
+                  <span className="text-h5 flex flex-col justify-center">
+                    개 남았어요 !
+                  </span>
+                </div>
               </div>
             </div>
           ) : (
@@ -74,13 +86,23 @@ export default function DonationList({ donationData }: Props) {
                   ></Image>
                 </div>
               </div>
-              <div className="flex">
-                <span className="text-h5 flex flex-col justify-center mr-2 text-gray-400">
-                  {item.current}
-                </span>
-                <span className="text-h5 flex flex-col justify-center text-gray-400">
-                  개
-                </span>
+              <div className="text-gray-400 line-through">
+                <div className="flex mb-4 justify-end">
+                  <span className="text-h4 font-bold flex flex-col justify-center mr-2 ">
+                    {item.amount}
+                  </span>
+                  <span className="text-h5 flex flex-col justify-center">
+                    개 후원 받아요
+                  </span>
+                </div>
+                <div className="flex justify-end">
+                  <span className="text-h4 font-bold flex flex-col justify-center mr-2">
+                    {item.amount - item.current}
+                  </span>
+                  <span className="text-h5 flex flex-col justify-center">
+                    개 남았어요 !
+                  </span>
+                </div>
               </div>
             </div>
           )}

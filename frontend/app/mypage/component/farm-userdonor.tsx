@@ -87,8 +87,9 @@ export default function FarmUserDonor({
                     onClose={() => setIsOpen(false)}
                   >
                     <div className="fixed inset-0 bg-gray-500 bg-opacity-80 z-0 w-full h-full"></div>
+                    
                     <div className="fixed inset-0 overflow-y-auto">
-                      <div className="flex min-h-full items-center justify-center p-4 text-center">
+                      <div className="flex items-center justify-center p-4 text-center">
                         <Transition.Child
                           as={Fragment}
                           enter="ease-out duration-300"
@@ -99,7 +100,7 @@ export default function FarmUserDonor({
                           leaveTo="opacity-0 scale-95"
                         >
                           <Dialog.Panel
-                            className={`transform border border-gray-300 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all w-2/3 p-16`}
+                            className={`transform border border-gray-300 overflow-hidden rounded-2xl bg-white-100 p-6 text-left align-middle shadow-xl transition-all w-3/5`}
                           >
                             <>
                               <Dialog.Title

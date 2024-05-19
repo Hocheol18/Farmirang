@@ -67,13 +67,17 @@ export default function FarmEnroll() {
 
   // 버튼 눌렀을 때
   const OnSubmit = async () => {
-    const response = await postField(totalValue);
-    if (response.success) {
-      alert("밭 등록 성공");
-      router.push("/farm-diary");
+    if (totalValue.iot.slice(0, 2) !== "dc") {
+      alert("IoT 기기 등록은 반드시 dc로 시작해야 합니다.");
     } else {
-      alert("밭 등록 실패. 다시 시도해주세요");
-      // window.location.reload();
+      const response = await postField(totalValue);
+      if (response.success) {
+        alert("밭 등록 성공");
+        router.push("/farm-diary");
+      } else {
+        alert("밭 등록 실패. 다시 시도해주세요");
+        // window.location.reload();
+      }
     }
   };
 
@@ -138,7 +142,9 @@ export default function FarmEnroll() {
 
   // 처음 마운트될때만 디자인 아이디 들어가기
   const firstDesignId = useMemo(() => {
-    return dataWithId && dataWithId.length >= 1 ? dataWithId[0].designId : undefined;
+    return dataWithId && dataWithId.length >= 1
+      ? dataWithId[0].designId
+      : undefined;
   }, [dataWithId]);
 
   useEffect(() => {

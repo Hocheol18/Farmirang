@@ -5,7 +5,13 @@ import ImageComponent from "@/app/_components/common/Image";
 import Input from "@/app/_components/common/Input";
 import KakaoMap from "@/app/_components/common/Maps";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, ReactEventHandler, useEffect, useState } from "react";
+import {
+  Fragment,
+  ReactEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { cropData } from "./Crop";
 import SelectMenu from "@/app/_components/common/SelectMenus";
 import { useParams } from "next/navigation";
@@ -78,17 +84,22 @@ export default function FirstModal({
   }));
 
   const OnSubmit = async () => {
-    const formData = new FormData();
-    formData.append("img", diaryPicture);
-    formData.append("data", JSON.stringify(totalValue));
-    const response = await postDonationCrops(accessToken, formData);
-
-    if (response.success) {
-      alert("후원 등록 성공");
-      window.location.reload();
+    const res = combinedData.filter((crop) => crop.crop_id === totalValue.crop_id)[0]
+    if ((res.amount - res.current) < totalValue.amount) {
+      alert("후원 수량이 남은 수량보다 많습니다. 재조정해주세요")
     } else {
-      alert("후원 등록 실패, 다시 시도해주세요.");
-      window.location.reload();
+      const formData = new FormData();
+      formData.append("img", diaryPicture);
+      formData.append("data", JSON.stringify(totalValue));
+      const response = await postDonationCrops(accessToken, formData);
+  
+      if (response.success) {
+        alert("후원 등록 성공");
+        window.location.reload();
+      } else {
+        alert("후원 등록 실패, 다시 시도해주세요.");
+        window.location.reload();
+      }
     }
   };
 
@@ -100,6 +111,23 @@ export default function FirstModal({
       accessToken = lsInfo.state.userInfo.accessToken;
     }
   }
+
+  const firstDesignId = useMemo(() => {
+    return selectedMenuItem && selectedMenuItem.length >= 1
+      ? selectedMenuItem[0].designId
+      : undefined;
+  }, [selectedMenuItem]);
+
+  useEffect(() => {
+    if (firstDesignId !== undefined) {
+      setTotalValue(
+        (prev: { crop_id: number; board_id: number; amount: number }) => ({
+          ...prev,
+          ["crop_id"]: firstDesignId,
+        })
+      );
+    }
+  }, [firstDesignId]);
 
   const parseAddress = JSON.parse(address);
 
@@ -211,8 +239,6 @@ export default function FirstModal({
                           {"작물을 보냈어요!"}
                           <div className="bg-green-200 w-[20rem] h-5 rounded-xl absolute top-8 left-0 z-[-1] opacity-70"></div>
                         </Dialog.Title>
-
-                      
 
                         <div className="flex mt-[2rem] w-full">
                           <div className="w-1/2 mt-8 pr-[1rem]">
