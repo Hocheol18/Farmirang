@@ -1,5 +1,4 @@
 import Image from "next/image";
-import potato from "../../../public/icons/farms/crops-potato.svg";
 import { fetchDonationListData, fetchProfile } from "@/api/farm-donation";
 import React from "react";
 import { cropData } from "../[donationId]/component/Crop";
@@ -97,7 +96,7 @@ export default async function Participate({
                   />
                 </div>
                 <div className="flex flex-col justify-center">
-                  {/* <div className="text-h4">{item.profile.data.nickname}</div> */}
+                  <div className="text-h4">{item.profile.data.nickname}</div>
                 </div>
               </div>
               <div className="w-1/3 flex justify-end gap-[2rem]">

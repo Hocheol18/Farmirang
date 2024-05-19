@@ -20,8 +20,8 @@ export default function Diary() {
   }
 
   const fetchDataBoolean = (res: { data: { fields: fetchFarmListType[] } }) => {
-    if (res.data.fields) {
-      setIsTrue(true);
+    if (res.data.fields && res.data.fields.length > 0) {
+      
       router.push(`/farm-diary/${res.data.fields[0].fieldId}`);
     } else {
       setIsTrue(false);

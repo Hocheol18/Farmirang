@@ -5,7 +5,6 @@ interface Props {
   Title: string;
   contents: string;
   progress: number;
-  state: string;
 }
 
 export default function Card({
@@ -13,23 +12,10 @@ export default function Card({
   Title,
   contents,
   progress,
-  state,
 }: Props) {
   let stateText;
   let stateClass;
-  let progressBarWidth;
-  switch (state) {
-    case "DOING":
-      stateText = "기부중";
-      progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
-      break;
-    case "DONE":
-      stateText = "기부완료";
-      progressBarWidth = "w-full";
-      break;
-    default:
-      break;
-  }
+  const progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
   return (
     <div
       className={`relative flex flex-col mb-[10rem] text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
@@ -45,6 +31,7 @@ export default function Card({
           alt=""
         />
       </div>
+     
       <div className="p-6">
         <p className="block text-h6 font-extrabold text-green-400">
           {stateText}

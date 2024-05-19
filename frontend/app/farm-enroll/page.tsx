@@ -78,10 +78,20 @@ export default function FarmEnroll() {
     }));
   }, [parentData]);
 
-  // 밭 디자인 
+  // 밭 디자인 유효성 검사
+  const isDesignTrue = (fetchData: fetchDesignDataType[]) => {
+    if (fetchData.length === 0 && fetchData) {
+      alert("밭 디자인을 먼저 진행해주세요");
+      router.push("/farm-design");
+    } else {
+      setFetchDesignList(fetchData);
+    }
+  };
+
+  // 밭 디자인
   useEffect(() => {
     fetchDesignData(accessToken).then((res) =>
-      setFetchDesignList(res.data.designList)
+      isDesignTrue(res.data.designList)
     );
   }, [accessToken]);
 
@@ -115,135 +125,142 @@ export default function FarmEnroll() {
 
   return (
     <>
-      <div className="flex justify-center mt-20">
-        <div className="space-y-12 w-1/3">
-          <div className="">
-            <h2 className="text-h1 font-semibold text-black-100">밭 등록</h2>
+      {fetchDesignList?.length === 0 ? null : (
+        <>
+          <div className="flex justify-center mt-20">
+            <div className="space-y-12 w-1/3">
+              <div className="">
+                <h2 className="text-h1 font-semibold text-black-100">
+                  밭 등록
+                </h2>
 
-            <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
-              <div className="col-span-full mt-10">
-                <Input
-                  name={"title"}
-                  labeltext={"밭 이름"}
-                  topcss="mt-8"
-                  labelcss={"block text-h5 font-bold leading-12 text-black-100"}
-                  inputcss={
-                    "h-[3rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
-                  }
-                  placeholder={"밭 이름을 정해주세요"}
-                  type={"text"}
-                  value={totalValue.title}
-                  onChange={stringHandleEvent}
-                />
-              </div>
-              <div className="col-span-full mt-8">
-                {fetchDesignList ? (
-                  <SelectMenu
-                    handleDirectionChange={handleDirectionChange}
-                    onChange={(value: number) => {
-                      setFarmDesignIndex(value);
-                    }}
-                    labelcss={"text-h5 font-bold text-black-100"}
-                    topScript={"꾸민 텃밭 목록"}
-                    items={dataWithId}
-                    bordercss="border-gray-400 h-[3rem]"
-                    value={farmDesignIndex}
-                  />
-                ) : null}
-              </div>
+                <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
+                  <div className="col-span-full mt-10">
+                    <Input
+                      name={"title"}
+                      labeltext={"밭 이름"}
+                      topcss="mt-8"
+                      labelcss={
+                        "block text-h5 font-bold leading-12 text-black-100"
+                      }
+                      inputcss={
+                        "h-[3rem] flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4"
+                      }
+                      placeholder={"밭 이름을 정해주세요"}
+                      type={"text"}
+                      value={totalValue.title}
+                      onChange={stringHandleEvent}
+                    />
+                  </div>
+                  <div className="col-span-full mt-8">
+                    {fetchDesignList ? (
+                      <SelectMenu
+                        handleDirectionChange={handleDirectionChange}
+                        onChange={(value: number) => {
+                          setFarmDesignIndex(value);
+                        }}
+                        labelcss={"text-h5 font-bold text-black-100"}
+                        topScript={"꾸민 텃밭 목록"}
+                        items={dataWithId}
+                        bordercss="border-gray-400 h-[3rem]"
+                        value={farmDesignIndex}
+                      />
+                    ) : null}
+                  </div>
 
-              <div className="col-span-full mt-8">
-                <div className="block text-h5 font-bold leading-12 text-black-100">
-                  IoT 기기 등록
-                </div>
-                <div className="flex mt-2 h-[3rem]">
-                  <div className="relative mt-2 w-full">
-                    <div className="flex rounded-md border border-green-300 ">
-                      <input
-                        type={"text"}
-                        name={"iot"}
-                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-base"
-                        placeholder={"센서 UUID를 입력해주세요"}
-                        onChange={stringHandleEvent}
+                  <div className="col-span-full mt-8">
+                    <div className="block text-h5 font-bold leading-12 text-black-100">
+                      IoT 기기 등록
+                    </div>
+                    <div className="flex mt-2 h-[3rem]">
+                      <div className="relative mt-2 w-full">
+                        <div className="flex rounded-md border border-green-300 ">
+                          <input
+                            type={"text"}
+                            name={"iot"}
+                            className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-4 placeholder:text-base"
+                            placeholder={"센서 UUID를 입력해주세요"}
+                            onChange={stringHandleEvent}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-span-full mt-8">
+                    <div className="block text-h5 font-bold leading-12 text-black-100">
+                      경작 시작 시기
+                    </div>
+                    <div className="mt">
+                      <DatePicker
+                        parentData={parentData}
+                        setParentData={setParentData}
                       />
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="col-span-full mt-8">
-                <div className="block text-h5 font-bold leading-12 text-black-100">
-                  경작 시작 시기
-                </div>
-                <div className="mt">
-                  <DatePicker
-                    parentData={parentData}
-                    setParentData={setParentData}
-                  />
-                </div>
-              </div>
+                  <div className="col-span-full mt-8">
+                    <div className="flex w-full justify-between">
+                      <div className="block text-h5 font-bold leading-12 text-black-100 flex flex-col justify-center">
+                        내 밭 주소
+                      </div>
+                      <div className="block flex justify-end">
+                        <DaumPost setAddressObj={setAddressObj} />
+                      </div>
+                    </div>
 
-              <div className="col-span-full mt-8">
-                <div className="flex w-full justify-between">
-                  <div className="block text-h5 font-bold leading-12 text-black-100 flex flex-col justify-center">
-                    내 밭 주소
+                    <div className="mt-4">
+                      <input
+                        value={addressObj.areaAddress}
+                        onChange={() => {}}
+                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                        placeholder="주소 찾기를 눌러주세요"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <input
+                        value={addressObj.townAddress}
+                        onChange={() => {}}
+                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                        placeholder="주소 찾기를 눌러주세요"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <input
+                        type="text"
+                        onChange={() => {}}
+                        className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
+                        placeholder="상세 주소를 입력해주세요"
+                      />
+                    </div>
                   </div>
-                  <div className="block flex justify-end">
-                    <DaumPost setAddressObj={setAddressObj} />
+
+                  <div className="col-span-full mt-8">
+                    <div className="block text-h5 font-bold leading-12 text-black-100">
+                      텃밭 소개
+                    </div>
+                    <div className="mt-2">
+                      <Editor setEditorData={setEditorData} />
+                    </div>
+
+                    <p className="mt-1 text-[0.8rem] leading-6 text-gray-400">
+                      텃밭을 설명할 글을 적어주세요 (선택 사항)
+                    </p>
                   </div>
                 </div>
-
-                <div className="mt-4">
-                  <input
-                    value={addressObj.areaAddress}
-                    onChange={() => {}}
-                    className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                    placeholder="주소 찾기를 눌러주세요"
-                  />
-                </div>
-                <div className="mt-4">
-                  <input
-                    value={addressObj.townAddress}
-                    onChange={() => {}}
-                    className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                    placeholder="주소 찾기를 눌러주세요"
-                  />
-                </div>
-                <div className="mt-4">
-                  <input
-                    type="text"
-                    onChange={() => {}}
-                    className="flex rounded-lg border border-green-300 w-full focus:outline-none focus:ring-green-400 focus:ring-1 h-10 p-2"
-                    placeholder="상세 주소를 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full mt-8">
-                <div className="block text-h5 font-bold leading-12 text-black-100">
-                  텃밭 소개
-                </div>
-                <div className="mt-2">
-                  <Editor setEditorData={setEditorData} />
-                </div>
-
-                <p className="mt-1 text-[0.8rem] leading-6 text-gray-400">
-                  텃밭을 설명할 글을 적어주세요 (선택 사항)
-                </p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="flex justify-center mt-[7rem] pb-[7rem]">
-        <Button
-          text="확인"
-          bgStyles="bg-green-400 w-32"
-          textStyles="text-white-100"
-          handleClick={() => OnSubmit(totalValue)}
-        />
-      </div>
-      <div></div>
+          <div className="flex justify-center mt-[7rem] pb-[7rem]">
+            <Button
+              text="확인"
+              bgStyles="bg-green-400 w-32"
+              textStyles="text-white-100"
+              handleClick={() => OnSubmit(totalValue)}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }
