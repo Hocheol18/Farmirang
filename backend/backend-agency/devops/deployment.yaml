@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-agency-deployment
+  namespace: farmirang
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-agency
+  template:
+    metadata:
+      labels:
+        app: app-agency
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+        - name: container-agency
+          image: docker.io/hyeonjongkim/agency:latest
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          env:
+            - name: TZ
+              value: Asia/Seoul
+          ports:
+            - containerPort: 8080
