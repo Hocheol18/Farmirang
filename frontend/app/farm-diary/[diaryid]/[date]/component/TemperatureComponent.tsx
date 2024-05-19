@@ -13,23 +13,26 @@ export default function TemperatureComponent({
   return (
     <>
       <div className="flex h-full justify-between px-[4rem]">
-        <div className="flex flex-col justify-center">
-          <Image src={soil} alt="" width={200} height={150}></Image>
-        </div>
+        <div className="flex justify-center w-1/2">
+          <div className="flex flex-col justify-center mr-6">
+            <Image src={soil} alt="" width={200} height={150}></Image>
+          </div>
 
-        <div className="flex flex-col justify-center">
-        <div className="text-h4 font-bold">땅 습도</div>
-              <div className="font-bold text-blue-800 text-h5">
+          <div className="flex flex-col justfiy-center">
+            <div className="flex my-auto">
+              <div className="text-h4 font-bold mr-4">땅 습도</div>
+              <div className="font-bold text-blue-800 text-h5 my-auto">
                 {`${
                   Math.floor(
                     Number(childrenDiaryTotalData.fieldHumidity) * 10
                   ) / 10
                 }%`}
               </div>
-          
+            </div>
+          </div>
         </div>
 
-        <div className="flex">
+        <div className="flex justify-center w-1/2">
           <div className="flex flex-col justify-center">
             <Image src={humidity} alt="" width={250} height={250}></Image>
           </div>
@@ -45,12 +48,13 @@ export default function TemperatureComponent({
             </div>
 
             <div>
-            <div className="text-h4 font-bold">대기 온도</div>
-          <div className="font-bold text-green-500 text-h5">
-            {`${
-              Math.floor(Number(childrenDiaryTotalData.temperature) * 10) / 10
-            }°C`}
-          </div>
+              <div className="text-h4 font-bold">대기 온도</div>
+              <div className="font-bold text-green-500 text-h5">
+                {`${
+                  Math.floor(Number(childrenDiaryTotalData.temperature) * 10) /
+                  10
+                }°C`}
+              </div>
             </div>
           </div>
         </div>
