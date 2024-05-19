@@ -52,11 +52,11 @@ export default function MyFarmDesign() {
   };
 
   useEffect(() => {
-    if (userInfo.accessToken === "") {
-      alert("로그인을 해 주세요.");
-      router.push("/");
-      return;
-    }
+    // if (userInfo.accessToken === "") {
+    //   alert("로그인을 해 주세요.");
+    //   router.push("/");
+    //   return;
+    // }
 
     fetchGetDesignList();
 
