@@ -73,24 +73,24 @@ const FirstInputBox = ({
   //인풋 배열
   const inputArr: InputType[] = [
     {
-      placeholder: "밭의 넓이 (평)",
+      placeholder: "전체 밭 넓이 (cm²)",
       type: "number",
       value: farmArea,
-      labeltext: "밭 넓이",
+      labeltext: "밭 넓이 (cm²)",
       handleChange: handleFarmAreaChange,
     },
     {
-      placeholder: "고랑의 너비 (cm)",
+      placeholder: "작물 심지 않는 곳",
       type: "number",
       value: furrrowWidth,
-      labeltext: "고랑 너비",
+      labeltext: "고랑 너비 (cm)",
       handleChange: handleFurrowWidthChange,
     },
     {
-      placeholder: "두둑의 너비 (cm)",
+      placeholder: "작물 심는 곳",
       type: "number",
       value: ridgeWidth,
-      labeltext: "두둑 너비",
+      labeltext: "두둑 너비 (cm)",
       handleChange: handleRidgeWidthChange,
     },
   ];
@@ -270,7 +270,7 @@ const FirstInputBox = ({
         ))}
         <SelectMenu
           labelcss={labelcss}
-          topScript={"이랑/고랑의 방향"}
+          topScript={"두둑/고랑의 방향"}
           items={directionArr}
           bordercss="border-gray-300"
           onChange={handleDirectionChange}

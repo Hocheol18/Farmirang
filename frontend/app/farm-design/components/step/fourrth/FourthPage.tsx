@@ -245,7 +245,9 @@ const FourthPage = ({ cropsNameList, fieldCropsList }: Props) => {
         {selectedItem ? (
           <FertilizerContent selectedCrop={selectedItem} />
         ) : (
-          "선택한 작물이 없습니다."
+          <div className="w-full h-full flex justify-center items-center text-xl font-bold text-gray-500">
+            선택한 작물이 없어서 비료 추천을 볼 수가 없어요!
+          </div>
         )}
         <div className="pb-5">
           <Button

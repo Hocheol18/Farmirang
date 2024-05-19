@@ -20,13 +20,20 @@ export default function FarmDesign() {
   }, [userInfo.accessToken]);
 
   // 임시
-  const view: number = 1;
+  const [guideline, setGuideline] = useState<boolean>(false);
+
+  const handleGuidLine = () => {
+    setGuideline(!guideline);
+  };
 
   return (
     <div className=" flex justify-center w-full h-full">
       {/* 처음 딱 들어오면 무조건 가이드라인 */}
-      {view === 0 ? <GuidlineBox /> : null}
-      {view === 1 ? <TotalLayout userAccessToken={userAccessToken} /> : null}
+      {guideline ? (
+        <TotalLayout userAccessToken={userAccessToken} />
+      ) : (
+        <GuidlineBox handleGuideLine={handleGuidLine} guideline={guideline} />
+      )}
     </div>
   );
 }
