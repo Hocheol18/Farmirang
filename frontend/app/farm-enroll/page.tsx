@@ -5,7 +5,7 @@ import Input from "../_components/common/Input";
 import DatePicker from "../_components/common/SelectDate";
 import SelectMenu from "../_components/common/SelectMenus";
 import DaumPost from "../_components/common/address";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../_components/common/Button";
 import { fetchDesignDataType, postFieldType } from "@/type/farm-field";
 import Editor from "../_components/common/Editor";
@@ -20,20 +20,20 @@ export default function FarmEnroll() {
   const router = useRouter();
   // localStorage에서 accessToken 받는 방법
   let accessToken = "";
+  let memberId = 0;
 
   if (typeof window !== "undefined") {
     const ls = window.localStorage.getItem("userInfo");
     if (ls) {
       const lsInfo = JSON.parse(ls);
       accessToken = lsInfo.state.userInfo.accessToken;
+      memberId = lsInfo.state.userInfo.memberId;
     }
     if (accessToken === "") {
-      alert("로그인이 필요한 서비스입니다")
-      router.push("/")
+      alert("로그인이 필요한 서비스입니다");
+      router.push("/");
     }
   }
-
-  //
 
   const [fetchDesignList, setFetchDesignList] =
     useState<fetchDesignDataType[]>();
@@ -51,7 +51,7 @@ export default function FarmEnroll() {
     content: "",
     address: "",
     startAt: "",
-    user: 13,
+    user: 0,
     design: 0,
     iot: "string",
   });
@@ -65,8 +65,9 @@ export default function FarmEnroll() {
     }));
   };
 
-  const OnSubmit = async (data: postFieldType) => {
-    const response = await postField(data);
+  // 버튼 눌렀을 때
+  const OnSubmit = async () => {
+    const response = await postField(totalValue);
     if (response.success) {
       alert("밭 등록 성공");
       router.push("/farm-diary");
@@ -82,6 +83,13 @@ export default function FarmEnroll() {
       ["startAt"]: parentData,
     }));
   }, [parentData]);
+
+  useEffect(() => {
+    setTotalValue((prev) => ({
+      ...prev,
+      ["user"]: memberId,
+    }));
+  }, [memberId]);
 
   // 밭 디자인 유효성 검사
   const isDesignTrue = (fetchData: fetchDesignDataType[]) => {
@@ -128,6 +136,20 @@ export default function FarmEnroll() {
     })
   );
 
+  // 처음 마운트될때만 디자인 아이디 들어가기
+  const firstDesignId = useMemo(() => {
+    return dataWithId && dataWithId.length >= 1 ? dataWithId[0].designId : undefined;
+  }, [dataWithId]);
+
+  useEffect(() => {
+    if (firstDesignId !== undefined) {
+      setTotalValue((prev: postFieldType) => ({
+        ...prev,
+        ["design"]: firstDesignId,
+      }));
+    }
+  }, [firstDesignId]);
+
   return (
     <>
       {fetchDesignList?.length === 0 ? null : (
@@ -138,7 +160,6 @@ export default function FarmEnroll() {
                 <h2 className="text-h1 font-semibold text-black-100">
                   밭 등록
                 </h2>
-
                 <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-6">
                   <div className="col-span-full mt-10">
                     <Input
@@ -261,7 +282,7 @@ export default function FarmEnroll() {
               text="확인"
               bgStyles="bg-green-400 w-32"
               textStyles="text-white-100"
-              handleClick={() => OnSubmit(totalValue)}
+              handleClick={() => OnSubmit()}
             />
           </div>
         </>

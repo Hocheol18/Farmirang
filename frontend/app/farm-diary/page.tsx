@@ -25,7 +25,6 @@ export default function Diary() {
   }
 
   const fetchDataBoolean = (res: { data: { fields: fetchFarmListType[] } }) => {
-    console.log(res.data.fields)
     if (res.data.fields && res.data.fields.length > 0) {
       router.push(`/farm-diary/${res.data.fields[0].fieldId}`);
     } else {
@@ -35,7 +34,7 @@ export default function Diary() {
 
   useEffect(() => {
     fetchFieldData(Number(memberId)).then((res) => fetchDataBoolean(res));
-  }, []);
+  }, [memberId]);
 
   return (
     <>
