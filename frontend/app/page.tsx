@@ -25,7 +25,7 @@ export default function Home() {
           <Mainbox2 />
         </div>
         {/* 밭에 심어진 야채들 */}
-        <Mainbox3 />
+        {/* <Mainbox3 /> */}
       </div>
     </>
   );
