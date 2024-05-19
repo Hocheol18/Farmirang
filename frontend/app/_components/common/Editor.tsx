@@ -3,10 +3,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/plugins/font_size.min.js";
-import "froala-editor/js/plugins/align.min.js";
-import "froala-editor/js/plugins/font_family.min.js";
-import "froala-editor/js/plugins/colors.min.js";
 
 interface Props {
   setEditorData: React.Dispatch<any>;

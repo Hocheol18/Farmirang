@@ -13,11 +13,9 @@ import { useParams } from "next/navigation";
 import AutoDiary from "./AutoDiary";
 import MyDiary from "./MyDiary";
 import TemperatureComponent from "./TemperatureComponent";
-import MypageModal from "@/app/_components/common/MypageModal";
 import ImageComponent from "@/app/_components/common/Image";
 import Editor from "@/app/_components/common/Editor";
 import Spinner from "@/app/_components/common/Spinner";
-import MyModal from "@/app/_components/common/Modal";
 import Modal from "@/app/_components/common/Modal";
 
 interface ApiResponse {
@@ -85,6 +83,7 @@ export default function CalendarDate() {
     } else {
       setManualId(Number(fetchdata.data.diaryManual.diaryManualId));
       setFetchDiaryManualData(fetchdata.data.diaryManual);
+      setIsTure(false)
     }
     setIsTureComponent(false);
   };
@@ -102,8 +101,8 @@ export default function CalendarDate() {
       {isTrueComponent ? (
         <Spinner />
       ) : (
-        <div className="lg:flex lg:h-full w-full">
-          <div className="w-3/5 p-8 ml-8 mt-8">
+        <div className="h-full w-full">
+          <div className="w-3/5 p-8 ml-2 mt-8">
             <div className="text-h2 font-bold mt-10">심은 작물</div>
             <div className="text-h5 font-semibold mt-4">오늘 작물은요...</div>
             <div className="flex justify-between h-[24rem] w-full">
@@ -116,7 +115,7 @@ export default function CalendarDate() {
               />
             </div>
           </div>
-          <div className="w-2/5 p-8 mr-8 mt-8 h-4/5">
+          <div className="w-2/5 p-8 mr-8 mt-8 h-full">
             {isTrue ? (
               <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">

@@ -23,24 +23,24 @@ interface Props {
 }
 
 const cropImage: CropImages = {
-  blueberry: <Image src={blueberry} width={125} height={125} alt=""></Image>,
-  carrot: <Image src={carrot} width={125} height={125} alt=""></Image>,
+  블루베리: <Image src={blueberry} width={125} height={125} alt=""></Image>,
+  당근: <Image src={carrot} width={125} height={125} alt=""></Image>,
   청양고추: <Image src={cheongyang} width={125} height={125} alt=""></Image>,
-  cherryTomato: (
+  방울토마토: (
     <Image src={cherryTomato} width={125} height={125} alt=""></Image>
   ),
-  corn: <Image src={corn} width={125} height={125} alt=""></Image>,
-  cucumber: <Image src={cucumber} width={125} height={125} alt=""></Image>,
-  ginger: <Image src={ginger} width={125} height={125} alt=""></Image>,
-  melon: <Image src={melon} width={125} height={125} alt=""></Image>,
-  leek: <Image src={leek} width={125} height={125} alt=""></Image>,
-  lettuce: <Image src={lettuce} width={125} height={125} alt=""></Image>,
-  onion: <Image src={onion} width={125} height={125} alt=""></Image>,
-  peanut: <Image src={peanut} width={125} height={125} alt=""></Image>,
+  옥수수: <Image src={corn} width={125} height={125} alt=""></Image>,
+  오이: <Image src={cucumber} width={125} height={125} alt=""></Image>,
+  생강: <Image src={ginger} width={125} height={125} alt=""></Image>,
+  참외: <Image src={melon} width={125} height={125} alt=""></Image>,
+  부추: <Image src={leek} width={125} height={125} alt=""></Image>,
+  상추: <Image src={lettuce} width={125} height={125} alt=""></Image>,
+  양파: <Image src={onion} width={125} height={125} alt=""></Image>,
+  땅콩: <Image src={peanut} width={125} height={125} alt=""></Image>,
   감자: <Image src={potato} width={125} height={125} alt=""></Image>,
-  strawberry: <Image src={strawberry} width={125} height={125} alt=""></Image>,
+  딸기: <Image src={strawberry} width={125} height={125} alt=""></Image>,
   고구마: <Image src={sweetpotato} width={125} height={125} alt=""></Image>,
-  youngRadish: (
+  열무: (
     <Image src={youngRadish} width={125} height={125} alt=""></Image>
   ),
 };
@@ -50,7 +50,11 @@ interface CropImages {
 }
 
 function splitAndCleanString(inputString: string): string[] {
-  return inputString.split("\n");
+  return inputString
+    .replace(/\\n/g, '\n')    
+    .split(/\r?\n/)           
+    .map(line => line.trim()) 
+    .filter(line => line);    
 }
 
 export default function AutoDiary({ childrenAutoDiaryData }: Props) {
@@ -61,7 +65,7 @@ export default function AutoDiary({ childrenAutoDiaryData }: Props) {
           {idx % 2 === 0 ? (
             <div
 
-              className="border border-gray-300 shadow-lg rounded-xl w-[14rem] flex-shrink-0 mr-6 bg-green-100"
+              className="border border-gray-300 shadow-lg rounded-xl w-[14.5rem] flex-shrink-0 mr-[4rem] bg-green-100"
             >
               <div className="h-3/5 flex flex-col justify-center">
                 <div className="flex justify-center">
@@ -83,7 +87,7 @@ export default function AutoDiary({ childrenAutoDiaryData }: Props) {
           ) : (
             <div
 
-              className="border border-gray-300 shadow-lg rounded-xl w-[14rem] flex-shrink-0 mr-6 bg-gray-200"
+              className="border border-gray-300 shadow-lg rounded-xl w-[14.5rem] flex-shrink-0 mr-[4rem] bg-gray-200"
             >
               <div className="h-3/5 flex flex-col justify-center">
                 <div className="flex justify-center">

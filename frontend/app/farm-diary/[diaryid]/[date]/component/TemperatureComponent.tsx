@@ -18,12 +18,15 @@ export default function TemperatureComponent({
         </div>
 
         <div className="flex flex-col justify-center">
-          <div className="text-h4 font-bold">땅 온도</div>
-          <div className="font-bold text-green-500 text-h5">
-            {`${
-              Math.floor(Number(childrenDiaryTotalData.temperature) * 10) / 10
-            }°C`}
-          </div>
+        <div className="text-h4 font-bold">땅 습도</div>
+              <div className="font-bold text-blue-800 text-h5">
+                {`${
+                  Math.floor(
+                    Number(childrenDiaryTotalData.fieldHumidity) * 10
+                  ) / 10
+                }%`}
+              </div>
+          
         </div>
 
         <div className="flex">
@@ -42,14 +45,12 @@ export default function TemperatureComponent({
             </div>
 
             <div>
-              <div className="text-h4 font-bold">땅 습도</div>
-              <div className="font-bold text-blue-800 text-h5">
-                {`${
-                  Math.floor(
-                    Number(childrenDiaryTotalData.fieldHumidity) * 10
-                  ) / 10
-                }%`}
-              </div>
+            <div className="text-h4 font-bold">대기 온도</div>
+          <div className="font-bold text-green-500 text-h5">
+            {`${
+              Math.floor(Number(childrenDiaryTotalData.temperature) * 10) / 10
+            }°C`}
+          </div>
             </div>
           </div>
         </div>

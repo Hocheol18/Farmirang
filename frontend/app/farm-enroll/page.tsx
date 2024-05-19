@@ -75,7 +75,7 @@ export default function FarmEnroll() {
         alert("밭 등록 성공");
         router.push("/farm-diary");
       } else {
-        alert("밭 등록 실패. 다시 시도해주세요");
+        alert("IoT 기기 등록은 반드시 등록해야 합니다.");
         // window.location.reload();
       }
     }

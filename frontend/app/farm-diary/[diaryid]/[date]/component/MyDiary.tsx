@@ -51,11 +51,11 @@ export default function MyDiary({
 
   const deleteClick = async () => {
     const response = await postManualDiaryDelete(manualId);
-    console.log(response)
+    console.log(response);
     if (response) {
       if (response.success) {
         setIsTure(true);
-        alert("삭제 성공")
+        alert("삭제 성공");
         window.location.reload();
       } else {
         alert("삭제 실패, 다시 시도해주세요.");
@@ -65,36 +65,38 @@ export default function MyDiary({
 
   return (
     <>
-      <div className="flex justify-between">
-        <div className="text-h2 font-bold mt-10">나의 일지</div>
-        <div>
-          <Button
-            text={"삭제"}
-            bgStyles={"bg-red-100 w-[5rem] mt-12"}
-            textStyles={"text-white-100 font-bold text-lg"}
-            handleClick={deleteClick}
-          />
+      <div className="h-full">
+        <div className="flex justify-between">
+          <div className="text-h2 font-bold mt-10">나의 일지</div>
+          <div>
+            <Button
+              text={"삭제"}
+              bgStyles={"bg-red-100 w-[5rem] mt-12"}
+              textStyles={"text-white-100 font-bold text-lg"}
+              handleClick={deleteClick}
+            />
+          </div>
         </div>
-      </div>
 
-      {childrenDiaryManualData ? <div className="border border-gray-400 shadow-xl rounded-xl h-full p-6 mt-10">
-        <div className="relative w-[32rem] h-[24rem] mx-auto aspect-video">
-          <Image src={childrenDiaryManualData.photo} alt="" fill />
-        </div>
-        <div className="flex justify-between mt-8">
-          <div className="text-h3">영농 일기</div>
-          <div>{weatherList[currentState]}</div>
-        </div>
-        <div className="text-h6 mt-[1rem]">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: childrenDiaryManualData.content,
-            }}
-          />
-        </div>
-      </div> : null }
-      
-    
+        {childrenDiaryManualData ? (
+          <div className="border border-gray-400 shadow-xl rounded-xl h-full p-6 mt-10">
+            <div className="relative w-[32rem] h-[24rem] mx-auto aspect-video">
+              <Image src={childrenDiaryManualData.photo} alt="" fill />
+            </div>
+            <div className="flex justify-between mt-8">
+              <div className="text-h3">영농 일기</div>
+              <div>{weatherList[currentState]}</div>
+            </div>
+            <div className="text-h6 mt-[1rem]">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: childrenDiaryManualData.content,
+                }}
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
     </>
   );
 }
