@@ -93,7 +93,7 @@ export default function FarmEnroll() {
   useEffect(() => {
     setTotalValue((prev) => ({
       ...prev,
-      ["user"]: memberId,
+      ["user"]: Number(memberId),
     }));
   }, [memberId]);
 
