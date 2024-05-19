@@ -40,6 +40,7 @@ export default function DonationWrite() {
   const [headPicture, setHeadPicture] = useState<any>();
   const [detailPicture, setDetailPicture] = useState<any>();
   const [parentData, setParentData] = useState<string>("");
+  const [showImage, setShowImage] = useState<any>();
   const [secondparentDate, setSecondparentDate] = useState<string>("");
   const [addressObj, setAddressObj] = useState<Props>({
     areaAddress: "",
@@ -173,7 +174,10 @@ export default function DonationWrite() {
                   titlecss={"font-bold text-h5"}
                   topcss={"mt-8"}
                   heightcss={""}
+                  displayImage={headPicture}
+                  showImage={showImage}
                   setDisplayImage={setHeadPicture}
+                  setShowImage={setShowImage}
                 />
                 <ImageComponent
                   topsecondcss="w-full"
@@ -181,6 +185,9 @@ export default function DonationWrite() {
                   titlecss={"font-bold text-h5"}
                   topcss={"mt-20"}
                   heightcss={""}
+                  displayImage={detailPicture}
+                  showImage={showImage}
+                  setShowImage={setShowImage}
                   setDisplayImage={setDetailPicture}
                 />
 

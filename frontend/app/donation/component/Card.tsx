@@ -17,13 +17,19 @@ export default function Card({ imgSrc, Title, contents, progress }: Props) {
       <div
         className={`relative h-64 mx-4 mt-6 overflow-hidden text-white bg-clip-border rounded-xl shadow-blue-gray-500/40`}
       >
-        <Image
-          className={`object-cover object-center w-full h-full bg-white-300 ${stateClass} `}
-          width={100}
-          height={100}
-          src={`${imgSrc}`}
-          alt=""
-        />
+        <div
+          className={`relative w-full h-full bg-white-300 overflow-hidden ${stateClass}`}
+        >
+          <div className="relative w-full h-full top-[0.5%] left-[0.5%]">
+            <Image
+              src={imgSrc}
+              alt=""
+              fill
+              className="object-cover object-center transition-transform duration-200 ease-out transform hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="p-6">
