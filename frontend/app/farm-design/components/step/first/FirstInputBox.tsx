@@ -79,19 +79,20 @@ const FirstInputBox = ({
       labeltext: "밭 넓이 (cm²)",
       handleChange: handleFarmAreaChange,
     },
-    {
-      placeholder: "작물 심지 않는 곳",
-      type: "number",
-      value: furrrowWidth,
-      labeltext: "고랑 너비 (cm)",
-      handleChange: handleFurrowWidthChange,
-    },
+
     {
       placeholder: "작물 심는 곳",
       type: "number",
       value: ridgeWidth,
       labeltext: "두둑 너비 (cm)",
       handleChange: handleRidgeWidthChange,
+    },
+    {
+      placeholder: "작물 심지 않는 곳",
+      type: "number",
+      value: furrrowWidth,
+      labeltext: "고랑 너비 (cm)",
+      handleChange: handleFurrowWidthChange,
     },
   ];
 
