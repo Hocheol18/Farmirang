@@ -76,7 +76,9 @@ export default function SelectMenu({
                     className={({ active }) =>
                       classNames(
                         active ? "bg-green-200 text-white" : "text-black-100",
-                        "relative cursor-pointer select-none py-2 pl-3 pr-9 text-lg"
+                        `relative cursor-pointer select-none py-2 pl-3 pr-9 ${
+                          textSmall ? textSmall : "text-lg"
+                        } `
                       )
                     }
                     value={item}
