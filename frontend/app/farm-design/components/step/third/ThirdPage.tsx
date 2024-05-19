@@ -274,17 +274,17 @@ const ThirdPage = ({
     }
   }, []);
 
-  useEffect(() => {
-    console.log(grid);
-  }, [grid]);
+  // useEffect(() => {
+  //   console.log(grid);
+  // }, [grid]);
 
   useEffect(() => {
     if (currentCropsIndex >= 0) console.log(cropsList[currentCropsIndex].id);
   }, [currentCropsIndex]);
 
-  useEffect(() => {
-    console.log(cropIndexArray);
-  }, [cropIndexArray]);
+  // useEffect(() => {
+  //   console.log(cropIndexArray);
+  // }, [cropIndexArray]);
 
   return (
     <>

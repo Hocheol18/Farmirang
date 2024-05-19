@@ -112,7 +112,7 @@ const ShowStylePage = ({
   }, [designName]);
 
   return (
-    <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full">
+    <div className="flex flex-col justify-around items-center overflow-y-auto w-full h-full py-5">
       <div className={`relative flex items-start justify-center w-full`}>
         {/* <div className="flex-1"></div> */}
         <TitleBox

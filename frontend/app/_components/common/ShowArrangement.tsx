@@ -132,9 +132,16 @@ const ShowArrangement = ({
     if (handlePlace) {
       handlePlace(rowIndex, colIndex);
       console.log(`Clicked cell (${rowIndex}, ${colIndex})`);
-      // 원하는 동작을 수행하세요.
     }
   };
+
+  // useEffect(() => {
+  //   console.log(grid);
+  // }, [grid]);
+
+  // useEffect(() => {
+  //   console.log(crops);
+  // }, [crops]);
 
   return (
     <div
@@ -183,7 +190,7 @@ const ShowArrangement = ({
         if (iconPosition && crop.number !== undefined) {
           return (
             <div
-              key={crop.cropId} // 작물 아이콘의 고유 키 설정
+              key={`${crop.cropId}-${crop.number}`} // 작물 아이콘의 고유 키 설정
               className="absolute w-[3%] transform -translate-x-1/2 -translate-y-1/2 bg-white-100 rounded-full" // 작물 아이콘의 클래스 설정
               style={{
                 top: iconPosition.top, // 작물 아이콘의 상단 위치 설정
@@ -191,7 +198,14 @@ const ShowArrangement = ({
                 pointerEvents: "none",
               }}
             >
-              <Image className="" src={picList[crop.cropId - 1]} alt="icon" />
+              <Image
+                className=""
+                src={picList[crop.cropId - 1]}
+                style={{
+                  pointerEvents: "none",
+                }}
+                alt="icon"
+              />
 
               {/* 작물 아이콘 표시 */}
             </div>

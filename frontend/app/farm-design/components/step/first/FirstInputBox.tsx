@@ -73,25 +73,26 @@ const FirstInputBox = ({
   //인풋 배열
   const inputArr: InputType[] = [
     {
-      placeholder: "밭의 넓이 (평)",
+      placeholder: "전체 밭 넓이 (cm²)",
       type: "number",
       value: farmArea,
-      labeltext: "밭 넓이",
+      labeltext: "밭 넓이 (cm²)",
       handleChange: handleFarmAreaChange,
     },
+
     {
-      placeholder: "고랑의 너비 (cm)",
-      type: "number",
-      value: furrrowWidth,
-      labeltext: "고랑 너비",
-      handleChange: handleFurrowWidthChange,
-    },
-    {
-      placeholder: "두둑의 너비 (cm)",
+      placeholder: "작물 심는 곳",
       type: "number",
       value: ridgeWidth,
-      labeltext: "두둑 너비",
+      labeltext: "두둑 너비 (cm)",
       handleChange: handleRidgeWidthChange,
+    },
+    {
+      placeholder: "작물 심지 않는 곳",
+      type: "number",
+      value: furrrowWidth,
+      labeltext: "고랑 너비 (cm)",
+      handleChange: handleFurrowWidthChange,
     },
   ];
 
@@ -246,6 +247,28 @@ const FirstInputBox = ({
     setPoints(newPoints);
   };
 
+  // 면적 자동으로 구하는 신발끈 공식
+  const calculatePolygonArea = (points: Point[]): number => {
+    const pointsLen = points.length;
+
+    let areaSum = 0;
+
+    // 점의 갯수만큼 반복
+    for (let i = 0; i < pointsLen; i++) {
+      const j = (i + 1) % pointsLen; //(i의 대각선 잇는 애)
+      areaSum += points[i].x * points[j].y - points[j].x * points[i].y;
+    }
+
+    return Math.abs(areaSum) / 2;
+  };
+
+  // 점 배열 바뀔 때마다 면적 구하는 공식 실행
+  useEffect(() => {
+    const gridSize = 10; // 1칸의 크기 (cm)
+    const farmArea = calculatePolygonArea(points) * gridSize * gridSize;
+    handleFarmAreaChange(farmArea);
+  }, [points]);
+
   return (
     // 전체
     <div className="flex flex-col h-full overflow-y-auto">
@@ -270,7 +293,7 @@ const FirstInputBox = ({
         ))}
         <SelectMenu
           labelcss={labelcss}
-          topScript={"이랑/고랑의 방향"}
+          topScript={"이랑의 방향"}
           items={directionArr}
           bordercss="border-gray-300"
           onChange={handleDirectionChange}
