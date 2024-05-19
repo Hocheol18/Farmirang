@@ -21,7 +21,7 @@ export default function RootLayout({
         <div className="flex flex-col h-full">
           <NavBar />
           <div className="pt-[5rem] h-full">{children}</div>
-          <ChatButton />
+          {/* <ChatButton /> */}
         </div>
       </body>
     </html>
