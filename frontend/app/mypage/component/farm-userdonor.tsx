@@ -20,15 +20,15 @@ interface Props {
   fieldId: number;
   farmName: string;
   date: string;
-
   donationImage: string;
+  memberId : number
 }
 
 export default function FarmUserDonor({
   fieldId,
   date,
   farmName,
-
+  memberId,
   donationImage,
 }: Props) {
   const [fetchDonationList, setFetchDonationList] =
@@ -50,6 +50,8 @@ export default function FarmUserDonor({
     fetchDonorData(fieldId).then((res) => setFetchDonationList(res));
   }, [isFetch]);
 
+  const filteredData = fetchDonationList?.data.donors.filter((item) => item.member_id === memberId)
+
   const handleClickFunction = async (accessToken: string, donorId: number) => {
     const response = await deleteDonor(accessToken, donorId);
     if (response.success) {
@@ -62,9 +64,9 @@ export default function FarmUserDonor({
   };
   return (
     <div className="w-full h-auto px-[37px] py-[35px] bg-white rounded-[20px] border-4 border-green-400 flex-col justify-center items-center inline-flex mb-6">
-      <div className="self-stretch h-fit flex-col justify-start items-end flex">
+      <div className="self-stretch flex-col justify-start items-end flex">
         <div className="self-stretch justify-between items-center inline-flex">
-          <Image src={donationImage} alt="" width={300} height={150}></Image>
+          <Image src={donationImage} alt="" width={200} height={100}></Image>
           <div className="w-[230px] h-full items-start">
             <div className="text-h5 font-bold leading-10">{farmName}</div>
             <div className="text-gray-400 text-lg">{date} 마감</div>
@@ -105,17 +107,17 @@ export default function FarmUserDonor({
                             <>
                               <Dialog.Title
                                 as="h3"
-                                className={`text-black-100 font-bold text-h1`}
+                                className={`text-black-100 font-bold text-h4`}
                               >
-                                {`${farmName}에서 ${fetchDonationList?.data.donors.length} 건 후원하셨어요.`}
+                                {`${farmName}에서 ${filteredData?.length}건 후원하셨어요.`}
                               </Dialog.Title>
                               <div className={"mt-6"}>
                                 <>
                                   <div className="w-full flex justify-center mt-20">
                                     <div className="w-full">
-                                      {fetchDonationList?.data.donors.length !==
+                                      {filteredData?.length!==
                                       0 ? (
-                                        fetchDonationList?.data.donors.map(
+                                        filteredData?.map(
                                           (item, idx: number) => (
                                             <div
                                               className="flex mb-24 justify-between w-full"
@@ -135,8 +137,9 @@ export default function FarmUserDonor({
                                                   <div className="my-auto">
                                                     <div className="flex justify-between w-[17rem]">
                                                       <div className="font-bold text-h4">
+                                                        {item.crop_id}
                                                         {
-                                                          cropData[item.crop_id]
+                                                          cropData[item.crop_id - 1]
                                                             .name
                                                         }
                                                       </div>

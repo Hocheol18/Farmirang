@@ -19,58 +19,58 @@ import Image from "next/image"
 export const cropData = [
     {
       id: 1,
-      name: "부추",
-      image : <Image src={leek} alt="" width={55} height={55}></Image>
+      name: "감자",
+      image : <Image src={potato} alt="" width={55} height={55}></Image>
     },
     {
       id: 2,
-      name: "상추",
-      image : <Image src={lettuce} alt="" width={45} height={45}></Image>
-    },
-    {
-      id: 3,
-      name: "고추",
-      image : <Image src={cheongyang} alt="" width={45} height={45}></Image>
-    },
-    {
-      id: 4,
       name: "고구마",
       image : <Image src={sweetpotato} alt="" width={45} height={45}></Image>
     },
     {
-      id: 5,
-      name: "감자",
-      image : <Image src={potato} alt="" width={45} height={45}></Image>
+      id: 3,
+      name: "청양고추",
+      image : <Image src={cheongyang} alt="" width={45} height={45}></Image>
     },
     {
-      id: 6,
-      name: "참외",
-      image : <Image src={koreamelon} alt="" width={45} height={45}></Image>
-    },
-    {
-      id: 7,
-      name: "오이",
-      image : <Image src={cucumber} alt="" width={45} height={45}></Image>
-    },
-    {
-      id: 8,
+      id: 4,
       name: "당근",
       image : <Image src={carrot} alt="" width={45} height={45}></Image>
     },
     {
-      id: 9,
+      id: 5,
+      name: "딸기",
+      image : <Image src={strawberry} alt="" width={45} height={45}></Image>
+    },
+    {
+      id: 6,
+      name: "땅콩",
+      image : <Image src={peanut} alt="" width={45} height={45}></Image>
+    },
+    {
+      id: 7,
       name: "방울토마토",
       image : <Image src={cherrytomato} alt="" width={45} height={45}></Image>
     },
     {
+      id: 8,
+      name: "부추",
+      image : <Image src={leek} alt="" width={45} height={45}></Image>
+    },
+    {
+      id: 9,
+      name: "블루베리",
+      image : <Image src={blueberry} alt="" width={45} height={45}></Image>
+    },
+    {
       id: 10,
-      name: "옥수수",
-      image : <Image src={corn} alt="" width={45} height={45}></Image>
+      name: "상추",
+      image : <Image src={lettuce} alt="" width={45} height={45}></Image>
     },
     {
       id: 11,
-      name: "땅콩",
-      image : <Image src={peanut} alt="" width={45} height={45}></Image>
+      name: "생강",
+      image : <Image src={ginger} alt="" width={45} height={45}></Image>
     },
     {
       id: 12,
@@ -79,23 +79,23 @@ export const cropData = [
     },
     {
       id: 13,
-      name: "블루베리",
-      image : <Image src={blueberry} alt="" width={45} height={45}></Image>
-    },
-    {
-      id: 14,
       name: "열무",
       image : <Image src={radish} alt="" width={45} height={45}></Image>
     },
     {
+      id: 14,
+      name: "오이",
+      image : <Image src={cucumber} alt="" width={45} height={45}></Image>
+    },
+    {
       id: 15,
-      name: "딸기",
-      image : <Image src={strawberry} alt="" width={45} height={45}></Image>
+      name: "옥수수",
+      image : <Image src={corn} alt="" width={45} height={45}></Image>
     },
     {
       id: 16,
-      name: "생강",
-      image : <Image src={ginger} alt="" width={45} height={45}></Image>
+      name: "참외",
+      image : <Image src={koreamelon} alt="" width={45} height={45}></Image>
     },
   ];
   
