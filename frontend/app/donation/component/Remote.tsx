@@ -25,14 +25,12 @@ export default async function Remote({
   donationItem,
 }: Props) {
   const donationListData = await fetchDonationListData(donationId);
-  const totalCrops = donationItem.length;
-  const totalPeople = donationListData.data.donors.length;
-  const completeCrops = donationItem.filter(
-    (item) => item.current >= item.amount
+  const totalPeopleData = donationListData.data.donors.filter(
+    (donor) => donor.approval
   );
+  const totalCrops = donationItem.length;
+  const totalPeople = totalPeopleData.length;
   const remainCrops = donationItem.filter((item) => item.current < item.amount);
-
-  const progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
 
   return (
     <div className="sticky top-[7rem] w-[22rem] border border-black-100 h-[420px] rounded-xl p-8">

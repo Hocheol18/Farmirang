@@ -10,7 +10,7 @@ export default async function DonationDetailPage(donationId: {
   const res = await fetchDonationDetailData(donationId.params.donationId);
   return (
     <>
-      <div className="w-full pb-[10rem] mt-[5rem]">
+      <div className="w-full pb-[15rem] mt-[5rem]">
         <div className="flex justify-center text-h1 font-bold text-green-400">
           기부중
         </div>
