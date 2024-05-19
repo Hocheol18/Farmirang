@@ -133,10 +133,11 @@ export default function FarmDonation({
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {JSON.stringify(item)}
                                                         <div className="h-1/2">
                                                             <div className="flex justify-between w-[20rem] mt-6">
                                                                 <div className="font-bold text-h4">
-                                                                    {cropData[item.crop_id].name}
+                                                                    {cropData[item.crop_id-1].name}
                                                                 </div>
                                                                 <div className="font-bold text-h4">
                                                                     {item.amount} 개
