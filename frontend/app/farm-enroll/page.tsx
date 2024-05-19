@@ -17,6 +17,7 @@ interface Props {
 }
 
 export default function FarmEnroll() {
+  const router = useRouter();
   // localStorage에서 accessToken 받는 방법
   let accessToken = "";
 
@@ -26,10 +27,14 @@ export default function FarmEnroll() {
       const lsInfo = JSON.parse(ls);
       accessToken = lsInfo.state.userInfo.accessToken;
     }
+    if (accessToken === "") {
+      alert("로그인이 필요한 서비스입니다")
+      router.push("/")
+    }
   }
 
   //
-  const router = useRouter();
+
   const [fetchDesignList, setFetchDesignList] =
     useState<fetchDesignDataType[]>();
   const [parentData, setParentData] = useState<string>("");

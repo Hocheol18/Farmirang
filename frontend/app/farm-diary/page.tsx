@@ -15,13 +15,17 @@ export default function Diary() {
     const ls = window.localStorage.getItem("userInfo");
     if (ls) {
       const lsInfo = JSON.parse(ls);
-      memberId = lsInfo.state.userInfo.memberId;
+      if (lsInfo.state.userInfo.accessToken === "") {
+        alert("로그인이 필요한 서비스입니다");
+        router.push("/");
+      } else {
+        memberId = lsInfo.state.userInfo.memberId;
+      }
     }
   }
 
   const fetchDataBoolean = (res: { data: { fields: fetchFarmListType[] } }) => {
     if (res.data.fields && res.data.fields.length > 0) {
-      
       router.push(`/farm-diary/${res.data.fields[0].fieldId}`);
     } else {
       setIsTrue(false);

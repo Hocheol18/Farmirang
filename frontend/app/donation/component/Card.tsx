@@ -7,15 +7,9 @@ interface Props {
   progress: number;
 }
 
-export default function Card({
-  imgSrc,
-  Title,
-  contents,
-  progress,
-}: Props) {
+export default function Card({ imgSrc, Title, contents, progress }: Props) {
   let stateText;
   let stateClass;
-  const progressBarWidth = `w-[${Math.round(progress * 100)}%]`;
   return (
     <div
       className={`relative flex flex-col mb-[10rem] text-gray-700 bg-white bg-clip-border rounded-xl w-10/12`}
@@ -31,7 +25,7 @@ export default function Card({
           alt=""
         />
       </div>
-     
+
       <div className="p-6">
         <p className="block text-h6 font-extrabold text-green-400">
           {stateText}
@@ -47,7 +41,8 @@ export default function Card({
         </div>
         <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium mt-2">
           <div
-            className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full ${progressBarWidth}`}
+            className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full`}
+            style={{ width: `${Math.round(progress * 100)}%` }}
           ></div>
         </div>
       </div>
