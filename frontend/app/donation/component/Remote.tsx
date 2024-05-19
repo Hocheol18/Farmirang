@@ -44,7 +44,8 @@ export default async function Remote({
 
       <div className="flex-start flex h-2 w-full overflow-hidden rounded-full bg-gray-300 font-sans text-xs font-medium">
         <div
-          className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full ${progressBarWidth}`}
+          className={`flex items-center justify-center h-full overflow-hidden text-white break-all bg-green-400 rounded-full`}
+          style={{ width: `${Math.round(progress * 100)}%` }}
         ></div>
       </div>
       <div className="mt-2">
