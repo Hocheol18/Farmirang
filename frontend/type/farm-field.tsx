@@ -3,7 +3,7 @@ export interface fetchFarmListType {
   address: string;
   content: string;
   design: number;
-  iot: number;
+  iot: string;
   title: string;
   startAt: string;
   fieldId: number;
