@@ -44,7 +44,7 @@ export default function Page() {
                             <div className="inline-flex flex-col items-start justify-center gap-[15px] p-[15px] relative flex-[0_0_auto] border !rounded-[10px] border-solid border-graygray-300  w-[920px]">
                                 {/* 상위 디브 : 위치 안내 및 게시하기 버튼 */}
                                 <div className="flex w-full h-[40px] items-center justify-between mb-5">
-                                    <div>마이페이지 〉 후원 신청 / 반려</div>
+                                    <div>마이페이지 〉 후원 승인 / 반려</div>
                                     <div className="h-10 justify-start items-start inline-flex">
                                     </div>
                                 </div>
