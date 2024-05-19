@@ -72,7 +72,7 @@ export default function FarmEnroll() {
       router.push("/farm-diary");
     } else {
       alert("밭 등록 실패. 다시 시도해주세요");
-      window.location.reload();
+      // window.location.reload();
     }
   };
 

@@ -62,7 +62,7 @@ export default function CalendarSideBar() {
     const result = await deleteFieldData(userId, fieldId);
     if (result?.success) {
       alert("삭제 성공");
-      window.location.reload();
+      router.push("/farm-diary");
     } else {
       alert("삭제 실패. 다시 시도해주세요");
     }
@@ -125,12 +125,18 @@ export default function CalendarSideBar() {
                   <div className="grid mr-4">
                     <CiSearch className="w-8 h-8" />
                   </div>
-                  <div className="font-bold text-base place-content-center cursor-pointer">
-                    {item.title}
-                  </div>
+                  {item.fieldId === Number(diaryid) ? (
+                    <div className="font-extrabold text-base place-content-center">
+                      {item.title}
+                    </div>
+                  ) : (
+                    <div className="font-bold text-base place-content-center cursor-pointer">
+                      {item.title}
+                    </div>
+                  )}
                 </div>
                 <CiTrash
-                  className="h-7 w-7 cursor-pointer"
+                  className="h-7 w-7 cursor-pointer my-auto"
                   onClick={() => {
                     deleteFunction(Number(memberId), item.fieldId);
                   }}
