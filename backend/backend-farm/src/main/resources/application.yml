@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://k10a105.p.ssafy.io:5432/cg
+    username: cg
+    password: cg!@#
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: farmirang
+    show-sql: true
+
+logging:
+  level:
+    root: info

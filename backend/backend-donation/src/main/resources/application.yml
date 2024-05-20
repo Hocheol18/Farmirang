@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: backend-donation
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  profiles:
+    include: secret
+
+
+server:
+  port: 8085
+
+logging:
+  level:
+    com:
+      cg:
+        farmirang: debug

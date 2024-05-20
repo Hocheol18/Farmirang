@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: backend-agency
+  profiles:
+    include: secret
+
+
+server:
+  port: 8083
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com:
+      cg:
+        farmirang: debug
