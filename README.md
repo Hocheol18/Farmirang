@@ -67,14 +67,14 @@
     </tr>
     <tr align="center">
         <td>
-        <b>Team Leader, Backend</b><br>텃밭 디자인 API<br/>
+        <b>Team Leader, Backend</b><br>텃밭꾸미기 API<br/>
 채팅 API<br/>
         </td>
         <td>
-        <b>CI&CD, Backend, IoT</b><br>현종오빠 한 것
+        <b>Infrastructure, Backend, IoT</b><br>텃밭 일지 API<br/>텃밭 API<br/>
         </td>
         <td>
-        <b>Backend</b><br>병창오빠 한 것
+        <b>Backend</b><br>소셜로그인<br>회원 API<br>기관 API<br>기부 API<br>운영자 API
         </td>
     </tr>
   </tr>
@@ -109,13 +109,15 @@
     </tr>
     <tr align="center">
         <td>
-        <b>Frontend</b><br>현지언니 한 것
+        <b>Frontend</b><br>유저/운영자<br/>
+        상태관리
         </td>
         <td>
         <b>Frontend</b><br>호철오빠 한 것
         </td>
         <td>
-        <b>Frontend</b><br>현아언니 한 것
+        <b>Frontend</b><br>텃밭꾸미기<br/>
+        마이페이지-꾸미기 목록
         </td>
     </tr>
   </tr>
@@ -128,8 +130,10 @@
 
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" width="auto" height="25">
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=black" width="auto" height="25">
-<img src="https://img.shields.io/badge/tailwind css-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" width="auto" height="25">
 <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" width="auto" height="25">
+<img src="https://img.shields.io/badge/zustand-A33035?style=for-the-badge&logoColor=white" width="auto" height="25">
+<img src="https://img.shields.io/badge/tailwind css-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" width="auto" height="25">
+<img src="https://img.shields.io/badge/headless ui-66E3FF?style=for-the-badge&logo=headlessui&logoColor=white" width="auto" height="25">
 
 ##### 💻 Backend
 
@@ -194,11 +198,11 @@
 
 #### [메인 페이지]
 
-<img src="./Assets/pic/01_메인페이지.gif" height=500px/>
+<img src="./Assets/pic/메인페이지.gif" height=500px/>
 
 #### [로그인]
 
-<img src="./Assets/pic/02_로그인.gif" height=500px/>
+<img src="./Assets/pic/로그인.gif" height=500px/>
 
 - 카카오톡, 구글 로그인 가능
 
@@ -233,15 +237,13 @@
 
 #### [텃밭일기 페이지]
 
-##### 텃밭일기 조회
-
-<img src="./Assets/pic/" height=500px/>
-
-<img src="./Assets/pic/마켓거래등록.gif" height=500px/>
-
 ##### 밭 등록
 
-<img src="./Assets/pic/마켓조회.gif" height=500px/>
+<img src="./Assets/pic/02_1_텃밭 등록.gif" height=500px/>
+
+##### 텃밭일기 작성
+
+<img src="./Assets/pic/02_2_텃밭 일기 작성.gif" height=500px/>
 
 - 생성한 디자인 중 하나로 밭 등록
 - IoT로 대기 온습도와 토양 습도 데이터를 받아 자동으로 일일 일기 생성
@@ -265,35 +267,39 @@
 
 ##### 프로필 - 일반
 
-<img src="./Assets/pic/[기업] 회원가입.gif" height=500px/>
+<img src="./Assets/pic/04_1_마이페이지-프로필.gif" height=500px/>
 
 ##### 회원자격 변경 신청 - 일반
 
-<img src="./Assets/pic/06_2_회원자격변경.gif" height=500px/>
+<img src="./Assets/pic/04_2_회원자격변경.gif" height=500px/>
 
 ##### 프로필 - 단체/기관
 
-<img src="./Assets/pic/[기업] 회원가입.gif" height=500px/>
+<img src="./Assets/pic/04_3_기관프로필.gif" height=500px/>
 
 ##### 꾸미기 목록 - 공통
 
-<img src="./Assets/pic/[기업] 로그인.gif" height=500px/>
+<img src="./Assets/pic/04_4_마이페이지-꾸미기목록.gif" height=500px/>
+
+##### 꾸미기 상세 - 공통
+
+<img src="./Assets/pic/04_4_1_마이페이지-꾸미기상세보기.gif" height=500px/>
 
 ##### 밭 목록 - 공통
 
-<img src="./Assets/pic/[기업] 프로젝트 등록 신청.gif" height=500px/>
+<img src="./Assets/pic/04_5_밭목록.gif" height=500px/>
 
 ##### 기부 신청 현황 - 일반
 
-<img src="./Assets/pic/[기업] 프로젝트 정산 신청.gif" height=500px/>
+<img src="./Assets/pic/04_6_마이페이지-기부신청현황.gif" height=500px/>
 
 ##### 후원 승인/반려 - 단체/기관
 
-<img src="./Assets/pic/[기업] 프로젝트 정산 신청.gif" height=500px/>
+<img src="./Assets/pic/04_7_후원승인반려.gif" height=500px/>
 
 ##### 기부 신청 - 단체/기관
 
-<img src="./Assets/pic/06_7_기부신청.gif" height=500px/>
+<img src="./Assets/pic/04_8_기부신청.gif" height=500px/>
 
 - [내 프로필] 대표 디자인, 프로필 사진, 닉네임, 회원자격(일반|단체/기관), 기부횟수 조회
 - [내 프로필] 일반회원은 회원자격 변경신청
@@ -308,11 +314,7 @@
 
 ##### 단체/기관 승인
 
-<img src="./Assets/pic/기업 승인, 반려.gif" height=500px/>
-
-##### 회원 목록
-
-<img src="./Assets/pic/프로젝트 승인.gif" height=500px/>
+<img src="./Assets/pic/05_관리자유저권한변경.gif" height=500px/>
 
 - 단체/기관의 유저 권한 변경 승인
 
