@@ -1,0 +1,271 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "MICEGothic";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/MICEGothic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "TmoneyRoundWind";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/TmoneyRoundWindRegular.ttf") format("truetype");
+}
+
+body {
+  font-family: "MICEGothic", sans-serif;
+}
+
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
+}
+
+:root {
+  --commonblack: rgba(0, 0, 0, 1);
+  --commonwhite: rgba(255, 255, 255, 1);
+  --graygray-100: rgba(241, 244, 241, 1);
+  --graygray-200: rgba(234, 236, 234, 1);
+  --graygray-300: rgba(221, 222, 221, 1);
+  --graygray-350: rgba(184, 188, 184, 1);
+  --graygray-400: rgba(151, 154, 151, 1);
+  --graygray-500: rgba(73, 85, 74, 1);
+  --greenblack: rgba(15, 36, 19, 1);
+  --greengreen-100: rgba(243, 250, 243, 1);
+  --greengreen-200: rgba(201, 233, 204, 1);
+  --greengreen-300: rgba(109, 187, 118, 1);
+  --greengreen-400: rgba(56, 129, 64, 1);
+  --greengreen-500: rgba(41, 82, 46, 1);
+  --m-h1-5-font-family: "MICEGothic", Helvetica;
+  --m-h1-5-font-size: 42px;
+  --m-h1-5-font-style: normal;
+  --m-h1-5-font-weight: 700;
+  --m-h1-5-letter-spacing: -0.84px;
+  --m-h1-5-line-height: 40px;
+  --m-h1-font-family: "MICEGothic", Helvetica;
+  --m-h1-font-size: 48px;
+  --m-h1-font-style: normal;
+  --m-h1-font-weight: 700;
+  --m-h1-letter-spacing: -0.96px;
+  --m-h1-line-height: 60px;
+  --m-h2-5-font-family: "MICEGothic", Helvetica;
+  --m-h2-5-font-size: 30px;
+  --m-h2-5-font-style: normal;
+  --m-h2-5-font-weight: 700;
+  --m-h2-5-letter-spacing: 0px;
+  --m-h2-5-line-height: normal;
+  --m-h2-font-family: "MICEGothic", Helvetica;
+  --m-h2-font-size: 36px;
+  --m-h2-font-style: normal;
+  --m-h2-font-weight: 700;
+  --m-h2-letter-spacing: -0.72px;
+  --m-h2-line-height: 40px;
+  --m-h3-font-family: "MICEGothic", Helvetica;
+  --m-h3-font-size: 24px;
+  --m-h3-font-style: normal;
+  --m-h3-font-weight: 700;
+  --m-h3-letter-spacing: -0.48px;
+  --m-h3-line-height: 32px;
+  --m-h4-font-family: "MICEGothic", Helvetica;
+  --m-h4-font-size: 20px;
+  --m-h4-font-style: normal;
+  --m-h4-font-weight: 700;
+  --m-h4-letter-spacing: -0.4px;
+  --m-h4-line-height: 28px;
+  --m-large-text-font-family: "MICEGothic", Helvetica;
+  --m-large-text-font-size: 18px;
+  --m-large-text-font-style: normal;
+  --m-large-text-font-weight: 400;
+  --m-large-text-letter-spacing: -0.36px;
+  --m-large-text-line-height: 28px;
+  --m-paragraph-font-family: "MICEGothic", Helvetica;
+  --m-paragraph-font-size: 16px;
+  --m-paragraph-font-style: normal;
+  --m-paragraph-font-weight: 400;
+  --m-paragraph-letter-spacing: -0.32px;
+  --m-paragraph-line-height: 24px;
+  --m-small-bold-font-family: "MICEGothic", Helvetica;
+  --m-small-bold-font-size: 14px;
+  --m-small-bold-font-style: normal;
+  --m-small-bold-font-weight: 700;
+  --m-small-bold-letter-spacing: 0px;
+  --m-small-bold-line-height: 20px;
+  --m-small-small-text-font-family: "Inter", Helvetica;
+  --m-small-small-text-font-size: 13px;
+  --m-small-small-text-font-style: normal;
+  --m-small-small-text-font-weight: 400;
+  --m-small-small-text-letter-spacing: 0px;
+  --m-small-small-text-line-height: 18px;
+  --m-small-text-font-family: "MICEGothic", Helvetica;
+  --m-small-text-font-size: 14px;
+  --m-small-text-font-style: normal;
+  --m-small-text-font-weight: 400;
+  --m-small-text-letter-spacing: -0.28px;
+  --m-small-text-line-height: 20px;
+  --m-SSS-texxt-font-family: "Inter", Helvetica;
+  --m-SSS-texxt-font-size: 12px;
+  --m-SSS-texxt-font-style: normal;
+  --m-SSS-texxt-font-weight: 400;
+  --m-SSS-texxt-letter-spacing: 0px;
+  --m-SSS-texxt-line-height: 16px;
+  --pointbrown: rgba(114, 53, 17, 1);
+  --pointyellow-100: rgba(255, 243, 194, 1);
+  --pointyellow-200: rgba(255, 203, 60, 1);
+  --t-h1-5-font-family: "Tmoney RoundWind", Helvetica;
+  --t-h1-5-font-size: 42px;
+  --t-h1-5-font-style: normal;
+  --t-h1-5-font-weight: 800;
+  --t-h1-5-letter-spacing: 0px;
+  --t-h1-5-line-height: normal;
+  --t-h1-font-family: "Tmoney RoundWind", Helvetica;
+  --t-h1-font-size: 48px;
+  --t-h1-font-style: normal;
+  --t-h1-font-weight: 800;
+  --t-h1-letter-spacing: -0.96px;
+  --t-h1-line-height: 60px;
+  --t-h2-font-family: "Tmoney RoundWind", Helvetica;
+  --t-h2-font-size: 36px;
+  --t-h2-font-style: normal;
+  --t-h2-font-weight: 800;
+  --t-h2-letter-spacing: -0.72px;
+  --t-h2-line-height: 40px;
+  --t-h3-font-family: "Tmoney RoundWind", Helvetica;
+  --t-h3-font-size: 24px;
+  --t-h3-font-style: normal;
+  --t-h3-font-weight: 800;
+  --t-h3-letter-spacing: -0.48px;
+  --t-h3-line-height: 32px;
+  --t-h4-font-family: "Tmoney RoundWind", Helvetica;
+  --t-h4-font-size: 20px;
+  --t-h4-font-style: normal;
+  --t-h4-font-weight: 800;
+  --t-h4-letter-spacing: -0.4px;
+  --t-h4-line-height: 28px;
+  --t-large-text-font-family: "Tmoney RoundWind", Helvetica;
+  --t-large-text-font-size: 18px;
+  --t-large-text-font-style: normal;
+  --t-large-text-font-weight: 400;
+  --t-large-text-letter-spacing: -0.36px;
+  --t-large-text-line-height: 28px;
+  --t-paragraph-font-family: "Tmoney RoundWind", Helvetica;
+  --t-paragraph-font-size: 16px;
+  --t-paragraph-font-style: normal;
+  --t-paragraph-font-weight: 400;
+  --t-paragraph-letter-spacing: -0.32px;
+  --t-paragraph-line-height: 24px;
+  --t-small-text-font-family: "Tmoney RoundWind", Helvetica;
+  --t-small-text-font-size: 14px;
+  --t-small-text-font-style: normal;
+  --t-small-text-font-weight: 400;
+  --t-small-text-letter-spacing: -0.28px;
+  --t-small-text-line-height: 20px;
+  --variable-collection-kakao-bg: rgba(254, 229, 0, 1);
+  --variable-collection-kakao-logo: rgba(0, 0, 0, 1);
+  --variable-collection-kakao-text: rgba(0, 0, 0, 0.85);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 129, 64, 0.3);
+  border-radius: 10px;
+}
+
+.cloud1 {
+  animation: cloudMove 10s linear infinite;
+}
+
+.cloud2 {
+  animation: cloudMove 8s linear infinite;
+  animation-delay: 1.2s;
+}
+
+.cloud3 {
+  animation: cloudMove 7s linear infinite;
+  animation-delay: 1.4s;
+}
+
+.cloud4 {
+  animation: cloudMove 6s linear infinite;
+  animation-delay: 1.6s;
+}
+
+.cloud5 {
+  animation: cloudMove 11s linear infinite;
+  animation-delay: 1s;
+}
+
+.sun {
+  animation: sunMove 5s linear infinite;
+}
+
+.light-effect {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.26);
+  border-radius: 50%;
+  box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.151);
+  animation: sunExpand 5s infinite ease-out forwards;
+}
+
+.main-box {
+  width: 100%;
+  height: 100vh;
+}
+
+@keyframes sunExpand {
+  0% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(40);
+
+    opacity: 0;
+  }
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(-35%);
+  }
+
+  50% {
+    transform: translateX(0%);
+  }
+
+  75% {
+    transform: translateX(35%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes sunMove {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
